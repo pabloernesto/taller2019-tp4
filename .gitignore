@@ -1,0 +1,10 @@
+# archivos objeto
+*.o
+
+# configuracion de editor
+.vscode/
+
+# configuracion de editor
+.settings/
+.cproject/
+.project/
