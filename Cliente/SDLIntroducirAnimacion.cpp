@@ -1,8 +1,7 @@
 #include <SDL2/SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	bool salir = false;
 	SDL_Event evento;
 
@@ -20,7 +19,7 @@ int main(int argc, char** argv)
 	while (!salir)
 	{
 		Uint32 ticks = SDL_GetTicks();
-		Uint32 sprite = (ticks / 100) % 3;
+		int sprite = (ticks / 100) % 3;
 		
 		SDL_Rect srcrect = { sprite * 460, 0, 460, 1000 };
 		SDL_Rect dstrect = { 0, 0, 250, 400 };
