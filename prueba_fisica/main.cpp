@@ -2,6 +2,7 @@
 #include <Box2D/Box2D.h>
 #include <memory>     // unique_ptr
 #include <iostream>   // cout
+#include "Car.h"
 
 const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
@@ -21,34 +22,13 @@ int main(int argc, char **argv) {
   b2Vec2 gravity(0, 0);
   b2World world(gravity);
 
-  // Define the car
-  b2Body *car;
-  {
-    b2BodyDef definition;
-    definition.type = b2_dynamicBody;
-    definition.position.SetZero();
-    car = world.CreateBody(&definition);
-  }
-  // Add collision and density to the car
-  {
-    b2PolygonShape car_collision_box;
-    car_collision_box.SetAsBox(0.6, 1.25);
-    b2FixtureDef definition;
-    definition.shape = &car_collision_box;
-    definition.density = 100;
-    car->CreateFixture(&definition);
-    
-    std::cout << "car mass: " << car->GetMass() << "kg\n";
-  }
-  // Accelerate the car
-  {
-    b2Vec2 force(0, 1000000);
-    car->ApplyForceToCenter(force, true);
-  }
+  Car car;
+  car.Place(world, (b2Vec2){0, 0});
+  car.GasOn();
 
   // Simulation loop
   for (int i = 0; i < 5; i++) {
-    b2Vec2 position = car->GetPosition();
+    auto position = car.GetPosition();
     std::cout
       << "step " << i << ":    "
       << "x = " << position.x << "  y = " << position.y << "\n";
