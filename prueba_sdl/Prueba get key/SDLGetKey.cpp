@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <string>
+#include "Fondo.h"
 #include "Auto.h"
 
 int main(int argc, char** argv){
@@ -21,6 +22,8 @@ int main(int argc, char** argv){
 		SDL_ShowSimpleMessageBox(0, "Renderer init error",
 			SDL_GetError(), ventana);
 	
+    std::string nombreFondo = "pasto.bmp";
+    Fondo fondo(nombreFondo, ventana, renderer);
     std::string nombre = "pitstop_car_1.bmp";
     Auto automovil(nombre, ventana, renderer);
     
@@ -36,6 +39,7 @@ int main(int argc, char** argv){
 		}
 		
         SDL_RenderClear(renderer);
+        fondo.render(renderer);
         automovil.reactTo(evento);
         automovil.render(renderer);
 		SDL_RenderPresent(renderer);
