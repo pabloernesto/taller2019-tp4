@@ -1,3 +1,6 @@
+# Recursive makes are intolerable otherwise
+MAKEFLAGS += --no-print-directory
+
 # targets
 #########
 
