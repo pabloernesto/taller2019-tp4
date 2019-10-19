@@ -4,50 +4,51 @@
 #include "Fondo.h"
 #include "Auto.h"
 
-int main(int argc, char** argv){
-	bool salir = false;
-	SDL_Event evento;
+int main(int argc, char **argv) {
+  bool salir = false;
+  SDL_Event evento;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		return 1;
-	}
+  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    return 1;
 
-	SDL_Window* ventana = SDL_CreateWindow("Prueba de SDL",
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
-	if (ventana == NULL)
-		SDL_ShowSimpleMessageBox(0, "Window init error", SDL_GetError(),
-			ventana);
-	SDL_Renderer* renderer = SDL_CreateRenderer(ventana, -1, 0);
-	if (renderer == NULL)
-		SDL_ShowSimpleMessageBox(0, "Renderer init error",
-			SDL_GetError(), ventana);
-	
-    std::string nombreFondo = "pasto.bmp";
-    Fondo fondo(nombreFondo, ventana, renderer);
-    std::string nombre = "pitstop_car_1.bmp";
-    Auto automovil(nombre, ventana, renderer);
-    
-    
-    while( !salir ){
-        SDL_WaitEvent(&evento);
+  SDL_Window *ventana = SDL_CreateWindow(
+    "Prueba de SDL",
+    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+    640, 480,
+    0);
 
-		switch (evento.type)
-		{
-		case SDL_QUIT:
-			salir = true;
-			break;
-		}
-		
-        SDL_RenderClear(renderer);
-        fondo.render(renderer);
-        automovil.reactTo(evento);
-        automovil.render(renderer);
-		SDL_RenderPresent(renderer);
+  // If ventana is NULL, won't SDL fail to show an error on ventana?
+  if (ventana == NULL)
+    SDL_ShowSimpleMessageBox(0, "Window init error", SDL_GetError(), ventana);
+
+  SDL_Renderer *renderer = SDL_CreateRenderer(ventana, -1, 0);
+  if (renderer == NULL)
+    SDL_ShowSimpleMessageBox(0, "Renderer init error", SDL_GetError(), ventana);
+
+  std::string nombreFondo = "pasto.bmp";
+  Fondo fondo(nombreFondo, ventana, renderer);
+  std::string nombre = "pitstop_car_1.bmp";
+  Auto automovil(nombre, ventana, renderer);
+
+  while (!salir) {
+    SDL_WaitEvent(&evento);
+
+    switch (evento.type) {
+      case SDL_QUIT:
+        salir = true;
+        break;
     }
-    
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(ventana);
-	SDL_Quit();
 
-	return 0;
+    SDL_RenderClear(renderer);
+    fondo.render(renderer);
+    automovil.reactTo(evento);
+    automovil.render(renderer);
+    SDL_RenderPresent(renderer);
+  }
+
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(ventana);
+  SDL_Quit();
+
+  return 0;
 }
