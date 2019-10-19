@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=prueba
+target=prueba.exe
 
 # source files
 sources=$(wildcard *.cpp)
@@ -49,6 +49,9 @@ all: $(target)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
+
+run:
+	./prueba.exe
 
 .PHONY: clean
 clean:

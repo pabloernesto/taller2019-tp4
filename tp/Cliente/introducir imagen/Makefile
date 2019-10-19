@@ -50,6 +50,9 @@ all: $(target)
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
 
+run:
+	./prueba.exe
+
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
