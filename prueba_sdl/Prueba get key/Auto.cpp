@@ -1,6 +1,7 @@
 #include "Auto.h"
 #include <string>
-   
+
+#define TAMMOVIMIENTO 10
    
 Auto::Auto(std::string nombreImagen, SDL_Window* ventana,
         SDL_Renderer* renderer): 
@@ -21,30 +22,26 @@ Auto::~Auto(){
 }
 
 void Auto::render(SDL_Renderer* renderer){
-    SDL_Rect dstrect = { this->x, this->y, 320, 400 };
+    SDL_Rect dstrect = { this->x * TAMMOVIMIENTO, 
+        this->y * TAMMOVIMIENTO, 100, 200};
     SDL_RenderCopy(renderer, this->textura, NULL, &dstrect);
 }
 
 void Auto::reactTo(SDL_Event &evento){
-    switch( evento.type ){
-        /* Look for a keypress */
-        case SDL_KEYDOWN:
-            /* Check the SDLKey values and move change the coords */
-            switch( evento.key.keysym.sym ){
-                case SDLK_LEFT:
-                    this->x -= 1;
-                    break;
-                case SDLK_RIGHT:
-                    this->x += 1;
-                    break;
-                case SDLK_UP:
-                    this->y -= 1;
-                    break;
-                case SDLK_DOWN:
-                    this->y += 1;
-                    break;
-                default:
-                    break;
-            }
+    switch( evento.key.keysym.sym ){
+        case SDLK_LEFT:
+            this->x -= 1;
+            break;
+        case SDLK_RIGHT:
+            this->x += 1;
+            break;
+        case SDLK_UP:
+            this->y -= 1;
+            break;
+        case SDLK_DOWN:
+            this->y += 1;
+            break;
+        default:
+            break;
     }
 }

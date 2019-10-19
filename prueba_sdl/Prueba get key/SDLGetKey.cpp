@@ -35,6 +35,7 @@ int main(int argc, char** argv){
 			break;
 		}
 		
+        SDL_RenderClear(renderer);
         automovil.reactTo(evento);
         automovil.render(renderer);
 		SDL_RenderPresent(renderer);
