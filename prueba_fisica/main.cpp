@@ -11,12 +11,12 @@ const int32 positionIterations = 3;
 int main(int argc, char **argv) {
   SDL_Init(SDL_INIT_EVERYTHING);
 
-  // Create a Window in the middle of the screen
   SDL_Window *window = SDL_CreateWindow(
     "Prueba auto",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, // x and y
     640, 480,                                       // Width and Height
     SDL_WINDOW_SHOWN);
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
   // Setup physics
   b2Vec2 gravity(0, 0);
@@ -26,16 +26,25 @@ int main(int argc, char **argv) {
   car.Place(world, (b2Vec2){0, 0});
   car.GasOn();
 
+  SDL_Surface* img = SDL_LoadBMP("../prueba_sdl/introducir imagen/pitstop_car_1.bmp");
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, img);
+
   // Simulation loop
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 120; i++) {
+    SDL_RenderClear(renderer);
     auto position = car.GetPosition();
-    std::cout
-      << "step " << i << ":    "
-      << "x = " << position.x << "  y = " << position.y << "\n";
+    const SDL_Rect where = {
+      0,      (int) car.GetPosition().y,    // x and y coordinates
+      100,    100                           // width and height
+    };
+    SDL_RenderCopy(renderer, texture, NULL, &where);
+    SDL_RenderPresent(renderer);
 
     world.Step(timestep, velocityIterations, positionIterations);
+    SDL_Delay(1000 / 60);   // wait 1/60th of a second
   }
 
+	SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
 }
