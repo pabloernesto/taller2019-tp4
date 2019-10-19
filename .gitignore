@@ -1,5 +1,6 @@
 # archivos objeto
 *.o
+*.exe
 
 # configuracion de editor
 .vscode/

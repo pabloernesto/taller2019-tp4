@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=prueba
+target=prueba.exe
 
 # source files
 sources=$(wildcard *.cpp)
