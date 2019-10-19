@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=servidor
+target=servidor.exe
 
 # source files
 sources=$(wildcard *.cpp)

@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=cliente
+target=cliente.exe
 
 # source files
 sources=$(wildcard *.cpp)
