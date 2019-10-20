@@ -3,11 +3,16 @@
 
 #include <SDL2/SDL.h>
 #include "GameScreen.h"
+#include "Race.h"
+#include "RaceView.h"
 
 class RaceScreen : public GameScreen {
+  Race race;
+  RaceView view;
+
 public:
   GameScreen* start();
-  RaceScreen(SDL_Window *w, SDL_Renderer *r) : GameScreen(w, r) {}
+  RaceScreen(SDL_Window *w, SDL_Renderer *r);
 };
 
 #endif    // RACESCREEN_H_
