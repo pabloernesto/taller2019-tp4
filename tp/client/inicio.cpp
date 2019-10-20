@@ -1,5 +1,6 @@
 #include "inicio.h"
 #include "image.h"
+#include "RaceScreen.h"
 
 #define WIDTH 640
 #define HEIGHT 480
@@ -15,9 +16,11 @@ GameScreen* Inicio::start() {
 
     if (sdl_event.type == SDL_QUIT) break;
 
+    if (sdl_event.type == SDL_KEYDOWN)
+      return new RaceScreen(window, renderer);
+
     fondo.render(this->renderer);
     SDL_RenderPresent(renderer);
   }
-
   return nullptr;
 }
