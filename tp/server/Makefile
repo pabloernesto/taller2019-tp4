@@ -50,6 +50,10 @@ all: $(target)
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
 
+.PHONY: run
+run: all
+	./$(target)
+
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
