@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
 
     world.Step(timestep, velocityIterations, positionIterations);
     SDL_Delay(1000 / 60);   // wait 1/60th of a second
+    car.GasOn();
   }
 
 	SDL_DestroyRenderer(renderer);
