@@ -8,6 +8,20 @@ const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
+typedef struct {
+  int x;
+  int y;
+} pixel_vect_s;
+
+const int PIXELS_PER_METER = 10;
+pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
+  pixel_vect_s v {
+    PIXELS_PER_METER * vector.x,
+    PIXELS_PER_METER * vector.y
+  };
+  return v;
+}
+
 int main(int argc, char **argv) {
   SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -32,10 +46,10 @@ int main(int argc, char **argv) {
   // Simulation loop
   for (int i = 0; i < 120; i++) {
     SDL_RenderClear(renderer);
-    auto position = car.GetPosition();
+    auto&& p = MKStoPixelTransform(car.GetPosition());
     const SDL_Rect where = {
-      0,      (int) car.GetPosition().y,    // x and y coordinates
-      100,    100                           // width and height
+      p.x,    p.y,  // x and y coordinates
+      100,    100   // width and height
     };
     SDL_RenderCopy(renderer, texture, NULL, &where);
     SDL_RenderPresent(renderer);
