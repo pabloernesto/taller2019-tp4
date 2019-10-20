@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=prueba.exe
+target=server.exe
 
 # source files
 sources=$(wildcard *.cpp)
@@ -9,6 +9,9 @@ headers=$(wildcard *.h)
 
 # intermediate objects
 objects=$(patsubst %.cpp, %.o, $(sources))
+
+# common objects
+objects+=$(wildcard ../common/*.o)
 
 # opciones de compilador
 ########################
@@ -37,9 +40,6 @@ LDFLAGS += -pthread
 
 # LDFLAGS += -static
 
-# Linkea a SDL2
-LDFLAGS += $(shell sdl2-config --cflags --libs)
-
 # reglas
 ########
 
@@ -49,9 +49,6 @@ all: $(target)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
-
-run:
-	./prueba.exe
 
 .PHONY: clean
 clean:
