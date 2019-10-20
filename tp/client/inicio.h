@@ -1,18 +1,12 @@
 #ifndef INICIO_H_
 #define INICIO_H_
-#include <SDL2/SDL.h>
-#include <string>
 
-class Inicio{
-private:
-  SDL_Window *window;
-  SDL_Renderer *renderer;
+#include "GameScreen.h"
 
+class Inicio : public GameScreen {
 public:
-  Inicio();
-  ~Inicio();
-
-  void start();
+  GameScreen* start();
+  Inicio(SDL_Window *w, SDL_Renderer *r) : GameScreen(w, r) {}
 };
 
-#endif
+#endif    // INICIO_H_

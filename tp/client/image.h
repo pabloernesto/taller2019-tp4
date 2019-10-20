@@ -5,17 +5,15 @@
 
 class Image{
 private:
-    SDL_Surface* image;
-    SDL_Texture* texture;
-    int x;
-    int y;
+  SDL_Renderer* renderer;
+  SDL_Surface* image;
+  SDL_Texture* texture;
 
 public:
-    Image(std::string imageName, SDL_Window* window,
-        SDL_Renderer* renderer);
-    ~Image();
+  Image(const char* path, SDL_Window* w, SDL_Renderer* r);
+  ~Image();
 
-    void render(SDL_Renderer* renderer);
+  void render(SDL_Renderer* renderer);
 };
 
 #endif

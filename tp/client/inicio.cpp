@@ -1,23 +1,12 @@
 #include "inicio.h"
 #include "image.h"
 
-#define WIDTH 480
-#define HEIGHT 640
+#define WIDTH 640
+#define HEIGHT 480
 #define FONDO "Imagenes/Micro-Machines.bmp"
 
-Inicio::Inicio(): window(SDL_CreateWindow("Micromachines",
-    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    HEIGHT, WIDTH, 0)),
-    renderer(SDL_CreateRenderer(window, -1, 0)){
-
-}
-
-Inicio::~Inicio(){
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-}
-
-void Inicio::start(){
+GameScreen* Inicio::start() {
+  SDL_SetWindowSize(window, WIDTH, HEIGHT);
   Image fondo(FONDO, this->window, this->renderer);
 
   while (true) {
@@ -30,4 +19,5 @@ void Inicio::start(){
     SDL_RenderPresent(renderer);
   }
 
+  return nullptr;
 }
