@@ -22,3 +22,6 @@ void Image::render(SDL_Renderer* renderer) {
   SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
 
+void Image::render(SDL_Renderer* renderer, SDL_Rect* where, double angle) {
+  SDL_RenderCopyEx(renderer, texture, NULL, where, angle, NULL, SDL_FLIP_NONE);
+}

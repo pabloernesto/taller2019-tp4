@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-class Image{
+class Image {
 private:
   SDL_Renderer* renderer;
   SDL_Surface* image;
@@ -13,7 +13,12 @@ public:
   Image(const char* path, SDL_Window* w, SDL_Renderer* r);
   ~Image();
 
+  // Render occupying the whole screen
   void render(SDL_Renderer* renderer);
+
+  // Render to a certain part of the screen, at a certain angle
+  // angle is clockwise, in degrees
+  void render(SDL_Renderer* renderer, SDL_Rect* where, double angle);
 };
 
 #endif
