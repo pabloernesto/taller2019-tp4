@@ -1,5 +1,6 @@
 #include "Track.h"
 #include "image.h"
+#include "string.h"
 #include <map>
 #include <string>
 
@@ -19,14 +20,21 @@ std::map<int,Image*> Track::tracks(SDL_Window* &w, SDL_Renderer* &r){
   return tracks;
 }
 
-Track::Track(uint16_t height, uint16_t width, std::vector<int> &blocks): 
+Track::Track(uint16_t height, uint16_t width, std::vector<int> blocks): 
     height(height), width(width), blocks(blocks){
- }
+}
 
-/*Track::Track(std::string event){
-	//sscanf(event.c_str(), "H: %d W: %d B: %hhu", &this->height, 
-    //&this->width, &this->blocks);
-}*/
+Track::Track(std::string event){
+  //"H W B"
+  std::vector<std::string> parametros = split(event);
+  this->height = stoi(parametros[0]);
+  this->width = stoi(parametros[1]);
+  for(int i = 0; i < parametros[2].size(); ++i){
+    int block = stoi((parametros[2]).substr(i,1));
+    printf("block: %d\n", block);
+    this->blocks.push_back(block);
+  }
+}
 
 std::string Track::ToStr() {
   /*std::string event = "H: " + std::to_string(this->height)
@@ -41,11 +49,6 @@ std::string Track::ToStr() {
 
 void Track::render(SDL_Window* &w, SDL_Renderer* &r){
   std::map<int,Image*> tracks = this->tracks(w,r);
-  /*tracks.at(2)->render(0, 0, HEIGHTBLOCK, WIDTHBLOCK);
-  tracks.at(4)->render(200, 0, 200, 200);
-  tracks.at(3)->render(0, 200, 200, 200);
-  tracks.at(5)->render(200, 200, 200, 200);*/
-
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
     for(int x = 0; x < this->height; ++x){

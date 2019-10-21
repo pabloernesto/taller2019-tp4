@@ -11,11 +11,11 @@ class Track : public Event {
 private:
   uint16_t height;
   uint16_t width;
-  std::vector<int> &blocks;
+  std::vector<int> blocks;
   
 public:
-  Track(uint16_t height, uint16_t width, std::vector<int> &blocks);
-  //Track(std::string event);
+  Track(uint16_t height, uint16_t width, std::vector<int> blocks);
+  Track(std::string event);
   std::string ToStr();
   void render(SDL_Window* &w, SDL_Renderer* &r);
 private:
