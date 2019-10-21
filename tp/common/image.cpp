@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-Image::Image(const char* path, SDL_Window* w, SDL_Renderer* r)
+Image::Image(const char* path, SDL_Window* &w, SDL_Renderer* &r)
   : renderer(r),
   image(SDL_LoadBMP(path)),
   texture(SDL_CreateTextureFromSurface(r, image))
@@ -18,7 +18,7 @@ Image::~Image(){
   SDL_FreeSurface(this->image);
 }
 
-void Image::render(SDL_Renderer* renderer, int x, int y, int height, int width){
-    SDL_Rect dstrect = {x, y, x+width, y+height};
-    SDL_RenderCopy(renderer, this->texture, NULL, &dstrect);
+void Image::render(int x, int y, int height, int width){
+  SDL_Rect dstrect = {x, y, width, height};
+  SDL_RenderCopy(this->renderer, this->texture, NULL, &dstrect);
 }

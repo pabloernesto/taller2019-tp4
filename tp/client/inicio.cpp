@@ -25,7 +25,7 @@ GameScreen* Inicio::start() {
     if (sdl_event.type == SDL_KEYDOWN)
       return new RaceScreen(window, renderer);
 
-    fondo.render(this->renderer, 0, 0, HEIGHT, WIDTH);
+    fondo.render(0, 0, HEIGHT, WIDTH);
     SDL_RenderPresent(renderer);
   }
   return nullptr;

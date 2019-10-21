@@ -5,40 +5,37 @@
 static const int WIDTH = 600;
 static const int HEIGHT = 300;
 enum trackTypes{
-  PASTO,
   HORIZONTAL,
   VERTICAL,
   GIRO_ARRIBADER,
   GIRO_ABAJODER,
   GIRO_ARRIBAIZQ,
-  GIRO_ABAJOIZQ
+  GIRO_ABAJOIZQ,
+  PASTO
 };
 
 RaceScreen::RaceScreen(SDL_Window* &w, SDL_Renderer* &r): GameScreen(w,r){
-  printf("se construye\n");
 }
 
 RaceScreen::~RaceScreen(){
-  printf("se destruye\n");
 }
 
 GameScreen* RaceScreen::start() {
-  printf("va a empezar\n");
-  SDL_SetWindowSize(window, WIDTH, HEIGHT);
+    SDL_Event sdl_event;
+  //SDL_SetWindowSize(window, WIDTH, HEIGHT);
 
   while (true) {
-    SDL_Event sdl_event;
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
 
-    //std::vector<int> blocks = {GIRO_ARRIBADER,GIRO_ARRIBAIZQ,
-      //GIRO_ABAJODER,GIRO_ABAJOIZQ};
-    //Track track((uint16_t)2,(uint16_t)2,blocks);
-    //track.render(window, renderer);
-
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    std::vector<int> blocks = {GIRO_ARRIBADER,GIRO_ARRIBAIZQ,
+      GIRO_ABAJODER,GIRO_ABAJOIZQ};
+    Track track(2, 2, blocks);
+    
+    SDL_RenderClear(this->renderer);
+    track.render(this->window, this->renderer);
+    SDL_RenderPresent(this->renderer);
   }
   return nullptr;
 }
