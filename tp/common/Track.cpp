@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-std::map<int,Image> Track::tracks(SDL_Window* w, SDL_Renderer* r){
+std::map<int,Image> Track::tracks(SDL_Window* &w, SDL_Renderer* &r){
   std::map<int,Image> tracks = {
     //{0, Imagen("../Imagenes/...",w,r)},
     //{1, Imagen("",w,r)},
@@ -36,7 +36,7 @@ std::string Track::ToStr() {
     return "";
 }
 
-void Track::render(SDL_Window* w, SDL_Renderer* r){
+void Track::render(SDL_Window* &w, SDL_Renderer* &r){
   std::map<int,Image> tracks = this->tracks(w,r);
   tracks.at(2).render(r, 0, 0, 200, 200);
   /*tracks.at(4).render(r, 200, 0, 200, 200);

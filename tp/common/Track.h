@@ -17,9 +17,9 @@ public:
   Track(uint16_t height, uint16_t width, std::vector<int> blocks);
   Track(std::string event);
   std::string ToStr();
-  void render(SDL_Window* w, SDL_Renderer* r);
+  void render(SDL_Window* &w, SDL_Renderer* &r);
 private:
-  std::map<int,Image> tracks(SDL_Window* w, SDL_Renderer* r);
+  std::map<int,Image> tracks(SDL_Window* &w, SDL_Renderer* &r);
 };
 
 #endif

@@ -14,7 +14,16 @@ enum trackTypes{
   GIRO_ABAJOIZQ
 };
 
+RaceScreen::RaceScreen(SDL_Window* &w, SDL_Renderer* &r): GameScreen(w,r){
+  printf("se construye\n");
+}
+
+RaceScreen::~RaceScreen(){
+  printf("se destruye\n");
+}
+
 GameScreen* RaceScreen::start() {
+  printf("va a empezar\n");
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
 
   while (true) {
@@ -23,10 +32,10 @@ GameScreen* RaceScreen::start() {
 
     if (sdl_event.type == SDL_QUIT) break;
 
-    std::vector<int> blocks = {GIRO_ARRIBADER,GIRO_ARRIBAIZQ,
-      GIRO_ABAJODER,GIRO_ABAJOIZQ};
-    Track track((uint16_t)2,(uint16_t)2,blocks);
-    track.render(window, renderer);
+    //std::vector<int> blocks = {GIRO_ARRIBADER,GIRO_ARRIBAIZQ,
+      //GIRO_ABAJODER,GIRO_ABAJOIZQ};
+    //Track track((uint16_t)2,(uint16_t)2,blocks);
+    //track.render(window, renderer);
 
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);

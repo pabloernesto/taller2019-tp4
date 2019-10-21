@@ -6,8 +6,9 @@
 
 class RaceScreen : public GameScreen {
 public:
+  RaceScreen(SDL_Window *&w, SDL_Renderer *&r);
+  ~RaceScreen();
   GameScreen* start();
-  RaceScreen(SDL_Window *w, SDL_Renderer *r) : GameScreen(w, r) {}
 };
 
 #endif    // RACESCREEN_H_

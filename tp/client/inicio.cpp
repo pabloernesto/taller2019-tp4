@@ -21,10 +21,10 @@ GameScreen* Inicio::start() {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
-/*
+
     if (sdl_event.type == SDL_KEYDOWN)
       return new RaceScreen(window, renderer);
-*/
+
     fondo.render(this->renderer, 0, 0, HEIGHT, WIDTH);
     SDL_RenderPresent(renderer);
   }
