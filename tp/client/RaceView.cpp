@@ -20,6 +20,12 @@ CarView::CarView(SDL_Window *w, SDL_Renderer *r, Car& car)
 {}
 
 void RaceView::render() {
+  auto base_cars = race.GetCars();
+
+  if (base_cars.size() > cars.size())
+    for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
+      cars.emplace_back(window, renderer, *it);
+
   for (auto& car : cars)
     car.render();
 }
