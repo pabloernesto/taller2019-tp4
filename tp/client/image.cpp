@@ -17,7 +17,8 @@ Image::~Image(){
   SDL_FreeSurface(this->image);
 }
 
-void Image::render(SDL_Renderer* renderer){
-    SDL_Rect dstrect = {0, 0, 640, 480};
-    SDL_RenderCopy(renderer, this->texture, NULL, &dstrect);
+void Image::render(SDL_Renderer* renderer) {
+  // copy the whole image, occupy the entire screen
+  SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
+
