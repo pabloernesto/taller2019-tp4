@@ -4,7 +4,7 @@ static const int WIDTH = 600;
 static const int HEIGHT = 300;
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), race(), view(race)
+  : GameScreen(w, r), race(), view(w, r, race)
 {}
 
 GameScreen* RaceScreen::start() {

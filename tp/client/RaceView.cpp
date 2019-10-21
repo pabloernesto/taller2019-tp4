@@ -4,8 +4,8 @@ const int PIXELS_PER_METER = 10;
 
 pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
   pixel_vect_s v {
-    PIXELS_PER_METER * vector.x,
-    PIXELS_PER_METER * vector.y
+    (int)(PIXELS_PER_METER * vector.x),
+    (int)(PIXELS_PER_METER * vector.y)
   };
   return v;
 }
