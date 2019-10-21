@@ -53,6 +53,9 @@ $(target): $(objects)
 run:
 	./prueba.exe
 
+valgrind: all
+	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(target)
+
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)

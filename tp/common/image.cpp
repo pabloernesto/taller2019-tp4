@@ -1,4 +1,5 @@
 #include "image.h"
+#include <SDL2/SDL.h>
 #include <string>
 
 Image::Image(const char* path, SDL_Window* w, SDL_Renderer* r)
@@ -17,7 +18,7 @@ Image::~Image(){
   SDL_FreeSurface(this->image);
 }
 
-void Image::render(SDL_Renderer* renderer){
-    SDL_Rect dstrect = {0, 0, 640, 480};
+void Image::render(SDL_Renderer* renderer, int x, int y, int height, int width){
+    SDL_Rect dstrect = {x, y, x+width, y+height};
     SDL_RenderCopy(renderer, this->texture, NULL, &dstrect);
 }

@@ -20,6 +20,5 @@ Client::~Client() {
 
 void Client::start() {
   screen.reset(new Inicio(window, renderer));
-  while (auto new_screen = screen->start())
-    screen.reset(new_screen);
+  screen->start();
 }

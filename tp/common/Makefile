@@ -35,6 +35,12 @@ LDFLAGS += -pthread
 
 # LDFLAGS += -static
 
+# Linkea a SDL2
+LDFLAGS += $(shell sdl2-config --cflags --libs)
+
+# Linkea a SDL_image
+LDFLAGS += -lSDL2_image
+
 # reglas
 ########
 

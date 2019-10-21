@@ -5,8 +5,9 @@
 
 class Inicio : public GameScreen {
 public:
+  Inicio(SDL_Window* &w, SDL_Renderer* &r);
+  ~Inicio();
   GameScreen* start();
-  Inicio(SDL_Window *w, SDL_Renderer *r) : GameScreen(w, r) {}
 };
 
 #endif    // INICIO_H_

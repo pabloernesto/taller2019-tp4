@@ -10,6 +10,9 @@ headers=$(wildcard *.h)
 # intermediate objects
 objects=$(patsubst %.cpp, %.o, $(sources))
 
+# common objects
+objects+=$(wildcard ../common/*.o)
+
 # opciones de compilador
 ########################
 
@@ -56,6 +59,9 @@ $(target): $(objects)
 .PHONY: run
 run: all
 	./$(target)
+
+valgrind: all
+	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(target)
 
 .PHONY: clean
 clean:

@@ -1,9 +1,11 @@
 #ifndef TRACK_H_
 #define TRACK_H_
 #include "Event.h"
+#include "image.h"
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
+#include <map>
 
 class Track : public Event {
 private:
@@ -13,11 +15,11 @@ private:
   
 public:
   Track(uint16_t height, uint16_t width, std::vector<int> blocks);
-  Track::Track(std::string event);
+  Track(std::string event);
   std::string ToStr();
   void render(SDL_Window* w, SDL_Renderer* r);
 private:
-  std::map<int,Image> Track::tracks(SDL_Window* w, SDL_Renderer* r);
+  std::map<int,Image> tracks(SDL_Window* w, SDL_Renderer* r);
 };
 
 #endif

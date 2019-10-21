@@ -28,19 +28,19 @@ int main(int argc, char** argv)
 		SDL_ShowSimpleMessageBox(0, "Texture init error",
 			SDL_GetError(), ventana);
 
-	while (!salir)
-	{
+	printf("antes del while\n");
+	while (!salir){
 		SDL_WaitEvent(&evento);
 
-		switch (evento.type)
-		{
-		case SDL_QUIT:
+		if (evento.type == SDL_QUIT){
 			salir = true;
 			break;
 		}
 		
 		SDL_Rect dstrect = { 5, 5, 320, 400 };
+		printf("va a hacer el copy\n");
 		SDL_RenderCopy(renderer, textura, NULL, &dstrect);
+		printf("termino el copy\n");
 		SDL_RenderPresent(renderer);
 	}
 	

@@ -5,7 +5,7 @@
 
 class Event {
   public:
-  static Event* FromStr(std::string s){};
+  //static Event* FromStr(std::string s){};
   virtual std::string ToStr() = 0;
 };
 

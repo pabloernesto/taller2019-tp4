@@ -13,7 +13,7 @@ public:
   Image(const char* path, SDL_Window* w, SDL_Renderer* r);
   ~Image();
 
-  void render(SDL_Renderer* renderer);
+  void render(SDL_Renderer* renderer, int x, int y, int heightm, int width);
 };
 
 #endif

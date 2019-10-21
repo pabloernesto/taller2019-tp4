@@ -1,5 +1,5 @@
 #include "RaceScreen.h"
-#include "Track.h"
+#include "../common/Track.h"
 #include <vector>
 
 static const int WIDTH = 600;
@@ -25,8 +25,8 @@ GameScreen* RaceScreen::start() {
 
     std::vector<int> blocks = {GIRO_ARRIBADER,GIRO_ARRIBAIZQ,
       GIRO_ABAJODER,GIRO_ABAJOIZQ};
-    Track track(2,2,blocks);
-    track.render(renderer);
+    Track track((uint16_t)2,(uint16_t)2,blocks);
+    track.render(window, renderer);
 
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
