@@ -19,7 +19,10 @@ CarView::CarView(SDL_Window *w, SDL_Renderer *r, Car& car)
   : car(car), renderer(r), image("Imagenes/Micro-Machines.bmp", w, r)
 {}
 
-void RaceView::render() {}
+void RaceView::render() {
+  for (auto& car : cars)
+    car.render();
+}
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race)
   : window(w), renderer(r), race(race), cars()
