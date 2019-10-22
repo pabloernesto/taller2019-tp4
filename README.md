@@ -13,6 +13,6 @@ También usamos [SDL_image] versión 2 para cargar imágenes. Los binarios se pu
 
 ### Box2D
 
-Este proyecto usa [Box2D] para su física. Los binarios se pueden instalar desde apt con `sudo apt install libbox2d-dev`
+Este proyecto usa [Box2D] para su física. Los binarios se pueden instalar desde apt con `sudo apt install libbox2d-dev` y `sudo apt-get install g++ cmake libglu-dev libxi-dev`.
 
 [Box2D]: https://github.com/erincatto/Box2D/wiki/FAQ
