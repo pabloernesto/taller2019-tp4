@@ -18,7 +18,7 @@ all: $(target)
 clean: $(target)
 
 .PHONY: $(target)
-cliente servidor: common
+client server: common
 
 $(target):
 	$(MAKE) --directory=$@ $(TARGET)
