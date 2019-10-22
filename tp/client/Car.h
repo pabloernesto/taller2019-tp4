@@ -13,9 +13,10 @@ public:
 
   void Place(b2World& world, b2Vec2 position);
   const b2Vec2& GetPosition();
+  const b2Vec2& GetSize();
 
-  static const float32 WIDTH_METERS;
-  static const float32 LENGTH_METERS;
+  // width and length, in meters
+  static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
 };
 
