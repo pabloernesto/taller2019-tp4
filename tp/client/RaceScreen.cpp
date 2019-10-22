@@ -1,6 +1,4 @@
 #include "RaceScreen.h"
-#include "../common/Track.h"
-#include "../common/image.h"
 #include <vector>
 
 #include <thread>
@@ -8,15 +6,6 @@
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
-enum trackTypes{
-  HORIZONTAL,
-  VERTICAL,
-  GIRO_ARRIBADER,
-  GIRO_ABAJODER,
-  GIRO_ARRIBAIZQ,
-  GIRO_ABAJOIZQ,
-  PASTO
-};
 
 RaceScreen::~RaceScreen(){
 }

@@ -7,6 +7,16 @@
 #include <vector>
 #include <map>
 
+enum trackTypes {
+  HORIZONTAL,
+  VERTICAL,
+  GIRO_ARRIBADER,
+  GIRO_ABAJODER,
+  GIRO_ARRIBAIZQ,
+  GIRO_ABAJOIZQ,
+  PASTO
+};
+
 class Track : public Event {
 private:
   uint16_t height;
