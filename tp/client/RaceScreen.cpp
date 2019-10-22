@@ -19,6 +19,7 @@ GameScreen* RaceScreen::start() {
     SDL_RenderClear(renderer);
     view.render();
     SDL_RenderPresent(renderer);
+    SDL_Delay(1000/60);
   }
   return nullptr;
 }
