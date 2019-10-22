@@ -50,7 +50,8 @@ void Track::render(SDL_Window* &w, SDL_Renderer* &r){
   for(int y = 0; y < this->width; ++y){
     for(int x = 0; x < this->height; ++x){
       int block = this->blocks.at(contador);
-      tracks.at(block)->render(x*WIDTHBLOCK, y*HEIGHTBLOCK, HEIGHTBLOCK, WIDTHBLOCK);
+      SDL_Rect where = { x*WIDTHBLOCK, y*HEIGHTBLOCK, HEIGHTBLOCK, WIDTHBLOCK };
+      tracks.at(block)->render(&where, 0);
       contador++;
     }
   }

@@ -3,17 +3,22 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-class Image{
+class Image {
 private:
-  SDL_Renderer* &renderer;
+  SDL_Renderer* renderer;
   SDL_Surface* image;
   SDL_Texture* texture;
 
 public:
-  Image(const char* path, SDL_Window* &w, SDL_Renderer* &r);
+  Image(const char* path, SDL_Window* w, SDL_Renderer* r);
   ~Image();
 
-  void render(int x, int y, int heightm, int width);
+  // Render occupying the whole screen
+  void render();
+
+  // Render to a certain part of the screen, at a certain angle
+  // angle is clockwise, in degrees
+  void render(SDL_Rect* where, double angle);
 };
 
 #endif

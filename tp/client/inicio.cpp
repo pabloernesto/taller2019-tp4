@@ -6,7 +6,7 @@
 #define HEIGHT 480
 #define FONDO "Imagenes/Micro-Machines.bmp"
 
-Inicio::Inicio(SDL_Window* &w, SDL_Renderer* &r) : GameScreen(w, r) {
+Inicio::Inicio(SDL_Window* w, SDL_Renderer* r) : GameScreen(w, r) {
 }
 
 Inicio::~Inicio(){
@@ -25,7 +25,7 @@ GameScreen* Inicio::start() {
     if (sdl_event.type == SDL_KEYDOWN)
       return new RaceScreen(window, renderer);
 
-    fondo.render(0, 0, HEIGHT, WIDTH);
+    fondo.render();
     SDL_RenderPresent(renderer);
   }
   return nullptr;
