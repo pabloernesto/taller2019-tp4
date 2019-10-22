@@ -41,6 +41,9 @@ LDFLAGS += $(shell sdl2-config --cflags --libs)
 # Linkea a SDL_image
 LDFLAGS += -lSDL2_image
 
+# Linkea a Box2D
+LDFLAGS += -lBox2D
+
 # reglas
 ########
 

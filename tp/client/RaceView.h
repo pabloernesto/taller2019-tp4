@@ -2,7 +2,7 @@
 #define RACEVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "Race.h"
+#include "../common/Race.h"
 #include "../common/image.h"
 #include <vector>
 
