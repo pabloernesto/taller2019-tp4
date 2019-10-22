@@ -13,6 +13,12 @@ pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
 void CarView::render() {
   auto&& p = MKStoPixelTransform(car.GetPosition());
   auto&& size = MKStoPixelTransform(car.GetSize());
+
+  // p is the position of the car's center
+  // this correction finds the car's top-left corner
+  p.x -= size.x / 2;
+  p.y += size.y / 2;
+
   SDL_Rect where = {
     p.x,    -p.y,   // due to coordinate change, minus-y-coordinate
     size.x, size.y
