@@ -31,6 +31,7 @@ class RaceView {
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
+  Image fondo;
 
 public:
   void render();

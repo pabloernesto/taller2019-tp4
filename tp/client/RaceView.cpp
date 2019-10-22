@@ -31,6 +31,8 @@ CarView::CarView(SDL_Window *w, SDL_Renderer *r, Car& car)
 {}
 
 void RaceView::render() {
+  fondo.render();
+
   auto& base_cars = race.GetCars();
 
   if (base_cars.size() > cars.size())
@@ -42,5 +44,6 @@ void RaceView::render() {
 }
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race)
-  : window(w), renderer(r), race(race), cars()
+  : window(w), renderer(r), race(race), cars(),
+  fondo("Imagenes/pasto.bmp", w, r)
 {}

@@ -58,7 +58,6 @@ class UpdateLoop {
 
 GameScreen* RaceScreen::start() {
   SDL_Event sdl_event;
-  Image fondo("Imagenes/pasto.bmp",this->window, this->renderer);
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
