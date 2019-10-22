@@ -6,7 +6,7 @@
 #define HEIGHT 480
 #define FONDO "Imagenes/Micro-Machines.bmp"
 
-Inicio::Inicio(SDL_Window* &w, SDL_Renderer* &r) : GameScreen(w, r) {
+Inicio::Inicio(SDL_Window* w, SDL_Renderer* r) : GameScreen(w, r) {
 }
 
 Inicio::~Inicio(){
