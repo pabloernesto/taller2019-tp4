@@ -1,3 +1,5 @@
+vpath %.o ../common
+
 # targets
 #########
 
