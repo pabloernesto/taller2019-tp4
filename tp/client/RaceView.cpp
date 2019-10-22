@@ -14,7 +14,7 @@ void CarView::render() {
   auto&& p = MKStoPixelTransform(car.GetPosition());
   auto&& size = MKStoPixelTransform(car.GetSize());
   SDL_Rect where = {
-    p.x,    p.y,
+    p.x,    -p.y,   // due to coordinate change, minus-y-coordinate
     size.x, size.y
   };
   image.render(renderer, &where, 0);
