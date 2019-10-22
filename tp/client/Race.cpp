@@ -7,7 +7,7 @@ void Race::Step() {}
 void Race::AddCar() {
   cars.emplace_back();
   b2Vec2 where = { 0, 0 };
-  cars.end()->Place(world, where);
+  cars.back().Place(world, where);
 }
 
 std::vector<Car>& Race::GetCars() {
