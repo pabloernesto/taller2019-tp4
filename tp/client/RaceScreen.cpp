@@ -51,7 +51,12 @@ GameScreen* RaceScreen::start() {
   loop.Start();
 
   // TODO: check SDL_QUIT event
-  SDL_Delay(3000);
+  while (true) {
+    SDL_Event sdl_event;
+    SDL_WaitEvent(&sdl_event);
+
+    if (sdl_event.type == SDL_QUIT) break;
+  }
 
   loop.quit = true;
   loop.Join();
