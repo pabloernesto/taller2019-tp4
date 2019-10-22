@@ -31,20 +31,17 @@ Track::Track(std::string event){
   this->width = stoi(parametros[1]);
   for(int i = 0; i < parametros[2].size(); ++i){
     int block = stoi((parametros[2]).substr(i,1));
-    printf("block: %d\n", block);
     this->blocks.push_back(block);
   }
 }
 
 std::string Track::ToStr() {
-  /*std::string event = "H: " + std::to_string(this->height)
-    + " W: " + std::to_string(this->width)
-    + " B: ";
-    for(int i = 0; i < (this->blocks).size(); ++i){
-      std::string bloque = std::to_string(this->blocks.at(i));
-      event.append(bloque);
-    }*/
-    return "";
+  std::string event = std::to_string(this->height) + " " + 
+                      std::to_string(this->width) + " ";
+  for(int i = 0; i < this->blocks.size(); ++i){
+    event = event + std::to_string(this->blocks.at(i));
+  }
+  return event;
 }
 
 void Track::render(SDL_Window* &w, SDL_Renderer* &r){
