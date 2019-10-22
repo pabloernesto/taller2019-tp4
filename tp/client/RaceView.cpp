@@ -11,8 +11,13 @@ pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
 }
 
 void CarView::render() {
-  auto p = MKStoPixelTransform(car.GetPosition());
-  image.render(renderer);
+  auto&& p = MKStoPixelTransform(car.GetPosition());
+  auto&& size = MKStoPixelTransform(car.GetSize());
+  SDL_Rect where = {
+    p.x,    p.y,
+    size.x, size.y
+  };
+  image.render(renderer, &where, 0);
 }
 
 CarView::CarView(SDL_Window *w, SDL_Renderer *r, Car& car)
