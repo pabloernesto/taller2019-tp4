@@ -3,28 +3,13 @@
 
 #include <SDL2/SDL.h>
 #include "../common/Race.h"
+#include "CarView.h"
 #include "../common/image.h"
 #include <vector>
 
 // TODO: create View base class
 
 // TODO: move mks to pixel transforms to View base class
-typedef struct {
-  int x;
-  int y;
-} pixel_vect_s;
-
-pixel_vect_s MKStoPixelTransform(const b2Vec2& vector);
-
-class CarView {
-  Car& car;
-  SDL_Renderer *renderer;
-  Image image;
-
-public:
-  void render();
-  CarView(SDL_Window *w, SDL_Renderer *r, Car& car);
-};
 
 class RaceView {
   Race& race;
@@ -34,8 +19,9 @@ class RaceView {
   Image fondo;
 
 public:
-  void render();
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race);
+  void render();
+  void reactTo(SDL_Event &event);
 };
 
 #endif    // RACEVIEW_H_
