@@ -25,8 +25,10 @@ void Car::Place(b2World& world, b2Vec2 position) {
 }
 
 void Car::GasOn() {
-  b2Vec2 force(0, 1000000);
-  body->ApplyForceToCenter(force, true);
+  //b2Vec2 force(0, 1000000);
+  //body->ApplyForceToCenter(force, true);
+
+  this->body->SetLinearVelocity(b2Vec2(100,100));////////////////////77
 }
 
 const b2Vec2& Car::GetPosition() {

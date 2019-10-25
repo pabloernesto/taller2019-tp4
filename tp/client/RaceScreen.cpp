@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <atomic>
+#include <vector>
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -60,6 +61,8 @@ GameScreen* RaceScreen::start() {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
+
+    view.reactTo(sdl_event);/////////////////////////////////
   }
 
   loop.quit = true;

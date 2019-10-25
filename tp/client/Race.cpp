@@ -2,6 +2,8 @@
 
 #include <Box2D/Box2D.h>
 
+Race::Race() : world((b2Vec2){ 0 , 0 }), cars() {}
+
 void Race::Step() {}
 
 void Race::AddCar() {
@@ -13,5 +15,3 @@ void Race::AddCar() {
 std::vector<Car>& Race::GetCars() {
   return cars;
 }
-
-Race::Race() : world((b2Vec2){ 0 , 0 }), cars() {}
