@@ -7,7 +7,9 @@ const float32 Car::WEIGHT_KG = 300;
 
 void Car::GasOn() {
   gas = true;
-  this->body->SetLinearVelocity(b2Vec2(100,100));
+  this->body->SetSleepingAllowed(false);//
+  this->body->SetAwake(true);//
+  this->body->SetLinearVelocity(b2Vec2(1,1));
 }
 
 void Car::GasOff() {

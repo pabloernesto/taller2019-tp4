@@ -24,6 +24,7 @@ class UpdateLoop {
   void Loop() {
     while (!quit) {
       SDL_RenderClear(renderer);
+      race.Step();
       view.render();
       SDL_RenderPresent(renderer);
       SDL_Delay(1000/60);
