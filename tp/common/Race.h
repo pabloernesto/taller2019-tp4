@@ -1,6 +1,7 @@
 #ifndef RACE_H_
 #define RACE_H_
 
+#include <Box2D/Box2D.h>
 #include "Car.h"
 #include <vector>
 

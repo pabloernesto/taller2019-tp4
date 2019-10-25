@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "GameScreen.h"
-#include "Race.h"
+#include "../common/Race.h"
 #include "RaceView.h"
 
 class RaceScreen : public GameScreen {
