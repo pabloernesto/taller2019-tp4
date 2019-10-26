@@ -1,6 +1,6 @@
 #include "inicio.h"
 #include "../common/image.h"
-#include "RaceScreen.h"
+#include "../common/RaceScreen.h"
 
 #define WIDTH 640
 #define HEIGHT 480

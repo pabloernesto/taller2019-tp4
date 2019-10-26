@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <memory>   // unique_ptr
-#include "GameScreen.h"
+#include "../common/GameScreen.h"
 
 class Client {
   SDL_Window *window;
