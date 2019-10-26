@@ -5,19 +5,21 @@
 
 class Car {
   b2Body* body;
-  bool gas;   // gas pedal. Is the car accelerating?
+  bool gas;
 
-public:
+  public:
+  void Place(b2World& world, b2Vec2 position);
   void GasOn();
   void GasOff();
-
-  void Place(b2World& world, b2Vec2 position);
+  void moveUp();
+  void moveDown();
+  void moveLeft();
+  void moveRight();
   const b2Vec2& GetPosition();
   const b2Vec2& GetSize();
 
-  // width and length, in meters
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
 };
 
-#endif    // CAR_H_
+#endif  // CAR_H_

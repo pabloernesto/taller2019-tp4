@@ -3,16 +3,20 @@
 
 #include <Box2D/Box2D.h>
 #include "Car.h"
+#include "Track.h"
 #include <vector>
 
 class Race {
   b2World world;
   std::vector<Car> cars;
+  Track track;
 
 public:
+  Race(Track& track);
   void Step();
   void AddCar();
   std::vector<Car>& GetCars();
+  Track& GetTrack();
 
   Race();
 };

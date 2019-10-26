@@ -6,7 +6,8 @@ const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
-Race::Race() : world((b2Vec2){ 0 , 0 }), cars() {}
+Race::Race(Track& track) : world((b2Vec2){ 0 , 0 }), cars(), 
+  track(track) {}
 
 void Race::Step() {
   this->world.Step(timestep, velocityIterations, positionIterations);
@@ -20,4 +21,8 @@ void Race::AddCar() {
 
 std::vector<Car>& Race::GetCars() {
   return cars;
+}
+
+Track& Race::GetTrack(){
+  return this->track;
 }

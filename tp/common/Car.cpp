@@ -7,14 +7,26 @@ const float32 Car::WEIGHT_KG = 300;
 
 void Car::GasOn() {
   gas = true;
-  this->body->SetSleepingAllowed(false);//
-  this->body->SetAwake(true);//
-  this->body->SetLinearVelocity(b2Vec2(1,1));
 }
 
 void Car::GasOff() {
   gas = false;
-  this->body->SetLinearVelocity(b2Vec2(0,0));
+}
+
+void Car::moveUp(){
+  this->body->SetLinearVelocity(b2Vec2(0,1));
+}
+
+void Car::moveDown(){
+  this->body->SetLinearVelocity(b2Vec2(0,-1));
+}
+
+void Car::moveLeft(){
+  this->body->SetLinearVelocity(b2Vec2(-1,0));
+}
+
+void Car::moveRight(){
+  this->body->SetLinearVelocity(b2Vec2(1,0));
 }
 
 void Car::Place(b2World& world, b2Vec2 position) {
