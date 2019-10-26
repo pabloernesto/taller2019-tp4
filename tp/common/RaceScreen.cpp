@@ -13,7 +13,7 @@ RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), track("2 2 3453"), race(track), view(w, r, race)
+  : GameScreen(w, r), track("2 2 2345"), race(track), view(w, r, race)
 {}
 
 class UpdateLoop {

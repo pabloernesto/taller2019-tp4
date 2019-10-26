@@ -7,7 +7,7 @@
 #define HEIGHTBLOCK 200
 #define WIDTHBLOCK 200
 
-std::map<int,Image*> Track::tracks(SDL_Window* &w, SDL_Renderer* &r){
+std::map<int,Image*> Track::tracks(SDL_Window* w, SDL_Renderer* r){
   std::map<int,Image*> tracks;
     //{0, Imagen("../Imagenes/...",w,r)},
     //{1, Imagen("",w,r)},
