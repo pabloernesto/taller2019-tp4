@@ -8,7 +8,6 @@ void RaceView::render() {
   fondo.render();
   race.GetTrack().render(window,renderer);
 
-
   auto& base_cars = race.GetCars();
 
   if (base_cars.size() > cars.size())
