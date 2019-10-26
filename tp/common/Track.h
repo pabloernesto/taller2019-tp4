@@ -29,7 +29,7 @@ public:
   std::string ToStr();
   void render(SDL_Window* &w, SDL_Renderer* &r);
 private:
-  std::map<int,Image*> tracks(SDL_Window* &w, SDL_Renderer* &r);
+  std::map<int,Image*> tracks(SDL_Window* w, SDL_Renderer* r);
 };
 
 #endif

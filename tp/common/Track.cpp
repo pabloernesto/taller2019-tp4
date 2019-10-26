@@ -44,7 +44,7 @@ std::string Track::ToStr() {
   return event;
 }
 
-void Track::render(SDL_Window* &w, SDL_Renderer* &r){
+void Track::render(SDL_Window* w, SDL_Renderer* r){
   std::map<int,Image*> tracks = this->tracks(w,r);
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
