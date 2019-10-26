@@ -1,4 +1,4 @@
-#include "Micromachines.h"
+/*#include "Micromachines.h"
 #include <stdexcept>
 
 #define CARTYPES {"red", "yellow", "blue"}
@@ -31,4 +31,4 @@ void Micromachines::addRace(std::string name, Track& track){
 
 std::vector<std::string> Micromachines::getCarTypes(){
   return CARTYPES;
-}
+}*/

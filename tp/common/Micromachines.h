@@ -1,4 +1,4 @@
-#ifndef MICROMACHINES_H_
+/*#ifndef MICROMACHINES_H_
 #define MICROMACHINES_H_
 #include "Event.h"
 #include <string>
@@ -19,8 +19,7 @@ public:
   void removeRace(std::string name);
   void addCarToRace(std::string raceName, Car& car);
   std::map<std::string,Race>& getRaces();
-  void addRace(std::string name, Track& track);
   std::vector<std::string> getCarTypes();
 };
 
-#endif
+#endif*/

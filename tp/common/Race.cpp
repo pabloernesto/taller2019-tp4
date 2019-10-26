@@ -13,8 +13,8 @@ void Race::Step() {
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
 
-void Race::AddCar(Car& car) {
-  this->cars.push_back(car);
+void Race::AddCar() {
+  this->cars.emplace_back();
   b2Vec2 where = { 0, 0 };
   cars.back().Place(world, where);
 }
