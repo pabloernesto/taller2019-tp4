@@ -23,7 +23,6 @@ GameScreen* RaceScreen::start() {
   UpdateLoop loop(renderer, race, view);
   loop.Start();
 
-  // TODO: check SDL_QUIT event
   while (true) {
     SDL_WaitEvent(&sdl_event);
 
