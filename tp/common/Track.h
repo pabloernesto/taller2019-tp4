@@ -2,10 +2,12 @@
 #define TRACK_H_
 #include "Event.h"
 #include "image.h"
+#include "TrackPiece.h"
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
 #include <map>
+#include <Box2D/Box2D.h>
 
 enum trackTypes {
   HORIZONTAL,
@@ -22,6 +24,7 @@ private:
   uint16_t height;
   uint16_t width;
   std::vector<int> blocks;
+  std::vector<TrackPiece> tracks;
   
 public:
   Track(uint16_t height, uint16_t width, std::vector<int> blocks);
@@ -29,7 +32,8 @@ public:
   std::string ToStr();
   void render(SDL_Window* w, SDL_Renderer* r);
 private:
-  std::map<int,Image*> tracks(SDL_Window* w, SDL_Renderer* r);
+  std::map<int,Image*> tracksImages(SDL_Window* w, SDL_Renderer* r);
+  void initialiceTrackPieces(b2World& world, std::vector<int> blocks);
 };
 
 #endif

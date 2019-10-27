@@ -7,17 +7,28 @@
 #define HEIGHTBLOCK 200
 #define WIDTHBLOCK 200
 
-std::map<int,Image*> Track::tracks(SDL_Window* w, SDL_Renderer* r){
+std::map<int,Image*> Track::tracksImages(SDL_Window* w, SDL_Renderer* r){
   std::map<int,Image*> tracks;
-    //{0, Imagen("../Imagenes/...",w,r)},
-    //{1, Imagen("",w,r)},
+  tracks[0] = new Image("../client/Imagenes/horizontal.bmp",w,r);
+  tracks[1] = new Image("../client/Imagenes/vertical.bmp",w,r);
   tracks[2] = new Image("../client/Imagenes/giro_arribader.bmp",w,r);
   tracks[3] = new Image("../client/Imagenes/giro_abajoder.bmp",w,r);
   tracks[4] = new Image("../client/Imagenes/giro_arribaizq.bmp",w,r);
   tracks[5] = new Image("../client/Imagenes/giro_abajoizq.bmp",w,r);
-    //{6, Imagen("../Imagenes/",w,r)}
-  
+  tracks[6] = new Image("../client/Imagenes/pasto.bmp",w,r);
   return tracks;
+}
+
+void Track::initialiceTrackPieces(b2World& world,std::vector<int> blocks){
+  int contador = 0;
+  for(int y = 0; y < this->width; ++y){
+    for(int x = 0; x < this->height; ++x){
+      this->tracks.emplace_back();
+      b2Vec2 where = {(float) (x+0.5)*WIDTHBLOCK, (float) (y+0.5)*HEIGHTBLOCK };
+      this->tracks.back().Place(world, where);
+      contador++;
+    }
+  }
 }
 
 Track::Track(uint16_t height, uint16_t width, std::vector<int> blocks): 
@@ -45,7 +56,7 @@ std::string Track::ToStr() {
 }
 
 void Track::render(SDL_Window* w, SDL_Renderer* r){
-  std::map<int,Image*> tracks = this->tracks(w,r);
+  std::map<int,Image*> tracks = this->tracksImages(w,r);
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
     for(int x = 0; x < this->height; ++x){
