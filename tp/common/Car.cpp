@@ -6,7 +6,7 @@ const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
 
-Car::Car(): gas(false), break_(false), life(1000) {}
+Car::Car(): gas(false), break_(false), steer('c'), life(1000) {}
 
 void Car::GasOn() {
   gas = true;

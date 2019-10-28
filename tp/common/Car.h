@@ -7,6 +7,7 @@ class Car {
   b2Body* body;
   bool gas;
   bool break_;
+  char steer;   // one of l/r/c, for left/right/center
   int life;
 
   static const b2Vec2 CAR_SIZE;
