@@ -58,6 +58,10 @@ const b2Vec2& Car::GetPosition() {
   return body->GetPosition();
 }
 
+float Car::GetAngle() {
+  return body->GetAngle();
+}
+
 const b2Vec2& Car::GetSize() {
   return CAR_SIZE;
 }
