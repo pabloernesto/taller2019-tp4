@@ -28,22 +28,6 @@ void Car::SteerLeft() {}
 void Car::SteerRight() {}
 void Car::SteerCenter() {}
 
-void Car::moveUp(){
-  this->body->SetLinearVelocity(b2Vec2(0,1));
-}
-
-void Car::moveDown(){
-  this->body->SetLinearVelocity(b2Vec2(0,-1));
-}
-
-void Car::moveLeft(){
-  this->body->SetLinearVelocity(b2Vec2(-1,0));
-}
-
-void Car::moveRight(){
-  this->body->SetLinearVelocity(b2Vec2(1,0));
-}
-
 void Car::Place(b2World& world, b2Vec2 position) {
   // Add car to the world
   b2BodyDef car_body_def;

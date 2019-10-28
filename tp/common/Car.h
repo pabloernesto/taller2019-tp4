@@ -28,10 +28,6 @@ class Car {
   // Calculate the car's forward speed
   float GetSpeed();
 
-  void moveUp();
-  void moveDown();
-  void moveLeft();
-  void moveRight();
   const b2Vec2& GetPosition();
   const b2Vec2& GetSize();
 
