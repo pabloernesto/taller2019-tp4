@@ -6,7 +6,9 @@
 class Car {
   b2Body* body;
   bool gas;
+  bool break_;
   int life;
+
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
   static const float32 ENGINE_POWER;
@@ -14,8 +16,12 @@ class Car {
   public:
   Car();
   void Place(b2World& world, b2Vec2 position);
+
   void GasOn();
   void GasOff();
+  void BreakOn();
+  void BreakOff();
+
   void moveUp();
   void moveDown();
   void moveLeft();
