@@ -1,6 +1,9 @@
 #include "CarView.h"
 
 const int PIXELS_PER_METER = 100;
+// Box2D measures angles counter-clockwise, and SDL does it clockwise
+// Shove in a -1 factor to account for that
+const float RADIANS_TO_DEGREES_FACTOR = (-1) * 360.0 / (2 * 3.1415);
 
 pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
   pixel_vect_s v {
@@ -27,5 +30,6 @@ void CarView::render() {
     size.x, size.y
   };
   auto angle_radians = car.GetAngle();
-  image.render(&where, 180 - angle_radians * 360 / 2 / 3.1415);
+  // The car image points downward, add 180 degrees to flip it up
+  image.render(&where, 180 + angle_radians * RADIANS_TO_DEGREES_FACTOR);
 }
