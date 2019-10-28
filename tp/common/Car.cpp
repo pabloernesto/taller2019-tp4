@@ -24,9 +24,17 @@ void Car::BreakOff() {
   break_ = false;
 }
 
-void Car::SteerLeft() {}
-void Car::SteerRight() {}
-void Car::SteerCenter() {}
+void Car::SteerLeft() {
+  steer = 'l';
+}
+
+void Car::SteerRight() {
+  steer = 'r';
+}
+
+void Car::SteerCenter() {
+  steer = 'c';
+}
 
 void Car::Place(b2World& world, b2Vec2 position) {
   // Add car to the world
