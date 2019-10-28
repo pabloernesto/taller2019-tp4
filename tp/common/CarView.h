@@ -22,7 +22,6 @@ class CarView {
 public:
   void render();
   CarView(SDL_Window *w, SDL_Renderer *r, Car& car);
-  void reactTo(SDL_Event &event);
 };
 
 

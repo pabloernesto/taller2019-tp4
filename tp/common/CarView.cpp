@@ -28,22 +28,3 @@ void CarView::render() {
   };
   image.render(&where, 0);
 }
-
-void CarView::reactTo(SDL_Event &event){
-  switch( event.key.keysym.sym ){
-    case SDLK_LEFT:
-        this->car.moveLeft();
-        break;
-    case SDLK_RIGHT:
-        this->car.moveRight();
-        break;
-    case SDLK_UP:
-        this->car.moveUp();
-        break;
-    case SDLK_DOWN:
-        this->car.moveDown();
-        break;
-    default:
-        break;
-  }
-}

@@ -13,13 +13,14 @@ void Race::Step() {
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
 
-void Race::AddCar() {
-  this->cars.emplace_back();
+Car& Race::AddCar() {
+  cars.emplace_back(new Car());
   b2Vec2 where = { 0, 0 };
-  cars.back().Place(world, where);
+  cars.back()->Place(world, where);
+  return *cars.back();
 }
 
-std::vector<Car>& Race::GetCars() {
+std::vector<std::unique_ptr<Car>>& Race::GetCars() {
   return cars;
 }
 
