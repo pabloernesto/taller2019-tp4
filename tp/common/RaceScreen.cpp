@@ -37,13 +37,22 @@ GameScreen* RaceScreen::start() {
           car.moveRight();
           break;
         case SDLK_UP:
-          car.moveUp();
+          car.GasOn();
           break;
         case SDLK_DOWN:
           car.moveDown();
           break;
         default:
           break;
+      }
+    }
+    if (sdl_event.type == SDL_KEYUP) {
+      switch(sdl_event.key.keysym.sym) {
+        case SDLK_UP:
+          car.GasOff();
+          break;
+      default:
+        break;
       }
     }
   }
