@@ -1,23 +1,12 @@
 #include "Track.h"
 #include "image.h"
 #include "string.h"
-#include <map>
+#include <vector>
 #include <string>
+#include <memory>   // unique_ptr
 
 #define HEIGHTBLOCK 200
 #define WIDTHBLOCK 200
-
-std::map<int,Image*> Track::tracksImages(SDL_Window* w, SDL_Renderer* r){
-  std::map<int,Image*> tracks;
-  tracks[0] = new Image("../client/Imagenes/horizontal.bmp",w,r);
-  tracks[1] = new Image("../client/Imagenes/vertical.bmp",w,r);
-  tracks[2] = new Image("../client/Imagenes/giro_arribader.bmp",w,r);
-  tracks[3] = new Image("../client/Imagenes/giro_abajoder.bmp",w,r);
-  tracks[4] = new Image("../client/Imagenes/giro_arribaizq.bmp",w,r);
-  tracks[5] = new Image("../client/Imagenes/giro_abajoizq.bmp",w,r);
-  tracks[6] = new Image("../client/Imagenes/pasto.bmp",w,r);
-  return tracks;
-}
 
 void Track::initialiceTrackPieces(b2World& world,std::vector<int> blocks){
   int contador = 0;
@@ -31,9 +20,9 @@ void Track::initialiceTrackPieces(b2World& world,std::vector<int> blocks){
   }
 }
 
-Track::Track(uint16_t height, uint16_t width, std::vector<int> blocks): 
-    height(height), width(width), blocks(blocks){
-}
+Track::Track(uint16_t height, uint16_t width, std::vector<int> blocks)
+  : height(height), width(width), blocks(blocks), tracks()
+{}
 
 Track::Track(std::string event){
   //"H W B"
@@ -56,7 +45,7 @@ std::string Track::ToStr() {
 }
 
 void Track::render(SDL_Window* w, SDL_Renderer* r){
-  std::map<int,Image*> tracks = this->tracksImages(w,r);
+  auto& tracks = TrackImages(w, r);
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
     for(int x = 0; x < this->height; ++x){
@@ -66,4 +55,20 @@ void Track::render(SDL_Window* w, SDL_Renderer* r){
       contador++;
     }
   }
+}
+
+std::vector<std::unique_ptr<Image>>& Track::TrackImages(
+  SDL_Window* w, SDL_Renderer* r)
+{
+  static std::vector<std::unique_ptr<Image>> track_images;
+  if (track_images.size() != 0) return track_images;
+
+  track_images.emplace_back(new Image("../client/Imagenes/horizontal.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/vertical.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/giro_arribader.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/giro_abajoder.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/giro_arribaizq.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/giro_abajoizq.bmp", w, r));
+  track_images.emplace_back(new Image("../client/Imagenes/pasto.bmp", w, r));
+  return track_images;
 }
