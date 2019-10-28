@@ -31,10 +31,10 @@ GameScreen* RaceScreen::start() {
     if (sdl_event.type == SDL_KEYDOWN) {
       switch(sdl_event.key.keysym.sym) {
         case SDLK_LEFT:
-          car.moveLeft();
+          car.SteerLeft();
           break;
         case SDLK_RIGHT:
-          car.moveRight();
+          car.SteerRight();
           break;
         case SDLK_UP:
           car.GasOn();
@@ -48,6 +48,12 @@ GameScreen* RaceScreen::start() {
     }
     if (sdl_event.type == SDL_KEYUP) {
       switch(sdl_event.key.keysym.sym) {
+        case SDLK_LEFT:
+          car.SteerCenter();
+          break;
+        case SDLK_RIGHT:
+          car.SteerCenter();
+          break;
         case SDLK_UP:
           car.GasOff();
           break;
