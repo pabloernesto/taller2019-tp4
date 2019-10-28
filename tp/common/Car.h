@@ -30,6 +30,7 @@ class Car {
   float GetSpeed();
 
   const b2Vec2& GetPosition();
+  float GetAngle();
   const b2Vec2& GetSize();
 
   // Called on every step of the simulation to apply external (user) forces
