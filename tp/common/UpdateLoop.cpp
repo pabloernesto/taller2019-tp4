@@ -1,5 +1,6 @@
 #include "UpdateLoop.h"
 
+static const int FRAMERATE = 60;
 
 UpdateLoop::UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v)
   : renderer(ren), race(r), view(v), t(), quit(false)
@@ -11,7 +12,7 @@ void UpdateLoop::Loop() {
     race.Step();
     view.render();
     SDL_RenderPresent(renderer);
-    SDL_Delay(100);
+    SDL_Delay(1000/FRAMERATE);
   }
 }
 
