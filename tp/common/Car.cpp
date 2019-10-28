@@ -67,7 +67,22 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::Step() {
-  if (gas) {
+  if (break_) {
+    // Calculate car forward speed
+    auto& velocity = body->GetLinearVelocity();
+    b2Rot rotation(body->GetAngle());
+    b2Vec2 facing(0, 1);
+    facing = b2Mul(rotation, facing);
+    auto speed = b2Dot(velocity, facing);
+
+    if (speed <= 0) return;
+
+    // Apply the force opposite the direction the car is facing
+    b2Vec2 force = { 0, -ENGINE_POWER };
+    force = b2Mul(rotation, force);
+    body->ApplyForceToCenter(force, true);
+
+  } else if (gas) {
     b2Vec2 force = { 0, ENGINE_POWER };
     // Apply the force in the direction the car is facing
     b2Rot rotation(body->GetAngle());
