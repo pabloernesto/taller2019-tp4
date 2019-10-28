@@ -12,7 +12,7 @@ void RaceView::render() {
 
   if (base_cars.size() > cars.size())
     for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
-      cars.emplace_back(window, renderer, *it);
+      cars.emplace_back(window, renderer, **it);
 
   for (auto& car : cars)
     car.render();

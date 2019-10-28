@@ -19,7 +19,7 @@ void Race::AddCar() {
   cars.back().Place(world, where);
 }
 
-std::vector<Car>& Race::GetCars() {
+std::vector<std::unique_ptr<Car>>& Race::GetCars() {
   return cars;
 }
 

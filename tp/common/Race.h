@@ -5,17 +5,18 @@
 #include "Car.h"
 #include "Track.h"
 #include <vector>
+#include <memory>   // unique_ptr
 
 class Race {
   b2World world;
-  std::vector<Car> cars;
+  std::vector<std::unique_ptr<Car>> cars;
   Track track;
 
 public:
   Race(Track& track);
   void Step();
   void AddCar();
-  std::vector<Car>& GetCars();
+  std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
 
   Race();
