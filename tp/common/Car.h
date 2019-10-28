@@ -9,6 +9,7 @@ class Car {
   int life;
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
+  static const float32 ENGINE_POWER;
 
   public:
   Car();
@@ -22,6 +23,8 @@ class Car {
   const b2Vec2& GetPosition();
   const b2Vec2& GetSize();
 
+  // Called on every step of the simulation to apply external (user) forces
+  void Step();
 };
 
 #endif  // CAR_H_
