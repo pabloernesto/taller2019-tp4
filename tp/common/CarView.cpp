@@ -26,5 +26,6 @@ void CarView::render() {
     p.x,    -p.y,   // due to coordinate change, minus-y-coordinate
     size.x, size.y
   };
-  image.render(&where, 0);
+  auto angle_radians = car.GetAngle();
+  image.render(&where, 180 - angle_radians * 360 / 2 / 3.1415);
 }
