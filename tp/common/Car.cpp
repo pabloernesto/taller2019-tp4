@@ -68,17 +68,13 @@ const b2Vec2& Car::GetSize() {
 
 void Car::Step() {
   if (break_) {
-    // Calculate car forward speed
-    auto& velocity = body->GetLinearVelocity();
-    b2Rot rotation(body->GetAngle());
-    b2Vec2 facing(0, 1);
-    facing = b2Mul(rotation, facing);
-    auto speed = b2Dot(velocity, facing);
-
+    auto speed = GetSpeed();
     if (speed <= 0) return;
 
-    // Apply the force opposite the direction the car is facing
     b2Vec2 force = { 0, -ENGINE_POWER };
+
+    // Apply the force opposite the direction the car is facing
+    b2Rot rotation(body->GetAngle());
     force = b2Mul(rotation, force);
     body->ApplyForceToCenter(force, true);
 
@@ -89,4 +85,17 @@ void Car::Step() {
     force = b2Mul(rotation, force);
     body->ApplyForceToCenter(force, true);
   }
+}
+
+// This function returns the car's speed along the direction it faces
+float Car::GetSpeed() {
+  auto& velocity = body->GetLinearVelocity();
+
+  // facing is a unit vector pointing the same way as the car
+  b2Rot rotation(body->GetAngle());
+  b2Vec2 facing(0, 1);
+  facing = b2Mul(rotation, facing);
+
+  // return the projection of velocity along car facing
+  return b2Dot(velocity, facing);
 }

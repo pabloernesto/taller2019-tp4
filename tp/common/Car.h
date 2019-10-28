@@ -22,6 +22,9 @@ class Car {
   void BreakOn();
   void BreakOff();
 
+  // Calculate the car's forward speed
+  float GetSpeed();
+
   void moveUp();
   void moveDown();
   void moveLeft();
