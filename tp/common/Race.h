@@ -15,7 +15,7 @@ class Race {
 public:
   Race(Track& track);
   void Step();
-  void AddCar();
+  Car& AddCar();
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
 
