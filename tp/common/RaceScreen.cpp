@@ -18,7 +18,7 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  race.AddCar();
+  auto& car = race.AddCar();
 
   UpdateLoop loop(renderer, race, view);
   loop.Start();
