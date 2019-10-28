@@ -10,6 +10,9 @@ Race::Race(Track& track) : world((b2Vec2){ 0 , 0 }), cars(),
   track(track) {}
 
 void Race::Step() {
+  for (auto& car : cars) {
+    car->Step();
+  }
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
 
