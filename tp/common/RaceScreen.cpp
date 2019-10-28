@@ -28,7 +28,24 @@ GameScreen* RaceScreen::start() {
 
     if (sdl_event.type == SDL_QUIT) break;
 
-    view.reactTo(sdl_event);
+    if (sdl_event.type == SDL_KEYDOWN) {
+      switch(sdl_event.key.keysym.sym) {
+        case SDLK_LEFT:
+          car.moveLeft();
+          break;
+        case SDLK_RIGHT:
+          car.moveRight();
+          break;
+        case SDLK_UP:
+          car.moveUp();
+          break;
+        case SDLK_DOWN:
+          car.moveDown();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   loop.quit = true;
