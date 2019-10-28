@@ -40,7 +40,7 @@ GameScreen* RaceScreen::start() {
           car.GasOn();
           break;
         case SDLK_DOWN:
-          car.moveDown();
+          car.BreakOn();
           break;
         default:
           break;
@@ -50,6 +50,9 @@ GameScreen* RaceScreen::start() {
       switch(sdl_event.key.keysym.sym) {
         case SDLK_UP:
           car.GasOff();
+          break;
+        case SDLK_DOWN:
+          car.BreakOff();
           break;
       default:
         break;
