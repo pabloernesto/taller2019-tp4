@@ -17,10 +17,3 @@ void RaceView::render() {
   for (auto& car : cars)
     car.render();
 }
-
-void RaceView::reactTo(SDL_Event &event){
-  std::vector<CarView>::iterator iterator = this->cars.begin();
-  for (; iterator != this->cars.end(); ++iterator){
-    iterator->reactTo(event);
-  }
-}
