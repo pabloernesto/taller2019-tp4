@@ -63,6 +63,20 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::Step() {
+  if (steer == 'c') {
+    body->SetAngularVelocity(0);
+  } else if (steer == 'l') {
+    body->SetAngularVelocity(8);
+  } else if (steer == 'r') {
+    body->SetAngularVelocity(-8);
+  }
+
+  // Realign velocity to car's facing
+  b2Rot rotation(body->GetAngle());
+  b2Vec2 facing(0, 1);
+  facing = b2Mul(rotation, facing);
+  body->SetLinearVelocity(GetSpeed() * facing);
+
   if (break_) {
     auto speed = GetSpeed();
     if (speed <= 0) return;
