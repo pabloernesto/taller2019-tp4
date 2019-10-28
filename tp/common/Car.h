@@ -21,6 +21,9 @@ class Car {
   void GasOff();
   void BreakOn();
   void BreakOff();
+  void SteerLeft();
+  void SteerRight();
+  void SteerCenter();
 
   // Calculate the car's forward speed
   float GetSpeed();

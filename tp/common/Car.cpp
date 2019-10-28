@@ -24,6 +24,10 @@ void Car::BreakOff() {
   break_ = false;
 }
 
+void Car::SteerLeft() {}
+void Car::SteerRight() {}
+void Car::SteerCenter() {}
+
 void Car::moveUp(){
   this->body->SetLinearVelocity(b2Vec2(0,1));
 }
