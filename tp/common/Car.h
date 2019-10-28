@@ -7,6 +7,7 @@ class Car {
   b2Body* body;
   bool gas;
   bool break_;
+  char steer;   // one of l/r/c, for left/right/center
   int life;
 
   static const b2Vec2 CAR_SIZE;
@@ -21,11 +22,13 @@ class Car {
   void GasOff();
   void BreakOn();
   void BreakOff();
+  void SteerLeft();
+  void SteerRight();
+  void SteerCenter();
 
-  void moveUp();
-  void moveDown();
-  void moveLeft();
-  void moveRight();
+  // Calculate the car's forward speed
+  float GetSpeed();
+
   const b2Vec2& GetPosition();
   const b2Vec2& GetSize();
 

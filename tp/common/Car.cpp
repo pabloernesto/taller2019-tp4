@@ -6,7 +6,7 @@ const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
 
-Car::Car(): gas(false), break_(false), life(1000) {}
+Car::Car(): gas(false), break_(false), steer('c'), life(1000) {}
 
 void Car::GasOn() {
   gas = true;
@@ -24,20 +24,16 @@ void Car::BreakOff() {
   break_ = false;
 }
 
-void Car::moveUp(){
-  this->body->SetLinearVelocity(b2Vec2(0,1));
+void Car::SteerLeft() {
+  steer = 'l';
 }
 
-void Car::moveDown(){
-  this->body->SetLinearVelocity(b2Vec2(0,-1));
+void Car::SteerRight() {
+  steer = 'r';
 }
 
-void Car::moveLeft(){
-  this->body->SetLinearVelocity(b2Vec2(-1,0));
-}
-
-void Car::moveRight(){
-  this->body->SetLinearVelocity(b2Vec2(1,0));
+void Car::SteerCenter() {
+  steer = 'c';
 }
 
 void Car::Place(b2World& world, b2Vec2 position) {
@@ -67,18 +63,28 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::Step() {
-  if (break_) {
-    // Calculate car forward speed
-    auto& velocity = body->GetLinearVelocity();
-    b2Rot rotation(body->GetAngle());
-    b2Vec2 facing(0, 1);
-    facing = b2Mul(rotation, facing);
-    auto speed = b2Dot(velocity, facing);
+  if (steer == 'c') {
+    body->SetAngularVelocity(0);
+  } else if (steer == 'l') {
+    body->SetAngularVelocity(8);
+  } else if (steer == 'r') {
+    body->SetAngularVelocity(-8);
+  }
 
+  // Realign velocity to car's facing
+  b2Rot rotation(body->GetAngle());
+  b2Vec2 facing(0, 1);
+  facing = b2Mul(rotation, facing);
+  body->SetLinearVelocity(GetSpeed() * facing);
+
+  if (break_) {
+    auto speed = GetSpeed();
     if (speed <= 0) return;
 
-    // Apply the force opposite the direction the car is facing
     b2Vec2 force = { 0, -ENGINE_POWER };
+
+    // Apply the force opposite the direction the car is facing
+    b2Rot rotation(body->GetAngle());
     force = b2Mul(rotation, force);
     body->ApplyForceToCenter(force, true);
 
@@ -89,4 +95,17 @@ void Car::Step() {
     force = b2Mul(rotation, force);
     body->ApplyForceToCenter(force, true);
   }
+}
+
+// This function returns the car's speed along the direction it faces
+float Car::GetSpeed() {
+  auto& velocity = body->GetLinearVelocity();
+
+  // facing is a unit vector pointing the same way as the car
+  b2Rot rotation(body->GetAngle());
+  b2Vec2 facing(0, 1);
+  facing = b2Mul(rotation, facing);
+
+  // return the projection of velocity along car facing
+  return b2Dot(velocity, facing);
 }

@@ -6,7 +6,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
-#include <map>
+#include <memory>   // unique_ptr
 #include <Box2D/Box2D.h>
 
 enum trackTypes {
@@ -31,8 +31,12 @@ public:
   Track(std::string event);
   std::string ToStr();
   void render(SDL_Window* w, SDL_Renderer* r);
+
 private:
-  std::map<int,Image*> tracksImages(SDL_Window* w, SDL_Renderer* r);
+  // The TrackImages function ensures that assets are loaded exactly once
+  std::vector<std::unique_ptr<Image>>& TrackImages(
+    SDL_Window* w, SDL_Renderer* r);
+
   void initialiceTrackPieces(b2World& world, std::vector<int> blocks);
 };
 
