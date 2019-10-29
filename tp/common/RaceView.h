@@ -17,6 +17,7 @@ class RaceView {
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
   Image fondo;
+  SDL_Rect camara;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race);

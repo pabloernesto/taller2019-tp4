@@ -13,7 +13,7 @@ class Race {
   Track track;
 
 public:
-  Race(Track& track);
+  Race(std::string track);
   void Step();
   Car& AddCar();
   std::vector<std::unique_ptr<Car>>& GetCars();

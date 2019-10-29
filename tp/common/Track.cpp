@@ -24,7 +24,7 @@ Track::Track(uint16_t height, uint16_t width, std::vector<int> blocks)
   : height(height), width(width), blocks(blocks), tracks()
 {}
 
-Track::Track(std::string event){
+Track::Track(std::string event, b2World& world){
   //"H W B"
   std::vector<std::string> parametros = split(event);
   this->height = stoi(parametros[0]);
@@ -33,6 +33,7 @@ Track::Track(std::string event){
     int block = stoi((parametros[2]).substr(i,1));
     this->blocks.push_back(block);
   }
+  this->initialiceTrackPieces(world, this->blocks);
 }
 
 std::string Track::ToStr() {
@@ -44,15 +45,19 @@ std::string Track::ToStr() {
   return event;
 }
 
-void Track::render(SDL_Window* w, SDL_Renderer* r){
+void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect camara){
   auto& tracks = TrackImages(w, r);
-  int contador = 0;
-  for(int y = 0; y < this->width; ++y){
-    for(int x = 0; x < this->height; ++x){
-      int block = this->blocks.at(contador);
-      SDL_Rect where = { x*WIDTHBLOCK, y*HEIGHTBLOCK, HEIGHTBLOCK, WIDTHBLOCK };
+  for (int i = 0; i < this->blocks.size(); ++i){
+    int x = this->tracks.at(i).GetPosition().x;
+    int y = this->tracks.at(i).GetPosition().y;
+    //Solo renderiza lo que se encuentra dentro de la camara
+    if ((x - WIDTHBLOCK/2) < camara.w && (x + WIDTHBLOCK/2) > camara.x &&
+      (y - HEIGHTBLOCK/2) < camara.h && (x + HEIGHTBLOCK/2) > camara.y){
+      int block = this->blocks.at(i);
+      SDL_Rect where = { x - WIDTHBLOCK/2 - camara.x, 
+                        y - WIDTHBLOCK/2 - camara.y, 
+                        HEIGHTBLOCK, WIDTHBLOCK };
       tracks.at(block)->render(&where, 0);
-      contador++;
     }
   }
 }

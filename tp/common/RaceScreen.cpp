@@ -10,7 +10,7 @@ RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), track("3 3 214060315"), race(track), view(w, r, race)
+  : GameScreen(w, r), race("3 3 204161305"), view(w, r, race)
 {}
 
 GameScreen* RaceScreen::start() {

@@ -8,7 +8,6 @@
 #include "Track.h"
 
 class RaceScreen : public GameScreen {
-  Track track;
   Race race;
   RaceView view;
 

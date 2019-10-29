@@ -12,6 +12,7 @@ private:
 public:
   TrackPiece();
   void Place(b2World& world, b2Vec2 position);
+  const b2Vec2& GetPosition();
 };
 
 #endif

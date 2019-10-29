@@ -23,3 +23,7 @@ void TrackPiece::Place(b2World& world, b2Vec2 position){
   trackPiece_fixture_def.density = DENSITY;
   body->CreateFixture(&trackPiece_fixture_def);
 }
+
+const b2Vec2& TrackPiece::GetPosition(){
+  return body->GetPosition();
+}
