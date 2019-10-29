@@ -16,7 +16,7 @@ class Car {
 
   public:
   Car();
-  void Place(b2World& world, b2Vec2 position);
+  virtual void Place(b2World& world, b2Vec2 position);
 
   void GasOn();
   void GasOff();
@@ -30,6 +30,7 @@ class Car {
   float GetSpeed();
 
   const b2Vec2& GetPosition();
+  virtual const b2Vec2& GetPositionToRenderize();
   float GetAngle();
   const b2Vec2& GetSize();
 

@@ -20,7 +20,8 @@ class CarView {
   Image image;
 
 public:
-  void render();
+  virtual void render();
+  virtual void renderAsMain();
   CarView(SDL_Window *w, SDL_Renderer *r, Car& car);
 };
 

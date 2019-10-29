@@ -5,8 +5,8 @@
 #include <string>
 #include <memory>   // unique_ptr
 
-#define HEIGHTBLOCK 200
-#define WIDTHBLOCK 200
+#define HEIGHTBLOCK 300
+#define WIDTHBLOCK 300
 
 void Track::initialiceTrackPieces(b2World& world,std::vector<int> blocks){
   int contador = 0;
@@ -45,20 +45,22 @@ std::string Track::ToStr() {
   return event;
 }
 
-void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect camara){
+void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara){
   auto& tracks = TrackImages(w, r);
+  printf("camara.x %d, camara.y %d, camara.w %d, camara.h %d\n", camara.x, camara.y, camara.w, camara.h);
   for (int i = 0; i < this->blocks.size(); ++i){
     int x = this->tracks.at(i).GetPosition().x;
     int y = this->tracks.at(i).GetPosition().y;
+    printf("x: %d, y: %d\n", x,y);
     //Solo renderiza lo que se encuentra dentro de la camara
-    if ((x - WIDTHBLOCK/2) < camara.w && (x + WIDTHBLOCK/2) > camara.x &&
-      (y - HEIGHTBLOCK/2) < camara.h && (x + HEIGHTBLOCK/2) > camara.y){
+    //if ((x - WIDTHBLOCK/2) < camara.w && (x + WIDTHBLOCK/2) > camara.x &&
+      //(y - HEIGHTBLOCK/2) < camara.h && (y + HEIGHTBLOCK/2) > camara.y){
       int block = this->blocks.at(i);
       SDL_Rect where = { x - WIDTHBLOCK/2 - camara.x, 
-                        y - WIDTHBLOCK/2 - camara.y, 
+                        y - WIDTHBLOCK/2 + camara.y, 
                         HEIGHTBLOCK, WIDTHBLOCK };
       tracks.at(block)->render(&where, 0);
-    }
+    //}
   }
 }
 

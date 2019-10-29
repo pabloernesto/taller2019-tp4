@@ -2,6 +2,7 @@
 #include "Track.h"
 #include <vector>
 #include "UpdateLoop.h"
+#include "Camara.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -18,9 +19,11 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  auto& car = race.AddCar();
+  //auto& car = race.AddMainCar();
+  auto&& car = race.AddCar();
+  Camara camara = Camara(0, 0, 600, 400, car);
 
-  UpdateLoop loop(renderer, race, view);
+  UpdateLoop loop(renderer, race, view, camara);
   loop.Start();
 
   while (true) {
