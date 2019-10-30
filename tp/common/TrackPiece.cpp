@@ -27,3 +27,7 @@ void TrackPiece::Place(b2World& world, b2Vec2 position){
 const b2Vec2& TrackPiece::GetPosition(){
   return body->GetPosition();
 }
+
+const b2Vec2& TrackPiece::GetSize(){
+  return TRACKPIECE_SIZE;
+}

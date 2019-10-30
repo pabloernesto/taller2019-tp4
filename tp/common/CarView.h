@@ -5,23 +5,19 @@
 #include "Car.h"
 #include "../common/Race.h"
 #include "../common/image.h"
+#include "../common/Camara.h"
 #include <vector>
-
-typedef struct {
-  int x;
-  int y;
-} pixel_vect_s;
-
-pixel_vect_s MKStoPixelTransform(const b2Vec2& vector);
 
 class CarView {
   Car& car;
   SDL_Renderer *renderer;
   Image image;
+  Camara& camara;
 
 public:
-  void render();
-  CarView(SDL_Window *w, SDL_Renderer *r, Car& car);
+  virtual void render();
+  virtual void renderAsMain();
+  CarView(SDL_Window *w, SDL_Renderer *r, Car& car, Camara& camara);
 };
 
 

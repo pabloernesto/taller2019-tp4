@@ -11,12 +11,15 @@ class Race {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
   Track track;
+  Car mainCar;
 
 public:
   Race(std::string track);
   void Step();
   Car& AddCar();
+  Car& AddMainCar();
   std::vector<std::unique_ptr<Car>>& GetCars();
+  Car& GetMainCar();
   Track& GetTrack();
 
   Race();
