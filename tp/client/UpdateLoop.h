@@ -2,11 +2,11 @@
 #define UPDATELOOP_H_
 
 #include <SDL2/SDL.h>
-#include "Race.h"
+#include "../common/Race.h"
 #include "RaceView.h"
 #include <thread>
 #include <atomic>
-#include "Camara.h"
+#include "../common/Camara.h"
 
 class UpdateLoop {
   SDL_Renderer* renderer;
