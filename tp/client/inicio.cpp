@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "inicio.h"
 #include "../common/image.h"
-#include "../common/RaceScreen.h"
+#include "RaceScreen.h"
 
 #define WIDTH 640
 #define HEIGHT 480

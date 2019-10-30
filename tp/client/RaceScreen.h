@@ -3,9 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include "GameScreen.h"
-#include "Race.h"
-#include "RaceView.h"
-#include "Track.h"
+#include "../common/Race.h"
+#include "../common/RaceView.h"
+#include "../common/Track.h"
 
 class RaceScreen : public GameScreen {
   Race race;
