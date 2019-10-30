@@ -1,7 +1,7 @@
 #include "RaceScreen.h"
 #include "../common/Track.h"
 #include <vector>
-#include "../common/UpdateLoop.h"
+#include "UpdateLoop.h"
 #include "../common/Camara.h"
 
 static const int WIDTH = 600;
