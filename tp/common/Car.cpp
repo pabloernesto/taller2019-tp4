@@ -1,6 +1,7 @@
 #include "Car.h"
 
 #include <Box2D/Box2D.h>
+#include <iostream>
 
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
@@ -28,17 +29,17 @@ void Car::BreakOff() {
 
 void Car::SteerLeft() {
   // steer = 'l';
-  angular_velocity = 0;
+  angular_velocity = ANGULAR_VEL_MULT;
 }
 
 void Car::SteerRight() {
   // steer = 'r';
-  angular_velocity = ANGULAR_VEL_MULT;
+  angular_velocity = -ANGULAR_VEL_MULT;
 }
 
 void Car::SteerCenter() {
   // steer = 'c';
-  angular_velocity = ANGULAR_VEL_MULT;
+  angular_velocity = 0;
 }
 
 void Car::Place(b2World& world, b2Vec2 position) {
@@ -83,7 +84,7 @@ void Car::Step() {
   } else if (steer == 'r') {
     body->SetAngularVelocity(-8);
   }*/
-
+  std::cout << this->angular_velocity << '\n';
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
   // Realign velocity to car's facing
