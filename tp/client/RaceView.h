@@ -3,7 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include "../common/Race.h"
-#include "../common/CarView.h"
+#include "CarView.h"
+#include "TrackView.h"
 #include "../common/image.h"
 #include <vector>
 
@@ -17,6 +18,7 @@ class RaceView {
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
   Image fondo;
+  TrackView track;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race);
