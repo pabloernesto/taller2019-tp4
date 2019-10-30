@@ -2,7 +2,7 @@
 #define CARVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "Car.h"
+#include "../common/Car.h"
 #include "../common/Race.h"
 #include "../common/image.h"
 #include <vector>
