@@ -7,13 +7,6 @@
 #include "../common/image.h"
 #include <vector>
 
-typedef struct {
-  int x;
-  int y;
-} pixel_vect_s;
-
-pixel_vect_s MKStoPixelTransform(const b2Vec2& vector);
-
 class CarView {
   Car& car;
   SDL_Renderer *renderer;
