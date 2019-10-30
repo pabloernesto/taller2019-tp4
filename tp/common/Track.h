@@ -37,7 +37,7 @@ private:
   std::vector<std::unique_ptr<Image>>& TrackImages(
     SDL_Window* w, SDL_Renderer* r);
 
-  void initialiceTrackPieces(b2World& world, std::vector<int>& blocks);
+  void initialiceTrackPieces(b2World& world, std::vector<int> blocks);
 };
 
 #endif
