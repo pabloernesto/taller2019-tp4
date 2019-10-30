@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "GameScreen.h"
 #include "../common/Race.h"
-#include "../common/RaceView.h"
+#include "RaceView.h"
 #include "../common/Track.h"
 
 class RaceScreen : public GameScreen {

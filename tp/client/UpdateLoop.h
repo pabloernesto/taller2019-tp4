@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "../common/Race.h"
-#include "../common/RaceView.h"
+#include "RaceView.h"
 #include <thread>
 #include <atomic>
 #include "../common/Camara.h"
