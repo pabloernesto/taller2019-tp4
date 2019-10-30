@@ -7,12 +7,15 @@ class Car {
   b2Body* body;
   bool gas;
   bool break_;
-  char steer;   // one of l/r/c, for left/right/center
+  // char steer;   // one of l/r/c, for left/right/center
   int life;
+  float32 angular_velocity;
 
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
   static const float32 ENGINE_POWER;
+  static const float MAX_SPEED;
+  static const float32 ANGULAR_VEL_MULT;
 
   public:
   Car();

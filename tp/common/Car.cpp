@@ -1,12 +1,15 @@
 #include "Car.h"
 
 #include <Box2D/Box2D.h>
+#include <iostream>
 
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
+const float Car::MAX_SPEED = 14;
+const float32 Car::ANGULAR_VEL_MULT = 8;
 
-Car::Car(): gas(false), break_(false), steer('c'), life(1000) {}
+Car::Car(): gas(false), break_(false), angular_velocity(0),/*steer('c'),*/ life(1000) {}
 
 void Car::GasOn() {
   gas = true;
@@ -25,15 +28,18 @@ void Car::BreakOff() {
 }
 
 void Car::SteerLeft() {
-  steer = 'l';
+  // steer = 'l';
+  angular_velocity = ANGULAR_VEL_MULT;
 }
 
 void Car::SteerRight() {
-  steer = 'r';
+  // steer = 'r';
+  angular_velocity = -ANGULAR_VEL_MULT;
 }
 
 void Car::SteerCenter() {
-  steer = 'c';
+  // steer = 'c';
+  angular_velocity = 0;
 }
 
 void Car::Place(b2World& world, b2Vec2 position) {
@@ -71,13 +77,15 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::Step() {
-  if (steer == 'c') {
+  /*if (steer == 'c') {
     body->SetAngularVelocity(0);
   } else if (steer == 'l') {
     body->SetAngularVelocity(8);
   } else if (steer == 'r') {
     body->SetAngularVelocity(-8);
-  }
+  }*/
+  std::cout << this->angular_velocity << '\n';
+  body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
   // Realign velocity to car's facing
   b2Rot rotation(body->GetAngle());
@@ -115,5 +123,8 @@ float Car::GetSpeed() {
   facing = b2Mul(rotation, facing);
 
   // return the projection of velocity along car facing
-  return b2Dot(velocity, facing);
+  float v = b2Dot(velocity, facing);
+  if (v > MAX_SPEED)
+    return MAX_SPEED;
+  return v;
 }
