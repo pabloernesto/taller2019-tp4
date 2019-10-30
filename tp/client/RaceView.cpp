@@ -2,11 +2,12 @@
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race)
   : window(w), renderer(r), race(race), cars(),
-  fondo("Imagenes/pasto.bmp", w, r) {}
+  fondo("Imagenes/pasto.bmp", w, r),
+  track(w, r, race.GetTrack()) {}
 
 void RaceView::render(SDL_Rect position, Camara& camara) {
   fondo.render();
-  race.GetTrack().render(window,renderer,position);
+  track.render(position);
 
   auto& base_cars = race.GetCars();
 

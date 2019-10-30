@@ -1,7 +1,7 @@
 #ifndef INICIO_H_
 #define INICIO_H_
 
-#include "../common/GameScreen.h"
+#include "GameScreen.h"
 
 class Inicio : public GameScreen {
 public:

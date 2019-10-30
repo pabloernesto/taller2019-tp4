@@ -6,7 +6,6 @@
 #include <memory>   // unique_ptr
 #include "MKStoPixel.h"
 
-
 void Track::initialiceTrackPieces(b2World& world,std::vector<int> &blocks){
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
