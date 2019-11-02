@@ -16,7 +16,6 @@ class CarView {
 
 public:
   virtual void render();
-  virtual void renderAsMain();
   CarView(SDL_Window *w, SDL_Renderer *r, Car& car, Camara& camara);
 };
 

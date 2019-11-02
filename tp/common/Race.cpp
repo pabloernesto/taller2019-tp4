@@ -23,12 +23,6 @@ Car& Race::AddCar() {
   return *cars.back();
 }
 
-Car& Race::AddMainCar() {
-  b2Vec2 where = { 0, 0 };
-  this->mainCar.Place(world, where);
-  return this->mainCar;
-}
-
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {
   return cars;
 }
