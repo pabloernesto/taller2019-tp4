@@ -17,6 +17,4 @@ void RaceView::render(SDL_Rect position, Camara& camara) {
 
   for (auto& car : cars)
     car.render();
-  
-  //CarView(window, renderer, race.GetMainCar()).renderAsMain();
 }

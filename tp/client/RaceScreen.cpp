@@ -20,7 +20,6 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  //auto& car = race.AddMainCar();
   auto&& car = race.AddCar();
   Camara camara = Camara(0, 0, 600, 400, car);
 

@@ -49,16 +49,12 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara){
   for (int i = 0; i < this->blocks.size(); ++i){
     int x = this->tracks.at(i).GetPosition().x;
     int y = this->tracks.at(i).GetPosition().y;
-    //Solo renderiza lo que se encuentra dentro de la camara
-    //if ((x - WIDTHBLOCK/2) < camara.w && (x + WIDTHBLOCK/2) > camara.x &&
-      //(y - HEIGHTBLOCK/2) < camara.h && (y + HEIGHTBLOCK/2) > camara.y){
-      int block = this->blocks.at(i);
-      auto&& size = MKStoPixelTransform(this->tracks.at(i).GetSize());
-      SDL_Rect where = { x - size.x/2 - camara.x, 
-                        y - size.y/2 + camara.y, 
-                        size.x, size.y };
-      tracks.at(block)->render(&where, 0);
-    //}
+    int block = this->blocks.at(i);
+    auto&& size = MKStoPixelTransform(this->tracks.at(i).GetSize());
+    SDL_Rect where = { x - size.x/2 - camara.x, 
+                      y - size.y/2 + camara.y, 
+                      size.x, size.y };
+    tracks.at(block)->render(&where, 0);
   }
 }
 

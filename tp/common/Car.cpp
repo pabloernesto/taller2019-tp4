@@ -77,40 +77,29 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::Step() {
-  /*if (steer == 'c') {
-    body->SetAngularVelocity(0);
-  } else if (steer == 'l') {
-    body->SetAngularVelocity(8);
-  } else if (steer == 'r') {
-    body->SetAngularVelocity(-8);
-  }*/
-  std::cout << this->angular_velocity << '\n';
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
   // Realign velocity to car's facing
-  b2Rot rotation(body->GetAngle());
-  b2Vec2 facing(0, 1);
-  facing = b2Mul(rotation, facing);
-  body->SetLinearVelocity(GetSpeed() * facing);
+  {
+    b2Rot rotation(body->GetAngle());
+    b2Vec2 facing(0, 1);
+    facing = b2Mul(rotation, facing);
+    body->SetLinearVelocity(GetSpeed() * facing);
+  }
 
+  b2Vec2 force;
   if (break_) {
     auto speed = GetSpeed();
     if (speed <= 0) return;
-
-    b2Vec2 force = { 0, -ENGINE_POWER };
-
-    // Apply the force opposite the direction the car is facing
-    b2Rot rotation(body->GetAngle());
-    force = b2Mul(rotation, force);
-    body->ApplyForceToCenter(force, true);
+    force = { 0, -ENGINE_POWER };
 
   } else if (gas) {
-    b2Vec2 force = { 0, ENGINE_POWER };
-    // Apply the force in the direction the car is facing
-    b2Rot rotation(body->GetAngle());
-    force = b2Mul(rotation, force);
-    body->ApplyForceToCenter(force, true);
+    force = { 0, ENGINE_POWER };
   }
+  // Apply the force in the direction the car is facing
+  b2Rot rotation(body->GetAngle());
+  force = b2Mul(rotation, force);
+  body->ApplyForceToCenter(force, true);
 }
 
 // This function returns the car's speed along the direction it faces

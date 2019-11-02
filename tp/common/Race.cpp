@@ -12,7 +12,6 @@ Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(),
 void Race::Step() {
   for (auto& car : cars) {
     car->Step();
-    //mainCar.Step();
   }
   this->world.Step(timestep, velocityIterations, positionIterations);
 }

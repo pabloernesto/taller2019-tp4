@@ -1,5 +1,5 @@
 #include "CarView.h"
-#include "MKStoPixel.h"
+#include "../common/MKStoPixel.h"
 
 CarView::CarView(SDL_Window *w, SDL_Renderer *r, Car& car, Camara& camara)
   : car(car), renderer(r), image("Imagenes/pitstop_car_1.bmp", w, r), camara(camara){}
