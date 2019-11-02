@@ -20,6 +20,7 @@ public:
   std::vector<std::unique_ptr<Car>>& GetCars();
   Car& GetMainCar();
   Track& GetTrack();
+  std::vector<TrackPiece> getTrackPieces();
 
   Race();
 };

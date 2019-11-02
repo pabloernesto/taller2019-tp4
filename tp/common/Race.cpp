@@ -34,3 +34,7 @@ Car& Race::GetMainCar() {
 Track& Race::GetTrack(){
   return this->track;
 }
+
+std::vector<TrackPiece> Race::getTrackPieces(){
+  return this->track.getTrackPieces();
+}
