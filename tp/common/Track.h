@@ -4,6 +4,7 @@
 #include "Event.h"
 #include "image.h"
 #include "TrackPiece.h"
+#include "Camara.h"
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>

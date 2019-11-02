@@ -13,10 +13,9 @@ class UpdateLoop {
   Race& race;
   RaceView& view;
   std::thread t;
-  Camara& camara;
 
   public:
-  UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v, Camara& camara);
+  UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v);
   std::atomic<bool> quit;
   void Loop();
   void Start();

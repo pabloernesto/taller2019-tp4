@@ -6,6 +6,7 @@
 #include "CarView.h"
 #include "TrackView.h"
 #include "../common/image.h"
+#include "../common/Camara.h"
 #include <vector>
 
 // TODO: create View base class
@@ -19,10 +20,11 @@ class RaceView {
   std::vector<CarView> cars;
   Image fondo;
   TrackView track;
+  Camara camara;
 
 public:
-  RaceView(SDL_Window *w, SDL_Renderer *r, Race& race);
-  void render(SDL_Rect position, Camara& camara);
+  RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);
+  void render();
 };
 
 #endif    // RACEVIEW_H_
