@@ -36,10 +36,14 @@ void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
     + pow(obj_pos_rel_camera_pixels.y / 2, 2));
 
   if (objcamdist_pixels < objradius_pixels + screenradius_pixels) {
+    pixel_vect_s objcorner = {
+      objcenterpos_pixels.x - objsize_pixels.x / 2,
+      objcenterpos_pixels.y - objsize_pixels.y / 2
+    };
     // Relative position, in pixels, of the object and camera's _corners_
     SDL_Rect where = {
-      obj_pos_rel_camera_pixels.x - objsize_pixels.x / 2,
-      obj_pos_rel_camera_pixels.y + objsize_pixels.y / 2,
+      objcorner.x - camara.x,
+      objcorner.y - camara.y,
       objsize_pixels.x,
       objsize_pixels.y
     };
