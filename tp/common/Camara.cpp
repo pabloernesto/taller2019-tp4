@@ -6,10 +6,9 @@ Camara::Camara(int x, int y, int w, int h, Car& car): camara({x,y,w,h}),
   mainBody(car){}
 
 void Camara::Update(){
-  auto&& pixelSize = MKStoPixelTransform(this->mainBody.GetSize());
   auto&& pixelPosition = MKStoPixelTransform(this->mainBody.GetPosition());
-  this->camara.x = pixelPosition.x + pixelSize.x/2 - camara.w/2;
-  this->camara.y = pixelPosition.y - pixelSize.y/2 + camara.h/2;
+  this->camara.x =  pixelPosition.x - camara.w/2;
+  this->camara.y = -pixelPosition.y - camara.h/2;
 }
 
 SDL_Rect Camara::GetPosition(){
