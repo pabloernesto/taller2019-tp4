@@ -44,17 +44,14 @@ std::string Track::ToStr() {
   return event;
 }
 
-void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara){
+void Track::render(SDL_Window* w, SDL_Renderer* r, Camara& camara){
   auto& tracks = TrackImages(w, r);
   for (int i = 0; i < this->blocks.size(); ++i){
-    int x = this->tracks.at(i).GetPosition().x;
-    int y = this->tracks.at(i).GetPosition().y;
+    auto&& position = this->tracks.at(i).GetPosition();
     int block = this->blocks.at(i);
-    auto&& size = MKStoPixelTransform(this->tracks.at(i).GetSize());
-    SDL_Rect where = { x - size.x/2 - camara.x, 
-                      y - size.y/2 + camara.y, 
-                      size.x, size.y };
-    tracks.at(block)->render(&where, 0);
+    auto&& size = this->tracks.at(i).GetSize();
+
+    camara.renderMe(position, size, *(tracks.at(block)), 0);
   }
 }
 

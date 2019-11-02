@@ -1,19 +1,18 @@
 #include "RaceView.h"
 
-RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race)
+RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
   : window(w), renderer(r), race(race), cars(),
   fondo("Imagenes/pasto.bmp", w, r),
-  track(w, r, race.GetTrack()) {}
-
-void RaceView::render(SDL_Rect position, Camara& camara) {
-  fondo.render();
-  track.render(position);
-
-  auto& base_cars = race.GetCars();
-
-  if (base_cars.size() > cars.size())
+  track(w, r, race.GetTrack()), camara(0, 0, 600, 400, car){
+    auto& base_cars = race.GetCars();
     for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
       cars.emplace_back(window, renderer, **it, camara);
+  }
+
+void RaceView::render() {
+  camara.Update();
+  fondo.render();
+  track.render(camara);
 
   for (auto& car : cars)
     car.render();

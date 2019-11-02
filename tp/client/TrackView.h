@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "../common/Track.h"
+#include "../common/Camara.h"
 
 class TrackView {
 private:
@@ -12,7 +13,7 @@ private:
 
 public:
   TrackView(SDL_Window* w, SDL_Renderer* r, Track& t);
-  void render(SDL_Rect& camara);
+  void render(Camara& camara);
 };
 
 #endif    // TRACKVIEW_H_

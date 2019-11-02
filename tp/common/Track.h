@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "image.h"
 #include "TrackPiece.h"
+#include "Camara.h"
 #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
@@ -30,7 +31,7 @@ public:
   Track(uint16_t height, uint16_t width, std::vector<int> blocks);
   Track(std::string event, b2World& world);
   std::string ToStr();
-  void render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara);
+  void render(SDL_Window* w, SDL_Renderer* r, Camara& camara);
 
 private:
   // The TrackImages function ensures that assets are loaded exactly once
