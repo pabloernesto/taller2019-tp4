@@ -16,9 +16,9 @@ void Race::Step() {
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
 
-Car& Race::AddCar() {
+Car& Race::AddCar(float x, float y) {
   cars.emplace_back(new Car());
-  b2Vec2 where = { 0, 0 };
+  b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
 }
