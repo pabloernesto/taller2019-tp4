@@ -10,7 +10,7 @@ class Camara{
   Car& mainBody;
 
 public:
-  Camara(int x, int y, int h, int w, Car& car);
+  Camara(int x, int y, int w, int h, Car& car);
   void Update();
   SDL_Rect GetPosition();
   void renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle);
