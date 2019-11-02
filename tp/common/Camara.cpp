@@ -18,7 +18,7 @@ SDL_Rect Camara::GetPosition(){
 void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);
-  float objradius_pixels = sqrt(pow(objsize_pixels.x/2, 2) + pow(objsize_pixels.y/2, 2));
+  float objradius_pixels = objsize_pixels.Length();
 
   // Screen radius
   float screenradius_pixels = sqrt(pow(camara.w / 2, 2) + pow(camara.h / 2, 2));
@@ -26,26 +26,21 @@ void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
   // Distance between centers
   auto&& objcenterpos_pixels = MKStoPixelTransform(position);
   objcenterpos_pixels.y = - objcenterpos_pixels.y;
-  pixel_vect_s screencenterpos_pixels = { camara.x + camara.w / 2, camara.y + camara.h / 2};
-  pixel_vect_s obj_pos_rel_camera_pixels = {
-    objcenterpos_pixels.x - screencenterpos_pixels.x,
-    objcenterpos_pixels.y - screencenterpos_pixels.y
+  b2Vec2 screencenterpos_pixels = {
+    (float) (camara.x + camara.w / 2),
+    (float) (camara.y + camara.h / 2)
   };
-  float objcamdist_pixels = sqrt(
-    pow(obj_pos_rel_camera_pixels.x / 2, 2)
-    + pow(obj_pos_rel_camera_pixels.y / 2, 2));
+  float objcamdist_pixels =
+    (objcenterpos_pixels - screencenterpos_pixels).Length();
 
   if (objcamdist_pixels < objradius_pixels + screenradius_pixels) {
-    pixel_vect_s objcorner = {
-      objcenterpos_pixels.x - objsize_pixels.x / 2,
-      objcenterpos_pixels.y - objsize_pixels.y / 2
-    };
+    b2Vec2 objcorner = objcenterpos_pixels - 0.5 * objsize_pixels;
     // Relative position, in pixels, of the object and camera's _corners_
     SDL_Rect where = {
-      objcorner.x - camara.x,
-      objcorner.y - camara.y,
-      objsize_pixels.x,
-      objsize_pixels.y
+      (int) objcorner.x - camara.x,
+      (int) objcorner.y - camara.y,
+      (int) objsize_pixels.x,
+      (int) objsize_pixels.y
     };
     // The car image points downward, add 180 degrees to flip it up
     image.render(&where, 180 + angle * RADIANS_TO_DEGREES_FACTOR);
