@@ -7,7 +7,7 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race)
 
 void RaceView::render(SDL_Rect position, Camara& camara) {
   fondo.render();
-  track.render(position);
+  track.render(camara);
 
   auto& base_cars = race.GetCars();
 
