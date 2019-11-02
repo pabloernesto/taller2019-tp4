@@ -5,7 +5,9 @@
 #include <string>
 #include <memory>   // unique_ptr
 #include "MKStoPixel.h"
-
+#include "GrassTrackPiece.h"
+#include "AsphaltTrackPiece.h"
+/*
 void Track::initialiceTrackPieces(b2World& world,std::vector<int> &blocks){
   int contador = 0;
   for(int y = 0; y < this->width; ++y){
@@ -56,8 +58,45 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara){
                       size.x, size.y };
     tracks.at(block)->render(&where, 0);
   }
+}*/
+
+const std::vector<size_t> PIECE_SIZE(3, 3);
+
+
+Track::Track(std::string race_specs){
+  //"R C B"
+  std::vector<std::string> parameters = split(race_specs);
+  this->num_rows = stoi(parameters[0]);
+  this->num_cols = stoi(parameters[1]);
+  size_t block_counter = 0; 
+  float block_x = 0;
+  float block_y = 0;
+  for (size_t j = 0; j < this->num_cols; j++){
+    for (size_t i = 0; i < this->num_rows; i++){
+      this->blocks[j][i] = (parameters[2][block_counter] - '0');
+      if (this->blocks[j][i] == PASTO){
+        this->tracks.emplace_back(GrassTrackPiece(block_x, block_y, PIECE_SIZE));
+      } else {
+        this->tracks.emplace_back(AsphaltTrackPiece(block_x, block_y, PIECE_SIZE));
+      }
+      block_x += (PIECE_SIZE[0]) / 2; 
+    }
+    block_y = (PIECE_SIZE[1]) / 2;
+    block_x = 0;
+  }   
 }
 
+
+void Track::updateCarCounter(Car& car){
+  for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
+    if ((*it).isCarOverMe(car)){
+      (*it).updateCarCounter(car);
+      break;
+    }
+  }
+}
+
+/*
 std::vector<std::unique_ptr<Image>>& Track::TrackImages(
   SDL_Window* w, SDL_Renderer* r)
 {
@@ -72,4 +111,4 @@ std::vector<std::unique_ptr<Image>>& Track::TrackImages(
   track_images.emplace_back(new Image("../client/Imagenes/giro_abajoizq.bmp", w, r));
   track_images.emplace_back(new Image("../client/Imagenes/pasto.bmp", w, r));
   return track_images;
-}
+}*/

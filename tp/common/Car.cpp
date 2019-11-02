@@ -9,7 +9,8 @@ const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
 
-Car::Car(): gas(false), break_(false), angular_velocity(0),/*steer('c'),*/ life(1000) {}
+Car::Car(): gas(false), break_(false), angular_velocity(0), 
+            max_speed(MAX_SPEED), step_counter(0), life(1000) {}
 
 void Car::GasOn() {
   gas = true;
@@ -76,7 +77,28 @@ const b2Vec2& Car::GetSize() {
   return CAR_SIZE;
 }
 
-void Car::Step() {
+void Car::setCounter(size_t value){
+  this->step_counter = value;
+}
+
+void Car::updateCounter(size_t value){
+  this->step_counter += value;
+}
+
+void Car::updateMaxSpeed(){
+  // The game updates 60 times per second.
+  // 1 frame (step) equals to 1/60 seconds.
+  // 500 ms equals to 1/2 second.
+  // So, at 30 steps the speed should be half its original value.
+  this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+  // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
+  // where "x" is step_counter and "y" is max_speed. 
+}
+
+void Car::Step(Track& track) {
+  track.updateCarCounter(*this);
+  this->updateMaxSpeed();
+
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
   // Realign velocity to car's facing

@@ -7,11 +7,11 @@ const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
 Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(), 
-  track(track, world), mainCar() {}
+  track(track), mainCar() {}
 
 void Race::Step() {
   for (auto& car : cars) {
-    car->Step();
+    car->Step(this->track);
   }
   this->world.Step(timestep, velocityIterations, positionIterations);
 }

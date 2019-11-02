@@ -2,6 +2,7 @@
 #define CAR_H_
 
 #include <Box2D/Box2D.h>
+#include "Track.h"
 
 class Car {
   b2Body* body;
@@ -9,7 +10,9 @@ class Car {
   bool break_;
   // char steer;   // one of l/r/c, for left/right/center
   int life;
+  float max_speed;
   float32 angular_velocity;
+  size_t step_counter;
 
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
@@ -36,9 +39,11 @@ class Car {
   virtual const b2Vec2& GetPositionToRenderize();
   float GetAngle();
   const b2Vec2& GetSize();
-
+  void updateCounter(size_t value);
+  void updateMaxSpeed();
+  void setCounter(size_t value);
   // Called on every step of the simulation to apply external (user) forces
-  void Step();
+  void Step(Track& track);
 };
 
 #endif  // CAR_H_
