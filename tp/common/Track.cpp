@@ -11,7 +11,7 @@ void Track::initialiceTrackPieces(b2World& world,std::vector<int> &blocks){
   for(int y = 0; y < this->width; ++y){
     for(int x = 0; x < this->height; ++x){
       this->tracks.emplace_back();
-      auto&& size = MKStoPixelTransform(this->tracks.at(x).GetSize());
+      auto&& size = this->tracks.at(x).GetSize();
       b2Vec2 where = {(float) (x+0.5)*size.x, (float) (y+0.5)*size.y };
       this->tracks.back().Place(world, where);
       contador++;
