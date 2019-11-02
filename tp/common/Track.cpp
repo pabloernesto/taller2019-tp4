@@ -91,6 +91,10 @@ void Track::updateCarCounter(Car& car){
   }
 }
 
+std::vector<TrackPiece> Track::getTrackPieces(){
+  return this->tracks;
+}
+
 /*
 std::vector<std::unique_ptr<Image>>& Track::TrackImages(
   SDL_Window* w, SDL_Renderer* r)
