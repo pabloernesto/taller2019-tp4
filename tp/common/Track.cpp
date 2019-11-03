@@ -64,8 +64,8 @@ Track::Track(std::string race_specs){
   this->num_rows = stoi(parameters[0]);
   this->num_cols = stoi(parameters[1]);
   size_t block_counter = 0; 
-  float block_x = 0;
-  float block_y = 0;
+  float block_x = 0.5 * PIECE_SIZE[0];
+  float block_y = 0.5 * PIECE_SIZE[1];
   for (size_t j = 0; j < this->num_rows; j++){
     std::vector<int> row;
     for (size_t i = 0; i < this->num_cols; i++){
@@ -78,11 +78,11 @@ Track::Track(std::string race_specs){
       } else {
         this->tracks.emplace_back(new AsphaltTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
       }
-      block_x += (this->PIECE_SIZE[0]) / 2;
+      block_x += ((this->PIECE_SIZE[0]));
       block_counter++; 
     }
     this->blocks.push_back(row);
-    block_y = (this->PIECE_SIZE[1]) / 2;
+    block_y = ((this->PIECE_SIZE[1]));
     block_x = 0;
   }   
 }
