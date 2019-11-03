@@ -113,7 +113,7 @@ void Car::updateMaxSpeed(){
   // 500 ms equals to 1/2 second.
   // So, at 30 steps the speed should be half its original value.
   if (this->reverse){
-    this->max_speed = - ((- (MAX_SPEED_REV) / (2 * 30) * (this->step_counter)) + MAX_SPEED_REV); 
+    this->max_speed = (- (MAX_SPEED_REV) / (2 * 30) * (this->step_counter)) + MAX_SPEED_REV; 
   } else{
     this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
   }
@@ -154,6 +154,7 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
+  // std::cout << this->step_counter << '\n';
   // std::cout << "Vel: " << this->GetSpeed() << '\n';
   // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 
