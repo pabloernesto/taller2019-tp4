@@ -66,6 +66,7 @@ void Car::Place(b2World& world, b2Vec2 position) {
   car_body_def.type = b2_dynamicBody;
   car_body_def.position = position;
   car_body_def.linearDamping = FRICTION;
+  car_body_def.userData = this;
   body = world.CreateBody(&car_body_def);
 
   // Add collision and density to the car
