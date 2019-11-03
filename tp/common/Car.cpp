@@ -8,6 +8,7 @@ const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
+const float32 Car::FRICTION = 0.1;
 
 Car::Car(): gas(false), break_(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(1000) {}
@@ -48,6 +49,7 @@ void Car::Place(b2World& world, b2Vec2 position) {
   b2BodyDef car_body_def;
   car_body_def.type = b2_dynamicBody;
   car_body_def.position = position;
+  car_body_def.linearDamping = FRICTION;
   body = world.CreateBody(&car_body_def);
 
   // Add collision and density to the car
@@ -122,6 +124,7 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
+  std::cout << this->GetSpeed()<<'\n';
 }
 
 // This function returns the car's speed along the direction it faces

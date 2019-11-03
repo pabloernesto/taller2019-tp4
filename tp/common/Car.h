@@ -21,6 +21,7 @@ class Car {
   static const float32 ENGINE_POWER;
   static const float MAX_SPEED;
   static const float32 ANGULAR_VEL_MULT;
+  static const float32 FRICTION;
 
   public:
   Car();
