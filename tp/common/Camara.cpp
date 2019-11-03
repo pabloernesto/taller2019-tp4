@@ -42,7 +42,6 @@ void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
       (int) objsize_pixels.x,
       (int) objsize_pixels.y
     };
-    // The car image points downward, add 180 degrees to flip it up
-    image.render(&where, 180 + angle * RADIANS_TO_DEGREES_FACTOR);
+    image.render(&where, angle * RADIANS_TO_DEGREES_FACTOR);
   }
 }
