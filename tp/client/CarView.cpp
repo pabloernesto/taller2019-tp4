@@ -7,6 +7,8 @@ CarView::CarView(Image& i, Car& car, Camara& camara)
 
 void CarView::render() {
   b2Vec2 position = this->car.GetPosition();
+
+  printf("x: %f, y: %f\n", position.x, position.y);
   // The car image points downward, add 180 degrees to flip it up
   this->camara.renderMe(position, this->car.GetSize(), this->image, M_PI + this->car.GetAngle());
 }

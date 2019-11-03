@@ -9,7 +9,6 @@
 
 class RaceScreen : public GameScreen {
   Race race;
-  RaceView view;
 
 public:
   RaceScreen(SDL_Window *w, SDL_Renderer *r);
