@@ -16,7 +16,6 @@ TrackView::TrackView(ImageCache& i, Track& t)
 
 void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces) {
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
-    printf("%d\n", (*it)->getTrackType());
     b2Vec2 pos;
     std::vector<float> pos_vec = (*it)->GetPosition();
     pos.x = pos_vec[0];
