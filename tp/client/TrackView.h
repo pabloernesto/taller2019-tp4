@@ -5,17 +5,16 @@
 #include "../common/TrackPiece.h"
 #include "../common/Track.h"
 #include "../common/Camara.h"
+#include "../common/ImageCache.h"
 #include <memory>
 
 class TrackView {
 private:
   Track& track;
-  SDL_Window* window;
-  SDL_Renderer* renderer;
-  std::vector<std::unique_ptr<Image>> track_images;
+  ImageCache& imagecache;
 
 public:
-  TrackView(SDL_Window* w, SDL_Renderer* r, Track& t);
+  TrackView(ImageCache& i, Track& t);
   void render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces);
 };
 
