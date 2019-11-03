@@ -57,33 +57,38 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, Camara& camara){
 
 const std::vector<size_t> Track::PIECE_SIZE(3, 3);
 
-
+// Format for race_specs is "d d dd..." where the first digit is the number
+// of rows, the second is the number of columns, and the rest is -left to right,
+// top to bottom- the code of the track block
 Track::Track(std::string race_specs){
-  //"R C B"
   std::vector<std::string> parameters = split(race_specs);
   this->num_rows = stoi(parameters[0]);
   this->num_cols = stoi(parameters[1]);
+
   size_t block_counter = 0; 
-  float block_x = 0.5 * PIECE_SIZE[0];
-  float block_y = 0.5 * PIECE_SIZE[1];
   for (size_t j = 0; j < this->num_rows; j++){
     std::vector<int> row;
+
+    // Populate the row
     for (size_t i = 0; i < this->num_cols; i++){
-      // this->blocks[j].emplace_back(parameters[2][block_counter] - '0');
       row.push_back(parameters[2][block_counter] - '0');
-      // this->blocks[j][i] = (parameters[2][block_counter] - '0');
-      // if (this->blocks[j][i] == PASTO){
-      if (row[i] == PASTO){
-        this->tracks.emplace_back(new GrassTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
+
+      // Calculate the position of the center of the block
+      float x = (0.5 + i) * PIECE_SIZE[0];
+      float y = (0.5 - j) * PIECE_SIZE[1];
+
+      if (row[i] == PASTO) {
+        this->tracks.emplace_back(
+          new GrassTrackPiece(x, y, row[i], this->PIECE_SIZE));
       } else {
-        this->tracks.emplace_back(new AsphaltTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
+        this->tracks.emplace_back(
+          new AsphaltTrackPiece(x, y, row[i], this->PIECE_SIZE));
       }
-      block_x += ((this->PIECE_SIZE[0]));
       block_counter++; 
     }
+
+    // Push it in to the block matrix
     this->blocks.push_back(row);
-    block_y = ((this->PIECE_SIZE[1]));
-    block_x = 0;
   }   
 }
 
