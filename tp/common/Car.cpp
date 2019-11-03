@@ -147,8 +147,8 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
-  std::cout << "Vel: " << this->GetSpeed() << '\n';
-  std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
+  // std::cout << "Vel: " << this->GetSpeed() << '\n';
+  // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 }
 
 // This function returns the car's speed along the direction it faces
