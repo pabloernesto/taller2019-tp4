@@ -1,10 +1,11 @@
 #include "image.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <string>
 
 Image::Image(const char* path, SDL_Window* w, SDL_Renderer* r)
   : renderer(r),
-  image(SDL_LoadBMP(path)),
+  image(IMG_Load(path)),
   texture(SDL_CreateTextureFromSurface(r, image))
 {
   if (!image)
