@@ -8,7 +8,7 @@ const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
 const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
-const float32 Car::FRICTION = 1;
+const float32 Car::FRICTION = 2;
 
 Car::Car(): gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(1000) {}
@@ -34,7 +34,7 @@ bool Car::isGoingReverse() {
 }
 
 bool Car::stopped(){
-  return (this->GetSpeed() <= 0.1) && (this->GetSpeed() >= -0.1);
+  return (this->GetSpeed() <= 1) && (this->GetSpeed() >= -1);
 }
 
 void Car::BreakOn() {
