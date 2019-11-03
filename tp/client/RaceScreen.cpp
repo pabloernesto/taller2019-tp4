@@ -3,6 +3,7 @@
 #include <vector>
 #include "UpdateLoop.h"
 #include "../common/Camara.h"
+#include <iostream>
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -47,6 +48,11 @@ GameScreen* RaceScreen::start() {
           break;
         case SDLK_DOWN:
           car.BreakOn();
+          if (car.stopped() || car.isGoingReverse()){
+            car.BreakOff();
+            car.GasOn();
+            car.reverseOn();
+          }
           break;
         default:
           break;
@@ -65,6 +71,8 @@ GameScreen* RaceScreen::start() {
           break;
         case SDLK_DOWN:
           car.BreakOff();
+          car.GasOff();
+          car.reverseOff();
           break;
       default:
         break;
