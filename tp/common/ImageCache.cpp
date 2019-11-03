@@ -12,16 +12,8 @@ ImageCache::ImageCache(SDL_Window* w, SDL_Renderer* r) {
   this->images["Imagenes/vertical.bmp"] = std::unique_ptr<Image>(new Image("Imagenes/vertical.bmp", w, r));
 }
 
-Image& ImageCache::getImage(std::string image_path_or_alias) {
-  std::string search = image_path_or_alias;
-  if (alias_collection.find(image_path_or_alias) != alias_collection.end())
-    search = alias_collection[image_path_or_alias];
-
-  return *(images.at(search));
-}
-
-void ImageCache::loadAt(std::string alias, std::string path) {
-  alias_collection[alias] = path;
+Image& ImageCache::getImage(std::string path) {
+  return *(images.at(path));
 }
 
 ImageCache::~ImageCache() {}
