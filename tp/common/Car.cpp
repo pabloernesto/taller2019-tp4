@@ -111,7 +111,11 @@ void Car::updateMaxSpeed(){
   // 1 frame (step) equals to 1/60 seconds.
   // 500 ms equals to 1/2 second.
   // So, at 30 steps the speed should be half its original value.
-  this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+  if (this->reverse){
+    this->max_speed = - ((- (MAX_SPEED_REV) / (2 * 30) * (this->step_counter)) + MAX_SPEED_REV); 
+  } else{
+    this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+  }
   // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
   // where "x" is step_counter and "y" is max_speed. 
 }
@@ -163,11 +167,11 @@ float Car::GetSpeed() {
   // return the projection of velocity along car facing
   float v = b2Dot(velocity, facing);
   if (reverse){
-    if (v < -MAX_SPEED_REV){
-      return -MAX_SPEED_REV;
+    if (v < -this->max_speed){
+      return -this->max_speed;
     }
   }
-  if (v > MAX_SPEED)
-    return MAX_SPEED;
+  if (v > this->max_speed)
+    return this->max_speed;
   return v;
 }
