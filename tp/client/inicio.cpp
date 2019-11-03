@@ -1,4 +1,3 @@
-#include "globals.h"
 #include "inicio.h"
 #include "../common/image.h"
 #include "RaceScreen.h"
@@ -15,7 +14,7 @@ Inicio::~Inicio(){
 
 GameScreen* Inicio::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
-  Image& fondo = image_cache->getImage(FONDO);
+  Image fondo(FONDO, window, renderer);
 
   while (true) {
     SDL_Event sdl_event;

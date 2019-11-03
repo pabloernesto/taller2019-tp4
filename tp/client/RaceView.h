@@ -6,6 +6,7 @@
 #include "CarView.h"
 #include "TrackView.h"
 #include "../common/image.h"
+#include "../common/ImageCache.h"
 #include "../common/Camara.h"
 #include <vector>
 
@@ -18,9 +19,10 @@ class RaceView {
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
-  Image fondo;
   TrackView track;
   Camara camara;
+  ImageCache imagecache;
+  Image& fondo;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);

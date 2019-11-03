@@ -10,13 +10,12 @@
 
 class CarView {
   Car& car;
-  SDL_Renderer *renderer;
-  Image image;
+  Image& image;
   Camara& camara;
 
 public:
   virtual void render();
-  CarView(SDL_Window *w, SDL_Renderer *r, Car& car, Camara& camara);
+  CarView(Image& i, Car& car, Camara& camara);
 };
 
 
