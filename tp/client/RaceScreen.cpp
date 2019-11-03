@@ -11,8 +11,7 @@ RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 "),
-  view(w, r, race, race.AddCar(0,0))
+  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 ")
 {}
 
 GameScreen* RaceScreen::start() {
@@ -20,8 +19,11 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  auto&& car = *(race.GetCars()[0]);
-  //Camara camara = Camara(0, 0, 600, 400, car);
+  
+  race.AddCar(3,0); //para probar que puede mostrar varios autos a la vez
+  RaceView view(this->window, this->renderer, race, race.AddCar(0,0));
+  //auto&& car = *(race.GetCars()[0]);
+  auto&& car = *(race.GetCars()[1]);
 
   UpdateLoop loop(renderer, race, view);
   loop.Start();

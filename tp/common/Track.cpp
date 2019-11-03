@@ -55,7 +55,7 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, Camara& camara){
   }
 }*/
 
-const std::vector<size_t> Track::PIECE_SIZE(3, 3);
+const std::vector<size_t> Track::PIECE_SIZE(10, 10);
 
 // Format for race_specs is "d d dd..." where the first digit is the number
 // of rows, the second is the number of columns, and the rest is -left to right,

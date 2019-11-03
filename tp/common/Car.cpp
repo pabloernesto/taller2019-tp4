@@ -8,7 +8,7 @@ const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
-const float32 Car::FRICTION = 0.1;
+const float32 Car::FRICTION = 1;
 
 Car::Car(): gas(false), break_(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(1000) {}
