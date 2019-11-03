@@ -1,17 +1,20 @@
 #include "TrackView.h"
 
-TrackView::TrackView(SDL_Window* w, SDL_Renderer* r, Track& t)
-  : window(w), renderer(r), track(t){
-  track_images.emplace_back(new Image("../client/Imagenes/horizontal.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/vertical.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/giro_arribader.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/giro_abajoder.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/giro_arribaizq.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/giro_abajoizq.bmp", w, r));
-  track_images.emplace_back(new Image("../client/Imagenes/pasto.bmp", w, r));
-}
+static const std::vector<std::string> image_paths = {
+  "Imagenes/horizontal.bmp",
+  "Imagenes/vertical.bmp",
+  "Imagenes/giro_arribader.bmp",
+  "Imagenes/giro_abajoder.bmp",
+  "Imagenes/giro_arribaizq.bmp",
+  "Imagenes/giro_abajoizq.bmp",
+  "Imagenes/pasto.bmp"
+};
 
-void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces) { 
+TrackView::TrackView(ImageCache& i, Track& t)
+  : track(t), imagecache(i)
+{}
+
+void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces) {
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
     b2Vec2 pos;
     std::vector<float> pos_vec = (*it)->GetPosition();
@@ -20,6 +23,9 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>&
     b2Vec2 size;
     size.x = ((*it)->GetSize())[0];
     size.y = ((*it)->GetSize())[1];
-    camara.renderMe(pos, size, *(this->track_images[(*it)->getTrackType()]), 0);
+
+    auto trackcode = (*it)->getTrackType();
+    auto& trackimage = imagecache.getImage(image_paths[trackcode]);
+    camara.renderMe(pos, size, trackimage, 0);
   }
 }
