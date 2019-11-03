@@ -8,7 +8,7 @@ const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
 const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
-const float32 Car::FRICTION = 1;
+const float32 Car::FRICTION = 2;
 
 Car::Car(): gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(1000) {}
@@ -34,7 +34,7 @@ bool Car::isGoingReverse() {
 }
 
 bool Car::stopped(){
-  return (this->GetSpeed() <= 0.1) && (this->GetSpeed() >= -0.1);
+  return (this->GetSpeed() <= 1) && (this->GetSpeed() >= -1);
 }
 
 void Car::BreakOn() {
@@ -112,7 +112,11 @@ void Car::updateMaxSpeed(){
   // 1 frame (step) equals to 1/60 seconds.
   // 500 ms equals to 1/2 second.
   // So, at 30 steps the speed should be half its original value.
-  this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+  if (this->reverse){
+    this->max_speed = - ((- (MAX_SPEED_REV) / (2 * 30) * (this->step_counter)) + MAX_SPEED_REV); 
+  } else{
+    this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+  }
   // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
   // where "x" is step_counter and "y" is max_speed. 
 }
@@ -150,8 +154,8 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
-  std::cout << "Vel: " << this->GetSpeed() << '\n';
-  std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
+  // std::cout << "Vel: " << this->GetSpeed() << '\n';
+  // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 }
 
 // This function returns the car's speed along the direction it faces
@@ -166,11 +170,11 @@ float Car::GetSpeed() {
   // return the projection of velocity along car facing
   float v = b2Dot(velocity, facing);
   if (reverse){
-    if (v < -MAX_SPEED_REV){
-      return -MAX_SPEED_REV;
+    if (v < -this->max_speed){
+      return -this->max_speed;
     }
   }
-  if (v > MAX_SPEED)
-    return MAX_SPEED;
+  if (v > this->max_speed)
+    return this->max_speed;
   return v;
 }
