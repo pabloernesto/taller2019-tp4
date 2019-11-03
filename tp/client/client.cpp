@@ -1,5 +1,3 @@
-#include "globals.h"
-
 #include <SDL2/SDL.h>
 #include "client.h"
 #include "inicio.h"
@@ -12,7 +10,6 @@ Client::Client() {
     100, 100,
     0);
   renderer = SDL_CreateRenderer(window, -1, 0);
-  image_cache.reset(new ImageCache(window, renderer));
 }
 
 Client::~Client() {
