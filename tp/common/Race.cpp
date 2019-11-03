@@ -7,7 +7,7 @@ const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
 Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(), 
-  track(track), mainCar() {}
+  track(track) {}
 
 void Race::Step() {
   for (auto& car : cars) {
@@ -16,19 +16,15 @@ void Race::Step() {
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
 
-Car& Race::AddCar() {
+Car& Race::AddCar(float x, float y) {
   cars.emplace_back(new Car());
-  b2Vec2 where = { 0, 0 };
+  b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
 }
 
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {
   return cars;
-}
-
-Car& Race::GetMainCar() {
-  return this->mainCar;
 }
 
 Track& Race::GetTrack(){
