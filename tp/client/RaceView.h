@@ -19,10 +19,10 @@ class RaceView {
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
-  Image fondo;
   TrackView track;
   Camara camara;
   ImageCache imagecache;
+  Image& fondo;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);
