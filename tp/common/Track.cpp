@@ -97,7 +97,6 @@ Track::Track(std::string race_specs){
 void Track::updateCarCounter(Car& car){
   for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
     if ((*it)->isCarOverMe(car)){
-      // std::cout << "There's a car over me!\n";
       (*it)->updateCarCounter(car);
       // std::cout << "Track piece finished updating car counter! Now i end loop\n";
       break;

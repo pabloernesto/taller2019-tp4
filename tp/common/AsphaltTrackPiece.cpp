@@ -18,9 +18,7 @@ const std::vector<float> AsphaltTrackPiece::GetSize(){
 }
 
 void AsphaltTrackPiece::updateCarCounter(Car& car){
-  std::cout << "About to update car counter (Asphalt)\n";
   car.setCounter(0);
-  std::cout << "Car coounter set to 0";
 }
 
 const int AsphaltTrackPiece::getTrackType(){

@@ -1,5 +1,6 @@
 #include "TrackPiece.h"
 #include <iostream>
+#include <unistd.h>
 
 // const b2Vec2 TrackPiece::TRACKPIECE_SIZE(3, 3);
 // const float32 TrackPiece::TRACKPIECE_WEIGHT = 10000;
@@ -38,7 +39,7 @@ const bool TrackPiece::isCarOverMe(Car& car){
   return ((car_pos.x >= x_min) &&
           (car_pos.x <= x_max) &&
           (car_pos.y >= y_min) &&
-          (car_pos.y <= y_min));
+          (car_pos.y <= y_max));
 }
 
 const std::vector<float> TrackPiece::GetPosition(){
