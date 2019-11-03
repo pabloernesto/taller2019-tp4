@@ -15,16 +15,16 @@ private:
   // static const std::vector<size_t> SIZE;
   float x;
   float y;
-  std::vector<size_t> size;
+  std::vector<float> size;
   int track_type;
 
 public:
-  TrackPiece(float x, float y, int track_type, std::vector<size_t> size);
+  TrackPiece(float x, float y, int track_type, std::vector<float> size);
   // void Place(b2World& world, b2Vec2 position);
   virtual void updateCarCounter(Car& car) = 0;
   const bool isCarOverMe(Car& car);
   const std::vector<float> GetPosition();
-  const std::vector<size_t> GetSize();
+  const std::vector<float> GetSize();
   const int getTrackType();
 
 };

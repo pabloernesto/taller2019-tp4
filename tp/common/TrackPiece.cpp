@@ -1,10 +1,11 @@
 #include "TrackPiece.h"
+#include <iostream>
 
 // const b2Vec2 TrackPiece::TRACKPIECE_SIZE(3, 3);
 // const float32 TrackPiece::TRACKPIECE_WEIGHT = 10000;
 // const std::vector<size_t> SIZE(3, 3);
 
-TrackPiece::TrackPiece(float x, float y, int track_type, std::vector<size_t> size) : 
+TrackPiece::TrackPiece(float x, float y, int track_type, std::vector<float> size) : 
                                                   x(x), y(y), track_type(track_type), size(size){
 }
 
@@ -32,11 +33,12 @@ const bool TrackPiece::isCarOverMe(Car& car){
   float x_max = this->x + (this->size[0]/2);
   float y_min = this->y - (this->size[1]/2);
   float y_max = this->y + (this->size[1]/2);
+  b2Vec2 car_pos = car.GetPosition();
   // It considers the car as a point.
-  return (car.GetPosition().x >= x_min) &&
-          (car.GetPosition().x <= x_max) &&
-          (car.GetPosition().y >= y_min) &&
-          (car.GetPosition().y <= y_min);
+  return ((car_pos.x >= x_min) &&
+          (car_pos.x <= x_max) &&
+          (car_pos.y >= y_min) &&
+          (car_pos.y <= y_min));
 }
 
 const std::vector<float> TrackPiece::GetPosition(){
@@ -46,7 +48,7 @@ const std::vector<float> TrackPiece::GetPosition(){
   return vec;
 }
 
-const std::vector<size_t> TrackPiece::GetSize(){
+const std::vector<float> TrackPiece::GetSize(){
   return this->size;
 }
 

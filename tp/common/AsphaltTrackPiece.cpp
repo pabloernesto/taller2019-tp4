@@ -1,6 +1,7 @@
 #include "AsphaltTrackPiece.h"
+#include <iostream>
 
-AsphaltTrackPiece::AsphaltTrackPiece(float x, float y, int track_type, std::vector<size_t> size)
+AsphaltTrackPiece::AsphaltTrackPiece(float x, float y, int track_type, std::vector<float> size)
                                                : TrackPiece(x,y, track_type, size){}
 
 const bool AsphaltTrackPiece::isCarOverMe(Car& car){
@@ -12,12 +13,14 @@ const std::vector<float> AsphaltTrackPiece::GetPosition(){
 }
 
 
-const std::vector<size_t> AsphaltTrackPiece::GetSize(){
+const std::vector<float> AsphaltTrackPiece::GetSize(){
   return TrackPiece::GetSize();
 }
 
 void AsphaltTrackPiece::updateCarCounter(Car& car){
+  std::cout << "About to update car counter (Asphalt)\n";
   car.setCounter(0);
+  std::cout << "Car coounter set to 0";
 }
 
 const int AsphaltTrackPiece::getTrackType(){

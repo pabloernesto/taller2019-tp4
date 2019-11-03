@@ -7,6 +7,7 @@
 #include "MKStoPixel.h"
 #include "GrassTrackPiece.h"
 #include "AsphaltTrackPiece.h"
+#include <iostream>
 /*
 void Track::initialiceTrackPieces(b2World& world,std::vector<int> &blocks){
   int contador = 0;
@@ -55,7 +56,7 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, Camara& camara){
   }
 }*/
 
-const std::vector<size_t> Track::PIECE_SIZE(3, 3);
+const std::vector<float> Track::PIECE_SIZE(3, 3);
 
 // Format for race_specs is "d d dd..." where the first digit is the number
 // of rows, the second is the number of columns, and the rest is -left to right,
@@ -96,7 +97,9 @@ Track::Track(std::string race_specs){
 void Track::updateCarCounter(Car& car){
   for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
     if ((*it)->isCarOverMe(car)){
+      std::cout << "There's a car over me!\n";
       (*it)->updateCarCounter(car);
+      std::cout << "Track piece finished updating car counter! Now i end loop\n";
       break;
     }
   }

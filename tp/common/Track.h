@@ -32,7 +32,7 @@ enum trackTypes {
 
 class Track{
 private:
-  static const std::vector<size_t> PIECE_SIZE;
+  static const std::vector<float> PIECE_SIZE;
   size_t num_rows;
   size_t num_cols;
   std::vector<std::vector<int>> blocks;

@@ -1,7 +1,6 @@
 #include "Car.h"
-
-#include <Box2D/Box2D.h>
 #include <iostream>
+#include <Box2D/Box2D.h>
 
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
@@ -84,7 +83,9 @@ void Car::setCounter(size_t value){
 }
 
 void Car::updateCounter(size_t value){
+  std::cout << "I'm in car!! About to update car counter\n";
   this->step_counter += value;
+  std::cout << "I'm in car!! Updated car counter\n";
 }
 
 void Car::updateMaxSpeed(){
@@ -99,8 +100,8 @@ void Car::updateMaxSpeed(){
 
 void Car::Step(Track& track) {
   track.updateCarCounter(*this);
+  std::cout << this->step_counter <<"\n";
   this->updateMaxSpeed();
-
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
   // Realign velocity to car's facing
@@ -124,7 +125,6 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
-  std::cout << this->GetSpeed()<<'\n';
 }
 
 // This function returns the car's speed along the direction it faces
