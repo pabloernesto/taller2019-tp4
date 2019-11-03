@@ -8,12 +8,12 @@
 
 class ImageCache {
 private:
+  SDL_Window* window;
+  SDL_Renderer* renderer;
   std::unordered_map<std::string, std::unique_ptr<Image>> images;
-  std::unordered_map<std::string, std::string> alias_collection;
 
 public:
-  Image& getImage(std::string image_path_or_alias);
-  void loadAt(std::string alias, std::string path);
+  Image& getImage(std::string path);
 
   ImageCache(SDL_Window* w, SDL_Renderer* r);
   ~ImageCache();
