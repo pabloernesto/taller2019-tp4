@@ -6,11 +6,13 @@
 #include "Track.h"
 #include <vector>
 #include <memory>   // unique_ptr
+#include "ContactListener.h"
 
 class Race {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
   Track track;
+  ContactListener listener;
 
 public:
   Race(std::string track);

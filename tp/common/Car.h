@@ -16,6 +16,7 @@ class Car {
   float32 angular_velocity;
   size_t step_counter;
 
+
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
   static const float32 ENGINE_POWER;

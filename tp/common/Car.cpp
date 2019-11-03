@@ -99,6 +99,8 @@ void Car::updateMaxSpeed(){
 }
 
 void Car::Step(Track& track) {
+  b2ContactListener cListener;
+
   track.updateCarCounter(*this);
   std::cout << this->step_counter <<"\n";
   this->updateMaxSpeed();
