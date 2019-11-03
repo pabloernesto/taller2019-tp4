@@ -6,10 +6,11 @@ const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
 const float Car::MAX_SPEED = 14;
+const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 1;
 
-Car::Car(): gas(false), break_(false), angular_velocity(0), 
+Car::Car(): gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(1000) {}
 
 void Car::GasOn() {
@@ -18,6 +19,22 @@ void Car::GasOn() {
 
 void Car::GasOff() {
   gas = false;
+}
+
+void Car::reverseOn() {
+  reverse = true;
+}
+
+void Car::reverseOff() {
+  reverse = false;
+}
+
+bool Car::isGoingReverse() {
+  return reverse;
+}
+
+bool Car::stopped(){
+  return (this->GetSpeed() <= 0.001) && (this->GetSpeed() >= -0.001);
 }
 
 void Car::BreakOn() {
@@ -79,13 +96,14 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::setCounter(size_t value){
+  // std::cout << "Setting counter\n";
   this->step_counter = value;
 }
 
 void Car::updateCounter(size_t value){
-  std::cout << "I'm in car!! About to update car counter\n";
+  // std::cout << "I'm in car!! About to update car counter\n";
   this->step_counter += value;
-  std::cout << "I'm in car!! Updated car counter\n";
+  // std::cout << "I'm in car!! Updated car counter\n";
 }
 
 void Car::updateMaxSpeed(){
@@ -100,7 +118,7 @@ void Car::updateMaxSpeed(){
 
 void Car::Step(Track& track) {
   track.updateCarCounter(*this);
-  std::cout << this->step_counter <<"\n";
+  // std::cout << this->step_counter <<"\n";
   this->updateMaxSpeed();
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
@@ -119,12 +137,18 @@ void Car::Step(Track& track) {
     force = { 0, -ENGINE_POWER };
 
   } else if (gas) {
-    force = { 0, ENGINE_POWER };
+    if (reverse) {
+      force = { 0, -ENGINE_POWER};
+    } else {
+      force = { 0, ENGINE_POWER };
+    }
   }
   // Apply the force in the direction the car is facing
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
+  // std::cout << "Vel: " << this->GetSpeed() << '\n';
+  // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 }
 
 // This function returns the car's speed along the direction it faces

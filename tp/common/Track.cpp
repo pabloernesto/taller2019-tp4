@@ -76,7 +76,7 @@ Track::Track(std::string race_specs){
 
       // Calculate the position of the center of the block
       float x = (0.5 + i) * PIECE_SIZE[0];
-      float y = (0.5 - j) * PIECE_SIZE[1];
+      float y = -(0.5 + j) * PIECE_SIZE[1];
 
       if (row[i] == PASTO) {
         this->tracks.emplace_back(
@@ -97,12 +97,13 @@ Track::Track(std::string race_specs){
 void Track::updateCarCounter(Car& car){
   for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
     if ((*it)->isCarOverMe(car)){
-      std::cout << "There's a car over me!\n";
+      // std::cout << "There's a car over me!\n";
       (*it)->updateCarCounter(car);
-      std::cout << "Track piece finished updating car counter! Now i end loop\n";
+      // std::cout << "Track piece finished updating car counter! Now i end loop\n";
       break;
     }
   }
+  // std::cout << "Checked for tracks\n";
 }
 
 std::vector<std::unique_ptr<TrackPiece>>& Track::getTrackPieces(){

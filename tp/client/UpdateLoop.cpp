@@ -1,6 +1,6 @@
 #include "UpdateLoop.h"
 
-static const int FRAMERATE = 60;
+static const int FRAMERATE = 2;
 
 UpdateLoop::UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v)
   : renderer(ren), race(r), view(v), t(), quit(false)
