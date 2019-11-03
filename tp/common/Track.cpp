@@ -76,7 +76,7 @@ Track::Track(std::string race_specs){
 
       // Calculate the position of the center of the block
       float x = (0.5 + i) * PIECE_SIZE[0];
-      float y = (0.5 - j) * PIECE_SIZE[1];
+      float y = -(0.5 + j) * PIECE_SIZE[1];
 
       if (row[i] == PASTO) {
         this->tracks.emplace_back(
