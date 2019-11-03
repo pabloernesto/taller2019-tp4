@@ -10,8 +10,8 @@ const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
 
-Car::Car(): gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), life(1000) {}
+Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
+            max_speed(MAX_SPEED), step_counter(0), life(5) {}
 
 void Car::GasOn() {
   gas = true;
@@ -156,6 +156,10 @@ void Car::Step(Track& track) {
   body->ApplyForceToCenter(force, true);
   // std::cout << "Vel: " << this->GetSpeed() << '\n';
   // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
+
+  if (life == 0){
+    this->DieAndRevive(track);
+  }
 }
 
 // This function returns the car's speed along the direction it faces
@@ -177,4 +181,16 @@ float Car::GetSpeed() {
   if (v > this->max_speed)
     return this->max_speed;
   return v;
+}
+
+void Car::Contact(Contactable* contactable){
+  contactable->GetContactedBy(this);
+}
+
+void Car::GetContactedBy(Car* car){
+  life -= 1;
+}
+
+void Car::DieAndRevive(Track& track){
+  printf("MUERO\n");
 }

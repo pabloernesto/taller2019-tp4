@@ -50,7 +50,7 @@ public:
   // Track(std::string event, b2World& world);
   // std::string ToStr();
   // void render(SDL_Window* w, SDL_Renderer* r, Camara& camara);
-
+  std::vector<int> GetPositionOfClosestAsphalt(b2Vec2& position);
 /*private:
   // The TrackImages function ensures that assets are loaded exactly once
   std::vector<std::unique_ptr<Image>>& TrackImages(

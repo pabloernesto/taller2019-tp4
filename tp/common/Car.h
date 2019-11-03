@@ -3,10 +3,11 @@
 
 #include <Box2D/Box2D.h>
 #include "Track.h"
+#include "Contactable.h"
 
 class Track;
 
-class Car {
+class Car : public Contactable{
   b2Body* body;
   bool gas;
   bool break_;
@@ -53,6 +54,11 @@ class Car {
   void setCounter(size_t value);
   // Called on every step of the simulation to apply external (user) forces
   void Step(Track& track);
+  virtual void Contact(Contactable* contactable);
+  virtual void GetContactedBy(Car* car);
+
+private:
+  void DieAndRevive(Track& track);
 };
 
 #endif  // CAR_H_
