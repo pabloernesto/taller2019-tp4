@@ -34,7 +34,7 @@ bool Car::isGoingReverse() {
 }
 
 bool Car::stopped(){
-  return (this->GetSpeed() <= 0.001) && (this->GetSpeed() >= -0.001);
+  return (this->GetSpeed() <= 0.1) && (this->GetSpeed() >= -0.1);
 }
 
 void Car::BreakOn() {
@@ -147,8 +147,8 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
-  // std::cout << "Vel: " << this->GetSpeed() << '\n';
-  // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
+  std::cout << "Vel: " << this->GetSpeed() << '\n';
+  std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 }
 
 // This function returns the car's speed along the direction it faces
@@ -162,6 +162,11 @@ float Car::GetSpeed() {
 
   // return the projection of velocity along car facing
   float v = b2Dot(velocity, facing);
+  if (reverse){
+    if (v < -MAX_SPEED_REV){
+      return -MAX_SPEED_REV;
+    }
+  }
   if (v > MAX_SPEED)
     return MAX_SPEED;
   return v;
