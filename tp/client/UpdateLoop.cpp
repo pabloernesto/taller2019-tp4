@@ -1,5 +1,8 @@
 #include "UpdateLoop.h"
 
+#include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
+#include <thread>   // std::this_thread::sleep_until
+
 static const int FRAMERATE = 60;
 
 UpdateLoop::UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v)
@@ -7,12 +10,18 @@ UpdateLoop::UpdateLoop(SDL_Renderer* ren, Race& r, RaceView& v)
 {}
 
 void UpdateLoop::Loop() {
+  const auto rate = std::chrono::milliseconds(1000 / FRAMERATE);
+  auto time = std::chrono::system_clock::now();
+
   while (!quit) {
     SDL_RenderClear(renderer);
     race.Step();
     view.render();
     SDL_RenderPresent(renderer);
-    SDL_Delay(1000/FRAMERATE);
+
+    // Frame rate limiting
+    time += rate;
+    std::this_thread::sleep_until(time);
   }
 }
 
