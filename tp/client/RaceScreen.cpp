@@ -11,7 +11,7 @@ RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), race("9 6 666662004204661661163005661166666661162004661305663005 "),
+  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 "),
   view(w, r, race, race.AddCar(0,0))
 {}
 
