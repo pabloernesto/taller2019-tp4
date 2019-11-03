@@ -55,7 +55,7 @@ void Track::render(SDL_Window* w, SDL_Renderer* r, Camara& camara){
   }
 }*/
 
-const std::vector<size_t> PIECE_SIZE(3, 3);
+const std::vector<size_t> Track::PIECE_SIZE(3, 3);
 
 
 Track::Track(std::string race_specs){
@@ -66,17 +66,22 @@ Track::Track(std::string race_specs){
   size_t block_counter = 0; 
   float block_x = 0;
   float block_y = 0;
-  for (size_t j = 0; j < this->num_cols; j++){
-    for (size_t i = 0; i < this->num_rows; i++){
-      this->blocks[j][i] = (parameters[2][block_counter] - '0');
-      if (this->blocks[j][i] == PASTO){
-        this->tracks.emplace_back(GrassTrackPiece(block_x, block_y, PIECE_SIZE));
+  for (size_t j = 0; j < this->num_rows; j++){
+    std::vector<int> row;
+    for (size_t i = 0; i < this->num_cols; i++){
+      // this->blocks[j].emplace_back(parameters[2][block_counter] - '0');
+      row.push_back(parameters[2][block_counter] - '0');
+      // this->blocks[j][i] = (parameters[2][block_counter] - '0');
+      // if (this->blocks[j][i] == PASTO){
+      if (row[i] == PASTO){
+        this->tracks.emplace_back(new GrassTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
       } else {
-        this->tracks.emplace_back(AsphaltTrackPiece(block_x, block_y, PIECE_SIZE));
+        this->tracks.emplace_back(new AsphaltTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
       }
-      block_x += (PIECE_SIZE[0]) / 2; 
+      block_x += (this->PIECE_SIZE[0]) / 2; 
     }
-    block_y = (PIECE_SIZE[1]) / 2;
+    this->blocks.push_back(row);
+    block_y = (this->PIECE_SIZE[1]) / 2;
     block_x = 0;
   }   
 }
@@ -84,14 +89,14 @@ Track::Track(std::string race_specs){
 
 void Track::updateCarCounter(Car& car){
   for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
-    if ((*it).isCarOverMe(car)){
-      (*it).updateCarCounter(car);
+    if ((*it)->isCarOverMe(car)){
+      (*it)->updateCarCounter(car);
       break;
     }
   }
 }
 
-std::vector<TrackPiece> Track::getTrackPieces(){
+std::vector<std::unique_ptr<TrackPiece>>& Track::getTrackPieces(){
   return this->tracks;
 }
 

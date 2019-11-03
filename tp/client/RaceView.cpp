@@ -12,7 +12,7 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
 void RaceView::render() {
   camara.Update();
   fondo.render();
-  track.render(camara);
+  track.render(camara, this->race.getTrackPieces());
 
   for (auto& car : cars)
     car.render();

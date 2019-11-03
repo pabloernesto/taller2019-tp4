@@ -17,6 +17,9 @@
 // #include <Box2D/Box2D.h>
 #include "Car.h"
 
+class TrackPiece;
+class Car;
+
 enum trackTypes {
   HORIZONTAL,
   VERTICAL,
@@ -33,7 +36,7 @@ private:
   size_t num_rows;
   size_t num_cols;
   std::vector<std::vector<int>> blocks;
-  std::vector<TrackPiece> tracks;
+  std::vector<std::unique_ptr<TrackPiece>> tracks;
   
 public:
   // Track(uint16_t height, uint16_t width, std::vector<int> blocks);
@@ -42,7 +45,7 @@ public:
   // void render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara);
   Track(std::string race_specs);
   void updateCarCounter(Car& car);
-  std::vector<TrackPiece> getTrackPieces();
+  std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
   // Track(uint16_t height, uint16_t width, std::vector<int> blocks);
   // Track(std::string event, b2World& world);
   // std::string ToStr();

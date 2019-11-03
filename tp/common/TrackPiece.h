@@ -5,6 +5,8 @@
 #include "Car.h"
 #include <vector>
 
+class Car;
+
 class TrackPiece{
 private:
   // b2Body* body;
@@ -14,14 +16,16 @@ private:
   float x;
   float y;
   std::vector<size_t> size;
+  int track_type;
 
 public:
-  TrackPiece(float x, float y, std::vector<size_t> size);
+  TrackPiece(float x, float y, int track_type, std::vector<size_t> size);
   // void Place(b2World& world, b2Vec2 position);
   virtual void updateCarCounter(Car& car) = 0;
   const bool isCarOverMe(Car& car);
   const std::vector<float> GetPosition();
   const std::vector<size_t> GetSize();
+  const int getTrackType();
 
 };
 

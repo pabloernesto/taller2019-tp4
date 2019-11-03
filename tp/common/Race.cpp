@@ -35,6 +35,6 @@ Track& Race::GetTrack(){
   return this->track;
 }
 
-std::vector<TrackPiece> Race::getTrackPieces(){
+std::vector<std::unique_ptr<TrackPiece>>& Race::getTrackPieces(){
   return this->track.getTrackPieces();
 }

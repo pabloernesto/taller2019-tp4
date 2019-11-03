@@ -4,6 +4,8 @@
 #include <Box2D/Box2D.h>
 #include "Track.h"
 
+class Track;
+
 class Car {
   b2Body* body;
   bool gas;

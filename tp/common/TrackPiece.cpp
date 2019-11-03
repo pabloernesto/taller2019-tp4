@@ -4,8 +4,8 @@
 // const float32 TrackPiece::TRACKPIECE_WEIGHT = 10000;
 // const std::vector<size_t> SIZE(3, 3);
 
-TrackPiece::TrackPiece(float x, float y, std::vector<size_t> size) : 
-                                                  x(x), y(y), size(size){
+TrackPiece::TrackPiece(float x, float y, int track_type, std::vector<size_t> size) : 
+                                                  x(x), y(y), track_type(track_type), size(size){
 }
 
 /*void TrackPiece::Place(b2World& world, b2Vec2 position){
@@ -40,9 +40,16 @@ const bool TrackPiece::isCarOverMe(Car& car){
 }
 
 const std::vector<float> TrackPiece::GetPosition(){
-  return std::vector<float>(this->x, this->y);
+  std::vector<float> vec;
+  vec.push_back(this->x);
+  vec.push_back(this->y);
+  return vec;
 }
 
 const std::vector<size_t> TrackPiece::GetSize(){
   return this->size;
+}
+
+const int TrackPiece::getTrackType(){
+  return this->track_type;
 }
