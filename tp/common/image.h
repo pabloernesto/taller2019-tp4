@@ -4,21 +4,43 @@
 #include <string>
 
 class Image {
-private:
+protected:
   SDL_Renderer* renderer;
   SDL_Surface* image;
   SDL_Texture* texture;
 
 public:
   Image(const char* path, SDL_Window* w, SDL_Renderer* r);
-  ~Image();
+  virtual ~Image();
 
   // Render occupying the whole screen
-  void render();
+  virtual void render();
 
   // Render to a certain part of the screen, at a certain angle
   // angle is clockwise, in degrees
-  void render(SDL_Rect* where, double angle);
+  virtual void render(SDL_Rect* where, double angle);
+};
+
+// An Animation loads a single image from file, and iterprets it as a grid
+// of individal frames
+class Animation : public Image {
+  // The grid is assumed to be w-by-h frames in size
+  const int w;
+  const int h;
+
+  // Each frame is shown for this many ticks
+  const int ticks;
+
+public:
+  // Render occupying the whole screen
+  virtual void render(int tick);
+
+  // Render to a certain part of the screen, at a certain angle
+  // angle is clockwise, in degrees
+  virtual void render(int tick, SDL_Rect* where, double angle);
+
+  Animation(const char* path, SDL_Window* w, SDL_Renderer* r,
+    int width, int height, int ticks);
 };
 
 #endif
