@@ -78,7 +78,8 @@ Track::Track(std::string race_specs){
       } else {
         this->tracks.emplace_back(new AsphaltTrackPiece(block_x, block_y, row[i], this->PIECE_SIZE));
       }
-      block_x += (this->PIECE_SIZE[0]) / 2; 
+      block_x += (this->PIECE_SIZE[0]) / 2;
+      block_counter++; 
     }
     this->blocks.push_back(row);
     block_y = (this->PIECE_SIZE[1]) / 2;

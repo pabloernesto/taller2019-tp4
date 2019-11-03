@@ -1,4 +1,5 @@
 #include "TrackView.h"
+#include <iostream>
 
 TrackView::TrackView(SDL_Window* w, SDL_Renderer* r, Track& t)
   : window(w), renderer(r), track(t){
@@ -20,6 +21,9 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>&
     b2Vec2 size;
     size.x = ((*it)->GetSize())[0];
     size.y = ((*it)->GetSize())[1];
+    if ((*it)->getTrackType() != 6){
+      std::cout << "Asfalto!" << '\n';
+    }
     camara.renderMe(pos, size, *(this->track_images[(*it)->getTrackType()]), 0);
   }
 }
