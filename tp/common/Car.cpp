@@ -11,7 +11,7 @@ const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), life(5) {}
+            max_speed(MAX_SPEED), step_counter(0), life(5), isDead(false) {}
 
 void Car::GasOn() {
   gas = true;
@@ -197,5 +197,6 @@ void Car::GetContactedBy(Posta* posta){
 }
 
 void Car::DieAndRevive(Track& track){
+  isDead = true;
   printf("MUERO\n");
 }
