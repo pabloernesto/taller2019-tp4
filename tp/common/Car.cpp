@@ -11,7 +11,7 @@ const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), life(5) {}
+            max_speed(MAX_SPEED), step_counter(0), life(5), dead(false) {}
 
 void Car::GasOn() {
   // std::cerr << "GAS!!!" << "\n";
@@ -210,11 +210,16 @@ void Car::GetContactedBy(Car* car){
 }
 
 void Car::GetContactedBy(Posta* posta){
-  // if ((lastPosta->GetId() + 1) == posta->GetId()){
+  //if ((lastPosta->GetId() + 1) == posta->GetId()){
     lastPosta = posta;
-  // }
+  //}
 }
 
 void Car::DieAndRevive(Track& track){
+  dead = true;
   printf("MUERO\n");
+}
+
+bool Car::isDead(){
+  return dead;
 }

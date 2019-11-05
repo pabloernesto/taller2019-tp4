@@ -10,12 +10,13 @@
 
 class CarView {
   Car& car;
-  Image& image;
+  Image& imageAlive;
+  Image& imageDead;
   Camara& camara;
 
 public:
-  virtual void render();
-  CarView(Image& i, Car& car, Camara& camara);
+  virtual void render(int tick);
+  CarView(Image& ailive, Image& dead, Car& car, Camara& camara);
 };
 
 

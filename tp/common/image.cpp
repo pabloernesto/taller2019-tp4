@@ -1,10 +1,11 @@
 #include "image.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <string>
 
 Image::Image(const char* path, SDL_Window* w, SDL_Renderer* r)
   : renderer(r),
-  image(SDL_LoadBMP(path)),
+  image(IMG_Load(path)),
   texture(SDL_CreateTextureFromSurface(r, image))
 {
   if (!image)
@@ -18,11 +19,11 @@ Image::~Image(){
   SDL_FreeSurface(this->image);
 }
 
-void Image::render() {
+void Image::render(int tick) {
   // copy the whole image, occupy the entire screen
   SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
 
-void Image::render(SDL_Rect* where, double angle) {
+void Image::render(int tick, SDL_Rect* where, double angle) {
   SDL_RenderCopyEx(renderer, texture, NULL, where, angle, NULL, SDL_FLIP_NONE);
 }

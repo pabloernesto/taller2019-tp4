@@ -26,6 +26,6 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>&
 
     auto trackcode = (*it)->getTrackType();
     auto& trackimage = imagecache.getImage(image_paths[trackcode]);
-    camara.renderMe(pos, size, trackimage, 0);
+    camara.renderMe(pos, size, trackimage, 0, 0);
   }
 }
