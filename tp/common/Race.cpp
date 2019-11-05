@@ -25,7 +25,7 @@ Car& Race::AddCar(float x, float y) {
   return *cars.back();
 }
 
-void Race::AddPosta(float x, float y, int id, int angle) {
+void Race::AddPosta(float x, float y, int id, float32 angle) {
   postas.emplace_back(new Posta(id));
   b2Vec2 where = { x, y }; //position in metres
   postas.back()->Place(world, where, angle);

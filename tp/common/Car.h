@@ -18,6 +18,7 @@ class Car : public Contactable{
   float max_speed;
   float32 angular_velocity;
   size_t step_counter;
+  //size_t step_counter_death;
   std::unique_ptr<Posta> lastPosta;
   bool dead;
 

@@ -12,10 +12,10 @@ const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), life(5), dead(false), lastPosta(new Posta(0)) {}
+            max_speed(MAX_SPEED), step_counter(0), life(5), 
+            dead(false), lastPosta(new Posta(0)) {}
 
 void Car::GasOn() {
-  // std::cerr << "GAS!!!" << "\n";
   gas = true;
 }
 

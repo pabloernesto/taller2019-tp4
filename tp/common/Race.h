@@ -20,7 +20,7 @@ public:
   Race(std::string track);
   void Step();
   Car& AddCar(float x, float y);
-  void AddPosta(float x, float y, int id, int angle);
+  void AddPosta(float x, float y, int id, float32 angle);
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();

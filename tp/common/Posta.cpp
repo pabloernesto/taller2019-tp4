@@ -29,7 +29,7 @@ void Posta::Place(b2World& world, b2Vec2 position, float32 angle) {
   b2FixtureDef posta_fixture_def;
   posta_fixture_def.shape = &shape_box;
   posta_fixture_def.density = 1;
-  posta_fixture_def.isSensor = false; // For no physical collition
+  posta_fixture_def.isSensor = true; // For no physical collition
   body->CreateFixture(&posta_fixture_def);
 }
 
