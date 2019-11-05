@@ -17,6 +17,9 @@ class CarView {
 public:
   virtual void render(int tick);
   CarView(Image& ailive, Image& dead, Car& car, Camara& camara);
+
+private:
+  void RenderSmoke(int tick);
 };
 
 
