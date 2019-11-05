@@ -24,6 +24,10 @@ GameScreen* RaceScreen::start() {
   
   // Agrego postas
   race.AddPosta(5,-20,1,0);
+  race.AddPosta(55,-20,2,0);
+  race.AddPosta(80,-5,3,-M_PI/2);
+  race.AddPosta(55,-50,4,0);
+  race.AddPosta(5,-50,5,0);
 
   race.AddCar(0,-20); //para probar que puede mostrar varios autos a la vez
   race.AddCar(3,-20); //para probar que puede mostrar varios autos a la vez

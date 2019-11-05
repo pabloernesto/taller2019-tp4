@@ -53,7 +53,6 @@ class Car : public Contactable{
   // Calculate the car's forward speed
   float GetSpeed();
   const b2Vec2& GetPosition();
-  virtual const b2Vec2& GetPositionToRenderize();
   float GetAngle();
   const b2Vec2& GetSize();
   void updateCounter(size_t value);

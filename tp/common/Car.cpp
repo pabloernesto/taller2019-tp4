@@ -89,10 +89,6 @@ const b2Vec2& Car::GetPosition() {
   return body->GetPosition();
 }
 
-const b2Vec2& Car::GetPositionToRenderize(){
-  return this->GetPosition();
-}
-
 float Car::GetAngle() {
   return body->GetAngle();
 }
@@ -189,7 +185,7 @@ void Car::Step(Track& track) {
   body->ApplyForceToCenter(force, true);
 
   // Taking into consideration that we have a 60fps.
-  if (life == 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
+  if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
 }
