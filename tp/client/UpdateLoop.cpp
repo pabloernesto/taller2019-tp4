@@ -1,7 +1,7 @@
 #include "UpdateLoop.h"
 
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
-#include <thread>   // std::this_thread::sleep_until
+#include <thread>   // std::this_thread::sleep_for
 
 static const int FRAMERATE = 60;
 
@@ -22,12 +22,18 @@ void UpdateLoop::Loop() {
 
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
-    const auto delta = time2 - time1;
-    const auto frames = delta / rate;
-    tick += frames;
+    auto rest = rate - (time2 - time1);
+    if (rest.count() < 0) {
+      const auto behind = -rest;
+      const auto lost = behind - behind % rate;
+      rest = rate - behind % rate;
+      time1 += lost;
+      tick += lost / rate;
+    }
 
+    tick++;
     time1 += rate;
-    std::this_thread::sleep_until(time1);
+    std::this_thread::sleep_for(rest);
   }
 }
 
