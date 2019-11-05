@@ -14,7 +14,7 @@ class CarView {
   Camara& camara;
 
 public:
-  virtual void render();
+  virtual void render(int tick);
   CarView(Image& i, Car& car, Camara& camara);
 };
 

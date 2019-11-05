@@ -19,11 +19,11 @@ Image::~Image(){
   SDL_FreeSurface(this->image);
 }
 
-void Image::render() {
+void Image::render(int tick) {
   // copy the whole image, occupy the entire screen
   SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
 
-void Image::render(SDL_Rect* where, double angle) {
+void Image::render(int tick, SDL_Rect* where, double angle) {
   SDL_RenderCopyEx(renderer, texture, NULL, where, angle, NULL, SDL_FLIP_NONE);
 }

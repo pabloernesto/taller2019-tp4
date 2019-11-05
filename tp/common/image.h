@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <string>
 
+// The tick parameter serves as synchronization information for animations,
+// Image ignores it.
 class Image {
 protected:
   SDL_Renderer* renderer;
@@ -14,11 +16,11 @@ public:
   virtual ~Image();
 
   // Render occupying the whole screen
-  virtual void render();
+  virtual void render(int tick);
 
   // Render to a certain part of the screen, at a certain angle
   // angle is clockwise, in degrees
-  virtual void render(SDL_Rect* where, double angle);
+  virtual void render(int tick, SDL_Rect* where, double angle);
 };
 
 // An Animation loads a single image from file, and iterprets it as a grid
