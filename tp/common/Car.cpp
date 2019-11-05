@@ -105,10 +105,10 @@ void Car::setCounter(size_t value){
 
 void Car::updateCounter(size_t value){
   // std::cout << "I'm in car!! About to update car counter\n";
-  this->step_counter += value;
-  if (this->step_counter > 30){
-    this->step_counter = 30;
-  }
+  // this->step_counter += value;
+  // if (this->step_counter > 30){
+    // this->step_counter = 30;
+  // }
   // std::cout << "I'm in car!! Updated car counter\n";
 }
 
@@ -117,10 +117,16 @@ void Car::updateMaxSpeed(){
   // 1 frame (step) equals to 1/60 seconds.
   // 500 ms equals to 1/2 second.
   // So, at 30 steps the speed should be half its original value.
+  
+  size_t counter = this->step_counter;
+  if (counter > 30)
+    counter = 30;
+  // Max posible value is 30.
+
   if (this->reverse){
-    this->max_speed = (- (MAX_SPEED_REV) / (2 * 30) * (this->step_counter)) + MAX_SPEED_REV; 
+    this->max_speed = (- (MAX_SPEED_REV) / (2 * 30) * (counter)) + MAX_SPEED_REV; 
   } else{
-    this->max_speed = (- (MAX_SPEED) / (2 * 30) * (this->step_counter)) + MAX_SPEED;
+    this->max_speed = (- (MAX_SPEED) / (2 * 30) * (counter)) + MAX_SPEED;
   }
   // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
   // where "x" is step_counter and "y" is max_speed. 
@@ -161,11 +167,9 @@ void Car::Step(Track& track) {
   b2Rot rotation(body->GetAngle());
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
-  // std::cout << this->step_counter << '\n';
-  // std::cout << "Vel: " << this->GetSpeed() << '\n';
-  // std::cout << "Pos: " << this->GetPosition().x << " " << this->GetPosition().y << "\n";
 
-  if (life == 0){
+  // Taking into consideration that we have a 60fps.
+  if (life == 0 || (this->step_counter > (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
 }
@@ -216,6 +220,7 @@ void Car::DieAndRevive(Track& track){
   printf("va a morir\n");
   body->SetTransform(lastPosta->GetPosition(), lastPosta->GetAngle());
   life = 5;
+  this->setCounter(0);
 }
 
 bool Car::isDead(){
