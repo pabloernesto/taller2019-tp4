@@ -58,6 +58,7 @@ class Car : public Contactable{
   void updateMaxSpeed();
   void setCounter(size_t value);
   bool isGoingForward();
+  void restoreLife();
   // Called on every step of the simulation to apply external (user) forces
   void Step(Track& track);
   virtual void Contact(Contactable* contactable);

@@ -202,6 +202,10 @@ bool Car::isGoingForward(){
   return (this->GetSpeed() >= 0);
 }
 
+void Car::restoreLife(){
+  this->life = LIFE;
+}
+
 void Car::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
 }
