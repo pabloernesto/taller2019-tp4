@@ -19,6 +19,8 @@ class Car : public Contactable{
   float32 angular_velocity;
   size_t step_counter;
   size_t step_counter_death;
+  size_t step_counter_max_speed_mult;
+  float max_speed_multiplier;
   std::unique_ptr<Posta> lastPosta;
   bool dead;
 
@@ -58,9 +60,14 @@ class Car : public Contactable{
   void updateMaxSpeed();
   void setCounter(size_t value);
   bool isGoingForward();
-  void restoreLife();
   // Called on every step of the simulation to apply external (user) forces
   void Step(Track& track);
+
+  // Methods for modifiers:
+  void restoreLife();
+  void multiplyMaxSpeed(float multiplier, size_t steps);
+  void updateMaxSpeedMultiplier();
+  
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);

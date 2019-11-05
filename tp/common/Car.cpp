@@ -115,6 +115,21 @@ void Car::updateCounter(size_t value){
   // std::cout << "I'm in car!! Updated car counter\n";
 }
 
+void Car::updateMaxSpeedMultiplier(){
+  if (this->step_counter_max_speed_mult > 0){
+    // The effect is still active
+    this->step_counter_max_speed_mult -= 1;
+  } else {
+    // The effect is not active
+    this->max_speed_multiplier = 1;
+  }
+}
+
+void Car::multiplyMaxSpeed(float multiplier, size_t steps){
+  this->step_counter_max_speed_mult = steps;
+  this->max_speed_multiplier = multiplier;
+}
+
 void Car::updateMaxSpeed(){
   // The game updates 60 times per second.
   // 1 frame (step) equals to 1/60 seconds.
@@ -131,6 +146,8 @@ void Car::updateMaxSpeed(){
   } else{
     this->max_speed = (- (MAX_SPEED) / (2 * 30) * (counter)) + MAX_SPEED;
   }
+  this->updateMaxSpeedMultiplier();
+  this->max_speed = this->max_speed * this->max_speed_multiplier;
   // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
   // where "x" is step_counter and "y" is max_speed. 
 }
