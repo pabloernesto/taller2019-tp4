@@ -9,18 +9,11 @@ void CarView::render(int tick) {
   b2Vec2 position = this->car.GetPosition();
 
   // The car image points downward, add 180 degrees to flip it up
-  if (!car.isDead()){
-    this->camara.renderMe(
-      position,
-      this->car.GetSize(),
-      this->imageAlive,
-      M_PI + this->car.GetAngle(),
-      tick);
-  } else {
-    this->camara.renderMe(
-      position,
-      this->car.GetSize(), this->imageDead,
-      M_PI + this->car.GetAngle(),
-      tick);
-  }
+  Image& img = car.isDead() ? imageDead : imageAlive;
+  camara.renderMe(
+    position,
+    this->car.GetSize(),
+    img,
+    M_PI + this->car.GetAngle(),
+    tick);
 }

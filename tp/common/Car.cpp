@@ -2,6 +2,8 @@
 #include <iostream>
 #include <Box2D/Box2D.h>
 
+#define NUMBEROFFRAMESDYING 20
+
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 10000;
@@ -10,9 +12,10 @@ const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
+const size_t Car::LIFE = 5;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), life(5), 
+            max_speed(MAX_SPEED), step_counter(0), step_counter_death(0), life(LIFE), 
             dead(false), lastPosta(new Posta(0)) {}
 
 void Car::GasOn() {
@@ -208,9 +211,7 @@ void Car::GetContactedBy(Car* car){
 }
 
 void Car::GetContactedBy(Posta* posta){
-  printf("tengo otra posta: id %d, otro: %d\n", (lastPosta->GetId() + 1), posta->GetId());
   if ((lastPosta->GetId() + 1) == posta->GetId()){
-    printf("posta tengo otra posta\n");
     *lastPosta = *posta;
   }
 }
@@ -221,11 +222,18 @@ void Car::GetContactedBy(Modifier* modifier){
 }
 
 void Car::DieAndRevive(Track& track){
-  dead = true;
-  printf("va a morir\n");
-  body->SetTransform(lastPosta->GetPosition(), lastPosta->GetAngle());
-  life = 5;
-  this->setCounter(0);
+  if (dead == false){
+    dead = true;
+    step_counter_death = NUMBEROFFRAMESDYING;
+  }
+  if (step_counter_death == 0) {
+    body->SetTransform(lastPosta->GetPosition(), lastPosta->GetAngle());
+    life = LIFE;
+    this->setCounter(0);
+    dead = false;
+  } else {
+    step_counter_death--;
+  }
 }
 
 bool Car::isDead(){
