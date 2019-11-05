@@ -41,6 +41,6 @@ b2Vec2 Posta::GetPosition(){
   return body->GetPosition();
 }
 
-int Posta::GetAngle(){
+float32 Posta::GetAngle(){
   return body->GetAngle();
 }

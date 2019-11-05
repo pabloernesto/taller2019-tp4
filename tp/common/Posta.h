@@ -19,7 +19,7 @@ public:
   void Place(b2World& world, b2Vec2 position, float32 angle);
   int GetId();
   b2Vec2 GetPosition();
-  int GetAngle();
+  float32 GetAngle();
 };
 
 #endif  // POSTA_H_
