@@ -1,0 +1,22 @@
+#ifndef POSTA_H_
+#define POSTA_H_
+
+#include <Box2D/Box2D.h>
+#include "Contactable.h"
+#include <vector>
+
+class Posta : public Contactable{
+private:
+  int id;
+  b2Body* body;
+  static const b2Vec2 POSTA_SIZE;
+
+public:
+  Posta(int id);
+  virtual void Contact(Contactable* contactable);
+  virtual void GetContactedBy(Car* car);
+  virtual void GetContactedBy(Posta* posta);
+  void Place(b2World& world, b2Vec2 position, int angle);
+};
+
+#endif  // POSTA_H_

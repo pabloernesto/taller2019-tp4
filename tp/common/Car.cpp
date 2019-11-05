@@ -122,8 +122,6 @@ void Car::updateMaxSpeed(){
 }
 
 void Car::Step(Track& track) {
-  b2ContactListener cListener;
-
   track.updateCarCounter(*this);
   // std::cout << this->step_counter <<"\n";
   this->updateMaxSpeed();
@@ -190,6 +188,12 @@ void Car::Contact(Contactable* contactable){
 
 void Car::GetContactedBy(Car* car){
   life -= 1;
+}
+
+void Car::GetContactedBy(Posta* posta){
+  if ((lastPosta->GetId() + 1) == posta->GetId()){
+    lastPosta = posta;
+  }
 }
 
 void Car::DieAndRevive(Track& track){
