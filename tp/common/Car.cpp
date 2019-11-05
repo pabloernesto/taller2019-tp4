@@ -9,6 +9,7 @@ const float Car::MAX_SPEED = 14;
 const float Car::MAX_SPEED_REV = 6;
 const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
+const size_t Car::EXPLODING_SEC_LIMIT = 5;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), life(5), dead(false) {}

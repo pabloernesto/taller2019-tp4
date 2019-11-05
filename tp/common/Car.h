@@ -27,6 +27,7 @@ class Car : public Contactable{
   static const float MAX_SPEED_REV;
   static const float32 ANGULAR_VEL_MULT;
   static const float32 FRICTION;
+  static const size_t EXPLODING_SEC_LIMIT;
 
   public:
   Car();
