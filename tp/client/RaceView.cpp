@@ -6,10 +6,11 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
   imagecache(w, r),
   track(imagecache, race.GetTrack())
 {
+  imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   auto& base_cars = race.GetCars();
   for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
     cars.emplace_back(
-      imagecache.getImage("Imagenes/pitstop_car_1.bmp"), **it, camara);
+      imagecache.getImage("Imagenes/pitstop_car_1.png"), **it, camara);
 }
 
 void RaceView::render(int tick) {
