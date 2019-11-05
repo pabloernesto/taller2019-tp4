@@ -202,6 +202,10 @@ bool Car::isGoingForward(){
   return (this->GetSpeed() >= 0);
 }
 
+void Car::restoreLife(){
+  this->life = LIFE;
+}
+
 void Car::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
 }
@@ -214,6 +218,11 @@ void Car::GetContactedBy(Posta* posta){
   if ((lastPosta->GetId() + 1) == posta->GetId()){
     *lastPosta = *posta;
   }
+}
+
+void Car::GetContactedBy(Modifier* modifier){
+  // The car contacts the modifier. Not the other way around. So, the call
+  // to modify() is done in Modifier::GetContactedBy(Car* car).
 }
 
 void Car::DieAndRevive(Track& track){
