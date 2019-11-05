@@ -5,6 +5,7 @@
 
 class Car;
 class Posta;
+class Modifier;
 
 class Contactable {
   public:
@@ -12,6 +13,7 @@ class Contactable {
   virtual void Contact(Contactable* contactable) = 0;
   virtual void GetContactedBy(Car* car) = 0;
   virtual void GetContactedBy(Posta* posta) = 0;
+  virtual void GetContactedBy(Modifier* modifier) = 0;
 
 };
 

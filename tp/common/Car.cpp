@@ -215,6 +215,11 @@ void Car::GetContactedBy(Posta* posta){
   }
 }
 
+void Car::GetContactedBy(Modifier* modifier){
+  // The car contacts the modifier. Not the other way around. So, the call
+  // to modify() is done in Modifier::GetContactedBy(Car* car).
+}
+
 void Car::DieAndRevive(Track& track){
   dead = true;
   printf("va a morir\n");

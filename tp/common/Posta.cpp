@@ -13,6 +13,8 @@ void Posta::GetContactedBy(Car* car){}
 
 void Posta::GetContactedBy(Posta* posta){}
 
+void Posta::GetContactedBy(Modifier* modifier){}
+
 void Posta::Place(b2World& world, b2Vec2 position, float32 angle) {
   // Add posta to the world
   b2BodyDef posta_body_def;

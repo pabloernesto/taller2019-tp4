@@ -62,6 +62,7 @@ class Car : public Contactable{
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);
+  virtual void GetContactedBy(Modifier* modifier);
   bool isDead();
 
 private:
