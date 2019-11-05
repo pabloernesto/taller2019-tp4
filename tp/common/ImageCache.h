@@ -14,6 +14,7 @@ private:
 
 public:
   Image& getImage(std::string path);
+  void LoadAnimation(std::string path, int w, int h, int ticks);
 
   ImageCache(SDL_Window* w, SDL_Renderer* r);
   ~ImageCache();
