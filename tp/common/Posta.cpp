@@ -38,13 +38,9 @@ int Posta::GetId(){
 }
 
 b2Vec2 Posta::GetPosition(){
-  printf("geteo posision\n");
   return body->GetPosition();
-  printf("ya gettee p\n");
 }
 
 int Posta::GetAngle(){
-  printf("geteo angle\n");
   return body->GetAngle();
-  printf("ya gettee a\n");
 }
