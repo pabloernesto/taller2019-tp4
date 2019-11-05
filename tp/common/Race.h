@@ -7,10 +7,12 @@
 #include <vector>
 #include <memory>   // unique_ptr
 #include "ContactListener.h"
+#include "Posta.h"
 
 class Race {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
+  std::vector<std::unique_ptr<Posta>> postas;
   Track track;
   ContactListener listener;
 
@@ -18,6 +20,7 @@ public:
   Race(std::string track);
   void Step();
   Car& AddCar(float x, float y);
+  void AddPosta(float x, float y, int id, int angle);
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();

@@ -4,6 +4,7 @@
 #include <Box2D/Box2D.h>
 #include "Track.h"
 #include "Contactable.h"
+#include "Posta.h"
 
 class Track;
 
@@ -17,7 +18,7 @@ class Car : public Contactable{
   float max_speed;
   float32 angular_velocity;
   size_t step_counter;
-  Posta* lastPosta;
+  std::unique_ptr<Posta> lastPosta;
   bool dead;
 
   static const b2Vec2 CAR_SIZE;

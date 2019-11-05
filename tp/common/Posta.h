@@ -17,6 +17,9 @@ public:
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);
   void Place(b2World& world, b2Vec2 position, int angle);
+  int GetId();
+  b2Vec2 GetPosition();
+  int GetAngle();
 };
 
 #endif  // POSTA_H_
