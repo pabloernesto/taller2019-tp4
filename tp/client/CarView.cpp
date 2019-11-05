@@ -20,6 +20,8 @@ void CarView::render(int tick) {
 }
 
 void CarView::RenderSmoke(int tick) {
+  if (car.GetLife() == car.GetMaxLife()) return;
+
   // Where is the car's back end?
   b2Vec2 facing(0, 1);
   b2Rot rot(car.GetAngle());
