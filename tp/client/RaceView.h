@@ -25,7 +25,7 @@ class RaceView {
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);
-  void render();
+  void render(int tick);
 };
 
 #endif    // RACEVIEW_H_

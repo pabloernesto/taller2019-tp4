@@ -15,4 +15,14 @@ Image& ImageCache::getImage(std::string path) {
   return *pair.first->second;
 }
 
+void ImageCache::LoadAnimation(std::string path, int w, int h, int ticks) {
+  auto it = images.find(path);
+  if (it != images.end()) throw std::runtime_error(path + " already loaded");
+  
+  images.emplace(
+    path,
+    std::unique_ptr<Image>(
+      new Animation(path.c_str(), window, renderer, w, h, ticks)));
+}
+
 ImageCache::~ImageCache() {}

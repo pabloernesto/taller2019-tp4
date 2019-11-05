@@ -15,7 +15,9 @@ SDL_Rect Camara::GetPosition(){
   return this->camara;
 }
 
-void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
+void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image,
+  float angle, int tick)
+{
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);
   float objradius_pixels = objsize_pixels.Length();
@@ -42,6 +44,6 @@ void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image, float angle){
       (int) objsize_pixels.x,
       (int) objsize_pixels.y
     };
-    image.render(&where, angle * RADIANS_TO_DEGREES_FACTOR);
+    image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
   }
 }

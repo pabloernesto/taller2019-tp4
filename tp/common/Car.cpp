@@ -14,6 +14,7 @@ Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_ve
             max_speed(MAX_SPEED), step_counter(0), life(5), dead(false), lastPosta(new Posta(0)) {}
 
 void Car::GasOn() {
+  // std::cerr << "GAS!!!" << "\n";
   gas = true;
 }
 
@@ -141,9 +142,13 @@ void Car::Step(Track& track) {
   b2Vec2 force;
   if (break_) {
     auto speed = GetSpeed();
-    if (speed <= 0) return;
-    force = { 0, -ENGINE_POWER };
-
+    if (speed == 0){
+      return;
+    } else if (speed < 0){
+      force = { 0, ENGINE_POWER};
+    } else if (speed > 0){
+      force = { 0, -ENGINE_POWER };
+    }
   } else if (gas) {
     if (reverse) {
       force = { 0, -ENGINE_POWER};
@@ -183,6 +188,10 @@ float Car::GetSpeed() {
   if (v > this->max_speed)
     return this->max_speed;
   return v;
+}
+
+bool Car::isGoingForward(){
+  return (this->GetSpeed() >= 0);
 }
 
 void Car::Contact(Contactable* contactable){

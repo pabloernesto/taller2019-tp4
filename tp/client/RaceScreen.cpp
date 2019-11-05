@@ -47,11 +47,17 @@ GameScreen* RaceScreen::start() {
           car.SteerRight();
           break;
         case SDLK_UP:
-          car.GasOn();
+          if (!car.isGoingForward()){
+            car.BreakOn();
+          } else {
+            car.BreakOff();
+            car.GasOn();
+          }
           break;
         case SDLK_DOWN:
-          car.BreakOn();
-          if (car.stopped() || car.isGoingReverse()){
+          if (car.isGoingForward()){
+            car.BreakOn();
+          } else {
             car.BreakOff();
             car.GasOn();
             car.reverseOn();
@@ -71,6 +77,7 @@ GameScreen* RaceScreen::start() {
           break;
         case SDLK_UP:
           car.GasOff();
+          car.BreakOff();
           break;
         case SDLK_DOWN:
           car.BreakOff();
