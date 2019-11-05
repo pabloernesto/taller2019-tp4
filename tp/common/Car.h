@@ -67,6 +67,8 @@ class Car : public Contactable{
   // Life management routines
   bool isDead();
   void restoreLife();
+  int GetLife();
+  int GetMaxLife();
 
 private:
   void DieAndRevive(Track& track);

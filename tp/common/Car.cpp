@@ -202,6 +202,14 @@ void Car::restoreLife(){
   this->life = LIFE;
 }
 
+int Car::GetLife() {
+  return life;
+}
+
+int Car::GetMaxLife() {
+  return LIFE;
+}
+
 void Car::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
 }
