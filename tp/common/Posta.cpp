@@ -3,7 +3,7 @@
 const b2Vec2 Posta::POSTA_SIZE(15, 2);
 
 Posta::Posta(int id) : 
-  Contactable() {}
+  Contactable(), id(id) {}
 
 void Posta::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
@@ -13,7 +13,7 @@ void Posta::GetContactedBy(Car* car){}
 
 void Posta::GetContactedBy(Posta* posta){}
 
-void Posta::Place(b2World& world, b2Vec2 position, int angle) {
+void Posta::Place(b2World& world, b2Vec2 position, float32 angle) {
   // Add posta to the world
   b2BodyDef posta_body_def;
   posta_body_def.type = b2_staticBody;
@@ -29,6 +29,22 @@ void Posta::Place(b2World& world, b2Vec2 position, int angle) {
   b2FixtureDef posta_fixture_def;
   posta_fixture_def.shape = &shape_box;
   posta_fixture_def.density = 1;
-  posta_fixture_def.isSensor = true; // For no physical collition
+  posta_fixture_def.isSensor = false; // For no physical collition
   body->CreateFixture(&posta_fixture_def);
+}
+
+int Posta::GetId(){
+  return id;
+}
+
+b2Vec2 Posta::GetPosition(){
+  printf("geteo posision\n");
+  return body->GetPosition();
+  printf("ya gettee p\n");
+}
+
+int Posta::GetAngle(){
+  printf("geteo angle\n");
+  return body->GetAngle();
+  printf("ya gettee a\n");
 }

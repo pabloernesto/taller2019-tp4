@@ -39,23 +39,10 @@ private:
   std::vector<std::unique_ptr<TrackPiece>> tracks;
   
 public:
-  // Track(uint16_t height, uint16_t width, std::vector<int> blocks);
-  // Track(std::string event, b2World& world);
-  // std::string ToStr();
-  // void render(SDL_Window* w, SDL_Renderer* r, SDL_Rect& camara);
   Track(std::string race_specs);
   void updateCarCounter(Car& car);
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
-  // Track(uint16_t height, uint16_t width, std::vector<int> blocks);
-  // Track(std::string event, b2World& world);
-  // std::string ToStr();
-  // void render(SDL_Window* w, SDL_Renderer* r, Camara& camara);
   std::vector<int> GetPositionOfClosestAsphalt(b2Vec2& position);
-/*private:
-  // The TrackImages function ensures that assets are loaded exactly once
-  std::vector<std::unique_ptr<Image>>& TrackImages(
-    SDL_Window* w, SDL_Renderer* r);
-  void initializeTrackPieces();*/
 };
 
 #endif

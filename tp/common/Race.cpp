@@ -7,7 +7,7 @@ const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
 Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(), 
-  track(track), listener() {
+  track(track), listener(), postas() {
     world.SetContactListener(&listener);
 }
 
@@ -23,6 +23,12 @@ Car& Race::AddCar(float x, float y) {
   b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
+}
+
+void Race::AddPosta(float x, float y, int id, int angle) {
+  postas.emplace_back(new Posta(id));
+  b2Vec2 where = { x, y }; //position in metres
+  postas.back()->Place(world, where, angle);
 }
 
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {

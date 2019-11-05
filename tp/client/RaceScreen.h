@@ -6,6 +6,7 @@
 #include "../common/Race.h"
 #include "RaceView.h"
 #include "../common/Track.h"
+#include "../common/Posta.h"
 
 class RaceScreen : public GameScreen {
   Race race;
