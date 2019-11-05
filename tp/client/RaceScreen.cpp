@@ -4,6 +4,7 @@
 #include "UpdateLoop.h"
 #include "../common/Camara.h"
 #include <iostream>
+#include <math.h>
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -22,7 +23,7 @@ GameScreen* RaceScreen::start() {
   SDL_RenderPresent(renderer);
   
   // Agrego postas
-  race.AddPosta(6,-4.5,1,0);
+  race.AddPosta(20,-15,1,M_PI/2);
 
   race.AddCar(3,0); //para probar que puede mostrar varios autos a la vez
   race.AddCar(5,0); //para probar que puede mostrar varios autos a la vez
