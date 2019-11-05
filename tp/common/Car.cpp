@@ -104,6 +104,9 @@ void Car::setCounter(size_t value){
 void Car::updateCounter(size_t value){
   // std::cout << "I'm in car!! About to update car counter\n";
   this->step_counter += value;
+  if (this->step_counter > 30){
+    this->step_counter = 30;
+  }
   // std::cout << "I'm in car!! Updated car counter\n";
 }
 
@@ -161,6 +164,10 @@ void Car::Step(Track& track) {
   if (life == 0){
     this->DieAndRevive(track);
   }
+
+  std::cerr << "Reverse: " << this->reverse << '\n';
+  std::cerr << "Position: " << this->GetPosition().x  << " " << this->GetPosition().y << '\n';
+  std::cerr << this->GetSpeed() << '\n';
 }
 
 // This function returns the car's speed along the direction it faces
