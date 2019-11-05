@@ -44,6 +44,6 @@ void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image,
       (int) objsize_pixels.x,
       (int) objsize_pixels.y
     };
-    image.render(0, &where, angle * RADIANS_TO_DEGREES_FACTOR);
+    image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
   }
 }
