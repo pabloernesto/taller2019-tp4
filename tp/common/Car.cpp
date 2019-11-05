@@ -14,6 +14,7 @@ Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_ve
             max_speed(MAX_SPEED), step_counter(0), life(5) {}
 
 void Car::GasOn() {
+  // std::cerr << "GAS!!!" << "\n";
   gas = true;
 }
 
@@ -141,9 +142,13 @@ void Car::Step(Track& track) {
   b2Vec2 force;
   if (break_) {
     auto speed = GetSpeed();
-    if (speed <= 0) return;
-    force = { 0, -ENGINE_POWER };
-
+    if (speed == 0){
+      return;
+    } else if (speed < 0){
+      force = { 0, ENGINE_POWER};
+    } else if (speed > 0){
+      force = { 0, -ENGINE_POWER };
+    }
   } else if (gas) {
     if (reverse) {
       force = { 0, -ENGINE_POWER};
@@ -163,9 +168,12 @@ void Car::Step(Track& track) {
     this->DieAndRevive(track);
   }
 
-  std::cerr << "Reverse: " << this->reverse << '\n';
-  std::cerr << "Position: " << this->GetPosition().x  << " " << this->GetPosition().y << '\n';
-  std::cerr << this->GetSpeed() << '\n';
+  // std::cerr << "Reverse: " << this->reverse << '\n';
+  // std::cerr << "Forward: " << this->isGoingForward() << '\n';
+  // std::cerr << "BreakOn: " << this->break_ << '\n';
+  // std::cerr << "GassOn: " << this->gas << '\n';
+  // std::cerr << "Position: " << this->GetPosition().x  << " " << this->GetPosition().y << '\n';
+  // std::cerr << "Speed: " << this->GetSpeed() << '\n';
 }
 
 // This function returns the car's speed along the direction it faces
@@ -189,6 +197,10 @@ float Car::GetSpeed() {
   return v;
 }
 
+bool Car::isGoingForward(){
+  return (this->GetSpeed() >= 0);
+}
+
 void Car::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
 }
@@ -198,9 +210,9 @@ void Car::GetContactedBy(Car* car){
 }
 
 void Car::GetContactedBy(Posta* posta){
-  if ((lastPosta->GetId() + 1) == posta->GetId()){
+  // if ((lastPosta->GetId() + 1) == posta->GetId()){
     lastPosta = posta;
-  }
+  // }
 }
 
 void Car::DieAndRevive(Track& track){
