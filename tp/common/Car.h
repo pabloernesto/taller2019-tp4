@@ -18,7 +18,7 @@ class Car : public Contactable{
   float32 angular_velocity;
   size_t step_counter;
   Posta* lastPosta;
-  bool isDead;
+  bool dead;
 
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
@@ -58,6 +58,7 @@ class Car : public Contactable{
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);
+  bool isDead();
 
 private:
   void DieAndRevive(Track& track);

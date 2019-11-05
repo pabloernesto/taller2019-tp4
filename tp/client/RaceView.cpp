@@ -9,7 +9,9 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
   auto& base_cars = race.GetCars();
   for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
     cars.emplace_back(
-      imagecache.getImage("Imagenes/pitstop_car_1.bmp"), **it, camara);
+      imagecache.getImage("Imagenes/pitstop_car_1.bmp"),
+      imagecache.getImage("Imagenes/explosion.bmp"),
+      **it, camara);
 }
 
 void RaceView::render() {
