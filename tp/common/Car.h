@@ -21,6 +21,7 @@ class Car : public Contactable{
   size_t step_counter_death;
   size_t step_counter_max_speed_mult;
   float max_speed_multiplier;
+  float speed_reducer;
   std::unique_ptr<Posta> lastPosta;
   bool dead;
 
@@ -51,6 +52,7 @@ class Car : public Contactable{
   bool stopped();
 
   // Calculate the car's forward speed
+  float getReducedSpeed(float speed_rcv);
   float GetSpeed();
   const b2Vec2& GetPosition();
   float GetAngle();
@@ -66,7 +68,9 @@ class Car : public Contactable{
   void restoreLife();
   void multiplyMaxSpeed(float multiplier, size_t steps);
   void updateMaxSpeedMultiplier();
-  
+  void reduceLife();
+  void reduceSpeed(float speed_reduction);
+
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);

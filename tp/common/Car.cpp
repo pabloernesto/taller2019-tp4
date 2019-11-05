@@ -148,6 +148,20 @@ void Car::updateMaxSpeed(){
   // where "x" is step_counter and "y" is max_speed. 
 }
 
+float Car::getReducedSpeed(float speed_recv){
+  float speed = speed_recv;
+  if (speed > 0){
+      speed -= this->speed_reducer;
+      if (speed < 0)
+        speed = 0;
+  } else if (speed < 0){
+    speed += this->speed_reducer;
+    if (speed > 0)
+      speed = 0;
+  }
+  return speed;
+}
+
 void Car::Step(Track& track) {
   track.updateCarCounter(*this);
   // std::cout << this->step_counter <<"\n";
@@ -159,7 +173,12 @@ void Car::Step(Track& track) {
     b2Rot rotation(body->GetAngle());
     b2Vec2 facing(0, 1);
     facing = b2Mul(rotation, facing);
-    body->SetLinearVelocity(GetSpeed() * facing);
+    float speed = this->GetSpeed();
+    
+    // To contemplate the speed reducer
+    speed = this->getReducedSpeed(speed);
+
+    body->SetLinearVelocity(speed * facing);
   }
 
   b2Vec2 force;
@@ -217,6 +236,14 @@ bool Car::isGoingForward(){
 
 void Car::restoreLife(){
   this->life = LIFE;
+}
+
+void Car::reduceLife(){
+  this->life -= 1;
+}
+
+void Car::reduceSpeed(float speed_reduction){
+  this->speed_reducer = speed_reduction;
 }
 
 void Car::Contact(Contactable* contactable){
