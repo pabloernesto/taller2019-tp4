@@ -16,7 +16,8 @@ const size_t Car::LIFE = 5;
 
 Car::Car(): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), step_counter_death(0), life(LIFE), 
-            dead(false), lastPosta(new Posta(0)) {}
+            dead(false), lastPosta(new Posta(0)),  speed_reducer(0), step_counter_max_speed_mult(0),
+            max_speed_multiplier(1) {}
 
 void Car::GasOn() {
   gas = true;
@@ -207,6 +208,8 @@ void Car::Step(Track& track) {
   if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
+  std::cout << "Position: " << this->GetPosition().x << " " << this->GetPosition().y << '\n';
+  std::cout << "Velocidad: " << this->GetSpeed() << '\n';
 }
 
 // This function returns the car's speed along the direction it faces

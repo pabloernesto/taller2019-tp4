@@ -64,8 +64,8 @@ GameScreen* RaceScreen::start() {
             car.BreakOn();
           } else {
             car.BreakOff();
-            car.GasOn();
             car.reverseOn();
+            car.GasOn();
           }
           break;
         default:
