@@ -208,8 +208,7 @@ void Car::Step(Track& track) {
   if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
-  std::cout << "Position: " << this->GetPosition().x << " " << this->GetPosition().y << '\n';
-  std::cout << "Velocidad: " << this->GetSpeed() << '\n';
+
 }
 
 // This function returns the car's speed along the direction it faces
@@ -261,6 +260,10 @@ void Car::GetContactedBy(Posta* posta){
   if ((lastPosta->GetId() + 1) == posta->GetId()){
     *lastPosta = *posta;
   }
+}
+
+const b2Transform& Car::GetTransform(){
+  return this->body->GetTransform();
 }
 
 void Car::GetContactedBy(Modifier* modifier){

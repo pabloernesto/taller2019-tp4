@@ -56,6 +56,7 @@ class Car : public Contactable{
   float GetSpeed();
   const b2Vec2& GetPosition();
   float GetAngle();
+  const b2Transform& GetTransform();
   const b2Vec2& GetSize();
   void updateCounter(size_t value);
   void updateMaxSpeed();

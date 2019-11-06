@@ -30,10 +30,20 @@ void Modifier::Contact(Contactable* contactable){
 
 void Modifier::GetContactedBy(Car* car){
   this->modify(*car);
+  this->removeModifierFromWorld();
 }
 
 void Modifier::GetContactedBy(Posta* posta){}
 
 void Modifier::GetContactedBy(Modifier* modifier){}
 
-Modifier::~Modifier(){}
+void Modifier::removeModifierFromWorld(){
+  this->body->GetWorld()->DestroyBody(this->body);
+  this->body = NULL;
+}
+
+Modifier::~Modifier(){
+  if (this->body != NULL){
+    this->body->GetWorld()->DestroyBody(this->body);
+  }
+}

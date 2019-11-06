@@ -30,4 +30,8 @@ void Boost::modify(Car& car){
   car.multiplyMaxSpeed(BOOST_MULT, BOOST_DURATION_SEC * 60);
 }
 
+void Boost::removeModifierFromWorld(){
+  Modifier::removeModifierFromWorld();
+}
+
 Boost::~Boost(){}

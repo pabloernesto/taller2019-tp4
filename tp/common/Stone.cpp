@@ -30,4 +30,8 @@ void Stone::modify(Car& car){
   car.reduceSpeed(SPEED_REDUCTION);
 }
 
+void Stone::removeModifierFromWorld(){
+  Modifier::removeModifierFromWorld();
+}
+
 Stone::~Stone(){}

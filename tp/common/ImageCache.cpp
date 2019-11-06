@@ -18,7 +18,6 @@ Image& ImageCache::getImage(std::string path) {
 void ImageCache::LoadAnimation(std::string path, int w, int h, int ticks) {
   auto it = images.find(path);
   if (it != images.end()) throw std::runtime_error(path + " already loaded");
-  
   images.emplace(
     path,
     std::unique_ptr<Image>(

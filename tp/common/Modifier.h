@@ -18,6 +18,7 @@ class Modifier : public Contactable{
     virtual void GetContactedBy(Posta* posta) override;
     virtual void GetContactedBy(Modifier* modifier) override;
     virtual void modify(Car& car) = 0;
+    virtual void removeModifierFromWorld();
     virtual ~Modifier();
 };
 

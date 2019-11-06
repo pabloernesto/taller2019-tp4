@@ -27,4 +27,8 @@ void HealthBox::modify(Car& car){
   car.restoreLife();
 }
 
+void HealthBox::removeModifierFromWorld(){
+  Modifier::removeModifierFromWorld();
+}
+
 HealthBox::~HealthBox(){}

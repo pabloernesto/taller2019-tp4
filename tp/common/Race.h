@@ -3,18 +3,24 @@
 
 #include <Box2D/Box2D.h>
 #include "Car.h"
+#include "Modifier.h"
 #include "Track.h"
 #include <vector>
 #include <memory>   // unique_ptr
 #include "ContactListener.h"
 #include "Posta.h"
+#include "ModifierFactory.h"
 
 class Race {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
   std::vector<std::unique_ptr<Posta>> postas;
+  std::vector<std::unique_ptr<Modifier>> modifiers;
+  ModifierFactory modif_factory;
+
   Track track;
   ContactListener listener;
+  size_t modifiers_reset;
 
 public:
   Race(std::string track);
@@ -26,6 +32,10 @@ public:
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
 
   Race();
+
+private:
+  void placeModifiers();
+  void placeRandomModifier(float x, float y);
 };
 
 #endif    // RACE_H_
