@@ -21,15 +21,21 @@ class Race {
   Track track;
   ContactListener listener;
   size_t modifiers_reset;
+  int laps;
+  bool ended;
 
 public:
-  Race(std::string track);
+  Race(std::string track, int laps);
   void Step();
   Car& AddCar(float x, float y);
   void AddPosta(float x, float y, int id, float32 angle);
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
+  int GetAmountOfPostas();
+  int GetLaps();
+  void SetWinner(Car* car);
+  bool Ended();
 
   Race();
 

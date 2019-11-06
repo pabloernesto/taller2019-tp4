@@ -12,9 +12,12 @@ const size_t MODIFIER_DIST_DROP = 10;
 const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1 , 1 };
 
-Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(), 
-  track(track), listener(), postas(), modifiers_reset(MODIFIER_RESET_SEC*60), modif_factory(){
-    world.SetContactListener(&listener);
+Race::Race(std::string track, int laps)
+  : world((b2Vec2){ 0 , 0 }), cars(), track(track), listener(), postas(),
+  modifiers_reset(MODIFIER_RESET_SEC*60), modif_factory(), laps(laps),
+  ended(false)
+{
+  world.SetContactListener(&listener);
 }
 
 void Race::Step() {
@@ -59,7 +62,7 @@ void Race::placeRandomModifier(float x, float y){
 }
 
 Car& Race::AddCar(float x, float y) {
-  cars.emplace_back(new Car());
+  cars.emplace_back(new Car(this));
   b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
@@ -81,4 +84,20 @@ Track& Race::GetTrack(){
 
 std::vector<std::unique_ptr<TrackPiece>>& Race::getTrackPieces(){
   return this->track.getTrackPieces();
+}
+
+int Race::GetAmountOfPostas(){
+  return postas.size();
+}
+
+int Race::GetLaps(){
+  return laps;
+}
+
+void Race::SetWinner(Car* car){
+  ended = true;
+}
+
+bool Race::Ended(){
+  return ended;
 }
