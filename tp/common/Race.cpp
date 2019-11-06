@@ -6,8 +6,8 @@ const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 
-Race::Race(std::string track) : world((b2Vec2){ 0 , 0 }), cars(), 
-  track(track), listener(), postas() {
+Race::Race(std::string track, int laps) : world((b2Vec2){ 0 , 0 }), cars(), 
+  track(track), listener(), postas(), laps(laps), ended(false){
     world.SetContactListener(&listener);
 }
 
@@ -19,7 +19,7 @@ void Race::Step() {
 }
 
 Car& Race::AddCar(float x, float y) {
-  cars.emplace_back(new Car());
+  cars.emplace_back(new Car(this));
   b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
@@ -41,4 +41,20 @@ Track& Race::GetTrack(){
 
 std::vector<std::unique_ptr<TrackPiece>>& Race::getTrackPieces(){
   return this->track.getTrackPieces();
+}
+
+int Race::GetAmountOfPostas(){
+  return postas.size();
+}
+
+int Race::GetLaps(){
+  return laps;
+}
+
+void Race::SetWinner(Car* car){
+  ended = true;
+}
+
+bool Race::Ended(){
+  return ended;
 }

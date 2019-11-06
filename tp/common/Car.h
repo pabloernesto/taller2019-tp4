@@ -7,6 +7,7 @@
 #include "Posta.h"
 
 class Track;
+class Race;
 
 class Car : public Contactable{
   b2Body* body;
@@ -24,6 +25,8 @@ class Car : public Contactable{
   float speed_reducer;
   std::unique_ptr<Posta> lastPosta;
   bool dead;
+  Race* race;
+  int laps;
 
   static const b2Vec2 CAR_SIZE;
   static const float32 WEIGHT_KG;
@@ -36,7 +39,7 @@ class Car : public Contactable{
   static const size_t LIFE;
 
   public:
-  Car();
+  Car(Race* race);
   virtual void Place(b2World& world, b2Vec2 position);
 
   void GasOn();

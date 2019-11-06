@@ -25,7 +25,11 @@ class RaceView {
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);
+  ~RaceView();
   void render(int tick);
+
+private:
+  void showMessage(std::string message);
 };
 
 #endif    // RACEVIEW_H_

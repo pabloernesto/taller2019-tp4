@@ -13,7 +13,7 @@ RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 ")
+  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 ", 1)
 {}
 
 GameScreen* RaceScreen::start() {
@@ -23,11 +23,11 @@ GameScreen* RaceScreen::start() {
   SDL_RenderPresent(renderer);
   
   // Agrego postas
-  race.AddPosta(5,-20,1,0);
-  race.AddPosta(55,-20,2,0);
-  race.AddPosta(80,-5,3,-M_PI/2);
-  race.AddPosta(55,-50,4,0);
-  race.AddPosta(5,-50,5,0);
+  race.AddPosta(5,-20,0,0);
+  race.AddPosta(55,-20,1,0);
+  race.AddPosta(80,-5,2,-M_PI/2);
+  race.AddPosta(55,-50,3,0);
+  race.AddPosta(5,-50,4,0);
 
   race.AddCar(0,-20); //para probar que puede mostrar varios autos a la vez
   race.AddCar(3,-20); //para probar que puede mostrar varios autos a la vez
