@@ -1,4 +1,5 @@
 #include "RaceView.h"
+#include <SDL2/SDL_ttf.h>
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
   : window(w), renderer(r), race(race), cars(),
@@ -14,6 +15,11 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
       imagecache.getImage("Imagenes/pitstop_car_1.png"),
       imagecache.getImage("Imagenes/explosion.png"),
       **it, camara);
+  TTF_Init();
+}
+
+RaceView::~RaceView(){
+	TTF_Quit();
 }
 
 void RaceView::render(int tick) {
@@ -23,4 +29,19 @@ void RaceView::render(int tick) {
 
   for (auto& car : cars)
     car.render(tick);
+
+  if (race.Ended()){
+    showMessage("GANASTE");
+  }
+}
+
+void RaceView::showMessage(std::string message){
+  TTF_Font* font = TTF_OpenFont("lazy.ttf", 50);
+  SDL_Color color = {255, 255, 255};
+  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
+  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+  SDL_Rect Message_rect = {0, 0, 500, 500};
+
+  SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
+	TTF_CloseFont(font);
 }
