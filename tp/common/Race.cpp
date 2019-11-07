@@ -25,14 +25,14 @@ void Race::Step() {
     car->Step(this->track);
   }
   if (modifiers_reset == 0){
-    this->placeModifiers();
+    //this->placeModifiers();
     modifiers_reset = MODIFIER_RESET_SEC*60;
   } else {
     modifiers_reset -= 1;
   }
   this->world.Step(timestep, velocityIterations, positionIterations);
 }
-
+/*
 void Race::placeModifiers(){
   size_t vec_size = this->modifiers.size();
   for (size_t i = 0; i < vec_size; i++){
@@ -48,7 +48,7 @@ void Race::placeModifiers(){
     float modif_y = (car_angle.s) * (car_pos.Length() + MODIFIER_DIST_DROP);
     this->placeRandomModifier(modif_x, modif_y);
   }
-}
+}*/
 
 void Race::placeRandomModifier(float x, float y){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
