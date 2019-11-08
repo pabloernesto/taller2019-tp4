@@ -6,8 +6,8 @@
 int main(int argc, char **argv) {
   Listener listener("1234");
   EnqueuedConnection connection(listener.Accept());
-  while (connection.IsPopable()) {
-    std::string&& str = connection.Pop();
+  std::string str;
+  while (connection.Pop(&str)) {
     std::cout << str;
   }
 }

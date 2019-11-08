@@ -35,31 +35,24 @@ class BlockingQueue {
     empty_cv.notify_all();
   }
 
-  T pop() {
+  bool trypop(T* out) {
     std::unique_lock<std::mutex> lock(mtx);
     while ((q.size() == 0) && !closed)
       empty_cv.wait(lock);
 
-    if (q.size() == 0) throw std::runtime_error("trying to pop an empty queue");
+    if (q.size() == 0)
+      return false;
 
-    T result = std::move(q.front());
+    *out = std::move(q.front());
     q.pop();
     full_cv.notify_all();
-    return result;
+    return true;
   }
 
   void close() {
     std::unique_lock<std::mutex> lock(mtx);
     closed = true;
     empty_cv.notify_all();
-  }
-
-  bool isPopable() {
-    std::unique_lock<std::mutex> lock(mtx);
-    while ((q.size() == 0) && !closed)
-      empty_cv.wait(lock);
-
-    return q.size() != 0;
   }
 };
 

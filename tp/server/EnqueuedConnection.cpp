@@ -3,8 +3,8 @@
 static const int QUEUE_SIZE = 20;
 
 void Sender::Loop() {
-  while (q.isPopable()) {
-    auto&& item = q.pop();
+  std::string item;
+  while (q.trypop(&item)) {
     if (connection.SendStr(item.c_str()) < 0)
       break;
   }
@@ -27,12 +27,8 @@ void EnqueuedConnection::Push(std::string&& s) {
   sender.q.push(std::move(s));
 }
 
-bool EnqueuedConnection::IsPopable() {
-  return receiver.q.isPopable();
-}
-
-std::string EnqueuedConnection::Pop() {
-  return receiver.q.pop();
+bool EnqueuedConnection::Pop(std::string* out) {
+  return receiver.q.trypop(out);
 }
 
 void EnqueuedConnection::Shutdown() {

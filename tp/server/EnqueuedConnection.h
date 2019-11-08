@@ -58,8 +58,7 @@ public:
   // The client class may be seen as a queue, sending and receiving data.
   // This class may later be modified to supply a queue-like interface.
   void Push(std::string&& s);
-  bool IsPopable();
-  std::string Pop();
+  bool Pop(std::string* out);
 
   // Shutdown the underlying network connection and close the outgoing queue.
   // The EQ will try to send the rest of the outgoing messages before
