@@ -26,6 +26,7 @@ public:
 
   Sender(Connection& c);
   void Start();
+  void Join();
 };
 
 // A Receiver continuously reads from a network connection, and pushes incoming
@@ -40,6 +41,7 @@ public:
 
   Receiver(Connection& c);
   void Start();
+  void Join();
 };
 
 // Both these classes are tied together by virtue of sharing a network
@@ -64,6 +66,7 @@ public:
   // before it destroys itself.
   void Shutdown();
 
+  EnqueuedConnection(Connection&& c);
   ~EnqueuedConnection();
 };
 
