@@ -20,6 +20,7 @@ void Receiver::Loop() {
     q.push(std::string(data));
     delete[] data;
   }
+  q.close();
 }
 
 void EnqueuedConnection::Push(std::string&& s) {
