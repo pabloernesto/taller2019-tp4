@@ -27,7 +27,7 @@ Este proyecto usa [RapidJSON] para leer y escribir archivos JSON. Los binarios s
   4. Crear una carpeta llamada "build" dentro de la misma carpeta.
   5. Ubicarse en la carpeta "build" con la terminal y ejecutar `cmake ..`.
   6. Ahora ejecutar `make`.
-  7. Ejecutar `make install` con la terminal ubicada en la carpeta descargada en (1).
+  7. Ejecutar `sudo make install` con la terminal ubicada en la carpeta descargada en (1).
 
 [RapidJSON]: https://rapidjson.org/
 [rapidjson]: https://github.com/Tencent/rapidjson
