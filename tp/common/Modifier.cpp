@@ -42,6 +42,18 @@ void Modifier::removeModifierFromWorld(){
   this->body = NULL;
 }
 
+bool Modifier::isModifierOnWorld(){
+  return this->body == NULL;
+}
+
+b2Vec2 Modifier::GetPosition(){
+  return this->body->GetPosition();
+}
+
+b2Vec2 Modifier::GetSize(){
+  return this->size;
+}
+
 Modifier::~Modifier(){
   if (this->body != NULL){
     this->body->GetWorld()->DestroyBody(this->body);

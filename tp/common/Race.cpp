@@ -25,12 +25,24 @@ void Race::Step() {
     car->Step(this->track);
   }
   if (modifiers_reset == 0){
-    //this->placeModifiers();
+    this->placeModifiers();
     modifiers_reset = MODIFIER_RESET_SEC*60;
   } else {
     modifiers_reset -= 1;
   }
+  this->removeUsedModifiers();
   this->world.Step(timestep, velocityIterations, positionIterations);
+}
+
+void Race::removeUsedModifiers(){
+  auto it = this->modifiers.begin();
+  while (it != this->modifiers.end()){
+    if (! (*it)->isModifierOnWorld()){
+      it = this->modifiers.erase(it);
+    } else {
+      it++;
+    }
+  }
 }
 
 void Race::placeModifiers(){
@@ -84,6 +96,10 @@ Track& Race::GetTrack(){
 
 std::vector<std::unique_ptr<TrackPiece>>& Race::getTrackPieces(){
   return this->track.getTrackPieces();
+}
+
+std::vector<std::unique_ptr<Modifier>>& Race::getModifiers(){
+  return this->modifiers;
 }
 
 int Race::GetAmountOfPostas(){

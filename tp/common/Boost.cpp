@@ -34,4 +34,8 @@ void Boost::removeModifierFromWorld(){
   Modifier::removeModifierFromWorld();
 }
 
+std::string Boost::getType(){
+  return "Boost";
+}
+
 Boost::~Boost(){}

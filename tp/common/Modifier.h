@@ -3,6 +3,7 @@
 
 #include <Box2D/Box2D.h>
 #include "Contactable.h"
+#include <string>
 
 class Modifier : public Contactable{
 
@@ -19,6 +20,10 @@ class Modifier : public Contactable{
     virtual void GetContactedBy(Modifier* modifier) override;
     virtual void modify(Car& car) = 0;
     virtual void removeModifierFromWorld();
+    virtual bool isModifierOnWorld();
+    virtual std::string getType() = 0;
+    virtual b2Vec2 GetPosition();
+    virtual b2Vec2 GetSize();
     virtual ~Modifier();
 };
 
