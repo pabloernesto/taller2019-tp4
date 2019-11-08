@@ -29,9 +29,9 @@ GameScreen* RaceScreen::start() {
   race.AddPosta(55,-50,3,0);
   race.AddPosta(5,-50,4,0);
 
-  race.AddCar(0,-20); //para probar que puede mostrar varios autos a la vez
-  race.AddCar(3,-20); //para probar que puede mostrar varios autos a la vez
-  RaceView view(this->window, this->renderer, race, race.AddCar(7,-20));
+  race.AddCar(0,-20, 1); //para probar que puede mostrar varios autos a la vez
+  race.AddCar(3,-20, 2); //para probar que puede mostrar varios autos a la vez
+  RaceView view(this->window, this->renderer, race, race.AddCar(7,-20, 3));
   //auto&& car = *(race.GetCars()[0]);
   auto&& car = *(race.GetCars()[2]);
 

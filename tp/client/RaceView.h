@@ -22,6 +22,7 @@ class RaceView {
   Camara camara;
   ImageCache imagecache;
   TrackView track;
+  Car& car;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);

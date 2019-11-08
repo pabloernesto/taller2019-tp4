@@ -15,7 +15,7 @@ const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
 
-Car::Car(Race* race): Contactable(), gas(false), break_(false), reverse(false), angular_velocity(0), 
+Car::Car(int id, Race* race): Contactable(), id(id), gas(false), break_(false), reverse(false), angular_velocity(0), 
             max_speed(MAX_SPEED), step_counter(0), step_counter_death(0), life(LIFE), 
             dead(false), lastPosta(new Posta(-1)),  speed_reducer(0), step_counter_max_speed_mult(0),
             max_speed_multiplier(1), race(race), laps(0) {}
@@ -263,13 +263,10 @@ void Car::GetContactedBy(Car* car){
 }
 
 void Car::GetContactedBy(Posta* posta){
-  printf("sad\n");
   if (((lastPosta->GetId() + 1)%race->GetAmountOfPostas()) == posta->GetId()){
     *lastPosta = *posta;
-    printf("id: %d\n", lastPosta->GetId());
     if (lastPosta->GetId() == 0){
       ++laps;
-      printf("lap: %d\n", laps);
     }
     if (laps - 1 == race->GetLaps()){
       race->SetWinner(this);
@@ -299,4 +296,8 @@ void Car::DieAndRevive(Track& track){
 
 bool Car::isDead(){
   return dead;
+}
+
+int Car::GetId(){
+  return id;
 }

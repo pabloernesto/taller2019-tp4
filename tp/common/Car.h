@@ -10,6 +10,7 @@ class Track;
 class Race;
 
 class Car : public Contactable{
+  int id;
   b2Body* body;
   bool gas;
   bool break_;
@@ -39,7 +40,7 @@ class Car : public Contactable{
   static const size_t LIFE;
 
   public:
-  Car(Race* race);
+  Car(int id, Race* race);
   virtual void Place(b2World& world, b2Vec2 position);
 
   void GasOn();
@@ -80,6 +81,7 @@ class Car : public Contactable{
   virtual void GetContactedBy(Posta* posta);
   virtual void GetContactedBy(Modifier* modifier);
   bool isDead();
+  int GetId();
 
 private:
   void DieAndRevive(Track& track);

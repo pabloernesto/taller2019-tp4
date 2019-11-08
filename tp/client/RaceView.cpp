@@ -4,9 +4,8 @@
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
   : window(w), renderer(r), race(race), cars(),
-  camara(0, 0, 600, 400, car),
-  imagecache(w, r),
-  track(imagecache, race.GetTrack())
+  camara(0, 0, 600, 400, car), imagecache(w, r),
+  track(imagecache, race.GetTrack()), car(car)
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);
@@ -40,7 +39,12 @@ void RaceView::render(int tick) {
     car.render(tick);
 
   if (race.Ended()){
-    showMessage("GANASTE");
+    if (race.GetIdWinnerCar() == car.GetId()){
+      showMessage("GANASTE");
+    } else {
+      showMessage("PERDISTE");
+    }
+    
   }
 }
 
