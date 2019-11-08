@@ -15,7 +15,7 @@ const b2Vec2 MODIF_SIZE = { 1 , 1 };
 Race::Race(std::string track, int laps)
   : world((b2Vec2){ 0 , 0 }), cars(), track(track), listener(), postas(),
   modifiers_reset(MODIFIER_RESET_SEC*60), modif_factory(), laps(laps),
-  ended(false)
+  ended(false), winnerCar()
 {
   world.SetContactListener(&listener);
 }
@@ -61,8 +61,8 @@ void Race::placeRandomModifier(float x, float y){
   this->modifiers.emplace_back(mod);
 }
 
-Car& Race::AddCar(float x, float y) {
-  cars.emplace_back(new Car(this));
+Car& Race::AddCar(float x, float y, int id) {
+  cars.emplace_back(new Car(id, this));
   b2Vec2 where = { x, y }; //position in metres
   cars.back()->Place(world, where);
   return *cars.back();
@@ -96,8 +96,13 @@ int Race::GetLaps(){
 
 void Race::SetWinner(Car* car){
   ended = true;
+  winnerCar = car;
 }
 
 bool Race::Ended(){
   return ended;
+}
+
+int Race::GetIdWinnerCar(){
+  return winnerCar->GetId();
 }
