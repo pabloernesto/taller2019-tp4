@@ -12,16 +12,16 @@ objects=$(patsubst %.cpp, %.o, $(sources))
 ########################
 
 # Opciones para el compilador C/C++ para tratamiento de errores y warnings.
-CFLAGS = -Wall -Werror -pedantic -pedantic-errors
+CXXFLAGS = -Wall -Werror -pedantic -pedantic-errors
 
 # Para optimizar el binario resultante lo mejor posible
-CFLAGS += -O3
+CXXFLAGS += -O3
 
 # Para valgrind o debug
-CFLAGS += -ggdb -DDEBUG -fno-inline
+CXXFLAGS += -ggdb -DDEBUG -fno-inline
 
 # Estandar de C++ a usar
-CFLAGS = -std=c++11
+CXXFLAGS += -std=c++11
 
 # opciones del enlazador
 ########################
@@ -36,7 +36,7 @@ LDFLAGS += -pthread
 # LDFLAGS += -static
 
 # Linkea a SDL2
-LDFLAGS += $(shell sdl2-config --cflags --libs)
+LDFLAGS += $(shell sdl2-config --cXXflags --libs)
 
 # Linkea a SDL_image
 LDFLAGS += -lSDL2_image
