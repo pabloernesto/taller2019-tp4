@@ -31,4 +31,8 @@ void HealthBox::removeModifierFromWorld(){
   Modifier::removeModifierFromWorld();
 }
 
+std::string HealthBox::getType(){
+  return "HealthBox";
+}
+
 HealthBox::~HealthBox(){}

@@ -33,6 +33,7 @@ public:
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
+  std::vector<std::unique_ptr<Modifier>>& getModifiers();
   int GetAmountOfPostas();
   int GetLaps();
   void SetWinner(Car* car);
@@ -44,6 +45,7 @@ public:
 private:
   void placeModifiers();
   void placeRandomModifier(float x, float y);
+  void removeUsedModifiers();
 };
 
 #endif    // RACE_H_

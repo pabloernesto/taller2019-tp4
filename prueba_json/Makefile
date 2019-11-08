@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=client.exe
+target=prueba.exe
 
 # source files
 sources=$(wildcard *.cpp)
@@ -10,23 +10,22 @@ headers=$(wildcard *.h)
 # intermediate objects
 objects=$(patsubst %.cpp, %.o, $(sources))
 
-# common objects
-objects+=$(wildcard ../common/*.o)
-
 # opciones de compilador
 ########################
 
 # Opciones para el compilador C/C++ para tratamiento de errores y warnings.
-CXXFLAGS = -Wall -Werror -pedantic -pedantic-errors
+CFLAGS = -Wall -Werror -pedantic -pedantic-errors
 
 # Para optimizar el binario resultante lo mejor posible
-CXXFLAGS += -O3
+CFLAGS += -O3
 
 # Para valgrind o debug
-CXXFLAGS += -ggdb -DDEBUG -fno-inline
+CFLAGS += -ggdb -DDEBUG -fno-inline
 
 # Estandar de C++ a usar
-CXXFLAGS += -std=c++11
+CFLAGS += -std=c++11
+
+CXXFLAGS = $(CFLAGS)
 
 # opciones del enlazador
 ########################

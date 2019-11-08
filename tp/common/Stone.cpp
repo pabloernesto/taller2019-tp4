@@ -34,4 +34,8 @@ void Stone::removeModifierFromWorld(){
   Modifier::removeModifierFromWorld();
 }
 
+std::string Stone::getType(){
+  return "Stone";
+}
+
 Stone::~Stone(){}

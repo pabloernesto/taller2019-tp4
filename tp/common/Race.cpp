@@ -13,8 +13,8 @@ const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1 , 1 };
 
 Race::Race(std::string track, int laps)
-  : world((b2Vec2){ 0 , 0 }), cars(), track(track), listener(), postas(),
-  modifiers_reset(MODIFIER_RESET_SEC*60), modif_factory(), laps(laps),
+  : world(b2Vec2(0, 0)), cars(), postas(), modifiers(), modif_factory(),
+  track(track), listener(), modifiers_reset(MODIFIER_RESET_SEC*60), laps(laps),
   ended(false), winnerCar()
 {
   world.SetContactListener(&listener);
@@ -25,12 +25,24 @@ void Race::Step() {
     car->Step(this->track);
   }
   if (modifiers_reset == 0){
-    //this->placeModifiers();
+    this->placeModifiers();
     modifiers_reset = MODIFIER_RESET_SEC*60;
   } else {
     modifiers_reset -= 1;
   }
+  this->removeUsedModifiers();
   this->world.Step(timestep, velocityIterations, positionIterations);
+}
+
+void Race::removeUsedModifiers(){
+  auto it = this->modifiers.begin();
+  while (it != this->modifiers.end()){
+    if (! (*it)->isModifierOnWorld()){
+      it = this->modifiers.erase(it);
+    } else {
+      it++;
+    }
+  }
 }
 
 void Race::placeModifiers(){
@@ -84,6 +96,10 @@ Track& Race::GetTrack(){
 
 std::vector<std::unique_ptr<TrackPiece>>& Race::getTrackPieces(){
   return this->track.getTrackPieces();
+}
+
+std::vector<std::unique_ptr<Modifier>>& Race::getModifiers(){
+  return this->modifiers;
 }
 
 int Race::GetAmountOfPostas(){
