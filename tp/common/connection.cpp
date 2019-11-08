@@ -53,6 +53,10 @@ void Connection::ShutdownWrite() {
   if (fd > 0) shutdown(fd, SHUT_WR);
 }
 
+void Connection::ShutdownRead() {
+  if (fd > 0) shutdown(fd, SHUT_RD);
+}
+
 Connection::~Connection() {
   if (fd > 0) {
     Shutdown();

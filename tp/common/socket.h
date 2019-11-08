@@ -36,6 +36,7 @@ class Connection {
   // Send shutdown for both read and write
   void Shutdown();
   void ShutdownWrite();
+  void ShutdownRead();
 };
 
 class Listener {
