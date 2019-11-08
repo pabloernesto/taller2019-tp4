@@ -13,8 +13,8 @@ const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1 , 1 };
 
 Race::Race(std::string track, int laps)
-  : world((b2Vec2){ 0 , 0 }), cars(), track(track), listener(), postas(),
-  modifiers_reset(MODIFIER_RESET_SEC*60), modif_factory(), laps(laps),
+  : world(b2Vec2(0, 0)), cars(), postas(), modifiers(), modif_factory(),
+  track(track), listener(), modifiers_reset(MODIFIER_RESET_SEC*60), laps(laps),
   ended(false), winnerCar()
 {
   world.SetContactListener(&listener);

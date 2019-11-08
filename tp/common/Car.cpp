@@ -15,10 +15,13 @@ const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
 
-Car::Car(int id, Race* race): Contactable(), id(id), gas(false), break_(false), reverse(false), angular_velocity(0), 
-            max_speed(MAX_SPEED), step_counter(0), step_counter_death(0), life(LIFE), 
-            dead(false), lastPosta(new Posta(-1)),  speed_reducer(0), step_counter_max_speed_mult(0),
-            max_speed_multiplier(1), race(race), laps(0) {}
+Car::Car(int id, Race* race)
+  : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
+  life(LIFE), max_speed(MAX_SPEED), angular_velocity(0), step_counter(0),
+  step_counter_death(0), step_counter_max_speed_mult(0),
+  max_speed_multiplier(1), speed_reducer(0), lastPosta(new Posta(-1)),
+  dead(false), race(race), laps(0)
+{}
 
 void Car::GasOn() {
   gas = true;
