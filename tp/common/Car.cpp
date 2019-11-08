@@ -213,6 +213,10 @@ void Car::Step(Track& track) {
   //std::cout << "Velocidad: " << this->GetSpeed() << '\n';
 }
 
+const b2Transform& Car::GetTransform(){
+  return this->body->GetTransform();
+}
+
 // This function returns the car's speed along the direction it faces
 float Car::GetSpeed() {
   auto& velocity = body->GetLinearVelocity();
