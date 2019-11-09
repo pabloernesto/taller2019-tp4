@@ -5,7 +5,7 @@
 
 #define NUMBEROFFRAMESDYING 20
 
-const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
+const b2Vec2 Car::CAR_SIZE(1.2*0.9, 2.5*0.9);
 const float32 Car::WEIGHT_KG = 300;
 const float32 Car::ENGINE_POWER = 20000;
 const float Car::MAX_SPEED = 14;

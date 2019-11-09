@@ -2,7 +2,7 @@
 
 #include <Box2D/Box2D.h>
 
-static const int PIXELS_PER_METER = 50;
+static const int PIXELS_PER_METER = 30;
 
 std::vector<float> MKStoPixelTransform(const std::vector<float>& vector) {
   std::vector<float> vectorPixel;
