@@ -1,26 +1,19 @@
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include <iostream>
+#include <rapidjson/document.h>
+#include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/istreamwrapper.h>
+#include <rapidjson/writer.h>
+#include <fstream>
  
 using namespace rapidjson;
  
+//ESCRIBO EL JSON
 int main() {
-    // 1. Parse a JSON string into DOM.
-    const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-    Document d;
-    d.Parse(json);
- 
-    // 2. Modify it by DOM.
-    Value& s = d["stars"];
-    s.SetInt(s.GetInt() + 1);
- 
-    // 3. Stringify the DOM
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
-    d.Accept(writer);
- 
-    // Output {"project":"rapidjson","stars":11}
-    std::cout << buffer.GetString() << std::endl;
-    return 0;
+  std::ifstream ifs("test.json");
+  IStreamWrapper isw(ifs);
+  
+  Document d;
+  d.ParseStream(isw);
+
+  printf("SCREEN_WIDTH: %d\n", d["SCREEN_WIDTH"].GetInt());
+  printf("CAR_WIDTH: %f\n", d["CAR_WIDTH"].GetFloat());
 }
