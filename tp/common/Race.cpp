@@ -7,7 +7,7 @@ const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 const int MODIFIERS_AVAILABLE = 3;
-const size_t MODIFIER_DIST_DROP = 30;
+const size_t MODIFIER_DIST_DROP = 5;
 const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1 , 1 };
 
@@ -36,7 +36,7 @@ void Race::Step() {
 void Race::removeUsedModifiers(){
   auto it = this->modifiers.begin();
   while (it != this->modifiers.end()){
-    if (! ((*it)->isModifierOnWorld())){
+    if ( (*it)->shouldBeRemoved()){
       it = this->modifiers.erase(it);
     } else {
       it++;

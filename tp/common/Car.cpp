@@ -14,12 +14,13 @@ const float32 Car::ANGULAR_VEL_MULT = 0.3;
 const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
+const size_t Car::SPEED_RED_TIME_SEC = 3;
 
 Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
   life(LIFE), max_speed(MAX_SPEED), angular_velocity(0), step_counter(0),
   step_counter_death(0), step_counter_max_speed_mult(0),
-  max_speed_multiplier(1), speed_reducer(0), lastPosta(new Posta(-1)),
+  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1)),
   dead(false), race(race), laps(0)
 {}
 
@@ -164,6 +165,12 @@ float Car::getReducedSpeed(float speed_recv){
     if (speed > 0)
       speed = 0;
   }
+  if (this->step_counter_red_speed > 0){
+    this->step_counter_red_speed -= 1;
+  } else {
+    this->speed_reducer = 0;
+  }
+  //The effect is applied once. So, it's setted to 0.
   return speed;
 }
 
@@ -254,6 +261,7 @@ void Car::reduceLife(){
 
 void Car::reduceSpeed(float speed_reduction){
   this->speed_reducer = speed_reduction;
+  this->step_counter_red_speed = SPEED_RED_TIME_SEC;
 }
 
 void Car::Contact(Contactable* contactable){

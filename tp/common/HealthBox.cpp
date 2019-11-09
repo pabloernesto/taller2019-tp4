@@ -25,12 +25,7 @@ void HealthBox::GetContactedBy(Modifier* modifier){
 }
 
 void HealthBox::modify(Car& car){
-  std::cout << "I'm a HB\n";
   car.restoreLife();
-}
-
-void HealthBox::removeModifierFromWorld(){
-  Modifier::removeModifierFromWorld();
 }
 
 std::string HealthBox::getType(){

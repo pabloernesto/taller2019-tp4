@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Modifier::Modifier(b2Vec2 size) : size(size), destroyed(true){}
+Modifier::Modifier(b2Vec2 size) : size(size), should_be_removed(false){}
 
 void Modifier::Place(b2World& world, b2Vec2 position, float32 angle) {
   // Add modifier to the world
@@ -22,7 +22,6 @@ void Modifier::Place(b2World& world, b2Vec2 position, float32 angle) {
   modif_fixture_def.density = 1;
   modif_fixture_def.isSensor = true; // For no physical collition
   body->CreateFixture(&modif_fixture_def);
-  this->destroyed = false;
 }
 
 void Modifier::Contact(Contactable* contactable){
@@ -31,22 +30,16 @@ void Modifier::Contact(Contactable* contactable){
 
 
 void Modifier::GetContactedBy(Car* car){
-  std::cout << "I got contacted by car!\n";
   this->modify(*car);
-  this->removeModifierFromWorld();
+  this->should_be_removed = true;
 }
 
 void Modifier::GetContactedBy(Posta* posta){}
 
 void Modifier::GetContactedBy(Modifier* modifier){}
 
-void Modifier::removeModifierFromWorld(){
-  this->body->GetWorld()->DestroyBody(this->body);
-  this->destroyed = true;
-}
-
-bool Modifier::isModifierOnWorld(){
-  return !this->destroyed;
+bool Modifier::shouldBeRemoved(){
+  return this->should_be_removed;
 }
 
 b2Vec2 Modifier::GetPosition(){
@@ -58,7 +51,5 @@ b2Vec2 Modifier::GetSize(){
 }
 
 Modifier::~Modifier(){
-  if (this->destroyed){
-    this->body->GetWorld()->DestroyBody(this->body);
-  }
+  this->body->GetWorld()->DestroyBody(this->body);
 }
