@@ -1,29 +1,18 @@
 #include <iostream>
 #include "../common/socket.h"
-#include "../common/blockingqueue.h"
-#include "EnqueuedConnection.h"
-#include <string>
+#include "Lobby.h"
 #include <thread>
 
 int main(int argc, char **argv) {
   Listener listener("1234");
-  BlockingQueue<std::string> q(20);
-  std::vector<std::unique_ptr<EnqueuedConnection>> connections;
+  Lobby lobby;
+  lobby.Start();
 
-  std::thread acceptor_thread([&listener, &q, &connections]() {
+  std::thread acceptor_thread([&listener, &lobby]() {
     while (true) {
-      EnqueuedConnection* c;
-      try { c = new EnqueuedConnection(listener.Accept(), q); }
+      try { lobby.Add(listener.Accept()); }
       catch (std::runtime_error e) { break; }
-
-      connections.emplace_back(c);
     }
-  });
-
-  std::thread writer_thread([&q]() {
-    std::string s;
-    while (q.trypop(&s))
-      std::cout << s;
   });
 
   while (std::cin.peek() != EOF) {
@@ -35,6 +24,6 @@ int main(int argc, char **argv) {
   listener.Shutdown();
   acceptor_thread.join();
 
-  q.close();
-  writer_thread.join();
+  lobby.Shutdown();
+  lobby.Join();
 }
