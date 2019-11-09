@@ -1,4 +1,5 @@
 #include "Modifier.h"
+#include <iostream>
 
 
 Modifier::Modifier(b2Vec2 size) : size(size), destroyed(true){}
@@ -30,6 +31,7 @@ void Modifier::Contact(Contactable* contactable){
 
 
 void Modifier::GetContactedBy(Car* car){
+  std::cout << "I got contacted by car!\n";
   this->modify(*car);
   this->removeModifierFromWorld();
 }

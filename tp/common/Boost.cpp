@@ -1,4 +1,5 @@
 #include "Boost.h"
+#include <iostream>
 
 const size_t Boost::BOOST_MULT = 2;
 const size_t Boost::BOOST_DURATION_SEC = 5;
@@ -27,6 +28,7 @@ void Boost::GetContactedBy(Modifier* modifier){
 
 void Boost::modify(Car& car){
   // Asuming 60 fps
+  std::cout << "I'm a boost\n";
   car.multiplyMaxSpeed(BOOST_MULT, BOOST_DURATION_SEC * 60);
 }
 
