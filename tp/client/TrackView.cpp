@@ -25,6 +25,10 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>&
     size.y = ((*it)->GetSize())[1];
 
     auto trackcode = (*it)->getTrackType();
+    if (trackcode > 1 && trackcode < 6){
+      auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");
+      camara.renderMe(pos, size, trackimage, 0, 0);
+    }
     auto& trackimage = imagecache.getImage(image_paths[trackcode]);
     camara.renderMe(pos, size, trackimage, 0, 0);
   }
