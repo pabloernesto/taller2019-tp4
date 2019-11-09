@@ -21,7 +21,7 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  
+
   // Agrego postas
   race.AddPosta(5,-20,0,0);
   race.AddPosta(55,-20,1,0);

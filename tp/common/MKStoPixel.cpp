@@ -4,6 +4,9 @@
 
 static const int PIXELS_PER_METER = 50;
 
-b2Vec2 MKStoPixelTransform(const b2Vec2& vector) {
-  return PIXELS_PER_METER * vector;
+std::vector<float> MKStoPixelTransform(const std::vector<float>& vector) {
+  std::vector<float> vectorPixel;
+  vectorPixel.push_back(vector[0] * PIXELS_PER_METER);
+  vectorPixel.push_back(vector[1] * PIXELS_PER_METER);
+  return vectorPixel;
 }

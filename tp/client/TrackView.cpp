@@ -16,20 +16,20 @@ TrackView::TrackView(ImageCache& i, Track& t)
 
 void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces) {
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
-    b2Vec2 pos;
-    std::vector<float> pos_vec = (*it)->GetPosition();
-    pos.x = pos_vec[0];
-    pos.y = pos_vec[1];
-    b2Vec2 size;
-    size.x = ((*it)->GetSize())[0];
-    size.y = ((*it)->GetSize())[1];
+    std::vector<float> pos = (*it)->GetPosition();
+    std::vector<float> size = (*it)->GetSize();
 
     auto trackcode = (*it)->getTrackType();
-    if (trackcode > 1 && trackcode < 6){
-      auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");
-      camara.renderMe(pos, size, trackimage, 0, 0);
-    }
+    renderBackGroundForPiece(camara, trackcode, pos, size);
     auto& trackimage = imagecache.getImage(image_paths[trackcode]);
     camara.renderMe(pos, size, trackimage, 0, 0);
   }
+}
+
+void TrackView::renderBackGroundForPiece(Camara& camara, int trackcode, 
+      std::vector<float> position, std::vector<float> size){
+    if (trackcode > 1 && trackcode < 6){
+      auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");
+      camara.renderMe(position, size, trackimage, 0, 0);
+    }
 }

@@ -16,6 +16,10 @@ private:
 public:
   TrackView(ImageCache& i, Track& t);
   void render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces);
+
+private:
+  void renderBackGroundForPiece(Camara& camara, int trackcode, 
+      std::vector<float> position, std::vector<float> size);
 };
 
 #endif    // TRACKVIEW_H_
