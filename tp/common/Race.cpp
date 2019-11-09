@@ -1,5 +1,4 @@
 #include "Race.h"
-
 #include <Box2D/Box2D.h>
 #include <chrono>
 #include <random>
@@ -24,7 +23,7 @@ void Race::Step() {
   for (auto& car : cars) {
     car->Step(this->track);
   }
-  if (modifiers_reset == 0){
+  if (this->modifiers_reset == 0){
     this->placeModifiers();
     modifiers_reset = MODIFIER_RESET_SEC*60;
   } else {
@@ -37,7 +36,7 @@ void Race::Step() {
 void Race::removeUsedModifiers(){
   auto it = this->modifiers.begin();
   while (it != this->modifiers.end()){
-    if (! (*it)->isModifierOnWorld()){
+    if (! ((*it)->isModifierOnWorld())){
       it = this->modifiers.erase(it);
     } else {
       it++;

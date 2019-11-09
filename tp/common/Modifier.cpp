@@ -1,7 +1,7 @@
 #include "Modifier.h"
 
 
-Modifier::Modifier(b2Vec2 size) : size(size){}
+Modifier::Modifier(b2Vec2 size) : size(size), destroyed(true){}
 
 void Modifier::Place(b2World& world, b2Vec2 position, float32 angle) {
   // Add modifier to the world
@@ -21,6 +21,7 @@ void Modifier::Place(b2World& world, b2Vec2 position, float32 angle) {
   modif_fixture_def.density = 1;
   modif_fixture_def.isSensor = true; // For no physical collition
   body->CreateFixture(&modif_fixture_def);
+  this->destroyed = false;
 }
 
 void Modifier::Contact(Contactable* contactable){
@@ -39,11 +40,11 @@ void Modifier::GetContactedBy(Modifier* modifier){}
 
 void Modifier::removeModifierFromWorld(){
   this->body->GetWorld()->DestroyBody(this->body);
-  this->body = NULL;
+  this->destroyed = true;
 }
 
 bool Modifier::isModifierOnWorld(){
-  return this->body == NULL;
+  return !this->destroyed;
 }
 
 b2Vec2 Modifier::GetPosition(){
@@ -55,7 +56,7 @@ b2Vec2 Modifier::GetSize(){
 }
 
 Modifier::~Modifier(){
-  if (this->body != NULL){
+  if (this->destroyed){
     this->body->GetWorld()->DestroyBody(this->body);
   }
 }
