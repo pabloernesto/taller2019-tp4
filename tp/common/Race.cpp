@@ -9,7 +9,7 @@ const int32 positionIterations = 3;
 const int MODIFIERS_AVAILABLE = 3;
 const size_t MODIFIER_DIST_DROP = 8;
 const size_t MODIFIER_RESET_SEC = 5;
-const b2Vec2 MODIF_SIZE = { 1 , 1 };
+const b2Vec2 MODIF_SIZE = { 1.5 , 1.5 };
 
 Race::Race(std::string track, int laps)
   : world(b2Vec2(0, 0)), cars(), postas(), modifiers(), modif_factory(),
