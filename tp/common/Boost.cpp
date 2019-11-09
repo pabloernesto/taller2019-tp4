@@ -1,8 +1,8 @@
 #include "Boost.h"
 #include <iostream>
 
-const size_t Boost::BOOST_MULT = 4;
-const size_t Boost::BOOST_DURATION_SEC = 5;
+const float Boost::BOOST_MULT = 1.3;
+const size_t Boost::BOOST_DURATION_SEC = 3;
 
 Boost::Boost(b2Vec2 size) : Modifier(size){}
 

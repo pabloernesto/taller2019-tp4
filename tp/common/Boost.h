@@ -5,7 +5,7 @@
 
 class Boost : public Modifier{
 
-  static const size_t BOOST_MULT;
+  static const float BOOST_MULT;
   static const size_t BOOST_DURATION_SEC;
 
   public:

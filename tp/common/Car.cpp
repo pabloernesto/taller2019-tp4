@@ -7,10 +7,10 @@
 
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
-const float32 Car::ENGINE_POWER = 10000;
+const float32 Car::ENGINE_POWER = 20000;
 const float Car::MAX_SPEED = 14;
 const float Car::MAX_SPEED_REV = 6;
-const float32 Car::ANGULAR_VEL_MULT = 0.3;
+const float32 Car::ANGULAR_VEL_MULT = 0.2;
 const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
@@ -219,7 +219,8 @@ void Car::Step(Track& track) {
   if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
-  //std::cout << "Velocidad: " << this->GetSpeed() << '\n';
+  std::cout << "Current speed: " << this->GetSpeed() << '\n';
+  std::cout << "Max speed: " << this->max_speed << '\n';
 }
 
 const b2Transform& Car::GetTransform(){
