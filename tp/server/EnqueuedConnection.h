@@ -6,7 +6,7 @@
 #include <string>
 #include <thread>
 
-// This file describes the public interface of the Enqueued Connection (EQ)
+// This file describes the public interface of the Enqueued Connection (EC)
 // class. This class provides continuous reading/writing over a network
 // connection, and sinchronization of the shared resource.
 
@@ -62,7 +62,7 @@ public:
   void SetIncomingQueue(BlockingQueue<std::string>& q);
 
   // Shutdown the underlying network connection and close the outgoing queue.
-  // The EQ will try to send the rest of the outgoing messages before
+  // The EC will try to send the rest of the outgoing messages before
   // before it destroys itself.
   void Shutdown();
 
