@@ -53,11 +53,11 @@ void Race::placeModifiers(){
     const b2Transform& car_trans = (*it)->GetTransform();
     b2Vec2 car_pos = car_trans.p;
     b2Rot car_angle = car_trans.q;
+    b2Vec2 dist = { 0 , MODIFIER_DIST_DROP };
+    b2Vec2 new_dist = (b2Mul(car_angle, dist)) + car_pos;
     // By trigonometry:
     // car_angle.c = cos(car_angle) and car_angle.s = sin(car_angle)
-    float modif_x = (car_angle.c) * (car_pos.Length() + MODIFIER_DIST_DROP);
-    float modif_y = (car_angle.s) * (car_pos.Length() + MODIFIER_DIST_DROP);
-    this->placeRandomModifier(modif_x, modif_y);
+    this->placeRandomModifier(new_dist.x, new_dist.y);
   }
 }
 
