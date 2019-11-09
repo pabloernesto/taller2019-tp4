@@ -3,7 +3,7 @@
 #include "ModifierView.h"
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
-  : window(w), renderer(r), race(race), cars(),
+  : race(race), window(w), renderer(r), cars(),
   camara(0, 0, 600, 400, car), imagecache(w, r),
   track(imagecache, race.GetTrack()), car(car)
 {

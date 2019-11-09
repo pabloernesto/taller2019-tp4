@@ -23,7 +23,9 @@ CFLAGS += -O3
 CFLAGS += -ggdb -DDEBUG -fno-inline
 
 # Estandar de C++ a usar
-CFLAGS = -std=c++11
+CFLAGS += -std=c++11
+
+CXXFLAGS = $(CFLAGS)
 
 # opciones del enlazador
 ########################
