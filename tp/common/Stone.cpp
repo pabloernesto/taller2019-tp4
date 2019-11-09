@@ -1,4 +1,5 @@
 #include "Stone.h"
+#include <iostream>
 
 const float Stone::SPEED_REDUCTION = 4;
 
@@ -26,6 +27,7 @@ void Stone::GetContactedBy(Modifier* modifier){
 
 void Stone::modify(Car& car){
   // Asuming 60 fps
+  std::cout << "I'm a stone\n";
   car.reduceLife();
   car.reduceSpeed(SPEED_REDUCTION);
 }

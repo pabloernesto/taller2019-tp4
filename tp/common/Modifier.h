@@ -10,6 +10,7 @@ class Modifier : public Contactable{
   private:
     b2Body* body;
     b2Vec2 size;
+    bool destroyed;
 
   public:
     Modifier(b2Vec2 size);
