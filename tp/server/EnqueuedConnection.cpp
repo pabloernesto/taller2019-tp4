@@ -17,18 +17,18 @@ void Receiver::Loop() {
     if (!data)
       break;
 
-    q.push(std::string(data));
+    q->push(std::string(data));
     delete[] data;
   }
-  q.close();
+  // Since the queue may be shared by different ECs, don't close it from here
 }
 
-void EnqueuedConnection::Push(std::string&& s) {
-  sender.q.push(std::move(s));
+BlockingQueue<std::string>& EnqueuedConnection::GetOutgoingQueue() {
+  return sender.q;
 }
 
-bool EnqueuedConnection::Pop(std::string* out) {
-  return receiver.q.trypop(out);
+BlockingQueue<std::string>& EnqueuedConnection::GetIncomingQueue() {
+  return *receiver.q;
 }
 
 void EnqueuedConnection::Shutdown() {
@@ -40,8 +40,9 @@ void EnqueuedConnection::Shutdown() {
 
 // Support methods
 
-EnqueuedConnection::EnqueuedConnection(Connection&& c)
-  : connection(std::move(c)), sender(connection), receiver(connection)
+EnqueuedConnection::EnqueuedConnection(Connection&& c,
+  BlockingQueue<std::string>& in_queue)
+  : connection(std::move(c)), sender(connection), receiver(connection, &in_queue)
 {
   sender.Start();
   receiver.Start();
@@ -55,7 +56,9 @@ EnqueuedConnection::~EnqueuedConnection() {
 
 Sender::Sender(Connection& c) : connection(c), t(), q(QUEUE_SIZE) {}
 
-Receiver::Receiver(Connection& c) : connection(c), t(), q(QUEUE_SIZE) {}
+Receiver::Receiver(Connection& c, BlockingQueue<std::string>* in_queue)
+  : connection(c), t(), q(in_queue)
+{}
 
 void Sender::Start() {
   t = std::thread(&Sender::Loop, this);
@@ -73,4 +76,8 @@ void Sender::Join() {
 void Receiver::Join() {
   if (t.joinable())
     t.join();
+}
+
+void EnqueuedConnection::SetIncomingQueue(BlockingQueue<std::string>& in_queue) {
+  receiver.q = &in_queue;
 }

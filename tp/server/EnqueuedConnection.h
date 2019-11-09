@@ -37,9 +37,9 @@ class Receiver {
   void Loop();
 
 public:
-  BlockingQueue<std::string> q;
+  BlockingQueue<std::string>* q;
 
-  Receiver(Connection& c);
+  Receiver(Connection& c, BlockingQueue<std::string>* in_queue);
   void Start();
   void Join();
 };
@@ -55,17 +55,18 @@ class EnqueuedConnection {
   Receiver receiver;
 
 public:
-  // The client class may be seen as a queue, sending and receiving data.
-  // This class may later be modified to supply a queue-like interface.
-  void Push(std::string&& s);
-  bool Pop(std::string* out);
+  BlockingQueue<std::string>& GetOutgoingQueue();
+  BlockingQueue<std::string>& GetIncomingQueue();
+
+  // Rebind EC's Receiver to place incoming messages on the supplied queue.
+  void SetIncomingQueue(BlockingQueue<std::string>& q);
 
   // Shutdown the underlying network connection and close the outgoing queue.
   // The EQ will try to send the rest of the outgoing messages before
   // before it destroys itself.
   void Shutdown();
 
-  EnqueuedConnection(Connection&& c);
+  EnqueuedConnection(Connection&& c, BlockingQueue<std::string>& in_queue);
   ~EnqueuedConnection();
 };
 
