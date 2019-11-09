@@ -12,12 +12,11 @@ int main(int argc, char **argv) {
 
   std::thread acceptor_thread([&listener, &q, &connections]() {
     while (true) {
-      try {
-        connections.emplace_back(new EnqueuedConnection(listener.Accept(), q));
+      EnqueuedConnection* c;
+      try { c = new EnqueuedConnection(listener.Accept(), q); }
+      catch (std::runtime_error e) { break; }
 
-      } catch (std::runtime_error e) {
-        break;
-      }
+      connections.emplace_back(c);
     }
   });
 
