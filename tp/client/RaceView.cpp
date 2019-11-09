@@ -30,7 +30,7 @@ void RaceView::render(int tick) {
   for (auto it = modifiers.begin(); it != modifiers.end(); it++){
     Modifier& current_mod = **(it);
     std::string mod_type = (*it)->getType();
-    std::string image_path = "Imagenes/" + mod_type + ".png"; 
+    std::string image_path = "Imagenes/" + mod_type + ".bmp"; 
     ModifierView current_mod_view(imagecache.getImage(image_path), current_mod, camara);
     current_mod_view.render(tick);
   }
