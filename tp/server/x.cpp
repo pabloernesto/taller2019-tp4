@@ -19,6 +19,8 @@ void x::HandleRequest(rapidjson::Document& req) {
     int gameid = req["id"].GetInt();
     auto &incoming_queue = lobby.JoinGame(gameid, client.GetOutgoingQueue());
     client.SetIncomingQueue(incoming_queue);
+    // Clear leftover messages
+    client_messages.clear();
     quit = true;
   }
 }
