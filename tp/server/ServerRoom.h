@@ -8,6 +8,8 @@
 #include "Server.h"
 #include "rapidjson/document.h"
 
+class Server;
+
 class ServerRoom {
   bool quit;
   BlockingQueue<std::string> client_messages;
