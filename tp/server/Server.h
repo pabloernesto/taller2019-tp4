@@ -1,6 +1,7 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
+#include "Game.h"
 #include "ServerRoom.h"
 #include "../common/socket.h"
 #include <vector>
