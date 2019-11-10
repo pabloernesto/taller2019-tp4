@@ -17,7 +17,7 @@ void x::HandleRequest(rapidjson::Document& req) {
     if (!req.HasMember("id"))
       ; // tirar un error
     int gameid = req["id"].GetInt();
-    auto &incoming_queue = lobby.JoinGame(gameid, client.GetOutgoingQueue());
+    auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
     client.SetIncomingQueue(incoming_queue);
     // Clear leftover messages
     client_messages.clear();
@@ -47,7 +47,7 @@ void x::Join() {
     thread.join();
 }
 
-x::x(Connection&& c, Lobby& l)
+x::x(Connection&& c, Server& s)
   : quit(false), client_messages(QUEUE_SIZE),
-  client(std::move(c), client_messages), thread(), lobby(l)
+  client(std::move(c), client_messages), thread(), server(s)
 {}

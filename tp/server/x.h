@@ -5,7 +5,7 @@
 #include "../common/blockingqueue.h"
 #include "EnqueuedConnection.h"
 #include <thread>
-#include "Lobby.h"
+#include "Server.h"
 #include "rapidjson/document.h"
 
 class x {
@@ -13,7 +13,7 @@ class x {
   BlockingQueue<std::string> client_messages;
   EnqueuedConnection client;
   std::thread thread;
-  Lobby& lobby;
+  Server& server;
 
   void HandleRequest(rapidjson::Document& req);
   void Loop();
@@ -22,7 +22,7 @@ public:
   void Start();
   void Join();
 
-  x(Connection&& c, Lobby& l);
+  x(Connection&& c, Server& s);
 };
 
 #endif // x_H_

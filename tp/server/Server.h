@@ -1,5 +1,5 @@
-#ifndef LOBBY_H_
-#define LOBBY_H_
+#ifndef SERVER_H_
+#define SERVER_H_
 
 #include "../common/socket.h"
 #include <vector>
@@ -7,7 +7,7 @@
 
 typedef BlockingQueue<std::string> Cola;
 
-class Lobby {
+class Server {
   std::vector<Game> games;
   std::vector<X> xxx;
 
@@ -19,4 +19,4 @@ public:
   void Join();
 };
 
-#endif  // LOBBY_H_
+#endif  // SERVER_H_

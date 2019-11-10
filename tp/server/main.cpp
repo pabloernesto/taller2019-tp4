@@ -1,15 +1,15 @@
 #include <iostream>
 #include "../common/socket.h"
-#include "Lobby.h"
+#include "Server.h"
 #include <thread>
 
 int main(int argc, char **argv) {
   Listener listener("1234");
-  Lobby lobby;
+  Server server;
 
-  std::thread acceptor_thread([&listener, &lobby]() {
+  std::thread acceptor_thread([&listener, &server]() {
     while (true) {
-      try { lobby.Add(listener.Accept()); }
+      try { server.Add(listener.Accept()); }
       catch (std::runtime_error e) { break; }
     }
   });
@@ -23,6 +23,6 @@ int main(int argc, char **argv) {
   listener.Shutdown();
   acceptor_thread.join();
 
-  lobby.Shutdown();
-  lobby.Join();
+  server.Shutdown();
+  server.Join();
 }
