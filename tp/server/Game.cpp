@@ -15,7 +15,7 @@ void Game::Loop() {
     std::queue<std::string> to_process;
     in_queue.swap(to_process);
     while (!to_process.empty()) {
-      auto&& request = Protocol::Parse(to_process.front());
+      auto&& request = Parse(to_process.front());
       handler_chain->Handle(&request);
       to_process.pop();
     }
