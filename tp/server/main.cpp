@@ -6,7 +6,6 @@
 int main(int argc, char **argv) {
   Listener listener("1234");
   Lobby lobby;
-  lobby.Start();
 
   std::thread acceptor_thread([&listener, &lobby]() {
     while (true) {

@@ -1,6 +1,8 @@
 #include "x.h"
 #include "rapidjson/document.h"
 
+static const int QUEUE_SIZE = 20;
+
 void x::HandleRequest(rapidjson::Document& req) {
   if (!req.HasMember("type"))
     ; // tirar un error
@@ -8,26 +10,26 @@ void x::HandleRequest(rapidjson::Document& req) {
 
   // List available games
   if (reqtype == "l") {
-    client.SendStr("[1, 2, 3]");
+    client.GetOutgoingQueue().push("[1, 2, 3]");
   
   // Join a game given an id
   } else if (reqtype == "j") {
     if (!req.HasMember("id"))
       ; // tirar un error
     int gameid = req["id"].GetInt();
-    lobby.JoinGame(gameid, client);
+    auto &incoming_queue = lobby.JoinGame(gameid, client.GetOutgoingQueue());
+    client.SetIncomingQueue(incoming_queue);
     quit = true;
   }
 }
 
 void x::Loop() {
   while (!quit) {
-    char *data = client.GetStr();
-    if (!data) ; // handle error
+    std::string str;
+    bool popped = client_messages.trypop(&str);
 
     rapidjson::Document d;
-    d.Parse(data);
-    delete[] data;
+    d.Parse(str.c_str());
 
     HandleRequest(d);
   }
@@ -38,10 +40,12 @@ void x::Start() {
 }
 
 void x::Join() {
+  client.Shutdown();
   if (thread.joinable())
     thread.join();
 }
 
 x::x(Connection&& c, Lobby& l)
-  : quit(false), client(std::move(c)), lobby(l)
+  : quit(false), client_messages(QUEUE_SIZE),
+  client(std::move(c), client_messages), thread(), lobby(l)
 {}

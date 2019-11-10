@@ -1,13 +1,16 @@
 #include "Lobby.h"
 #include <thread>
+#include "../common/blockingqueue.h"
 
 void Lobby::Add(Connection&& c) {
-  clients.push_back(std::move(c));
+  xxx.emplace_back(std::move(c));
+  xxx.back().Start();
+
+  // garbage collect dead xxx
 }
 
-void Lobby::Start() {
-  t = std::thread(&Lobby::Loop, this);
-}
+Cola& Lobby::JoinGame(int id, Cola& outq) {}
 
-void Lobby::Loop() {
-}
+void Lobby::Shutdown() {}
+
+void Lobby::Join() {}

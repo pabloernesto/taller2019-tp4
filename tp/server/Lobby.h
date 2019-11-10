@@ -5,17 +5,16 @@
 #include <vector>
 #include <thread>
 
+typedef BlockingQueue<std::string> Cola;
+
 class Lobby {
   std::vector<Game> games;
-  std::vector<Connection> clients;
-  std::thread t;
-
-  void Loop();
+  std::vector<X> xxx;
 
 public:
   void Add(Connection&& c);
+  Cola& JoinGame(int id, Cola& outq);
 
-  void Start();
   void Shutdown();
   void Join();
 };

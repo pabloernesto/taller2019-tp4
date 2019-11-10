@@ -2,13 +2,16 @@
 #define x_H_
 
 #include "../common/socket.h"
+#include "../common/blockingqueue.h"
+#include "EnqueuedConnection.h"
 #include <thread>
 #include "Lobby.h"
 #include "rapidjson/document.h"
 
 class x {
   bool quit;
-  Connection client;
+  BlockingQueue<std::string> client_messages;
+  EnqueuedConnection client;
   std::thread thread;
   Lobby& lobby;
 
