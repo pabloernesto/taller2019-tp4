@@ -10,7 +10,12 @@ void Game::Loop() {
   auto time1 = std::chrono::system_clock::now();
 
   while (!quit) {
-    // TODO: read client messages
+    // Read client messages
+    std::queue<std::string> to_process;
+    in_queue.swap(to_process);
+    while (!to_process.empty())
+      ; // process message
+
     race.Step();
     // TODO: send client responses
 
