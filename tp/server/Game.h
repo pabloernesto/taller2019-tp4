@@ -3,6 +3,7 @@
 
 #include "../common/Race.h"
 #include "../common/blockingqueue.h"
+#include "Responsibility.h"
 #include <thread>
 #include <vector>
 #include <string>
@@ -16,6 +17,7 @@ class Game {
   Cola in_queue;
   std::vector<Cola&> out_queues;
   std::atomic<bool> quit;
+  std::unique_ptr<TaskHandler> handler_chain;
 
   void Loop();
 

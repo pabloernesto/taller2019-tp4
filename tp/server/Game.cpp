@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
+#include "Protocol.h"
 
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
@@ -13,11 +14,20 @@ void Game::Loop() {
     // Read client messages
     std::queue<std::string> to_process;
     in_queue.swap(to_process);
-    while (!to_process.empty())
-      ; // process message
+    while (!to_process.empty()) {
+      auto&& request = Protocol::Parse(to_process.front());
+      handler_chain->Handle(&request);
+      to_process.pop();
+    }
 
     race.Step();
+
     // TODO: send client responses
+    for (auto& carp : race.GetCars()) {
+      auto json = ToJSON(*carp);
+      for (auto& q : out_queues)
+        q.push(json);
+    }
 
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
@@ -56,5 +66,8 @@ void Game::Join() {
 
 Game::Game(std::string track)
   : race("6 9 666662004204661661163005661166666661162004661305663005 ", 1),
-  update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false)
-{}
+  update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
+  handler_chain()
+{
+  // TODO: populate handler_chain()
+}
