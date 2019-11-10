@@ -16,4 +16,12 @@ int main() {
 
   printf("SCREEN_WIDTH: %d\n", d["SCREEN_WIDTH"].GetInt());
   printf("CAR_WIDTH: %f\n", d["CAR_WIDTH"].GetFloat());
+
+  d.AddMember("yes", "we can", d.GetAllocator());
+  printf("yes: %s\n", d["yes"].GetString());
+
+  d.AddMember("meaning of life, the universe, and everything",
+    42, d.GetAllocator());
+  printf("the answer: %d\n",
+    d["meaning of life, the universe, and everything"].GetInt());
 }
