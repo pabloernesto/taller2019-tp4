@@ -1,9 +1,9 @@
-#include "x.h"
+#include "ServerRoom.h"
 #include "rapidjson/document.h"
 
 static const int QUEUE_SIZE = 20;
 
-void x::HandleRequest(rapidjson::Document& req) {
+void ServerRoom::HandleRequest(rapidjson::Document& req) {
   if (!req.HasMember("type"))
     ; // tirar un error
   std::string reqtype = req["type"].GetString();
@@ -25,7 +25,7 @@ void x::HandleRequest(rapidjson::Document& req) {
   }
 }
 
-void x::Loop() {
+void ServerRoom::Loop() {
   while (!quit) {
     std::string str;
     bool popped = client_messages.trypop(&str);
@@ -37,17 +37,17 @@ void x::Loop() {
   }
 }
 
-void x::Start() {
-  thread = std::thread(&x::Loop, this);
+void ServerRoom::Start() {
+  thread = std::thread(&ServerRoom::Loop, this);
 }
 
-void x::Join() {
+void ServerRoom::Join() {
   client.Shutdown();
   if (thread.joinable())
     thread.join();
 }
 
-x::x(Connection&& c, Server& s)
+ServerRoom::ServerRoom(Connection&& c, Server& s)
   : quit(false), client_messages(QUEUE_SIZE),
   client(std::move(c), client_messages), thread(), server(s)
 {}

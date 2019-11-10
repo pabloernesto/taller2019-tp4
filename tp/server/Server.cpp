@@ -3,10 +3,10 @@
 #include "../common/blockingqueue.h"
 
 void Server::Add(Connection&& c) {
-  xxx.emplace_back(std::move(c));
-  xxx.back().Start();
+  rooms.emplace_back(std::move(c));
+  rooms.back().Start();
 
-  // garbage collect dead xxx
+  // garbage collect dead rooms
 }
 
 Cola& Server::JoinGame(int id, Cola& outq) {}

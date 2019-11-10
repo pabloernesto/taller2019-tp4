@@ -1,6 +1,7 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
+#include "ServerRoom.h"
 #include "../common/socket.h"
 #include <vector>
 #include <thread>
@@ -9,7 +10,7 @@ typedef BlockingQueue<std::string> Cola;
 
 class Server {
   std::vector<Game> games;
-  std::vector<X> xxx;
+  std::vector<ServerRoom> rooms;
 
 public:
   void Add(Connection&& c);
