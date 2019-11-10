@@ -61,6 +61,11 @@ class BlockingQueue {
     std::queue<T>().swap(q);
   }
 
+  void swap(std::queue& other) {
+    std::unique_lock<std::mutex> lock(mtx);
+    q.swap(other);
+  }
+
   void close() {
     std::unique_lock<std::mutex> lock(mtx);
     closed = true;
