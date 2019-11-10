@@ -56,5 +56,7 @@ void RaceView::showMessage(std::string message){
   SDL_Rect Message_rect = {0, 0, 500, 500};
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
+  SDL_DestroyTexture(Message);
+  SDL_FreeSurface(surfaceMessage);
 	TTF_CloseFont(font);
 }

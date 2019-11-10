@@ -12,7 +12,7 @@ class RaceScreen : public GameScreen {
   Race race;
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, std::string race);
   ~RaceScreen();
   GameScreen* start();
 };

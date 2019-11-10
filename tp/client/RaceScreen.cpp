@@ -12,8 +12,8 @@ static const int HEIGHT = 400;
 RaceScreen::~RaceScreen(){
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), race("6 9 666662004204661661163005661166666661162004661305663005 ", 1)
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, std::string race)
+  : GameScreen(w, r), race(race, 1)
 {}
 
 GameScreen* RaceScreen::start() {

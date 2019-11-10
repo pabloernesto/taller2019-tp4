@@ -219,8 +219,6 @@ void Car::Step(Track& track) {
   if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
-  std::cout << "Current speed: " << this->GetSpeed() << '\n';
-  std::cout << "Max speed: " << this->max_speed << '\n';
 }
 
 const b2Transform& Car::GetTransform(){
