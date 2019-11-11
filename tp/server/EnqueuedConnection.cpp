@@ -36,6 +36,10 @@ void EnqueuedConnection::Shutdown() {
   sender.q.close();
 }
 
+void EnqueuedConnection::Join() {
+  sender.Join();
+  receiver.Join();
+}
 
 
 // Support methods

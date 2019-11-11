@@ -65,6 +65,7 @@ public:
   // The EC will try to send the rest of the outgoing messages before
   // before it destroys itself.
   void Shutdown();
+  void Join();
 
   EnqueuedConnection(Connection&& c, BlockingQueue<std::string>& in_queue);
   ~EnqueuedConnection();

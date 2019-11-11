@@ -49,6 +49,23 @@ class BlockingQueue {
     return true;
   }
 
+  // Delete all items in the queue
+  void clear() {
+    std::unique_lock<std::mutex> lock(mtx);
+    // std::queue does not have a clear method, and we are not supposed to know
+    // what the container underlying this template actually is. Some research
+    // suggests that it is a standard idiom to create a temporary empty queue
+    // and swap its contents with the queue we want to clear. When the
+    // (no longer empty) queue goes out of scope it will handle item deletion
+    // for us.
+    std::queue<T>().swap(q);
+  }
+
+  void swap(std::queue<T>& other) {
+    std::unique_lock<std::mutex> lock(mtx);
+    q.swap(other);
+  }
+
   void close() {
     std::unique_lock<std::mutex> lock(mtx);
     closed = true;
