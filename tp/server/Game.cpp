@@ -23,6 +23,7 @@ void Game::Loop() {
     race.Step();
 
     // TODO: send client responses
+    // TODO: send powerup information
     for (auto& carp : race.GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
