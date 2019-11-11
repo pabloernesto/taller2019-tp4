@@ -2,6 +2,7 @@
 #define PROTOCOL_H_
 
 #include <string>
+#include <vector>
 #include "rapidjson/document.h"
 
 rapidjson::Document Parse(std::string& x);
