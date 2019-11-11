@@ -27,7 +27,7 @@ void Game::Loop() {
     for (auto& carp : race.GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
-        q.push(json);
+        q->push(std::move(json));
     }
 
     // Frame rate limiting
@@ -46,7 +46,7 @@ void Game::Loop() {
 }
 
 Cola& Game::AddPlayer(Cola& player_queue) {
-  out_queues.push_back(player_queue);
+  out_queues.push_back(&player_queue);
   return in_queue;
 }
 

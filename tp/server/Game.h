@@ -15,7 +15,7 @@ class Game {
   Race race;
   std::thread update_thread;
   Cola in_queue;
-  std::vector<Cola&> out_queues;
+  std::vector<Cola*> out_queues;
   std::atomic<bool> quit;
   std::unique_ptr<TaskHandler> handler_chain;
 
