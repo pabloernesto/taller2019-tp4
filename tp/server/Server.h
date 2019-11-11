@@ -6,12 +6,13 @@
 #include "../common/socket.h"
 #include <vector>
 #include <thread>
+#include <memory>   // unique_ptr
 
 typedef BlockingQueue<std::string> Cola;
 
 class Server {
   std::vector<Game> games;
-  std::vector<ServerRoom> rooms;
+  std::vector<std::unique_ptr<ServerRoom>> rooms;
 
 public:
   void Add(Connection&& c);
