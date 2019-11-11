@@ -79,6 +79,18 @@ Car& Race::AddCar(float x, float y, int id) {
   return *cars.back();
 }
 
+Car& Race::AddNewCarToRace(){
+  b2Vec2 where;
+  if (cars.size() == 0 ){
+    where = { 0 , -20 };
+    //WARNING: HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  } else {
+    where = cars.back()->GetPosition();
+    where.x += 3;
+  }
+  return this->AddCar(where.x, where.y, cars.size());
+}
+
 void Race::AddPosta(float x, float y, int id, float32 angle) {
   postas.emplace_back(new Posta(id));
   b2Vec2 where = { x, y }; //position in metres
