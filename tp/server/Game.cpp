@@ -65,6 +65,7 @@ void Game::Join() {
   if (update_thread.joinable()) update_thread.join();
 }
 
+// TODO: pass real track
 Game::Game(int id, std::string track)
   : race("6 9 666662004204661661163005661166666661162004661305663005 ", 1),
   update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
