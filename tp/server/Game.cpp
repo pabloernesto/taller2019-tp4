@@ -5,6 +5,10 @@
 #include "CarController.h"
 #include <memory>
 
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
 
@@ -47,11 +51,31 @@ void Game::Loop() {
   }
 }
 
-Cola& Game::AddPlayer(Cola& player_queue) {
-  out_queues.push_back(&player_queue);
+void Game::AddPlayer(EnqueuedConnection& player) {
+  // Start broadcasting messages to player
+  out_queues.push_back(&player.GetOutgoingQueue());
+
+  // Add player car, and car controller
   TaskHandler* handler = handler_chain.release();
   handler_chain.reset(new CarController(handler, race.AddNewCarToRace()));
-  return in_queue;
+
+  // Add player id to player's messages
+  const int playerid = out_queues.size();
+  player.OnReceive([playerid](std::string* msg){
+    rapidjson::Document d;
+    d.Parse(msg->c_str());
+    d.AddMember("id", playerid, d.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    d.Accept(writer);
+
+    *msg = buffer.GetString();
+    return true;
+  });
+
+  // Start accepting player messages
+  player.SetIncomingQueue(in_queue);
 }
 
 
