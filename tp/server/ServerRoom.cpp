@@ -35,7 +35,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
 void ServerRoom::Loop() {
   while (!quit) {
     std::string str;
-    bool popped = client_messages.trypop(&str);
+    if (!client_messages.trypop(&str))
+      ; // handle client disconnection
 
     rapidjson::Document d;
     d.Parse(str.c_str());
