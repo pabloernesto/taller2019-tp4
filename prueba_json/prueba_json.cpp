@@ -24,4 +24,12 @@ int main() {
     42, d.GetAllocator());
   printf("the answer: %d\n",
     d["meaning of life, the universe, and everything"].GetInt());
+
+  Document d2(rapidjson::kArrayType);
+  d2.PushBack("hello", d2.GetAllocator());
+
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d2.Accept(writer);
+  printf("%s\n", buffer.GetString());
 }
