@@ -14,6 +14,8 @@
 // for EC, and not really meant as part of the module's public interface,
 // I've used public attributes liberally.
 
+typedef bool filter(std::string *s);
+
 // A Sender continuosly reads from a queue of outgoing data, and writes it
 // to the network connection.
 class Sender {
@@ -23,6 +25,12 @@ class Sender {
 
 public:
   BlockingQueue<std::string> q;
+
+  // After a message is extracted from the queue, but before sending it through
+  // the connection, this hook will be called (if defined), and allowed to
+  // examine, modify, or block the message. A return value of true indicates the
+  // message is allowed be sent.
+  filter* on_send;
 
   Sender(Connection& c);
   void Start();
@@ -38,6 +46,12 @@ class Receiver {
 
 public:
   BlockingQueue<std::string>* q;
+
+  // After a message arrives from the connection, but before adding it to the
+  // queue, this hook will be called (if defined), and allowed to examine,
+  // modify, or block the message. A return value of true indicates the
+  // message is allowed be enqueued.
+  filter* on_receive;
 
   Receiver(Connection& c, BlockingQueue<std::string>* in_queue);
   void Start();

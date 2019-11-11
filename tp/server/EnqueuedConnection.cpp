@@ -58,10 +58,12 @@ EnqueuedConnection::~EnqueuedConnection() {
   receiver.Join();
 }
 
-Sender::Sender(Connection& c) : connection(c), t(), q(QUEUE_SIZE) {}
+Sender::Sender(Connection& c)
+  : connection(c), t(), q(QUEUE_SIZE), on_send(nullptr)
+{}
 
 Receiver::Receiver(Connection& c, BlockingQueue<std::string>* in_queue)
-  : connection(c), t(), q(in_queue)
+  : connection(c), t(), q(in_queue), on_receive(nullptr)
 {}
 
 void Sender::Start() {
