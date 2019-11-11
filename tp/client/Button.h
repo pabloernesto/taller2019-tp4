@@ -9,15 +9,15 @@ class Button {
 private:
   std::string name;
   SDL_Rect button;
-  std::unique_ptr<Race>& race;
+  Race* race;
 
 public:
-  Button(std::string name, int width, int height, std::unique_ptr<Race>& race);
+  Button(std::string name, int width, int height, Race* race);
   ~Button();
   std::string GetName();
   void SetPosition(int x, int y);
   bool IWasClicked(int x, int y);
-  std::unique_ptr<Race>& GetRace();
+  Race* GetRace();
 
 };
 

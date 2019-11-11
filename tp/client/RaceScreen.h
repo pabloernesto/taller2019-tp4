@@ -9,10 +9,10 @@
 #include "../common/Posta.h"
 
 class RaceScreen : public GameScreen {
-  std::unique_ptr<Race>& race;
+  std::unique_ptr<Race> race;
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<Race>& race);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, Race* race);
   ~RaceScreen();
   GameScreen* start();
 };

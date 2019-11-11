@@ -11,14 +11,14 @@ const size_t MODIFIER_DIST_DROP = 8;
 const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1.5 , 1.5 };
 
-Race::Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>& postas)
+Race::Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>* postas)
   : world(b2Vec2(0, 0)), cars(), postas(postas), modifiers(), modif_factory(),
   track(track), listener(), modifiers_reset(MODIFIER_RESET_SEC*60), laps(laps),
   ended(false), winnerCar() {
   world.SetContactListener(&listener);
-  std::vector<std::unique_ptr<Posta>>::iterator it = postas.begin();
-  for (;it != postas.end(); ++it){
-    this->AddPosta((*it)->GetPosition(), (*it)->GetId(), (*it)->GetAngle());
+  std::vector<std::unique_ptr<Posta>>::iterator it = postas->begin();
+  for (;it != postas->end(); ++it){
+    (*it)->Place(world);
   }
 }
 
@@ -82,8 +82,16 @@ Car& Race::AddCar(float x, float y, int id) {
   return *cars.back();
 }
 
-void Race::AddPosta(b2Vec2 position, int id, float32 angle) {
-  postas.back()->Place(world, position, angle);
+Car& Race::AddNewCarToRace(){
+  b2Vec2 where;
+  if (cars.size() == 0 ){
+    where = { 0 , -20 };
+    //WARNING: HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  } else {
+    where = cars.back()->GetPosition();
+    where.x += 3;
+  }
+  return this->AddCar(where.x, where.y, cars.size());
 }
 
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {
@@ -103,7 +111,7 @@ std::vector<std::unique_ptr<Modifier>>& Race::getModifiers(){
 }
 
 int Race::GetAmountOfPostas(){
-  return postas.size();
+  return postas->size();
 }
 
 int Race::GetLaps(){

@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   std::thread acceptor_thread([&listener, &server]() {
     while (true) {
       try { server.Add(listener.Accept()); }
-      catch (std::runtime_error e) { break; }
+      catch (std::runtime_error& e) { break; }
     }
   });
 

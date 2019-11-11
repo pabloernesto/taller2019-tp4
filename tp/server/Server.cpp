@@ -11,16 +11,24 @@ void Server::Add(Connection&& c) {
 
 Cola& Server::JoinGame(int id, Cola& outq) {
   for (auto& game : games) {
-    if (game.id != id) continue;
-    return game.AddPlayer(outq);
+    if (game->id != id) continue;
+    return game->AddPlayer(outq);
   }
   throw std::runtime_error("Tratando de unirse a un juego que no existe");
 }
 
-std::vector<Game>& Server::GetGames() {
+std::vector<std::unique_ptr<Game>>& Server::GetGames() {
   return games;
+}
+
+int Server::NewGame() {
+  // TODO: pass real track
+  games.emplace_back(new Game(maxid++, ""));
+  return games.back()->id;
 }
 
 void Server::Shutdown() {}
 
 void Server::Join() {}
+
+Server::Server() : games(), maxid(0), rooms() {}

@@ -14,7 +14,7 @@
 class Race {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
-  std::vector<std::unique_ptr<Posta>>& postas;
+  std::unique_ptr<std::vector<std::unique_ptr<Posta>>> postas;
   std::vector<std::unique_ptr<Modifier>> modifiers;
   ModifierFactory modif_factory;
 
@@ -26,10 +26,10 @@ class Race {
   Car* winnerCar;
 
 public:
-  Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>& postas);
+  Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>* postas);
   void Step();
   Car& AddCar(float x, float y, int id);
-  void AddPosta(b2Vec2 position, int id, float32 angle);
+  Car& AddNewCarToRace();
   std::vector<std::unique_ptr<Car>>& GetCars();
   Track& GetTrack();
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
@@ -39,7 +39,6 @@ public:
   void SetWinner(Car* car);
   bool Ended();
   int GetIdWinnerCar();
-
   Race();
 
 private:

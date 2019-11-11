@@ -24,8 +24,6 @@ GameScreen* ChooseRaceScreen::start(){
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
 
-  showMessage("x", TITLESIZEPERLETTER, 0, 0);
-
   //Agrego el titulo
   int xButton = WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
@@ -33,10 +31,9 @@ GameScreen* ChooseRaceScreen::start(){
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
   RaceFabric fabric;
-  std::unique_ptr<Race> race(fabric.makeRace1());
   //agrego los botones
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, race));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, race));
+  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, fabric.makeRace1()));
+  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, fabric.makeRace1()));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
@@ -55,8 +52,7 @@ GameScreen* ChooseRaceScreen::start(){
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         if ((*it)->IWasClicked(x,y)){
-          std::unique_ptr<Race>& race = (*it)->GetRace();
-          return new RaceScreen(window, renderer, race);
+          return new RaceScreen(window, renderer, (*it)->GetRace());
         }
       }
     }
@@ -73,7 +69,6 @@ void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
   int width = size * (int)message.size();
   SDL_Rect Message_rect = {x - width/2, y - size/2, width, size};
-  printf("render: x: %d y: %d\n", x - width/2, y - size/2);
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
