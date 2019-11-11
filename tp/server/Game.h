@@ -22,6 +22,8 @@ class Game {
   void Loop();
 
 public:
+  int id;
+
   Cola& AddPlayer(Cola& player_queue);
 
   // Thread control methods
@@ -29,7 +31,7 @@ public:
   void Shutdown();
   void Join();
 
-  Game(std::string track);
+  Game(int id, std::string track);
 };
 
 #endif  // GAME_H_

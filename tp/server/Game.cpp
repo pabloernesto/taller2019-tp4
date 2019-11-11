@@ -65,10 +65,10 @@ void Game::Join() {
   if (update_thread.joinable()) update_thread.join();
 }
 
-Game::Game(std::string track)
+Game::Game(int id, std::string track)
   : race("6 9 666662004204661661163005661166666661162004661305663005 ", 1),
   update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
-  handler_chain()
+  handler_chain(), id(id)
 {
   // TODO: populate handler_chain()
 }
