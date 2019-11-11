@@ -44,54 +44,16 @@ GameScreen* RaceScreen::start() {
     if (sdl_event.type == SDL_QUIT) break;
 
     if (sdl_event.type == SDL_KEYDOWN) {
-      switch(sdl_event.key.keysym.sym) {
-        case SDLK_LEFT:
-          car.SteerLeft();
-          break;
-        case SDLK_RIGHT:
-          car.SteerRight();
-          break;
-        case SDLK_UP:
-          if (!car.isGoingForward()){
-            car.BreakOn();
-          } else {
-            car.BreakOff();
-            car.GasOn();
-          }
-          break;
-        case SDLK_DOWN:
-          if (car.isGoingForward()){
-            car.BreakOn();
-          } else {
-            car.BreakOff();
-            car.reverseOn();
-            car.GasOn();
-          }
-          break;
-        default:
-          break;
-      }
+      if (sdl_event.key.keysym.sym == SDLK_LEFT) car.SteerLeft();
+      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car.SteerRight();
+      else if (sdl_event.key.keysym.sym == SDLK_UP) car.GasOn();
+      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car.BreakOn();
     }
     if (sdl_event.type == SDL_KEYUP) {
-      switch(sdl_event.key.keysym.sym) {
-        case SDLK_LEFT:
-          car.SteerCenter();
-          break;
-        case SDLK_RIGHT:
-          car.SteerCenter();
-          break;
-        case SDLK_UP:
-          car.GasOff();
-          car.BreakOff();
-          break;
-        case SDLK_DOWN:
-          car.BreakOff();
-          car.GasOff();
-          car.reverseOff();
-          break;
-      default:
-        break;
-      }
+      if (sdl_event.key.keysym.sym == SDLK_LEFT) car.SteerCenter();
+      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car.SteerCenter();
+      else if (sdl_event.key.keysym.sym == SDLK_UP) car.GasOff();
+      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car.BreakOff();
     }
   }
 

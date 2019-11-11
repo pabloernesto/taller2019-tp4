@@ -25,11 +25,17 @@ Car::Car(int id, Race* race)
 {}
 
 void Car::GasOn() {
-  gas = true;
+  if (!isGoingForward()) {
+    break_ = true;
+  } else {
+    break_ = false;
+    gas = true;
+  }
 }
 
 void Car::GasOff() {
   gas = false;
+  break_ = false;
 }
 
 void Car::reverseOn() {
@@ -49,11 +55,19 @@ bool Car::stopped(){
 }
 
 void Car::BreakOn() {
-  break_ = true;
+  if (isGoingForward()) {
+    break_ = true;
+  } else {
+    break_ = false;
+    reverse = true;
+    gas = true;
+  }
 }
 
 void Car::BreakOff() {
   break_ = false;
+  reverse = false;
+  gas = false;
 }
 
 void Car::SteerLeft() {
