@@ -22,6 +22,7 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     int gameid = req["id"].GetInt();
     try {
       auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
+      // WARN: Race condition? What if client sends a message before SetIncomingQueue?
       client.SetIncomingQueue(incoming_queue);
       // Clear leftover messages
       client_messages.clear();
