@@ -90,3 +90,11 @@ void Receiver::Join() {
 void EnqueuedConnection::SetIncomingQueue(BlockingQueue<std::string>& in_queue) {
   receiver.q = &in_queue;
 }
+
+void EnqueuedConnection::OnSend(filter f) {
+  sender.on_send = f;
+}
+
+void EnqueuedConnection::OnReceive(filter f) {
+  receiver.on_receive = f;
+}

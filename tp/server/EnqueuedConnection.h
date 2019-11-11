@@ -85,6 +85,9 @@ public:
   void Shutdown();
   void Join();
 
+  void OnSend(filter f);
+  void OnReceive(filter f);
+
   EnqueuedConnection(Connection&& c, BlockingQueue<std::string>& in_queue);
   ~EnqueuedConnection();
 };
