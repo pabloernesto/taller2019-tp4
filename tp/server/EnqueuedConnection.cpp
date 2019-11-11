@@ -5,6 +5,7 @@ static const int QUEUE_SIZE = 20;
 void Sender::Loop() {
   std::string item;
   while (q.trypop(&item)) {
+    if (on_send && !on_send(&item)) continue;
     if (connection.SendStr(item.c_str()) < 0)
       break;
   }
@@ -13,6 +14,7 @@ void Sender::Loop() {
 
 void Receiver::Loop() {
   while (true) {
+    if (on_receive && !on_receive(&item)) continue;
     char* data = connection.GetStr();
     if (!data)
       break;
