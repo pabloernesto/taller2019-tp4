@@ -1,4 +1,5 @@
 #include "ServerRoom.h"
+#include "Server.h"
 #include "Protocol.h"
 #include "rapidjson/document.h"
 

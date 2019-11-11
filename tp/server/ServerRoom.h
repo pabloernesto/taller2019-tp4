@@ -5,7 +5,6 @@
 #include "../common/blockingqueue.h"
 #include "EnqueuedConnection.h"
 #include <thread>
-#include "Server.h"
 #include "rapidjson/document.h"
 
 class Server;
