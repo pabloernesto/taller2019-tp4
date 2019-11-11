@@ -2,6 +2,8 @@
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
+#include "CarController.h"
+#include <memory>
 
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
@@ -72,4 +74,9 @@ Game::Game(int id, std::string track)
   handler_chain(), id(id)
 {
   // TODO: populate handler_chain()
+  TaskHandler* handler = NULL;
+  for (auto it = race.GetCars().begin(); it != race.GetCars().end(); it++){
+    handler = new CarController(handler, **(it));
+  }
+  handler_chain.reset(handler);
 }
