@@ -26,10 +26,10 @@ std::string ToJSON(Car& x) {
   return std::string(buffer.GetString());
 }
 
-std::string ToJSON(std::vector<Game>& x) {
+std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
   rapidjson::Document d(rapidjson::kArrayType);
   for (auto& game : x)
-    d.PushBack(game.id, d.GetAllocator());
+    d.PushBack(game->id, d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
