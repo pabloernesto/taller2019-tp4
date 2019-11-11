@@ -5,6 +5,7 @@
 #include "../common/blockingqueue.h"
 #include <string>
 #include <thread>
+#include <functional>
 
 // This file describes the public interface of the Enqueued Connection (EC)
 // class. This class provides continuous reading/writing over a network
@@ -13,6 +14,11 @@
 // Note: Since both Sender and Receiver are implementation details
 // for EC, and not really meant as part of the module's public interface,
 // I've used public attributes liberally.
+
+// filter types -whose usage is described below- are pointer-like wrappers
+// around either functions or lambdas. Lambda support is strictly necessary
+// for stateful functionality.
+typedef std::function<bool(std::string *s)> filter;
 
 // A Sender continuosly reads from a queue of outgoing data, and writes it
 // to the network connection.
@@ -23,6 +29,12 @@ class Sender {
 
 public:
   BlockingQueue<std::string> q;
+
+  // After a message is extracted from the queue, but before sending it through
+  // the connection, this hook will be called (if defined), and allowed to
+  // examine, modify, or block the message. A return value of true indicates the
+  // message is allowed be sent.
+  filter on_send;
 
   Sender(Connection& c);
   void Start();
@@ -38,6 +50,12 @@ class Receiver {
 
 public:
   BlockingQueue<std::string>* q;
+
+  // After a message arrives from the connection, but before adding it to the
+  // queue, this hook will be called (if defined), and allowed to examine,
+  // modify, or block the message. A return value of true indicates the
+  // message is allowed be enqueued.
+  filter on_receive;
 
   Receiver(Connection& c, BlockingQueue<std::string>* in_queue);
   void Start();
@@ -66,6 +84,9 @@ public:
   // before it destroys itself.
   void Shutdown();
   void Join();
+
+  void OnSend(filter f);
+  void OnReceive(filter f);
 
   EnqueuedConnection(Connection&& c, BlockingQueue<std::string>& in_queue);
   ~EnqueuedConnection();
