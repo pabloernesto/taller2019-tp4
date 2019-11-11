@@ -9,7 +9,13 @@ void Server::Add(Connection&& c) {
   // garbage collect dead rooms
 }
 
-Cola& Server::JoinGame(int id, Cola& outq) {}
+Cola& Server::JoinGame(int id, Cola& outq) {
+  for (auto& game : games) {
+    if (game.id != id) continue;
+    return game.AddPlayer(outq);
+  }
+  throw std::runtime_error("Tratando de unirse a un juego que no existe");
+}
 
 void Server::Shutdown() {}
 
