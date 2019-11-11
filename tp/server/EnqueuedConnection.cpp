@@ -14,13 +14,14 @@ void Sender::Loop() {
 
 void Receiver::Loop() {
   while (true) {
-    if (on_receive && !on_receive(&item)) continue;
     char* data = connection.GetStr();
-    if (!data)
-      break;
+    if (!data) break;
 
-    q->push(std::string(data));
+    std::string item(data);
     delete[] data;
+
+    if (on_receive && !on_receive(&item)) continue;
+    q->push(std::move(item));
   }
   // Since the queue may be shared by different ECs, don't close it from here
 }
