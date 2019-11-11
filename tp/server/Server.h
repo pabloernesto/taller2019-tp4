@@ -18,6 +18,8 @@ public:
   void Add(Connection&& c);
   Cola& JoinGame(int id, Cola& outq);
 
+  std::vector<Game>& GetGames();
+
   void Shutdown();
   void Join();
 };

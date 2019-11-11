@@ -1,4 +1,5 @@
 #include "ServerRoom.h"
+#include "Protocol.h"
 #include "rapidjson/document.h"
 
 static const int QUEUE_SIZE = 20;
@@ -10,7 +11,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
 
   // List available games
   if (reqtype == "l") {
-    client.GetOutgoingQueue().push("[1, 2, 3]");
+    auto&& json = ToJSON(server.GetGames());
+    client.GetOutgoingQueue().push(json);
   
   // Join a game given an id
   } else if (reqtype == "j") {

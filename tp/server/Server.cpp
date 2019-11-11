@@ -17,6 +17,10 @@ Cola& Server::JoinGame(int id, Cola& outq) {
   throw std::runtime_error("Tratando de unirse a un juego que no existe");
 }
 
+std::vector<Game>& Server::GetGames() {
+  return games;
+}
+
 void Server::Shutdown() {}
 
 void Server::Join() {}
