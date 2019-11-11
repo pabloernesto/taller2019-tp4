@@ -17,11 +17,15 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     if (!req.HasMember("id"))
       ; // tirar un error
     int gameid = req["id"].GetInt();
-    auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
-    client.SetIncomingQueue(incoming_queue);
-    // Clear leftover messages
-    client_messages.clear();
-    quit = true;
+    try {
+      auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
+      client.SetIncomingQueue(incoming_queue);
+      // Clear leftover messages
+      client_messages.clear();
+      quit = true;
+    } catch (std::runtime_error e) {
+      client.GetOutgoingQueue().push("{\"error\": \"no such game\"}");
+    }
   }
 }
 
