@@ -21,6 +21,14 @@ std::vector<Game>& Server::GetGames() {
   return games;
 }
 
+int Server::NewGame() {
+  // TODO: pass real track
+  games.emplace_back(maxid++, "");
+  return games.back().id;
+}
+
 void Server::Shutdown() {}
 
 void Server::Join() {}
+
+Server::Server() : games(), maxid(0), rooms() {}
