@@ -49,6 +49,8 @@ void Game::Loop() {
 
 Cola& Game::AddPlayer(Cola& player_queue) {
   out_queues.push_back(&player_queue);
+  TaskHandler* handler = handler_chain.release();
+  handler_chain.reset(new CarController(handler, race.AddNewCarToRace()));
   return in_queue;
 }
 
@@ -74,9 +76,5 @@ Game::Game(int id, std::string track)
   handler_chain(), id(id)
 {
   // TODO: populate handler_chain()
-  TaskHandler* handler = NULL;
-  for (auto it = race.GetCars().begin(); it != race.GetCars().end(); it++){
-    handler = new CarController(handler, **(it));
-  }
-  handler_chain.reset(handler);
+  handler_chain.reset(NULL);
 }
