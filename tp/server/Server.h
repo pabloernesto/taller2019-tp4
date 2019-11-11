@@ -11,17 +11,22 @@
 typedef BlockingQueue<std::string> Cola;
 
 class Server {
-  std::vector<Game> games;
+  std::vector<std::unique_ptr<Game>> games;
+  int maxid;
   std::vector<std::unique_ptr<ServerRoom>> rooms;
 
 public:
   void Add(Connection&& c);
   Cola& JoinGame(int id, Cola& outq);
+  // Instantiate a race. Returns game id.
+  int NewGame();
 
-  std::vector<Game>& GetGames();
+  std::vector<std::unique_ptr<Game>>& GetGames();
 
   void Shutdown();
   void Join();
+
+  Server();
 };
 
 #endif  // SERVER_H_

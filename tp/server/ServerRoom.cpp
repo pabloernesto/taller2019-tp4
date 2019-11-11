@@ -30,6 +30,15 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     } catch (std::runtime_error e) {
       client.GetOutgoingQueue().push("{\"error\": \"no such game\"}");
     }
+
+  // Create a new game
+  } else if (reqtype == "c") {
+    int gameid = server.NewGame();
+    auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
+    client.SetIncomingQueue(incoming_queue);
+    // Clear leftover messages
+    client_messages.clear();
+    quit = true;
   }
 }
 
