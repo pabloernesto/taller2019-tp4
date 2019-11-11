@@ -9,4 +9,7 @@ rapidjson::Document Parse(std::string& x);
 class Car;
 std::string ToJSON(Car& x);
 
+class Game;
+std::string ToJSON(std::vector<Game>& x);
+
 #endif  // PROTOCOL_H_

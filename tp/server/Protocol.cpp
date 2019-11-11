@@ -3,6 +3,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "../common/Car.h"
+#include "Game.h"
 
 rapidjson::Document Parse(std::string& x) {
   rapidjson::Document d;
@@ -17,6 +18,18 @@ std::string ToJSON(Car& x) {
   d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
   d.AddMember("angle", x.GetAngle(), d.GetAllocator());
   // TODO: get life
+
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
+
+  return std::string(buffer.GetString());
+}
+
+std::string ToJSON(std::vector<Game>& x) {
+  rapidjson::Document d(rapidjson::kArrayType);
+  for (auto& game : x)
+    d.PushBack(game.id, d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
