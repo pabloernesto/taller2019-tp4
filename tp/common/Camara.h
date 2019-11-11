@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "Car.h"
 #include "image.h"
+#include <vector>
 
 class Camara{
   SDL_Rect camara;
@@ -13,7 +14,7 @@ public:
   Camara(int x, int y, int w, int h, Car& car);
   void Update();
   SDL_Rect GetPosition();
-  void renderMe(b2Vec2 position, b2Vec2 size, Image& image,
+  void renderMe(std::vector<float> position, std::vector<float> size, Image& image,
     float angle, int tick);
 };
 

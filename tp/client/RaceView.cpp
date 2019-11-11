@@ -30,7 +30,7 @@ void RaceView::render(int tick) {
   for (auto it = modifiers.begin(); it != modifiers.end(); it++){
     Modifier& current_mod = **(it);
     std::string mod_type = (*it)->getType();
-    std::string image_path = "Imagenes/" + mod_type + ".png"; 
+    std::string image_path = "Imagenes/" + mod_type + ".bmp"; 
     ModifierView current_mod_view(imagecache.getImage(image_path), current_mod, camara);
     current_mod_view.render(tick);
   }
@@ -56,5 +56,7 @@ void RaceView::showMessage(std::string message){
   SDL_Rect Message_rect = {0, 0, 500, 500};
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
+  SDL_DestroyTexture(Message);
+  SDL_FreeSurface(surfaceMessage);
 	TTF_CloseFont(font);
 }

@@ -1,5 +1,4 @@
 #include "Race.h"
-
 #include <Box2D/Box2D.h>
 #include <chrono>
 #include <random>
@@ -8,9 +7,9 @@ const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
 const int32 positionIterations = 3;
 const int MODIFIERS_AVAILABLE = 3;
-const size_t MODIFIER_DIST_DROP = 30;
+const size_t MODIFIER_DIST_DROP = 8;
 const size_t MODIFIER_RESET_SEC = 5;
-const b2Vec2 MODIF_SIZE = { 1 , 1 };
+const b2Vec2 MODIF_SIZE = { 1.5 , 1.5 };
 
 Race::Race(std::string track, int laps)
   : world(b2Vec2(0, 0)), cars(), postas(), modifiers(), modif_factory(),
@@ -24,7 +23,7 @@ void Race::Step() {
   for (auto& car : cars) {
     car->Step(this->track);
   }
-  if (modifiers_reset == 0){
+  if (this->modifiers_reset == 0){
     this->placeModifiers();
     modifiers_reset = MODIFIER_RESET_SEC*60;
   } else {
@@ -37,7 +36,7 @@ void Race::Step() {
 void Race::removeUsedModifiers(){
   auto it = this->modifiers.begin();
   while (it != this->modifiers.end()){
-    if (! (*it)->isModifierOnWorld()){
+    if ( (*it)->shouldBeRemoved()){
       it = this->modifiers.erase(it);
     } else {
       it++;
@@ -54,11 +53,11 @@ void Race::placeModifiers(){
     const b2Transform& car_trans = (*it)->GetTransform();
     b2Vec2 car_pos = car_trans.p;
     b2Rot car_angle = car_trans.q;
+    b2Vec2 dist = { 0 , MODIFIER_DIST_DROP };
+    b2Vec2 new_dist = (b2Mul(car_angle, dist)) + car_pos;
     // By trigonometry:
     // car_angle.c = cos(car_angle) and car_angle.s = sin(car_angle)
-    float modif_x = (car_angle.c) * (car_pos.Length() + MODIFIER_DIST_DROP);
-    float modif_y = (car_angle.s) * (car_pos.Length() + MODIFIER_DIST_DROP);
-    this->placeRandomModifier(modif_x, modif_y);
+    this->placeRandomModifier(new_dist.x, new_dist.y);
   }
 }
 

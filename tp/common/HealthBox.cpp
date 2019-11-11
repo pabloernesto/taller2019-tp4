@@ -1,4 +1,5 @@
 #include "HealthBox.h"
+#include <iostream>
 
 
 HealthBox::HealthBox(b2Vec2 size) : Modifier(size){}
@@ -25,10 +26,6 @@ void HealthBox::GetContactedBy(Modifier* modifier){
 
 void HealthBox::modify(Car& car){
   car.restoreLife();
-}
-
-void HealthBox::removeModifierFromWorld(){
-  Modifier::removeModifierFromWorld();
 }
 
 std::string HealthBox::getType(){

@@ -10,6 +10,7 @@ class Modifier : public Contactable{
   private:
     b2Body* body;
     b2Vec2 size;
+    bool should_be_removed;
 
   public:
     Modifier(b2Vec2 size);
@@ -19,8 +20,7 @@ class Modifier : public Contactable{
     virtual void GetContactedBy(Posta* posta) override;
     virtual void GetContactedBy(Modifier* modifier) override;
     virtual void modify(Car& car) = 0;
-    virtual void removeModifierFromWorld();
-    virtual bool isModifierOnWorld();
+    virtual bool shouldBeRemoved();
     virtual std::string getType() = 0;
     virtual b2Vec2 GetPosition();
     virtual b2Vec2 GetSize();

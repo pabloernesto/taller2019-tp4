@@ -1,4 +1,5 @@
 #include "Stone.h"
+#include <iostream>
 
 const float Stone::SPEED_REDUCTION = 4;
 
@@ -28,10 +29,6 @@ void Stone::modify(Car& car){
   // Asuming 60 fps
   car.reduceLife();
   car.reduceSpeed(SPEED_REDUCTION);
-}
-
-void Stone::removeModifierFromWorld(){
-  Modifier::removeModifierFromWorld();
 }
 
 std::string Stone::getType(){

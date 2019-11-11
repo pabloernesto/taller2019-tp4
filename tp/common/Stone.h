@@ -15,7 +15,6 @@ class Stone : public Modifier{
     virtual void GetContactedBy(Posta* posta);
     virtual void GetContactedBy(Modifier* modifier);
     virtual void modify(Car& car) override;
-    virtual void removeModifierFromWorld();
     virtual std::string getType() override;
     virtual ~Stone();
 

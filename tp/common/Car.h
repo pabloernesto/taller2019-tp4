@@ -24,6 +24,7 @@ class Car : public Contactable{
   size_t step_counter_max_speed_mult;
   float max_speed_multiplier;
   float speed_reducer;
+  size_t step_counter_red_speed;
   std::unique_ptr<Posta> lastPosta;
   bool dead;
   Race* race;
@@ -38,6 +39,7 @@ class Car : public Contactable{
   static const float32 FRICTION;
   static const size_t EXPLODING_SEC_LIMIT;
   static const size_t LIFE;
+  static const size_t SPEED_RED_TIME_SEC;
 
   public:
   Car(int id, Race* race);

@@ -7,28 +7,35 @@
 
 const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
 const float32 Car::WEIGHT_KG = 300;
-const float32 Car::ENGINE_POWER = 10000;
+const float32 Car::ENGINE_POWER = 20000;
 const float Car::MAX_SPEED = 14;
 const float Car::MAX_SPEED_REV = 6;
-const float32 Car::ANGULAR_VEL_MULT = 0.3;
+const float32 Car::ANGULAR_VEL_MULT = 0.2;
 const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
+const size_t Car::SPEED_RED_TIME_SEC = 3;
 
 Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
   life(LIFE), max_speed(MAX_SPEED), angular_velocity(0), step_counter(0),
   step_counter_death(0), step_counter_max_speed_mult(0),
-  max_speed_multiplier(1), speed_reducer(0), lastPosta(new Posta(-1)),
+  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1)),
   dead(false), race(race), laps(0)
 {}
 
 void Car::GasOn() {
-  gas = true;
+  if (!isGoingForward()) {
+    break_ = true;
+  } else {
+    break_ = false;
+    gas = true;
+  }
 }
 
 void Car::GasOff() {
   gas = false;
+  break_ = false;
 }
 
 void Car::reverseOn() {
@@ -48,11 +55,19 @@ bool Car::stopped(){
 }
 
 void Car::BreakOn() {
-  break_ = true;
+  if (isGoingForward()) {
+    break_ = true;
+  } else {
+    break_ = false;
+    reverse = true;
+    gas = true;
+  }
 }
 
 void Car::BreakOff() {
   break_ = false;
+  reverse = false;
+  gas = false;
 }
 
 void Car::SteerLeft() {
@@ -164,6 +179,12 @@ float Car::getReducedSpeed(float speed_recv){
     if (speed > 0)
       speed = 0;
   }
+  if (this->step_counter_red_speed > 0){
+    this->step_counter_red_speed -= 1;
+  } else {
+    this->speed_reducer = 0;
+  }
+  //The effect is applied once. So, it's setted to 0.
   return speed;
 }
 
@@ -212,8 +233,6 @@ void Car::Step(Track& track) {
   if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
-  //std::cout << "Position: " << this->GetPosition().x << " " << this->GetPosition().y << '\n';
-  //std::cout << "Velocidad: " << this->GetSpeed() << '\n';
 }
 
 const b2Transform& Car::GetTransform(){
@@ -255,6 +274,7 @@ void Car::reduceLife(){
 
 void Car::reduceSpeed(float speed_reduction){
   this->speed_reducer = speed_reduction;
+  this->step_counter_red_speed = SPEED_RED_TIME_SEC;
 }
 
 void Car::Contact(Contactable* contactable){

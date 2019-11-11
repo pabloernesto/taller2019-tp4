@@ -6,43 +6,51 @@ Camara::Camara(int x, int y, int w, int h, Car& car): camara({x,y,w,h}),
   mainBody(car){}
 
 void Camara::Update(){
-  auto&& pixelPosition = MKStoPixelTransform(this->mainBody.GetPosition());
-  this->camara.x =  pixelPosition.x - camara.w/2;
-  this->camara.y = -pixelPosition.y - camara.h/2;
+  std::vector<float> position;
+  position.push_back(this->mainBody.GetPosition().x);
+  position.push_back(this->mainBody.GetPosition().y);
+  auto&& pixelPosition = MKStoPixelTransform(position);
+  this->camara.x =  pixelPosition[0] - camara.w/2;
+  this->camara.y = -pixelPosition[1] - camara.h/2;
 }
 
 SDL_Rect Camara::GetPosition(){
   return this->camara;
 }
 
-void Camara::renderMe(b2Vec2 position, b2Vec2 size, Image& image,
+void Camara::renderMe(std::vector<float> position, std::vector<float> size, Image& image,
   float angle, int tick)
 {
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);
-  float objradius_pixels = objsize_pixels.Length();
+  float x = objsize_pixels[0];
+  float y = objsize_pixels[1];
+  float objradius_pixels = sqrt(x * x + y * y);
 
   // Screen radius
   float screenradius_pixels = sqrt(pow(camara.w / 2, 2) + pow(camara.h / 2, 2));
 
   // Distance between centers
   auto&& objcenterpos_pixels = MKStoPixelTransform(position);
-  objcenterpos_pixels.y = - objcenterpos_pixels.y;
-  b2Vec2 screencenterpos_pixels = {
+  objcenterpos_pixels[1] = - objcenterpos_pixels[1];
+  std::vector<float> screencenterpos_pixels = {
     (float) (camara.x + camara.w / 2),
     (float) (camara.y + camara.h / 2)
   };
-  float objcamdist_pixels =
-    (objcenterpos_pixels - screencenterpos_pixels).Length();
+
+  float xobjcam = objcenterpos_pixels[0] - screencenterpos_pixels[0];
+  float yobjcam = objcenterpos_pixels[1] - screencenterpos_pixels[1];
+  float objcamdist_pixels = sqrt(xobjcam * xobjcam + yobjcam * yobjcam);
 
   if (objcamdist_pixels < objradius_pixels + screenradius_pixels) {
-    b2Vec2 objcorner = objcenterpos_pixels - 0.5 * objsize_pixels;
+    std::vector<double> objcorner = {objcenterpos_pixels[0] - 0.5 * objsize_pixels[0],
+                                  objcenterpos_pixels[1] - 0.5 * objsize_pixels[1]};
     // Relative position, in pixels, of the object and camera's _corners_
     SDL_Rect where = {
-      (int) objcorner.x - camara.x,
-      (int) objcorner.y - camara.y,
-      (int) objsize_pixels.x,
-      (int) objsize_pixels.y
+      (int) objcorner[0] - camara.x,
+      (int) objcorner[1] - camara.y,
+      (int) objsize_pixels[0],
+      (int) objsize_pixels[1]
     };
     image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
   }
