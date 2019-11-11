@@ -11,12 +11,15 @@ const size_t MODIFIER_DIST_DROP = 8;
 const size_t MODIFIER_RESET_SEC = 5;
 const b2Vec2 MODIF_SIZE = { 1.5 , 1.5 };
 
-Race::Race(std::string track, int laps)
-  : world(b2Vec2(0, 0)), cars(), postas(), modifiers(), modif_factory(),
+Race::Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>& postas)
+  : world(b2Vec2(0, 0)), cars(), postas(postas), modifiers(), modif_factory(),
   track(track), listener(), modifiers_reset(MODIFIER_RESET_SEC*60), laps(laps),
-  ended(false), winnerCar()
-{
+  ended(false), winnerCar() {
   world.SetContactListener(&listener);
+  std::vector<std::unique_ptr<Posta>>::iterator it = postas.begin();
+  for (;it != postas.end(); ++it){
+    this->AddPosta((*it)->GetPosition(), (*it)->GetId(), (*it)->GetAngle());
+  }
 }
 
 void Race::Step() {
@@ -79,10 +82,8 @@ Car& Race::AddCar(float x, float y, int id) {
   return *cars.back();
 }
 
-void Race::AddPosta(float x, float y, int id, float32 angle) {
-  postas.emplace_back(new Posta(id));
-  b2Vec2 where = { x, y }; //position in metres
-  postas.back()->Place(world, where, angle);
+void Race::AddPosta(b2Vec2 position, int id, float32 angle) {
+  postas.back()->Place(world, position, angle);
 }
 
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {

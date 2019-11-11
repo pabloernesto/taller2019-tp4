@@ -12,7 +12,7 @@ private:
   static const b2Vec2 POSTA_SIZE;
 
 public:
-  Posta(int id);
+  Posta(int id, b2Vec2 position, float32 angle);
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
   virtual void GetContactedBy(Posta* posta);

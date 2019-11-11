@@ -2,8 +2,10 @@
 
 const b2Vec2 Posta::POSTA_SIZE(15, 2);
 
-Posta::Posta(int id) : 
-  Contactable(), id(id) {}
+Posta::Posta(int id, b2Vec2 position, float32 angle) : 
+  Contactable(), id(id) {
+    body->SetTransform(position, angle);
+  }
 
 void Posta::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);

@@ -2,20 +2,22 @@
 #define BUTTON_H_
 #include <string>
 #include <SDL2/SDL.h>
+#include <memory>   // unique_ptr
+#include "../common/Race.h"
 
 class Button {
 private:
   std::string name;
   SDL_Rect button;
-  std::string race;
+  std::unique_ptr<Race>& race;
 
 public:
-  Button(std::string name, int width, int height, std::string race);
+  Button(std::string name, int width, int height, std::unique_ptr<Race>& race);
   ~Button();
   std::string GetName();
   void SetPosition(int x, int y);
   bool IWasClicked(int x, int y);
-  std::string GetRace();
+  std::unique_ptr<Race>& GetRace();
 
 };
 

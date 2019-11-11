@@ -1,6 +1,7 @@
 #include "ChooseRaceScreen.h"
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
+#include "../common/RaceFabric.h"
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
@@ -31,9 +32,11 @@ GameScreen* ChooseRaceScreen::start(){
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
+  RaceFabric fabric;
+  std::unique_ptr<Race> race(fabric.makeRace1());
   //agrego los botones
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, "6 9 666662004204661661163005661166666661162004661305663005"));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, "5 4 20041205116611663566"));
+  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, race));
+  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, race));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
@@ -52,7 +55,7 @@ GameScreen* ChooseRaceScreen::start(){
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         if ((*it)->IWasClicked(x,y)){
-          std::string race = (*it)->GetRace();
+          std::unique_ptr<Race>& race = (*it)->GetRace();
           return new RaceScreen(window, renderer, race);
         }
       }

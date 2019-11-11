@@ -2,14 +2,14 @@
 #include <SDL2/SDL_ttf.h>
 #include "ModifierView.h"
 
-RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car)
+RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<Race>& race, Car& car)
   : race(race), window(w), renderer(r), cars(),
   camara(0, 0, 600, 400, car), imagecache(w, r),
-  track(imagecache, race.GetTrack()), car(car)
+  track(imagecache, race->GetTrack()), car(car)
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);
-  auto& base_cars = race.GetCars();
+  auto& base_cars = race->GetCars();
   for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
     cars.emplace_back(
       imagecache.getImage("Imagenes/pitstop_car_1.png"),
@@ -25,8 +25,8 @@ RaceView::~RaceView(){
 void RaceView::render(int tick) {
   camara.Update();
   SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
-  track.render(camara, this->race.getTrackPieces());
-  std::vector<std::unique_ptr<Modifier>>& modifiers = this->race.getModifiers();
+  track.render(camara, this->race->getTrackPieces());
+  std::vector<std::unique_ptr<Modifier>>& modifiers = this->race->getModifiers();
   for (auto it = modifiers.begin(); it != modifiers.end(); it++){
     Modifier& current_mod = **(it);
     std::string mod_type = (*it)->getType();
@@ -38,8 +38,8 @@ void RaceView::render(int tick) {
   for (auto& car : cars)
     car.render(tick);
 
-  if (race.Ended()){
-    if (race.GetIdWinnerCar() == car.GetId()){
+  if (race->Ended()){
+    if (race->GetIdWinnerCar() == car.GetId()){
       showMessage("GANASTE");
     } else {
       showMessage("PERDISTE");
