@@ -12,7 +12,7 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
   // List available games
   if (reqtype == "l") {
     auto&& json = ToJSON(server.GetGames());
-    client.GetOutgoingQueue().push(json);
+    client.GetOutgoingQueue().push(std::move(json));
   
   // Join a game given an id
   } else if (reqtype == "j") {
