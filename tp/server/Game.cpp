@@ -24,7 +24,7 @@ void Game::Loop() {
 
     // TODO: send client responses
     for (auto& carp : race.GetCars()) {
-      auto json = ToJSON(*carp);
+      auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
         q.push(json);
     }
