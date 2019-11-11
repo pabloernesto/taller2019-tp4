@@ -5,6 +5,7 @@ static const int QUEUE_SIZE = 20;
 void Sender::Loop() {
   std::string item;
   while (q.trypop(&item)) {
+    if (on_send && !on_send(&item)) continue;
     if (connection.SendStr(item.c_str()) < 0)
       break;
   }
@@ -14,11 +15,13 @@ void Sender::Loop() {
 void Receiver::Loop() {
   while (true) {
     char* data = connection.GetStr();
-    if (!data)
-      break;
+    if (!data) break;
 
-    q->push(std::string(data));
+    std::string item(data);
     delete[] data;
+
+    if (on_receive && !on_receive(&item)) continue;
+    q->push(std::move(item));
   }
   // Since the queue may be shared by different ECs, don't close it from here
 }
@@ -58,10 +61,12 @@ EnqueuedConnection::~EnqueuedConnection() {
   receiver.Join();
 }
 
-Sender::Sender(Connection& c) : connection(c), t(), q(QUEUE_SIZE) {}
+Sender::Sender(Connection& c)
+  : connection(c), t(), q(QUEUE_SIZE), on_send(nullptr)
+{}
 
 Receiver::Receiver(Connection& c, BlockingQueue<std::string>* in_queue)
-  : connection(c), t(), q(in_queue)
+  : connection(c), t(), q(in_queue), on_receive(nullptr)
 {}
 
 void Sender::Start() {
@@ -84,4 +89,12 @@ void Receiver::Join() {
 
 void EnqueuedConnection::SetIncomingQueue(BlockingQueue<std::string>& in_queue) {
   receiver.q = &in_queue;
+}
+
+void EnqueuedConnection::OnSend(filter f) {
+  sender.on_send = f;
+}
+
+void EnqueuedConnection::OnReceive(filter f) {
+  receiver.on_receive = f;
 }
