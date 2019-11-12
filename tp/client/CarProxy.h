@@ -14,6 +14,8 @@ class CarProxy {
     float size_y;
     bool dead;
     int id;
+    std::mutex m;
+    
     void sendMethod(std::string method);
 
   public:

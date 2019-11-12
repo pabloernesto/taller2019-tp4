@@ -1,5 +1,10 @@
 #include "RaceProxy.h"
 #define BQSIZE 100
+#define DEFAULTPOSITIONX 0
+#define DEFAULTPOSITIONY 0
+#define DEFAULTSIZEX 1
+#define DEFAULTSIZEY 1
+#define DEFAULTANGLE 0
 
 RaceProxy::RaceProxy(std::string track, Connection& connection) : 
   connection(connection), bq(BQSIZE), ec(std::move(connection), bq),
@@ -14,10 +19,14 @@ void RaceProxy::UpdateLoop() {
     msg.Parse(str.c_str());
     
     if (msg["type"] == "car") {
-      if (!this->IHaveCarWithId(msg["id"].GetInt())){
+      CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
+      if (!car){
         cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
           msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(), 
           msg["id"].GetInt()));
+      } else {
+        car->update(msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
+          msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat());
       }
     } else if (msg["type"] == "modifier") {
       auto list = msg["data"].GetArray();
@@ -37,12 +46,24 @@ void RaceProxy::Start() {
   t = std::thread(&RaceProxy::UpdateLoop, this);
 }
 
-bool RaceProxy::IHaveCarWithId(int id){
+CarProxy* RaceProxy::GetCar(int id){
   auto it = cars.begin();
   for (; it != cars.end(); ++it){
     if((*it)->GetId() == id){
-      return true;
+      return it->get();
     }
   }
-  return false;
+  cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), DEFAULTPOSITIONX, DEFAULTPOSITIONY, 
+    DEFAULTANGLE, DEFAULTSIZEX, DEFAULTSIZEY, id));
+  return cars.back().get();
+}
+
+CarProxy* RaceProxy::GetCarWithId(int id){
+  auto it = cars.begin();
+  for (; it != cars.end(); ++it){
+    if((*it)->GetId() == id){
+      return it->get();
+    }
+  }
+  return nullptr;
 }

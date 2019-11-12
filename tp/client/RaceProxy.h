@@ -26,11 +26,12 @@ private:
   std::vector<std::unique_ptr<TrackPieceProxy>> tracks;
 
   void UpdateLoop();
-  bool IHaveCarWithId(int id);
+  CarProxy* GetCarWithId(int id);
 
 public:
   RaceProxy(std::string track, Connection& connection);
   void Start();
+  CarProxy* GetCar(int id);
 };
 
 #endif 

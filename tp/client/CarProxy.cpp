@@ -21,6 +21,7 @@ void CarProxy::sendMethod(std::string method){
 }
 
 void CarProxy::update(float x, float y, float angle, bool dead){
+  std::unique_lock lock(m);
   this->x = x;
   this->y = y;
   this->angle = angle;
@@ -28,6 +29,7 @@ void CarProxy::update(float x, float y, float angle, bool dead){
 }
 
 std::vector<float> CarProxy::GetPosition(){
+  std::unique_lock lock(m);
   std::vector<float> v;
   v.push_back(this->x);
   v.push_back(this->y);
@@ -35,6 +37,7 @@ std::vector<float> CarProxy::GetPosition(){
 }
 
 std::vector<float> CarProxy::GetSize(){
+  std::unique_lock lock(m);
   std::vector<float> v;
   v.push_back(this->size_x);
   v.push_back(this->size_y);
@@ -42,6 +45,7 @@ std::vector<float> CarProxy::GetSize(){
 }
 
 int CarProxy::GetId(){
+  std::unique_lock lock(m);
   return this->id;
 }
 
@@ -70,6 +74,7 @@ void CarProxy::SteerLeft(){
 }
 
 bool CarProxy::isDead(){
+  std::unique_lock lock(m);
   return this->dead;
 }
 
