@@ -19,7 +19,9 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiecePro
     std::vector<float> pos = (*it)->GetPosition();
     std::vector<float> size = (*it)->GetSize();
 
+
     auto trackcode = (*it)->getTrackType();
+    printf("askld %d\n", trackcode);
     renderBackGroundForPiece(camara, trackcode, pos, size);
     auto& trackimage = imagecache.getImage(image_paths[trackcode]);
     camara.renderMe(pos, size, trackimage, 0, 0);

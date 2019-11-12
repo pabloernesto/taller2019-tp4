@@ -1,4 +1,8 @@
 #include "RaceProxy.h"
+#include "../common/string.h"
+#include "../common/GrassTrackPiece.h"
+#include "../common/AsphaltTrackPiece.h"
+#include <iostream>
 #define BQSIZE 100
 #define DEFAULTPOSITIONX 0
 #define DEFAULTPOSITIONY 0
@@ -8,7 +12,19 @@
 
 RaceProxy::RaceProxy(std::string track, Connection&& connection) : 
   bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
-{}
+{
+  std::vector<std::string> parameters = split(track);
+  size_t num_rows = stoi(parameters[0]);
+  size_t num_cols = stoi(parameters[1]);
+
+  size_t block_counter = 0; 
+  for (size_t j = 0; j < num_rows; j++){
+    for (size_t i = 0; i < num_cols; i++){
+      block_counter++; 
+      this->tracks.emplace_back(new TrackPieceProxy(parameters[2][block_counter] - '0', i, j, 10, 10));
+    }
+  }   
+}
 
 void RaceProxy::UpdateLoop() {
   while (true) {
@@ -17,7 +33,7 @@ void RaceProxy::UpdateLoop() {
       ; // tirar error
     rapidjson::Document msg;
     msg.Parse(str.c_str());
-    printf("%s\n", msg);
+    
     if (msg.HasMember("error")) {
       throw std::runtime_error(msg["error"].GetString());
 

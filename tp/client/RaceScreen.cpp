@@ -24,7 +24,6 @@ GameScreen* RaceScreen::start() {
 
   CarProxy* car = race->GetCar(carId);
   RaceView view(this->window, this->renderer, race.get(), *car);
-
   UpdateLoop loop(renderer, race.get(), view);
   loop.Start();
 

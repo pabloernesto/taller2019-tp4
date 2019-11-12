@@ -36,21 +36,12 @@ GameScreen* ChooseRaceScreen::start(){
   // Obtener la lista de carreras
   Connection connection("localhost", "1234");
   connection.SendStr("{\"type\":\"l\"}");
-<<<<<<< HEAD
-  char* race = connection.GetStr();
-  printf("%s\n", race);
-  rapidjson::Document d;
-  d.Parse(race);
-  delete[] race;
-  RaceProxy* raceProxy = new RaceProxy(d["track"].GetString(), connection);
-=======
   rapidjson::Document race_list;
   {
     char* data = connection.GetStr();
     race_list.Parse(data);
     delete[] data;
   }
->>>>>>> 541d21ec32fa51e3cad7e67106b3522214d8d508
 
   buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 0));
   buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 1));
