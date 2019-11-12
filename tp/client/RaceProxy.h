@@ -16,7 +16,6 @@
 
 class RaceProxy {
 private:
-  Connection& connection;
   BlockingQueue<std::string> bq;
   EnqueuedConnection ec;
   std::vector<std::unique_ptr<CarProxy>> cars;
@@ -31,7 +30,7 @@ private:
   CarProxy* GetCarWithId(int id);
 
 public:
-  RaceProxy(std::string track, Connection& connection);
+  RaceProxy(std::string track, Connection&& connection);
   void Start();
   std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
   CarProxy* GetCar(int id);

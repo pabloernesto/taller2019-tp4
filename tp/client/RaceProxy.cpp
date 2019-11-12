@@ -6,9 +6,9 @@
 #define DEFAULTSIZEY 1
 #define DEFAULTANGLE 0
 
-RaceProxy::RaceProxy(std::string track, Connection& connection) : 
-  connection(connection), bq(BQSIZE), ec(std::move(connection), bq),
-  cars(), modifiers() {}
+RaceProxy::RaceProxy(std::string track, Connection&& connection) : 
+  bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
+{}
 
 void RaceProxy::UpdateLoop() {
   while (true) {
