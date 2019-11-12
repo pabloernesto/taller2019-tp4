@@ -35,7 +35,7 @@ GameScreen* ChooseRaceScreen::start(){
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
   //Obtengo el race
-  connection.SendStr("{\"type\":\"l\"");
+  connection.SendStr("{\"type\":\"l\"}");
   char* race = connection.GetStr();
   rapidjson::Document d;
   d.Parse(race);
