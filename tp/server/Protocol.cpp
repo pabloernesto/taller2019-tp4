@@ -12,7 +12,7 @@ rapidjson::Document Parse(std::string& x) {
 }
 
 std::string ToJSON(Car& x) {
-  rapidjson::Document d;
+  rapidjson::Document d(rapidjson::kObjectType);
   d.AddMember("type", "car", d.GetAllocator());
   d.AddMember("id", x.GetId(), d.GetAllocator());
   d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
@@ -31,7 +31,7 @@ std::string ToJSON(Car& x) {
 }
 
 std::string ToJSON(std::vector<std::unique_ptr<Modifier>>& x) {
-  rapidjson::Document d;
+  rapidjson::Document d(rapidjson::kObjectType);
   d.AddMember("type", "modifier", d.GetAllocator());
 
   rapidjson::Value list(rapidjson::kArrayType);
@@ -78,7 +78,7 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
 }
 
 std::string ToJSON(Race& x) {
-  rapidjson::Document d;
+  rapidjson::Document d(rapidjson::kObjectType);
 
   rapidjson::Value track_pieces_string (x.GetTrack().getTrackPiecesString().c_str(), d.GetAllocator());
   d.AddMember("track", track_pieces_string, d.GetAllocator());
