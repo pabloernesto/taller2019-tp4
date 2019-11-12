@@ -4,9 +4,9 @@
 #include "rapidjson/stringbuffer.h"
 
 CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, 
-                      float angle, float size_x, float size_y) : 
+                      float angle, float size_x, float size_y, int id) : 
                       outqueue(outqueue), x(x), y(y), angle(angle),
-                      size_x(size_x), size_y(size_y), dead(false){}
+                      size_x(size_x), size_y(size_y), dead(false), id(id){}
 
 void CarProxy::sendMethod(std::string method){
   rapidjson::Document d;
@@ -39,6 +39,10 @@ std::vector<float> CarProxy::GetSize(){
   v.push_back(this->size_x);
   v.push_back(this->size_y);
   return v;
+}
+
+int CarProxy::GetId(){
+  return this->id;
 }
 
 void CarProxy::GasOn(){
