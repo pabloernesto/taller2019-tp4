@@ -18,6 +18,8 @@ std::string ToJSON(Car& x) {
   d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
   d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
   d.AddMember("angle", x.GetAngle(), d.GetAllocator());
+  d.AddMember("size.x", x.GetSize().x , d.GetAllocator());
+  d.AddMember("size.y", x.GetSize().y , d.GetAllocator());
   d.AddMember("dead", x.isDead(), d.GetAllocator());
   // TODO: get life
 
