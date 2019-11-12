@@ -26,13 +26,13 @@ void RaceView::render(int tick) {
   camara.Update();
   SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
   track.render(camara, this->race->getTrackPieces());
-  std::vector<std::unique_ptr<ModifierProxy>> modifiers = this->race->getModifiers();
-  for (auto it = modifiers.begin(); it != modifiers.end(); it++){
-    ModifierProxy& current_mod = **(it);
-    std::string mod_type = (*it)->getType();
-    std::string image_path = "Imagenes/" + mod_type + ".bmp"; 
-    ModifierView current_mod_view(imagecache.getImage(image_path), current_mod, camara);
-    current_mod_view.render(tick);
+
+  // Modifiers may be added or removed at any time. Re-get this every tick.
+  auto&& modifiers = this->race->getModifiers();
+  for (auto& modifier : modifiers) {
+    std::string path = "Imagenes/" + modifier.getType() + ".bmp";
+    ModifierView view(imagecache.getImage(path), modifier, camara);
+    view.render(tick);
   }
 
   for (auto& car : cars)

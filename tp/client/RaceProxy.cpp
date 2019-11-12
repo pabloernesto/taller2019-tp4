@@ -33,6 +33,7 @@ void RaceProxy::UpdateLoop() {
       }
     } else if (msg["type"] == "modifier") {
       auto list = msg["data"].GetArray();
+      std::lock_guard<std::mutex> lock(modifiers_mtx);
       modifiers.clear();
       rapidjson::Value::Array::ValueIterator it = list.begin();
       for (;it != list.end(); ++it){
@@ -79,6 +80,10 @@ std::vector<std::unique_ptr<CarProxy>>& RaceProxy::GetCars() {
   return cars;
 }
 
-std::vector<std::unique_ptr<ModifierProxy>>& RaceProxy::getModifiers(){
-  return this->modifiers;
+std::vector<ModifierProxy> RaceProxy::getModifiers(){
+  std::lock_guard<std::mutex> lock(modifiers_mtx);
+  std::vector<ModifierProxy> v;
+  for (auto& uptr : modifiers)
+    v.emplace_back(*uptr);
+  return v;
 }

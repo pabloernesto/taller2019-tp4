@@ -11,6 +11,7 @@
 #include "../common/EnqueuedConnection.h"
 #include "../common/blockingqueue.h"
 #include <thread>
+#include <mutex>
 #include "rapidjson/document.h"
 
 class RaceProxy {
@@ -19,7 +20,10 @@ private:
   BlockingQueue<std::string> bq;
   EnqueuedConnection ec;
   std::vector<std::unique_ptr<CarProxy>> cars;
+
   std::vector<std::unique_ptr<ModifierProxy>> modifiers;
+  std::mutex modifiers_mtx;
+
   std::thread t;
   std::vector<std::unique_ptr<TrackPieceProxy>> tracks;
 
@@ -32,7 +36,7 @@ public:
   std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
   CarProxy* GetCar(int id);
   std::vector<std::unique_ptr<CarProxy>>& GetCars();
-  std::vector<std::unique_ptr<ModifierProxy>>& getModifiers();
+  std::vector<ModifierProxy> getModifiers();
 };
 
 #endif 
