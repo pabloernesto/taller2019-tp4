@@ -30,7 +30,7 @@ std::string ToJSON(Car& x) {
 
 std::string ToJSON(Modifier& x){
   rapidjson::Document d;
-  d.AddMember("type", "Modifier", d.GetAllocator());
+  d.AddMember("type", "modifier", d.GetAllocator());
   d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
   d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
   d.AddMember("size.x", x.GetSize().x, d.GetAllocator());
