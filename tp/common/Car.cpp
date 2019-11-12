@@ -20,7 +20,7 @@ Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
   life(LIFE), max_speed(MAX_SPEED), angular_velocity(0), step_counter(0),
   step_counter_death(0), step_counter_max_speed_mult(0),
-  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1)),
+  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1, {0,0},0)),
   dead(false), race(race), laps(0)
 {}
 

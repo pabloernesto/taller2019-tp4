@@ -9,11 +9,12 @@
 #include <vector>
 #include <string>
 #include <atomic>
+#include <memory>   // unique_ptr
 
 typedef BlockingQueue<std::string> Cola;
 
 class Game {
-  Race race;
+  std::unique_ptr<Race> race;
   std::thread update_thread;
   Cola in_queue;
   std::vector<Cola*> out_queues;

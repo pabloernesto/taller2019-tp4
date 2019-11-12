@@ -12,8 +12,8 @@ static const int HEIGHT = 400;
 RaceScreen::~RaceScreen(){
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, std::string race)
-  : GameScreen(w, r), race(race, 1)
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, Race* race)
+  : GameScreen(w, r), race(race)
 {}
 
 GameScreen* RaceScreen::start() {
@@ -22,18 +22,11 @@ GameScreen* RaceScreen::start() {
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 
-  // Agrego postas
-  race.AddPosta(5,-20,0,0);
-  race.AddPosta(55,-20,1,0);
-  race.AddPosta(80,-5,2,-M_PI/2);
-  race.AddPosta(55,-50,3,0);
-  race.AddPosta(5,-50,4,0);
-
-  race.AddCar(0,-20, 1); //para probar que puede mostrar varios autos a la vez
-  race.AddCar(3,-20, 2); //para probar que puede mostrar varios autos a la vez
-  RaceView view(this->window, this->renderer, race, race.AddCar(7,-20, 3));
+  race->AddCar(0,-20, 1); //para probar que puede mostrar varios autos a la vez
+  race->AddCar(3,-20, 2); //para probar que puede mostrar varios autos a la vez
+  RaceView view(this->window, this->renderer, race, race->AddCar(7,-20, 3));
   //auto&& car = *(race.GetCars()[0]);
-  auto&& car = *(race.GetCars()[2]);
+  auto&& car = *(race->GetCars()[2]);
 
   UpdateLoop loop(renderer, race, view);
   loop.Start();

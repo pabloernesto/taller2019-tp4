@@ -24,7 +24,7 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
       server.JoinGame(gameid, client);
       client_messages.clear();  // Clear leftover messages
       quit = true;
-    } catch (std::runtime_error e) {
+    } catch (std::runtime_error& e) {
       client.GetOutgoingQueue().push("{\"error\": \"no such game\"}");
     }
 

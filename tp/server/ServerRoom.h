@@ -3,7 +3,7 @@
 
 #include "../common/socket.h"
 #include "../common/blockingqueue.h"
-#include "EnqueuedConnection.h"
+#include "../common/EnqueuedConnection.h"
 #include <thread>
 #include "rapidjson/document.h"
 

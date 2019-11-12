@@ -2,8 +2,8 @@
 
 const b2Vec2 Posta::POSTA_SIZE(15, 2);
 
-Posta::Posta(int id) : 
-  Contactable(), id(id) {}
+Posta::Posta(int id, b2Vec2 position, float32 angle) : 
+  Contactable(), id(id), position(position), angle(angle) {}
 
 void Posta::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
@@ -15,7 +15,7 @@ void Posta::GetContactedBy(Posta* posta){}
 
 void Posta::GetContactedBy(Modifier* modifier){}
 
-void Posta::Place(b2World& world, b2Vec2 position, float32 angle) {
+void Posta::Place(b2World& world) {
   // Add posta to the world
   b2BodyDef posta_body_def;
   posta_body_def.type = b2_staticBody;

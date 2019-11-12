@@ -2,6 +2,7 @@
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
+#include "../common/RaceFabric.h"
 #include "CarController.h"
 #include <memory>
 
@@ -26,11 +27,11 @@ void Game::Loop() {
       to_process.pop();
     }
 
-    race.Step();
+    race->Step();
 
     // TODO: send client responses
     // TODO: send powerup information
-    for (auto& carp : race.GetCars()) {
+    for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
         q->push(std::move(json));
@@ -95,7 +96,7 @@ void Game::Join() {
 
 // TODO: pass real track
 Game::Game(int id, std::string track)
-  : race("6 9 666662004204661661163005661166666661162004661305663005 ", 1),
+  : race(RaceFabric::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
   handler_chain(), id(id)
 {
