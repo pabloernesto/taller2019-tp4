@@ -77,6 +77,9 @@ void Game::AddPlayer(EnqueuedConnection& player) {
 
   // Start accepting player messages
   player.SetIncomingQueue(in_queue);
+
+  // Tell player which car is his
+  player.GetOutgoingQueue().push("{\"id\": " + std::to_string(playerid) + "}");
 }
 
 
