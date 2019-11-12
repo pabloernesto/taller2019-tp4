@@ -84,6 +84,10 @@ void Game::AddPlayer(EnqueuedConnection& player) {
   player.GetOutgoingQueue().push("{\"id\": " + std::to_string(playerid) + "}");
 }
 
+Track& Game::GetTrack() {
+  return race->GetTrack();
+}
+
 
 // Thread control methods
 

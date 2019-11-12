@@ -27,6 +27,7 @@ public:
   int id;
 
   void AddPlayer(EnqueuedConnection& player);
+  Track& GetTrack();
 
   // Thread control methods
   void Start();
