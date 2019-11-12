@@ -49,11 +49,11 @@ void RaceView::render(int tick) {
 }
 
 void RaceView::showMessage(std::string message){
-  TTF_Font* font = TTF_OpenFont("lazy.ttf", 50);
+  TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  SDL_Rect Message_rect = {0, 0, 500, 500};
+  SDL_Rect Message_rect = {0, 0, 70*7, 70};
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
