@@ -34,7 +34,13 @@ void Game::Loop() {
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
-        q->push(std::move(json));
+        q->push(std::string(json));
+    }
+
+    for (auto& modifierp : race->getModifiers()){
+      auto&& json = ToJSON(*modifierp);
+      for (auto& q : out_queues)
+        q->push(std::string(json));
     }
 
     // Frame rate limiting
@@ -77,6 +83,9 @@ void Game::AddPlayer(EnqueuedConnection& player) {
 
   // Start accepting player messages
   player.SetIncomingQueue(in_queue);
+
+  // Tell player which car is his
+  player.GetOutgoingQueue().push("{\"id\": " + std::to_string(playerid) + "}");
 }
 
 

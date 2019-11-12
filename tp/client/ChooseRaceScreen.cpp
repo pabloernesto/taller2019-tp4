@@ -66,6 +66,7 @@ GameScreen* ChooseRaceScreen::start(){
           char* id = connection.GetStr();
           int id_i = atoi(id);
           delete[] id;
+          (*it)->GetRace()->Start();
           return new RaceScreen(window, renderer, (*it)->GetRace(), id_i);
         }
       }

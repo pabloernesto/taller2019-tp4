@@ -13,11 +13,30 @@ rapidjson::Document Parse(std::string& x) {
 
 std::string ToJSON(Car& x) {
   rapidjson::Document d;
+  d.AddMember("type", "car", d.GetAllocator());
   d.AddMember("id", x.GetId(), d.GetAllocator());
   d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
   d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
   d.AddMember("angle", x.GetAngle(), d.GetAllocator());
+  d.AddMember("dead", x.isDead(), d.GetAllocator());
   // TODO: get life
+
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
+
+  return std::string(buffer.GetString());
+}
+
+std::string ToJSON(Modifier& x){
+  rapidjson::Document d;
+  d.AddMember("type", "modifier", d.GetAllocator());
+  d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
+  d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
+  d.AddMember("size.x", x.GetSize().x, d.GetAllocator());
+  d.AddMember("size.y", x.GetSize().y, d.GetAllocator());
+  rapidjson::Value type (x.getType().c_str(), d.GetAllocator());
+  d.AddMember("modifier.type", type, d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -41,7 +60,8 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
 std::string ToJSON(Race& x) {
   rapidjson::Document d;
 
-  d.AddMember("track", x.GetTrack().getTrackPiecesString(), d.GetAllocator());
+  rapidjson::Value track_pieces_string (x.GetTrack().getTrackPiecesString().c_str(), d.GetAllocator());
+  d.AddMember("track", track_pieces_string, d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
