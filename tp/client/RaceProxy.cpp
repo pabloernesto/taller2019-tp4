@@ -67,3 +67,11 @@ CarProxy* RaceProxy::GetCarWithId(int id){
   }
   return nullptr;
 }
+
+std::vector<std::unique_ptr<CarProxy>>& RaceProxy::GetCars() {
+  return cars;
+}
+
+std::vector<std::unique_ptr<ModifierProxy>>& RaceProxy::getModifiers(){
+  return this->modifiers;
+}
