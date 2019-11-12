@@ -5,7 +5,7 @@
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
   camara(0, 0, 600, 400, car), imagecache(w, r),
-  track(imagecache, race->GetTrack()), car(car)
+  track(imagecache), car(car)
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);
