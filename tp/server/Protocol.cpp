@@ -30,15 +30,24 @@ std::string ToJSON(Car& x) {
   return std::string(buffer.GetString());
 }
 
-std::string ToJSON(Modifier& x){
+std::string ToJSON(std::vector<std::unique_ptr<Modifier>>& x) {
   rapidjson::Document d;
   d.AddMember("type", "modifier", d.GetAllocator());
-  d.AddMember("position.x", x.GetPosition().x, d.GetAllocator());
-  d.AddMember("position.y", x.GetPosition().y, d.GetAllocator());
-  d.AddMember("size.x", x.GetSize().x, d.GetAllocator());
-  d.AddMember("size.y", x.GetSize().y, d.GetAllocator());
-  rapidjson::Value type (x.getType().c_str(), d.GetAllocator());
-  d.AddMember("modifier.type", type, d.GetAllocator());
+
+  rapidjson::Value list(rapidjson::kArrayType);
+  for (auto& modifier : x) {
+    rapidjson::Value node(rapidjson::kObjectType);
+    node.AddMember("position.x", modifier->GetPosition().x, d.GetAllocator());
+    node.AddMember("position.y", modifier->GetPosition().y, d.GetAllocator());
+    node.AddMember("size.x", modifier->GetSize().x, d.GetAllocator());
+    node.AddMember("size.y", modifier->GetSize().y, d.GetAllocator());
+    rapidjson::Value type(modifier->getType().c_str(), d.GetAllocator());
+    node.AddMember("modifier.type", type, d.GetAllocator());
+
+    list.PushBack(node.Move(), d.GetAllocator());
+  }
+
+  d.AddMember("data", list.Move(), d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

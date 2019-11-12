@@ -12,7 +12,7 @@ class Car;
 std::string ToJSON(Car& x);
 
 class Modifier;
-std::string ToJSON(Modifier& x);
+std::string ToJSON(std::vector<std::unique_ptr<Modifier>>& x);
 
 class Game;
 std::string ToJSON(std::vector<std::unique_ptr<Game>>& x);
