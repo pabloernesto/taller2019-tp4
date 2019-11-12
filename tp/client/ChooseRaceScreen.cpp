@@ -58,7 +58,6 @@ GameScreen* ChooseRaceScreen::start(){
     if (sdl_event.type == SDL_QUIT) break;
 
     if (sdl_event.button.button == SDL_BUTTON_LEFT){ //Boton izquierdo del mouse
-      std::cerr << "CHECKPOINT\n";
 	    Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
@@ -72,7 +71,7 @@ GameScreen* ChooseRaceScreen::start(){
             delete[] data;
           }
           RaceProxy* raceProxy = new RaceProxy(
-            race_list[0]["track"].GetArray(),
+            race_list[0],
             std::move(connection));
           raceProxy->Start();
           return new RaceScreen(window, renderer, raceProxy, id_player);
