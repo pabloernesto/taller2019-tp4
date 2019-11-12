@@ -4,11 +4,10 @@
 #include "Game.h"
 #include "ServerRoom.h"
 #include "../common/socket.h"
+#include "../common/EnqueuedConnection.h"
 #include <vector>
 #include <thread>
 #include <memory>   // unique_ptr
-
-typedef BlockingQueue<std::string> Cola;
 
 class Server {
   std::vector<std::unique_ptr<Game>> games;
@@ -17,7 +16,7 @@ class Server {
 
 public:
   void Add(Connection&& c);
-  Cola& JoinGame(int id, Cola& outq);
+  void JoinGame(int id, EnqueuedConnection& player);
   // Instantiate a race. Returns game id.
   int NewGame();
 

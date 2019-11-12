@@ -3,6 +3,7 @@
 
 #include "../common/Race.h"
 #include "../common/blockingqueue.h"
+#include "../common/EnqueuedConnection.h"
 #include "Responsibility.h"
 #include <thread>
 #include <vector>
@@ -25,7 +26,7 @@ class Game {
 public:
   int id;
 
-  Cola& AddPlayer(Cola& player_queue);
+  void AddPlayer(EnqueuedConnection& player);
 
   // Thread control methods
   void Start();
