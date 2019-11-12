@@ -1,8 +1,8 @@
 #include "ModifierProxy.h"
 
 
-ModifierProxy::ModifierProxy(float x, float y, float size_x, float size_y) :
-            x(x), y(y), size_x(size_x), size_y(size_y) {}
+ModifierProxy::ModifierProxy(float x, float y, float size_x, float size_y, std::string type) :
+            x(x), y(y), size_x(size_x), size_y(size_y), type(type){}
 
 std::vector<float> ModifierProxy::GetPosition(){
   std::vector<float> v;
@@ -18,4 +18,7 @@ std::vector<float> ModifierProxy::GetSize(){
   return v;
 }
 
+std::string ModifierProxy::getType(){
+  return this->type;
+}
 
