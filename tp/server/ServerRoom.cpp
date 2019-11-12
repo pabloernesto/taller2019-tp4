@@ -21,11 +21,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
       ; // tirar un error
     int gameid = req["id"].GetInt();
     try {
-      auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
-      // WARN: Race condition? What if client sends a message before SetIncomingQueue?
-      client.SetIncomingQueue(incoming_queue);
-      // Clear leftover messages
-      client_messages.clear();
+      server.JoinGame(gameid, client);
+      client_messages.clear();  // Clear leftover messages
       quit = true;
     } catch (std::runtime_error& e) {
       client.GetOutgoingQueue().push("{\"error\": \"no such game\"}");
@@ -34,10 +31,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
   // Create a new game
   } else if (reqtype == "c") {
     int gameid = server.NewGame();
-    auto &incoming_queue = server.JoinGame(gameid, client.GetOutgoingQueue());
-    client.SetIncomingQueue(incoming_queue);
-    // Clear leftover messages
-    client_messages.clear();
+    server.JoinGame(gameid, client);
+    client_messages.clear();    // Clear leftover messages
     quit = true;
   }
 }

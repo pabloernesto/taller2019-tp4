@@ -1,8 +1,8 @@
 #ifndef ENQUEUEDCONN_H_
 #define ENQUEUEDCONN_H_
 
-#include "../common/socket.h"
-#include "../common/blockingqueue.h"
+#include "socket.h"
+#include "blockingqueue.h"
 #include <string>
 #include <thread>
 #include <functional>
