@@ -79,6 +79,9 @@ std::vector<std::unique_ptr<CarProxy>>& RaceProxy::GetCars() {
   return cars;
 }
 
-std::vector<std::unique_ptr<ModifierProxy>>& RaceProxy::getModifiers(){
-  return this->modifiers;
+std::vector<ModifierProxy> RaceProxy::getModifiers(){
+  std::vector<ModifierProxy> v;
+  for (auto& uptr : modifiers)
+    v.emplace_back(*uptr);
+  return v;
 }

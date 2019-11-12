@@ -30,8 +30,8 @@ void RaceView::render(int tick) {
   // Modifiers may be added or removed at any time. Re-get this every tick.
   auto&& modifiers = this->race->getModifiers();
   for (auto& modifier : modifiers) {
-    std::string path = "Imagenes/" + modifier->getType() + ".bmp";
-    ModifierView view(imagecache.getImage(path), *modifier, camara);
+    std::string path = "Imagenes/" + modifier.getType() + ".bmp";
+    ModifierView view(imagecache.getImage(path), modifier, camara);
     view.render(tick);
   }
 
