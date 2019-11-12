@@ -37,6 +37,7 @@ GameScreen* ChooseRaceScreen::start(){
   //Obtengo el race
   connection.SendStr("{\"type\":\"l\"}");
   char* race = connection.GetStr();
+  printf("%s\n", race);
   rapidjson::Document d;
   d.Parse(race);
   delete[] race;

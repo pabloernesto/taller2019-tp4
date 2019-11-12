@@ -17,7 +17,7 @@ void RaceProxy::UpdateLoop() {
       ; // tirar error
     rapidjson::Document msg;
     msg.Parse(str.c_str());
-    
+    printf("%s\n", msg);
     if (msg["type"] == "car") {
       CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
       if (!car){

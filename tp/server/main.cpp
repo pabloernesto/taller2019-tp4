@@ -4,7 +4,7 @@
 #include <thread>
 #include "Configuration.h"
 
-//Configuration configuration("Configuracion/config.json");
+Configuration configuration("Configuracion/config.json");
 
 int main(int argc, char **argv) {
   Listener listener("1234");
