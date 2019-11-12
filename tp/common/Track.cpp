@@ -57,6 +57,10 @@ void Track::updateCarCounter(Car& car){
   // std::cout << "Checked for tracks\n";
 }
 
+std::vector<std::unique_ptr<TrackPiece>>& Track::getTrackPieces(){
+  return this->tracks;
+}
+
 std::string Track::getTrackPiecesString(){
   return this->tracks_s;
 }
