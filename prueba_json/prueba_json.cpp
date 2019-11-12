@@ -43,6 +43,7 @@ int main() {
   // d2 is an array
   Document d2(rapidjson::kArrayType);
   d2.PushBack("hello", d2.GetAllocator());
+  d2.PushBack("world", d2.GetAllocator());
 
   // print d2
   {
@@ -50,5 +51,12 @@ int main() {
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     d2.Accept(writer);
     printf("\n%s\n", buffer.GetString());
+  }
+
+  // print d2 using ValueIterator
+  {
+    auto arr = d2.GetArray();
+    for (auto it = arr.begin(); it != arr.end(); it++)
+      printf("%s\n", it->GetString());
   }
 }
