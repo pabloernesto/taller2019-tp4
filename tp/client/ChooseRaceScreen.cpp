@@ -74,7 +74,8 @@ GameScreen* ChooseRaceScreen::start(){
             race_list[0],
             std::move(connection));
           raceProxy->Start();
-          return new RaceScreen(window, renderer, raceProxy, id_player);
+
+          return new RaceScreen(window, renderer, raceProxy, id_player+1);
         }
       }
     }
