@@ -13,17 +13,15 @@
 RaceProxy::RaceProxy(std::string track, Connection&& connection) : 
   bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
 {
-  std::vector<std::string> parameters = split(track);
-  size_t num_rows = stoi(parameters[0]);
-  size_t num_cols = stoi(parameters[1]);
-
-  size_t block_counter = 0; 
-  for (size_t j = 0; j < num_rows; j++){
-    for (size_t i = 0; i < num_cols; i++){
-      block_counter++; 
-      this->tracks.emplace_back(new TrackPieceProxy(parameters[2][block_counter] - '0', i, j, 10, 10));
-    }
-  }   
+  rapidjson::Document msg;
+  msg.Parse(track.c_str());
+  auto list = msg["data"].GetArray();
+  rapidjson::Value::Array::ValueIterator it = list.begin();
+  for (;it != list.end(); ++it){
+    auto track = it->GetObject();
+    this->tracks.emplace_back(new TrackPieceProxy(msg["type"].GetInt(), msg["position.x"].GetFloat(), 
+      msg["position.y"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat()));   
+  }
 }
 
 void RaceProxy::UpdateLoop() {
