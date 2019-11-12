@@ -18,6 +18,7 @@ Track::Track(std::string race_specs){
   std::vector<std::string> parameters = split(race_specs);
   this->num_rows = stoi(parameters[0]);
   this->num_cols = stoi(parameters[1]);
+  this->tracks_s = race_specs;
 
   size_t block_counter = 0; 
   for (size_t j = 0; j < this->num_rows; j++){
@@ -58,6 +59,6 @@ void Track::updateCarCounter(Car& car){
   // std::cout << "Checked for tracks\n";
 }
 
-std::vector<std::unique_ptr<TrackPiece>>& Track::getTrackPieces(){
-  return this->tracks;
+std::string Track::getTrackPiecesString(){
+  return this->tracks_s;
 }

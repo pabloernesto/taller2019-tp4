@@ -2,6 +2,8 @@
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
 #include "../common/RaceFabric.h"
+#include "../common/socket.h"
+#include "rapidjson/document.h"
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
@@ -24,16 +26,23 @@ GameScreen* ChooseRaceScreen::start(){
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
 
+  Connection connection("localhost", "1234");
+
   //Agrego el titulo
   int xButton = WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
-  RaceFabric fabric;
-  //agrego los botones
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, fabric.makeRace1()));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, fabric.makeRace1()));
+  //Obtengo el race
+  char* race = connection.GetStr();
+  rapidjson::Document d;
+  d.Parse(race);
+  delete[] race;
+  RaceProxy* raceProxy = new RaceProxy(d["track"].GetString(), connection);
+
+  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, raceProxy));
+  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, raceProxy));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
