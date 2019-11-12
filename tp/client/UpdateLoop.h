@@ -10,12 +10,12 @@
 
 class UpdateLoop {
   SDL_Renderer* renderer;
-  std::unique_ptr<RaceProxy>& race;
+  RaceProxy* race;
   RaceView& view;
   std::thread t;
 
   public:
-  UpdateLoop(SDL_Renderer* ren, std::unique_ptr<RaceProxy>& r, RaceView& v);
+  UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v);
   std::atomic<bool> quit;
   void Loop();
   void Start();

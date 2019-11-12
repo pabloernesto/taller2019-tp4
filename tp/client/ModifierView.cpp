@@ -1,5 +1,5 @@
 #include "ModifierView.h"
-#include "../common/MKStoPixel.h"
+#include "MKStoPixel.h"
 #include <math.h>
 
 ModifierView::ModifierView(Image& image, ModifierProxy& modifier, Camara& camara)

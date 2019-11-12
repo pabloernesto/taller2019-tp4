@@ -2,11 +2,9 @@
 #define TRACK_H_
 
 #include "TrackPiece.h"
-#include "TrackPiece.h"
 #include <string>
 #include <vector>
 #include <memory>   // unique_ptr
-// #include <Box2D/Box2D.h>
 #include "Car.h"
 
 class TrackPiece;
