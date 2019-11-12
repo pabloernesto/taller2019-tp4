@@ -8,7 +8,7 @@
 #include <vector>
 
 class ModifierView {
-  Modifier& modifier;
+  ModifierProxy& modifier;
   Image& image;
   Camara& camara;
 

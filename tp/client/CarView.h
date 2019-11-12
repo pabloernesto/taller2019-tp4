@@ -2,21 +2,20 @@
 #define CARVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "../common/Car.h"
-#include "../common/Race.h"
+#include "CarProxy.h"
 #include "image.h"
 #include "Camara.h"
 #include <vector>
 
 class CarView {
-  Car& car;
+  CarProxy& car;
   Image& imageAlive;
   Image& imageDead;
   Camara& camara;
 
 public:
   virtual void render(int tick);
-  CarView(Image& ailive, Image& dead, Car& car, Camara& camara);
+  CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara);
 };
 
 

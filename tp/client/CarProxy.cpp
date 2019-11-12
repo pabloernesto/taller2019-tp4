@@ -45,6 +45,10 @@ std::vector<float> CarProxy::GetSize(){
   return v;
 }
 
+float CarProxy::GetAngle(){
+  return angle;
+}
+
 int CarProxy::GetId(){
   std::unique_lock<std::mutex> lock(m);
   return this->id;
