@@ -58,7 +58,7 @@ void Game::AddPlayer(EnqueuedConnection& player) {
 
   // Add player car, and car controller
   TaskHandler* handler = handler_chain.release();
-  handler_chain.reset(new CarController(handler, race.AddNewCarToRace()));
+  handler_chain.reset(new CarController(handler, race->AddNewCarToRace()));
 
   // Add player id to player's messages
   const int playerid = out_queues.size();

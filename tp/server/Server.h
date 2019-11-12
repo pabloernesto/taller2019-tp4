@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "ServerRoom.h"
 #include "../common/socket.h"
-#include "EnqueuedConnection.h"
+#include "../common/EnqueuedConnection.h"
 #include <vector>
 #include <thread>
 #include <memory>   // unique_ptr

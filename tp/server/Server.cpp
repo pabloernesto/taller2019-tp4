@@ -1,6 +1,6 @@
 #include "Server.h"
 #include <thread>
-#include "EnqueuedConnection.h"
+#include "../common/EnqueuedConnection.h"
 
 void Server::Add(Connection&& c) {
   rooms.emplace_back(new ServerRoom(std::move(c), *this));

@@ -3,7 +3,7 @@
 
 #include "../common/Race.h"
 #include "../common/blockingqueue.h"
-#include "EnqueuedConnection.h"
+#include "../common/EnqueuedConnection.h"
 #include "Responsibility.h"
 #include <thread>
 #include <vector>
