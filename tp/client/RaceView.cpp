@@ -26,7 +26,7 @@ void RaceView::render(int tick) {
   camara.Update();
   SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
   track.render(camara, this->race->getTrackPieces());
-  std::vector<std::unique_ptr<Modifier>>& modifiers = this->race->getModifiers();
+  std::vector<std::unique_ptr<Modifier>> modifiers = this->race->getModifiers();
   for (auto it = modifiers.begin(); it != modifiers.end(); it++){
     Modifier& current_mod = **(it);
     std::string mod_type = (*it)->getType();

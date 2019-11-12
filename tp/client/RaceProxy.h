@@ -1,24 +1,36 @@
 #ifndef RACE_H_
 #define RACE_H_
 
-//#include "CarProxy.h"
-//#include "ModifierProxy.h"
+#include "CarProxy.h"
+#include "ModifierProxy.h"
 //#include "Track.h"
 //#include <vector>
-//#include <memory>   // unique_ptr
+#include <memory>   // unique_ptr
 //#include "ContactListener.h"
 #include "../common/socket.h"
 #include <string>
-// #include "TrackProxy.h"
+#include "TrackPieceProxy.h"
+#include "../common/EnqueuedConnection.h"
+#include "../common/blockingqueue.h"
+#include <thread>
+#include "../rapidjson/document.h"
 
 class RaceProxy {
 private:
   Connection& connection;
-  // TrackProxy track;
+  BlockingQueue<std::string> bq;
+  EnqueuedConnection ec;
+  std::vector<std::unique_ptr<CarProxy>> cars;
+  std::vector<std::unique_ptr<ModifierProxy>> modifiers;
+  std::thread t;
+  std::vector<std::unique_ptr<TrackPieceProxy>> tracks;
+
+  void UpdateLoop();
+  bool IHaveCarWithId(int id);
 
 public:
   RaceProxy(std::string track, Connection& connection);
-  void AddCar();
+  void Start();
 };
 
 #endif 

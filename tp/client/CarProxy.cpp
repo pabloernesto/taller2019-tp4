@@ -20,10 +20,12 @@ void CarProxy::sendMethod(std::string method){
   outqueue.push(buffer.GetString());
 }
 
-void CarProxy::update(float x, float y, float angle, bool dead){
+void CarProxy::update(float x, float y, float angle, float size_x, float size_y,bool dead){
   this->x = x;
   this->y = y;
   this->angle = angle;
+  this->size_x = size_x;
+  this->size_y = size_y;
   this->dead = dead;
 }
 

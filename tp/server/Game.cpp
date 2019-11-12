@@ -34,7 +34,7 @@ void Game::Loop() {
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& q : out_queues)
-        q->push(std::move(json));
+        q->push(std::string(json));
     }
 
     auto&& mods_json = ToJSON(race->getModifiers());
