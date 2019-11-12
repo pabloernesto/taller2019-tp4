@@ -91,7 +91,7 @@ Car& Race::AddNewCarToRace(){
     where = cars.back()->GetPosition();
     where.x += 3;
   }
-  return this->AddCar(where.x, where.y, cars.size());
+  return this->AddCar(where.x, where.y, cars.size()+1);
 }
 
 std::vector<std::unique_ptr<Car>>& Race::GetCars() {
