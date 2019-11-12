@@ -10,9 +10,10 @@
 
 class RaceScreen : public GameScreen {
   std::unique_ptr<RaceProxy> race;
+  int carId;
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId);
   ~RaceScreen();
   GameScreen* start();
 };

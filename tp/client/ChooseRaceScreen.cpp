@@ -35,6 +35,7 @@ GameScreen* ChooseRaceScreen::start(){
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
   //Obtengo el race
+  connection.SendStr("{\"type\":\"l\"");
   char* race = connection.GetStr();
   rapidjson::Document d;
   d.Parse(race);
@@ -61,7 +62,11 @@ GameScreen* ChooseRaceScreen::start(){
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         if ((*it)->IWasClicked(x,y)){
-          return new RaceScreen(window, renderer, (*it)->GetRace());
+          connection.SendStr("{\"type\":\"j\",\"id\":0}");
+          char* id = connection.GetStr();
+          int id_i = atoi(id);
+          delete[] id;
+          return new RaceScreen(window, renderer, (*it)->GetRace(), id_i);
         }
       }
     }
