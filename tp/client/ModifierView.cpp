@@ -2,7 +2,7 @@
 #include "MKStoPixel.h"
 #include <math.h>
 
-ModifierView::ModifierView(Image& image, Modifier& modifier, Camara& camara)
+ModifierView::ModifierView(Image& image, ModifierProxy& modifier, Camara& camara)
   : modifier(modifier), image(image), camara(camara) {}
 
 void ModifierView::render(int tick) {

@@ -2,7 +2,7 @@
 #define MODIFIERVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "../common/Modifier.h"
+#include "ModifierProxy.h"
 #include "image.h"
 #include "Camara.h"
 #include <vector>
@@ -14,7 +14,7 @@ class ModifierView {
 
 public:
   virtual void render(int tick);
-  ModifierView(Image& image, Modifier& modifier, Camara& camara);
+  ModifierView(Image& image, ModifierProxy& modifier, Camara& camara);
 };
 
 

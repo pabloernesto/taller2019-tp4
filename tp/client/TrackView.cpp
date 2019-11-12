@@ -10,11 +10,11 @@ static const std::vector<std::string> image_paths = {
   "Imagenes/pasto.bmp"
 };
 
-TrackView::TrackView(ImageCache& i, Track& t)
-  : track(t), imagecache(i)
+TrackView::TrackView(ImageCache& i)
+  : imagecache(i)
 {}
 
-void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiece>>& track_pieces) {
+void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces) {
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
     std::vector<float> pos = (*it)->GetPosition();
     std::vector<float> size = (*it)->GetSize();

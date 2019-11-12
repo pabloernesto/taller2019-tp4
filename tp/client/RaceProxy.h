@@ -3,6 +3,7 @@
 
 #include "CarProxy.h"
 #include "ModifierProxy.h"
+#include <vector>
 #include <memory>   // unique_ptr
 #include "../common/socket.h"
 #include <string>
@@ -28,7 +29,10 @@ private:
 public:
   RaceProxy(std::string track, Connection& connection);
   void Start();
+  std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
   CarProxy* GetCar(int id);
+  std::vector<std::unique_ptr<CarProxy>>& GetCars();
+  std::vector<std::unique_ptr<ModifierProxy>>& getModifiers();
 };
 
 #endif 

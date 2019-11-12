@@ -61,6 +61,10 @@ CarProxy* RaceProxy::GetCar(int id){
   return cars.back().get();
 }
 
+std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(){
+  return this->tracks;
+}
+
 CarProxy* RaceProxy::GetCarWithId(int id){
   auto it = cars.begin();
   for (; it != cars.end(); ++it){
@@ -69,4 +73,12 @@ CarProxy* RaceProxy::GetCarWithId(int id){
     }
   }
   return nullptr;
+}
+
+std::vector<std::unique_ptr<CarProxy>>& RaceProxy::GetCars() {
+  return cars;
+}
+
+std::vector<std::unique_ptr<ModifierProxy>>& RaceProxy::getModifiers(){
+  return this->modifiers;
 }
