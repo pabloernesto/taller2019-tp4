@@ -9,15 +9,7 @@ CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
                       size_x(size_x), size_y(size_y), dead(false), id(id){}
 
 void CarProxy::sendMethod(std::string method){
-  rapidjson::Document d;
-  d.AddMember("type", "intent", d.GetAllocator());
-  rapidjson::Value command (method.c_str(), d.GetAllocator());
-  d.AddMember("command", command, d.GetAllocator());
-  
-  rapidjson::StringBuffer buffer;
-  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-  d.Accept(writer);
-  outqueue.push(buffer.GetString());
+  outqueue.push("{\"type\": \"intent\", \"command\": \"" + method + "\"}");
 }
 
 void CarProxy::update(float x, float y, float angle, float size_x, float size_y,bool dead){
