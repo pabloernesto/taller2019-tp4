@@ -1,6 +1,6 @@
 #include "Server.h"
 #include <thread>
-#include "../common/blockingqueue.h"
+#include "../common/EnqueuedConnection.h"
 
 void Server::Add(Connection&& c) {
   rooms.emplace_back(new ServerRoom(std::move(c), *this));
@@ -9,10 +9,10 @@ void Server::Add(Connection&& c) {
   // garbage collect dead rooms
 }
 
-Cola& Server::JoinGame(int id, Cola& outq) {
+void Server::JoinGame(int id, EnqueuedConnection& player) {
   for (auto& game : games) {
     if (game->id != id) continue;
-    return game->AddPlayer(outq);
+    game->AddPlayer(player);
   }
   throw std::runtime_error("Tratando de unirse a un juego que no existe");
 }
