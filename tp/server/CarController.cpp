@@ -43,8 +43,7 @@ bool CarController::OnHandle(void* t){
   } else if (command == "SteerRight"){
     this->car.SteerRight();
   } else {
-    // Not handled...
-    return true;
+    throw std::runtime_error("Bad command " + command);
   }
   return false; 
 }
