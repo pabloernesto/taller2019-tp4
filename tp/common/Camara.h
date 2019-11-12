@@ -2,16 +2,16 @@
 #define CAMARA_H_
 
 #include <SDL2/SDL.h>
-#include "Car.h"
+#include "CarProxy.h"
 #include "image.h"
 #include <vector>
 
 class Camara{
   SDL_Rect camara;
-  Car& mainBody;
+  CarProxy& mainBody;
 
 public:
-  Camara(int x, int y, int w, int h, Car& car);
+  Camara(int x, int y, int w, int h, CarProxy& car);
   void Update();
   SDL_Rect GetPosition();
   void renderMe(std::vector<float> position, std::vector<float> size, Image& image,

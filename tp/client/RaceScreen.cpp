@@ -23,10 +23,9 @@ GameScreen* RaceScreen::start() {
   SDL_RenderPresent(renderer);
 
   CarProxy* car = race->GetCar(carId);
-  RaceView view(this->window, this->renderer, race, car);
-  auto&& car = *(race.GetCars()[0]);
+  RaceView view(this->window, this->renderer, race.get(), *car);
 
-  UpdateLoop loop(renderer, race, view);
+  UpdateLoop loop(renderer, race.get(), view);
   loop.Start();
 
   while (true) {
@@ -35,16 +34,16 @@ GameScreen* RaceScreen::start() {
     if (sdl_event.type == SDL_QUIT) break;
 
     if (sdl_event.type == SDL_KEYDOWN) {
-      if (sdl_event.key.keysym.sym == SDLK_LEFT) car.SteerLeft();
-      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car.SteerRight();
-      else if (sdl_event.key.keysym.sym == SDLK_UP) car.GasOn();
-      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car.BreakOn();
+      if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerLeft();
+      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerRight();
+      else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOn();
+      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOn();
     }
     if (sdl_event.type == SDL_KEYUP) {
-      if (sdl_event.key.keysym.sym == SDLK_LEFT) car.SteerCenter();
-      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car.SteerCenter();
-      else if (sdl_event.key.keysym.sym == SDLK_UP) car.GasOff();
-      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car.BreakOff();
+      if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerCenter();
+      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerCenter();
+      else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOff();
+      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOff();
     }
   }
 

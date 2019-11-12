@@ -9,6 +9,7 @@
 #include "../common/ImageCache.h"
 #include "../common/Camara.h"
 #include <vector>
+#include "CarProxy.h"
 
 // TODO: create View base class
 
@@ -22,10 +23,10 @@ class RaceView {
   Camara camara;
   ImageCache imagecache;
   TrackView track;
-  Car& car;
+  CarProxy& car;
 
 public:
-  RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<Race>& race, Car& car);
+  RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<Race>& race, CarProxy& car);
   ~RaceView();
   void render(int tick);
 
