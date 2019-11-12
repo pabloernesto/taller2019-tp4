@@ -40,6 +40,7 @@ class Car : public Contactable{
   static const size_t EXPLODING_SEC_LIMIT;
   static const size_t LIFE;
   static const size_t SPEED_RED_TIME_SEC;
+  static const size_t FPS;
 
   public:
   Car(int id, Race* race);
