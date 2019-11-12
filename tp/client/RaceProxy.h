@@ -18,7 +18,9 @@ class RaceProxy {
 private:
   BlockingQueue<std::string> bq;
   EnqueuedConnection ec;
+
   std::vector<std::unique_ptr<CarProxy>> cars;
+  std::mutex cars_mtx;
 
   std::vector<std::unique_ptr<ModifierProxy>> modifiers;
   std::mutex modifiers_mtx;

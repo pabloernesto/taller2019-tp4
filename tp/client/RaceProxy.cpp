@@ -34,6 +34,7 @@ void RaceProxy::UpdateLoop() {
       throw std::runtime_error(msg["error"].GetString());
 
     } else if (std::string(msg["type"].GetString()) == "car") {
+      std::lock_guard<std::mutex> lock(cars_mtx);
       CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
       if (!car){
         cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
@@ -66,6 +67,7 @@ void RaceProxy::Start() {
 }
 
 CarProxy* RaceProxy::GetCar(int id){
+  std::lock_guard<std::mutex> lock(cars_mtx);
   auto it = cars.begin();
   for (; it != cars.end(); ++it){
     if((*it)->GetId() == id){
