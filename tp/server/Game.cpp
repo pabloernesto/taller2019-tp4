@@ -37,11 +37,9 @@ void Game::Loop() {
         q->push(std::string(json));
     }
 
-    for (auto& modifierp : race->getModifiers()){
-      auto&& json = ToJSON(*modifierp);
-      for (auto& q : out_queues)
-        q->push(std::string(json));
-    }
+    auto&& mods_json = ToJSON(race->getModifiers());
+    for (auto& q : out_queues)
+      q->push(std::string(mods_json));
 
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
