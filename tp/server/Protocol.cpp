@@ -62,6 +62,11 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
     rapidjson::Value race_node(rapidjson::kObjectType);
     race_node.AddMember("id", game->id, d.GetAllocator());
 
+    rapidjson::Value track(
+      game->GetTrack().getTrackPiecesString().c_str(),
+      d.GetAllocator());
+    race_node.AddMember("track", track.Move(), d.GetAllocator());
+
     d.PushBack(race_node.Move(), d.GetAllocator());
   }
 
