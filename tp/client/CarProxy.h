@@ -22,7 +22,7 @@ class CarProxy {
     CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, float angle, float size_x, float size_y, int id);
     std::vector<float> GetPosition();
     std::vector<float> GetSize();
-    void update(float x, float y, float angle, bool dead);
+    void update(float x, float y, float angle, float size_x, float size_y, bool dead);
     int GetId();
     bool isDead();
     void GasOn();
