@@ -58,8 +58,12 @@ std::string ToJSON(std::vector<std::unique_ptr<Modifier>>& x) {
 
 std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
   rapidjson::Document d(rapidjson::kArrayType);
-  for (auto& game : x)
-    d.PushBack(game->id, d.GetAllocator());
+  for (auto& game : x) {
+    rapidjson::Value race_node(rapidjson::kObjectType);
+    race_node.AddMember("id", game->id, d.GetAllocator());
+
+    d.PushBack(race_node.Move(), d.GetAllocator());
+  }
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
