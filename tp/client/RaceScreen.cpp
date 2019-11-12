@@ -23,9 +23,9 @@ GameScreen* RaceScreen::start() {
   SDL_RenderPresent(renderer);
 
   CarProxy* car = race->GetCar(carId);
-  RaceView view(this->window, this->renderer, race.get(), *car);
+  RaceView view(this->window, this->renderer, race, *car);
 
-  UpdateLoop loop(renderer, race.get(), view);
+  UpdateLoop loop(renderer, race, view);
   loop.Start();
 
   while (true) {
