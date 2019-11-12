@@ -15,6 +15,7 @@ const float32 Car::FRICTION = 2;
 const size_t Car::EXPLODING_SEC_LIMIT = 5;
 const size_t Car::LIFE = 5;
 const size_t Car::SPEED_RED_TIME_SEC = 3;
+const size_t Car::FPS = 60;
 
 Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
@@ -153,14 +154,14 @@ void Car::updateMaxSpeed(){
   // So, at 30 steps the speed should be half its original value.
   
   size_t counter = this->step_counter;
-  if (counter > 30)
-    counter = 30;
+  if (counter > FPS/2)
+    counter = FPS/2;
   // Max posible value is 30.
 
   if (this->reverse){
-    this->max_speed = (- (MAX_SPEED_REV) / (2 * 30) * (counter)) + MAX_SPEED_REV; 
+    this->max_speed = (- (MAX_SPEED_REV) / (2 * FPS/2) * (counter)) + MAX_SPEED_REV; 
   } else{
-    this->max_speed = (- (MAX_SPEED) / (2 * 30) * (counter)) + MAX_SPEED;
+    this->max_speed = (- (MAX_SPEED) / (2 * FPS/2) * (counter)) + MAX_SPEED;
   }
   this->updateMaxSpeedMultiplier();
   this->max_speed = this->max_speed * this->max_speed_multiplier;
@@ -230,7 +231,7 @@ void Car::Step(Track& track) {
   body->ApplyForceToCenter(force, true);
 
   // Taking into consideration that we have a 60fps.
-  if (life <= 0 || (this->step_counter >= (60 * EXPLODING_SEC_LIMIT))){
+  if (life <= 0 || (this->step_counter >= (FPS * EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
 }

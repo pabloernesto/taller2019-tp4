@@ -7,6 +7,7 @@ class Boost : public Modifier{
 
   static const float BOOST_MULT;
   static const size_t BOOST_DURATION_SEC;
+  static const size_t FPS;
 
   public:
     Boost(b2Vec2 size);
