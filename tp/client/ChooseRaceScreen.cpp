@@ -72,7 +72,7 @@ GameScreen* ChooseRaceScreen::start(){
             delete[] data;
           }
           RaceProxy* raceProxy = new RaceProxy(
-            race_list[0]["track"].GetString(),
+            race_list[0]["track"].GetArray(),
             std::move(connection));
           raceProxy->Start();
           return new RaceScreen(window, renderer, raceProxy, id_player);

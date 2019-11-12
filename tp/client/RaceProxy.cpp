@@ -10,17 +10,14 @@
 #define DEFAULTSIZEY 1
 #define DEFAULTANGLE 0
 
-RaceProxy::RaceProxy(std::string track, Connection&& connection) : 
+RaceProxy::RaceProxy(rapidjson::GenericArray<false, rapidjson::Value::ValueType> tracks, Connection&& connection) : 
   bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
 {
-  rapidjson::Document msg;
-  msg.Parse(track.c_str());
-  auto list = msg["data"].GetArray();
-  rapidjson::Value::Array::ValueIterator it = list.begin();
-  for (;it != list.end(); ++it){
+  rapidjson::Value::Array::ValueIterator it = tracks.Begin();
+  for (;it != tracks.End(); ++it){
     auto track = it->GetObject();
-    this->tracks.emplace_back(new TrackPieceProxy(msg["type"].GetInt(), msg["position.x"].GetFloat(), 
-      msg["position.y"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat()));   
+    this->tracks.emplace_back(new TrackPieceProxy(track["type"].GetInt(), track["pos.x"].GetFloat(), 
+      track["pos.y"].GetFloat(), track["size.x"].GetFloat(), track["size.y"].GetFloat()));   
   }
 }
 

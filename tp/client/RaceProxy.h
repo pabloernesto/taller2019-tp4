@@ -30,7 +30,7 @@ private:
   CarProxy* GetCarWithId(int id);
 
 public:
-  RaceProxy(std::string track, Connection&& connection);
+  RaceProxy(rapidjson::GenericArray<false, rapidjson::Value::ValueType> tracks, Connection&& connection);
   void Start();
   std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
   CarProxy* GetCar(int id);
