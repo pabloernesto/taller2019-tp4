@@ -13,6 +13,7 @@ void Server::JoinGame(int id, EnqueuedConnection& player) {
   for (auto& game : games) {
     if (game->id != id) continue;
     game->AddPlayer(player);
+    games.back()->Start();
     return;
   }
   throw std::runtime_error("Tratando de unirse a un juego que no existe");
