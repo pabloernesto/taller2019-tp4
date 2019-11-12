@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include "../common/TrackPiece.h"
 #include "../common/Track.h"
-#include "../common/Camara.h"
-#include "../common/ImageCache.h"
+#include "Camara.h"
+#include "ImageCache.h"
 #include <memory>
 
 class TrackView {

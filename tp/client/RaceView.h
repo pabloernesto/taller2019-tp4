@@ -2,12 +2,12 @@
 #define RACEVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "../common/Race.h"
+#include "RaceProxy.h"
 #include "CarView.h"
 #include "TrackView.h"
-#include "../common/image.h"
-#include "../common/ImageCache.h"
-#include "../common/Camara.h"
+#include "image.h"
+#include "ImageCache.h"
+#include "Camara.h"
 #include <vector>
 #include "CarProxy.h"
 
@@ -16,7 +16,7 @@
 // TODO: move mks to pixel transforms to View base class
 
 class RaceView {
-  std::unique_ptr<Race>& race;
+  std::unique_ptr<RaceProxy>& race;
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
@@ -26,7 +26,7 @@ class RaceView {
   CarProxy& car;
 
 public:
-  RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<Race>& race, CarProxy& car);
+  RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<RaceProxy>& race, CarProxy& car);
   ~RaceView();
   void render(int tick);
 

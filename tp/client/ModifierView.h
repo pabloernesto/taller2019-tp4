@@ -3,8 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include "../common/Modifier.h"
-#include "../common/image.h"
-#include "../common/Camara.h"
+#include "image.h"
+#include "Camara.h"
 #include <vector>
 
 class ModifierView {

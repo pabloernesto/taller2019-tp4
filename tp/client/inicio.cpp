@@ -1,5 +1,5 @@
 #include "inicio.h"
-#include "../common/image.h"
+#include "image.h"
 #include "ChooseRaceScreen.h"
 
 #define WIDTH 640

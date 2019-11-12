@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include "../common/Car.h"
 #include "../common/Race.h"
-#include "../common/image.h"
-#include "../common/Camara.h"
+#include "image.h"
+#include "Camara.h"
 #include <vector>
 
 class CarView {

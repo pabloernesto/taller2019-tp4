@@ -1,16 +1,8 @@
 #ifndef TRACK_H_
 #define TRACK_H_
 
-// #include "Event.h"
-// #include "image.h"
 #include "TrackPiece.h"
-// #include <SDL2/SDL.h>
-// #include "Camara.h
-// #include "Event.h"
-// #include "image.h"
 #include "TrackPiece.h"
-// #include "Camara.h"
-// #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
 #include <memory>   // unique_ptr

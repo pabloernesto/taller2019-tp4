@@ -1,5 +1,4 @@
 #include "Track.h"
-#include "image.h"
 #include "string.h"
 #include <vector>
 #include <string>

@@ -6,7 +6,7 @@
 #include "RaceView.h"
 #include <thread>
 #include <atomic>
-#include "../common/Camara.h"
+#include "Camara.h"
 
 class UpdateLoop {
   SDL_Renderer* renderer;

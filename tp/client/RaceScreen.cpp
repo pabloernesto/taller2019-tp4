@@ -2,7 +2,7 @@
 #include "../common/Track.h"
 #include <vector>
 #include "UpdateLoop.h"
-#include "../common/Camara.h"
+#include "Camara.h"
 #include <iostream>
 #include <math.h>
 
