@@ -13,8 +13,6 @@
 
 // TODO: create View base class
 
-// TODO: move mks to pixel transforms to View base class
-
 class RaceView {
   RaceProxy* race;
   SDL_Window *window;
