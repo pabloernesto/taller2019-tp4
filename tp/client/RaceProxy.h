@@ -9,12 +9,12 @@
 //#include "ContactListener.h"
 #include "../common/socket.h"
 #include <string>
-#include "TrackProxy.h"
+// #include "TrackProxy.h"
 
 class RaceProxy {
 private:
   Connection& connection;
-  TrackProxy track;
+  // TrackProxy track;
 
 public:
   RaceProxy(std::string track, Connection& connection);
