@@ -3,17 +3,14 @@
 
 #include "CarProxy.h"
 #include "ModifierProxy.h"
-//#include "Track.h"
-//#include <vector>
 #include <memory>   // unique_ptr
-//#include "ContactListener.h"
 #include "../common/socket.h"
 #include <string>
 #include "TrackPieceProxy.h"
 #include "../common/EnqueuedConnection.h"
 #include "../common/blockingqueue.h"
 #include <thread>
-#include "../rapidjson/document.h"
+#include "rapidjson/document.h"
 
 class RaceProxy {
 private:

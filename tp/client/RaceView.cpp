@@ -2,7 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "ModifierView.h"
 
-RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<RaceProxy>& race, CarProxy& car)
+RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
   camara(0, 0, 600, 400, car), imagecache(w, r),
   track(imagecache, race->GetTrack()), car(car)

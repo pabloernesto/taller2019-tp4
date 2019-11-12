@@ -25,8 +25,11 @@ void RaceProxy::UpdateLoop() {
           msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(), 
           msg["id"].GetInt()));
       } else {
-        car->update(msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
-          msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat());
+        car->update(
+          msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
+          msg["angle"].GetFloat(),
+          msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
+          msg["dead"].GetBool());
       }
     } else if (msg["type"] == "modifier") {
       auto list = msg["data"].GetArray();

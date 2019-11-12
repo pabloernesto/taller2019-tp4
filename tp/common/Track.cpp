@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <memory>   // unique_ptr
-#include "MKStoPixel.h"
 #include "GrassTrackPiece.h"
 #include "AsphaltTrackPiece.h"
 #include <iostream>

@@ -1,5 +1,5 @@
 #include "CarView.h"
-#include "../common/MKStoPixel.h"
+#include "MKStoPixel.h"
 #include <math.h>
 
 CarView::CarView(Image& ailive, Image& dead, Car& car, Camara& camara)

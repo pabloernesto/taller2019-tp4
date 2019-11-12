@@ -5,7 +5,7 @@
 
 static const int FRAMERATE = 60;
 
-UpdateLoop::UpdateLoop(SDL_Renderer* ren, std::unique_ptr<RaceProxy>& r, RaceView& v)
+UpdateLoop::UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v)
   : renderer(ren), race(r), view(v), t(), quit(false)
 {}
 

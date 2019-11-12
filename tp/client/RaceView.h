@@ -16,7 +16,7 @@
 // TODO: move mks to pixel transforms to View base class
 
 class RaceView {
-  std::unique_ptr<RaceProxy>& race;
+  RaceProxy* race;
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
@@ -26,7 +26,7 @@ class RaceView {
   CarProxy& car;
 
 public:
-  RaceView(SDL_Window *w, SDL_Renderer *r, std::unique_ptr<RaceProxy>& race, CarProxy& car);
+  RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car);
   ~RaceView();
   void render(int tick);
 
