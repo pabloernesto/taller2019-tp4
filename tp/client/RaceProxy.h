@@ -31,6 +31,7 @@ private:
 public:
   RaceProxy(std::string track, Connection& connection);
   void Start();
+  std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
   CarProxy* GetCar(int id);
 };
 
