@@ -61,7 +61,7 @@ CarProxy* RaceProxy::GetCar(int id){
   return cars.back().get();
 }
 
-std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(){
+std::vector<std::unique_ptr<TrackPieceProxy>>& RaceProxy::getTrackPieces(){
   return this->tracks;
 }
 
