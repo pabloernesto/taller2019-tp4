@@ -11,7 +11,7 @@
 #include "../common/EnqueuedConnection.h"
 #include "../common/blockingqueue.h"
 #include <thread>
-#include "../rapidjson/document.h"
+#include "rapidjson/document.h"
 
 class RaceProxy {
 private:
