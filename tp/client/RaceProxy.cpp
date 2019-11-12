@@ -6,9 +6,9 @@
 #define DEFAULTSIZEY 1
 #define DEFAULTANGLE 0
 
-RaceProxy::RaceProxy(std::string track, Connection& connection) : 
-  connection(connection), bq(BQSIZE), ec(std::move(connection), bq),
-  cars(), modifiers() {}
+RaceProxy::RaceProxy(std::string track, Connection&& connection) : 
+  bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
+{}
 
 void RaceProxy::UpdateLoop() {
   while (true) {
@@ -18,7 +18,10 @@ void RaceProxy::UpdateLoop() {
     rapidjson::Document msg;
     msg.Parse(str.c_str());
     printf("%s\n", msg);
-    if (msg["type"] == "car") {
+    if (msg.HasMember("error")) {
+      throw std::runtime_error(msg["error"].GetString());
+
+    } else if (std::string(msg["type"].GetString()) == "car") {
       CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
       if (!car){
         cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
@@ -31,7 +34,7 @@ void RaceProxy::UpdateLoop() {
           msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
           msg["dead"].GetBool());
       }
-    } else if (msg["type"] == "modifier") {
+    } else if (std::string(msg["type"].GetString()) == "modifier") {
       auto list = msg["data"].GetArray();
       std::lock_guard<std::mutex> lock(modifiers_mtx);
       modifiers.clear();

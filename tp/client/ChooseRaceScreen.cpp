@@ -4,6 +4,7 @@
 #include "../common/RaceFabric.h"
 #include "../common/socket.h"
 #include "rapidjson/document.h"
+#include <iostream>
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
@@ -26,25 +27,33 @@ GameScreen* ChooseRaceScreen::start(){
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
 
-  Connection connection("localhost", "1234");
-
   //Agrego el titulo
   int xButton = WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
-  //Obtengo el race
+  // Obtener la lista de carreras
+  Connection connection("localhost", "1234");
   connection.SendStr("{\"type\":\"l\"}");
+<<<<<<< HEAD
   char* race = connection.GetStr();
   printf("%s\n", race);
   rapidjson::Document d;
   d.Parse(race);
   delete[] race;
   RaceProxy* raceProxy = new RaceProxy(d["track"].GetString(), connection);
+=======
+  rapidjson::Document race_list;
+  {
+    char* data = connection.GetStr();
+    race_list.Parse(data);
+    delete[] data;
+  }
+>>>>>>> 541d21ec32fa51e3cad7e67106b3522214d8d508
 
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, raceProxy));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, raceProxy));
+  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 0));
+  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 1));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
@@ -58,17 +67,24 @@ GameScreen* ChooseRaceScreen::start(){
     if (sdl_event.type == SDL_QUIT) break;
 
     if (sdl_event.button.button == SDL_BUTTON_LEFT){ //Boton izquierdo del mouse
+      std::cerr << "CHECKPOINT\n";
 	    Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         if ((*it)->IWasClicked(x,y)){
           connection.SendStr("{\"type\":\"j\",\"id\":0}");
-          char* id = connection.GetStr();
-          int id_i = atoi(id);
-          delete[] id;
-          (*it)->GetRace()->Start();
-          return new RaceScreen(window, renderer, (*it)->GetRace(), id_i);
+          int id_player;
+          {
+            char* data = connection.GetStr();
+            id_player = atoi(data);
+            delete[] data;
+          }
+          RaceProxy* raceProxy = new RaceProxy(
+            race_list[0]["track"].GetString(),
+            std::move(connection));
+          raceProxy->Start();
+          return new RaceScreen(window, renderer, raceProxy, id_player);
         }
       }
     }
