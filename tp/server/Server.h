@@ -8,6 +8,10 @@
 #include <thread>
 #include <atomic>
 #include <memory>   // unique_ptr
+#include <mutex>
+#include <condition_variable>
+
+class Game;
 
 class Server{
   std::vector<std::unique_ptr<Game>> games;

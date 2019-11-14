@@ -12,6 +12,9 @@
 #include <atomic>
 #include <memory>   // unique_ptr
 #include <unordered_set>
+#include <mutex>
+#include <condition_variable>
+#include "Server.h"
 
 typedef BlockingQueue<std::string> Cola;
 
@@ -24,6 +27,9 @@ class Game {
   bool running;
   std::unique_ptr<TaskHandler> handler_chain;
   std::unordered_set<int> id_started;
+  std::mutex& mutex;
+  std::condition_variable& cond_var;
+  Server& server;
 
   void Loop();
   void preGameLoop();
@@ -42,7 +48,7 @@ public:
   void Shutdown();
   void Join();
 
-  Game(int id, std::string track);
+  Game(int id, std::string track,std::mutex& mutex , std::condition_variable& cond_var, Server& server);
 };
 
 #endif  // GAME_H_

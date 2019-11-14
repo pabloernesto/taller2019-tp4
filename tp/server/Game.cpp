@@ -65,7 +65,9 @@ void Game::Loop() {
     std::this_thread::sleep_for(rest);
   }
   running = false;
-  // Aca deberia volver a donde?
+  std::lock_guard<std::mutex> lock(this->mutex);
+  this->server.notify();
+  this->cond_var.notify_one();
 }
 
 void Game::preGameLoop(){
@@ -155,10 +157,10 @@ void Game::Join() {
 }
 
 // TODO: pass real track
-Game::Game(int id, std::string track)
+Game::Game(int id, std::string track, std::mutex& mutex, std::condition_variable& cond_var, Server& server)
   : race(RaceFabric::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
-  running(false), handler_chain(), id(id)
+  running(false), handler_chain(), mutex(mutex), cond_var(cond_var), server(server), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
 }

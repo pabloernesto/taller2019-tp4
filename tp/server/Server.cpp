@@ -54,7 +54,7 @@ void Server::notify(){
 
 int Server::NewGame() {
   // TODO: pass real track
-  games.emplace_back(new Game(maxid++, ""));
+  games.emplace_back(new Game(maxid++, "", this->mutex, this->cond_var, *this));
   games.back()->Start();
   return games.back()->id;
 }
