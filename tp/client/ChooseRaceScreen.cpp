@@ -22,6 +22,23 @@ ChooseRaceScreen::~ChooseRaceScreen(){
   TTF_Quit();
 }
 
+void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* race_list){
+  connection.SendStr("{\"type\":\"l\"}");
+  {
+    char* data = connection.GetStr();
+    race_list->Parse(data);
+    delete[] data;
+  }
+  auto it_games = race_list->Begin();
+  for (; it_games != race_list->End(); ++it_games){
+    auto game = it_games->GetObject();
+    int id_game = game["id"].GetInt();
+    buttons.emplace_back(new Button("race " + std::to_string(id_game), 
+                                    BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 
+                                    id_game, std::move(*it_games)));
+  }
+}
+
 GameScreen* ChooseRaceScreen::start(){
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
@@ -33,18 +50,10 @@ GameScreen* ChooseRaceScreen::start(){
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
-  // Obtener la lista de carreras
   Connection connection("localhost", "1234");
-  connection.SendStr("{\"type\":\"l\"}");
   rapidjson::Document race_list;
-  {
-    char* data = connection.GetStr();
-    race_list.Parse(data);
-    delete[] data;
-  }
+  this->GetGames(connection, &race_list);
 
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 0));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 1));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
@@ -62,19 +71,12 @@ GameScreen* ChooseRaceScreen::start(){
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
-        if ((*it)->IWasClicked(x,y)){
-          connection.SendStr("{\"type\":\"j\",\"id\":0}");
-          int id_player;
-          {
-            char* data = connection.GetStr();
-            id_player = atoi(data);
-            delete[] data;
-          }
+        int id_player = (*it)->ReactToClick(x, y, connection);
+        if (id_player != -1){
           RaceProxy* raceProxy = new RaceProxy(
-            race_list[0],
+            (*it)->GetGame(),
             std::move(connection));
           raceProxy->Start();
-
           return new RaceScreen(window, renderer, raceProxy, id_player+1);
         }
       }

@@ -15,7 +15,7 @@ RaceProxy::RaceProxy(rapidjson::Value& race_data, Connection&& connection) :
 {
   auto& track = race_data["track"];
   auto arr = track.GetArray();
-  for (auto it = arr.begin(); it != arr.end(); ++it) {
+  for (auto it = arr.Begin(); it != arr.End(); ++it) {
     auto piece = it->GetObject();
     this->tracks.emplace_back(new TrackPieceProxy(piece["type"].GetInt(), piece["pos.x"].GetFloat(), 
       piece["pos.y"].GetFloat(), piece["size.x"].GetFloat(), piece["size.y"].GetFloat()));   
