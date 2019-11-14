@@ -12,8 +12,8 @@ Configuration::Configuration(const char* name){
   rapidjson::Document d;
   d.ParseStream(isw);
 
-  SCREEN_WIDTH = d["SCREEN_WIDTH"].GetFloat();
-	SCREEN_HEIGHT = d["SCREEN_HEIGHT"].GetFloat();
+  SCREEN_WIDTH = d["SCREEN_WIDTH"].GetFloat();		//Hay que pasarlo
+	SCREEN_HEIGHT = d["SCREEN_HEIGHT"].GetFloat();	//Hay que pasarlo
 	CAR_WIDTH = d["CAR_WIDTH"].GetFloat();
 	CAR_HEIGHT = d["CAR_HEIGHT"].GetFloat();
 	WEIGHT_KG = d["WEIGHT_KG"].GetFloat();

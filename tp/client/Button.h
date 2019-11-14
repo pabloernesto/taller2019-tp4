@@ -9,17 +9,14 @@ class Button {
 private:
   std::string name;
   SDL_Rect button;
-  int index;
-  rapidjson::Value game;
 
 public:
-  Button(std::string name, int width, int height, int index, rapidjson::Value&& game);
+  Button(std::string name, int width, int height);
   ~Button();
   std::string GetName();
   void SetPosition(int x, int y);
   bool IWasClicked(int x, int y);
-  int GetIndex();
-  int ReactToClick(int x, int y, Connection& connection);
+  virtual int ReactToClick(int x, int y, Connection& connection) = 0;
   rapidjson::Value& GetGame();
 };
 

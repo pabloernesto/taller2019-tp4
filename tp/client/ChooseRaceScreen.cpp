@@ -5,6 +5,7 @@
 #include "../common/socket.h"
 #include "rapidjson/document.h"
 #include <iostream>
+#include "ButtonCreateRace.h"
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
@@ -33,7 +34,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   for (; it_games != race_list->End(); ++it_games){
     auto game = it_games->GetObject();
     int id_game = game["id"].GetInt();
-    buttons.emplace_back(new Button("race " + std::to_string(id_game), 
+    buttons.emplace_back(new ButtonJoinRace("race " + std::to_string(id_game), 
                                     BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 
                                     id_game, std::move(*it_games)));
   }
@@ -54,11 +55,18 @@ GameScreen* ChooseRaceScreen::start(){
   rapidjson::Document race_list;
   this->GetGames(connection, &race_list);
 
-  std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
+  //Muestro los botones de races
+  std::vector<std::unique_ptr<ButtonJoinRace>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
     showMessage((*it)->GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
   }
+
+  //Muestro el boton de crear race
+  ButtonCreateRace createRace("Create", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER);
+  createRace.SetPosition(xButton, yButton);
+  showMessage(createRace.GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
+
   SDL_RenderPresent(renderer);
 
   while (true) {
@@ -69,7 +77,7 @@ GameScreen* ChooseRaceScreen::start(){
     if (sdl_event.button.button == SDL_BUTTON_LEFT){ //Boton izquierdo del mouse
 	    Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
-      std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
+      std::vector<std::unique_ptr<ButtonJoinRace>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         int id_player = (*it)->ReactToClick(x, y, connection);
         if (id_player != -1){
