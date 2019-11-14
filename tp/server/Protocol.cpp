@@ -85,12 +85,12 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
   return std::string(buffer.GetString());
 }
 
-std::string ToJSON(Race& x) {
+std::string ToJSON(Race& x){
   rapidjson::Document d(rapidjson::kObjectType);
-
-  rapidjson::Value track_pieces_string (x.GetTrack().getTrackPiecesString().c_str(), d.GetAllocator());
-  d.AddMember("track", track_pieces_string, d.GetAllocator());
-
+  
+  d.AddMember("type", "race", d.GetAllocator());
+  d.AddMember("ended", x.Ended(), d.GetAllocator());
+  d.AddMember("winner_id", x.GetIdWinnerCar(), d.GetAllocator());
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   d.Accept(writer);

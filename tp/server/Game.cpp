@@ -40,6 +40,16 @@ void Game::Loop() {
     for (auto& q : out_queues)
       q->push(std::string(mods_json));
 
+    // Check if race ended.
+    if (this->race->Ended()){
+      // Sent the new condition and winner id to every client.
+      auto&& json = ToJSON(*(this->race));
+      for (auto& q : out_queues)
+        q->push(std::string(json));
+      // Now what? How do i exit? How do i report the clients?
+      this->quit = true; 
+    }
+
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
     auto rest = rate - (time2 - time1);
@@ -54,6 +64,7 @@ void Game::Loop() {
     std::this_thread::sleep_for(rest);
   }
   running = false;
+  // Aca deberia volver a donde?
 }
 
 void Game::preGameLoop(){

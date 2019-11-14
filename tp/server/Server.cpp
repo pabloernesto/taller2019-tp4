@@ -22,13 +22,6 @@ std::vector<std::unique_ptr<Game>>& Server::GetGames() {
   return games;
 }
 
-void Server::startGame(int game_id, int user_id) {
-  for (auto it = games.begin(); it != games.end(); it ++){
-    if ((*it)->id == game_id){
-      (*it)->startGame(user_id);
-    }
-  }
-}
 
 int Server::NewGame() {
   // TODO: pass real track
