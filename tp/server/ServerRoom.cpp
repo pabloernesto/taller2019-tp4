@@ -10,31 +10,31 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     ; // tirar un error
   std::string reqtype = req["type"].GetString();
 
-  // List available games
-  if (reqtype == "l") {
-    auto&& json = ToJSON(server.GetGames());
-    client.GetOutgoingQueue().push(std::move(json));
-  
-  // Join a game given an id
-  } else if (reqtype == "j") {
-    if (!req.HasMember("id"))
-      ; // tirar un error
-    int gameid = req["id"].GetInt();
-    try {
-      server.JoinGame(gameid, client);
-      client_messages.clear();  // Clear leftover messages
-      quit = true;
-    } catch (std::runtime_error& e) {
-      client.GetOutgoingQueue().push("{\"error\": \"no such game\"}");
-    }
+  if (reqtype == "l") ListGames();
+  else if (reqtype == "j")
+    try
+      { JoinGame(req["id"].GetInt()); }
+    catch (std::runtime_error& e)
+      { client.GetOutgoingQueue().push("{\"error\": \"no such game\"}"); }
+  else if (reqtype == "c") CreateGame();
+}
 
-  // Create a new game
-  } else if (reqtype == "c") {
-    int gameid = server.NewGame();
-    server.JoinGame(gameid, client);
-    client_messages.clear();    // Clear leftover messages
-    quit = true;
-  }
+void ServerRoom::ListGames() {
+  auto&& json = ToJSON(server.GetGames());
+  client.GetOutgoingQueue().push(std::move(json));
+}
+
+void ServerRoom::JoinGame(int gameid) {
+  server.JoinGame(gameid, client);
+  client_messages.clear();  // Clear leftover messages
+  quit = true;
+}
+
+void ServerRoom::CreateGame() {
+  int gameid = server.NewGame();
+  server.JoinGame(gameid, client);
+  client_messages.clear();    // Clear leftover messages
+  quit = true;
 }
 
 void ServerRoom::Loop() {

@@ -19,6 +19,10 @@ class ServerRoom {
   void HandleRequest(rapidjson::Document& req);
   void Loop();
 
+  void ListGames();
+  void JoinGame(int gameid);
+  void CreateGame();
+
 public:
   void Start();
   void Join();
