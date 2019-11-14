@@ -1,13 +1,13 @@
 #include "CarView.h"
-#include "../common/MKStoPixel.h"
+#include "MKStoPixel.h"
 #include <math.h>
 
-CarView::CarView(Image& ailive, Image& dead, Car& car, Camara& camara)
+CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
   : car(car), imageAlive(ailive), imageDead(dead), camara(camara) {}
 
 void CarView::render(int tick) {
-  std::vector<float> position = {this->car.GetPosition().x, this->car.GetPosition().y};
-  std::vector<float> size = {this->car.GetSize().x, this->car.GetSize().y};
+  std::vector<float> position = this->car.GetPosition();
+  std::vector<float> size = this->car.GetSize();
 
   // The car image points downward, add 180 degrees to flip it up
   Image& img = car.isDead() ? imageDead : imageAlive;

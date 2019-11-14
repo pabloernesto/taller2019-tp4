@@ -2,30 +2,29 @@
 #define RACEVIEW_H_
 
 #include <SDL2/SDL.h>
-#include "../common/Race.h"
+#include "RaceProxy.h"
 #include "CarView.h"
 #include "TrackView.h"
-#include "../common/image.h"
-#include "../common/ImageCache.h"
-#include "../common/Camara.h"
+#include "image.h"
+#include "ImageCache.h"
+#include "Camara.h"
 #include <vector>
+#include "CarProxy.h"
 
 // TODO: create View base class
 
-// TODO: move mks to pixel transforms to View base class
-
 class RaceView {
-  Race& race;
+  RaceProxy* race;
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::vector<CarView> cars;
   Camara camara;
   ImageCache imagecache;
   TrackView track;
-  Car& car;
+  CarProxy& car;
 
 public:
-  RaceView(SDL_Window *w, SDL_Renderer *r, Race& race, Car& car);
+  RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car);
   ~RaceView();
   void render(int tick);
 

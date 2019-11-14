@@ -1,6 +1,10 @@
 #include "ChooseRaceScreen.h"
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
+#include "../common/RaceFabric.h"
+#include "../common/socket.h"
+#include "rapidjson/document.h"
+#include <iostream>
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
@@ -23,17 +27,24 @@ GameScreen* ChooseRaceScreen::start(){
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
 
-  showMessage("x", TITLESIZEPERLETTER, 0, 0);
-
   //Agrego el titulo
   int xButton = WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
 
-  //agrego los botones
-  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, "6 9 666662004204661661163005661166666661162004661305663005"));
-  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, "5 4 20041205116611663566"));
+  // Obtener la lista de carreras
+  Connection connection("localhost", "1234");
+  connection.SendStr("{\"type\":\"l\"}");
+  rapidjson::Document race_list;
+  {
+    char* data = connection.GetStr();
+    race_list.Parse(data);
+    delete[] data;
+  }
+
+  buttons.emplace_back(new Button("race 1", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 0));
+  buttons.emplace_back(new Button("race 2", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 1));
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
@@ -52,8 +63,19 @@ GameScreen* ChooseRaceScreen::start(){
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         if ((*it)->IWasClicked(x,y)){
-          std::string race = (*it)->GetRace();
-          return new RaceScreen(window, renderer, race);
+          connection.SendStr("{\"type\":\"j\",\"id\":0}");
+          int id_player;
+          {
+            char* data = connection.GetStr();
+            id_player = atoi(data);
+            delete[] data;
+          }
+          RaceProxy* raceProxy = new RaceProxy(
+            race_list[0],
+            std::move(connection));
+          raceProxy->Start();
+
+          return new RaceScreen(window, renderer, raceProxy, id_player+1);
         }
       }
     }
@@ -70,7 +92,6 @@ void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
   int width = size * (int)message.size();
   SDL_Rect Message_rect = {x - width/2, y - size/2, width, size};
-  printf("render: x: %d y: %d\n", x - width/2, y - size/2);
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);

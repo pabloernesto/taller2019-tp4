@@ -1,20 +1,10 @@
 #ifndef TRACK_H_
 #define TRACK_H_
 
-// #include "Event.h"
-// #include "image.h"
 #include "TrackPiece.h"
-// #include <SDL2/SDL.h>
-// #include "Camara.h
-// #include "Event.h"
-// #include "image.h"
-#include "TrackPiece.h"
-// #include "Camara.h"
-// #include <SDL2/SDL.h>
 #include <string>
 #include <vector>
 #include <memory>   // unique_ptr
-// #include <Box2D/Box2D.h>
 #include "Car.h"
 
 class TrackPiece;
@@ -37,12 +27,14 @@ private:
   size_t num_cols;
   std::vector<std::vector<int>> blocks;
   std::vector<std::unique_ptr<TrackPiece>> tracks;
+  std::string tracks_s;
   
 public:
   Track(std::string race_specs);
   void updateCarCounter(Car& car);
   std::vector<std::unique_ptr<TrackPiece>>& getTrackPieces();
   std::vector<int> GetPositionOfClosestAsphalt(b2Vec2& position);
+  std::string getTrackPiecesString();
 };
 
 #endif

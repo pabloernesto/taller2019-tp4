@@ -2,13 +2,13 @@
 #include "MKStoPixel.h"
 #include <math.h>
 
-Camara::Camara(int x, int y, int w, int h, Car& car): camara({x,y,w,h}),
+Camara::Camara(int x, int y, int w, int h, CarProxy& car): camara({x,y,w,h}),
   mainBody(car){}
 
 void Camara::Update(){
   std::vector<float> position;
-  position.push_back(this->mainBody.GetPosition().x);
-  position.push_back(this->mainBody.GetPosition().y);
+  position.push_back(this->mainBody.GetPosition()[0]);
+  position.push_back(this->mainBody.GetPosition()[1]);
   auto&& pixelPosition = MKStoPixelTransform(position);
   this->camara.x =  pixelPosition[0] - camara.w/2;
   this->camara.y = -pixelPosition[1] - camara.h/2;

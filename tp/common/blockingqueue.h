@@ -35,31 +35,41 @@ class BlockingQueue {
     empty_cv.notify_all();
   }
 
-  T pop() {
+  bool trypop(T* out) {
     std::unique_lock<std::mutex> lock(mtx);
     while ((q.size() == 0) && !closed)
       empty_cv.wait(lock);
 
-    if (q.size() == 0) throw std::runtime_error("trying to pop an empty queue");
+    if (q.size() == 0)
+      return false;
 
-    T result = std::move(q.front());
+    *out = std::move(q.front());
     q.pop();
     full_cv.notify_all();
-    return result;
+    return true;
+  }
+
+  // Delete all items in the queue
+  void clear() {
+    std::unique_lock<std::mutex> lock(mtx);
+    // std::queue does not have a clear method, and we are not supposed to know
+    // what the container underlying this template actually is. Some research
+    // suggests that it is a standard idiom to create a temporary empty queue
+    // and swap its contents with the queue we want to clear. When the
+    // (no longer empty) queue goes out of scope it will handle item deletion
+    // for us.
+    std::queue<T>().swap(q);
+  }
+
+  void swap(std::queue<T>& other) {
+    std::unique_lock<std::mutex> lock(mtx);
+    q.swap(other);
   }
 
   void close() {
     std::unique_lock<std::mutex> lock(mtx);
     closed = true;
     empty_cv.notify_all();
-  }
-
-  bool isPopable() {
-    std::unique_lock<std::mutex> lock(mtx);
-    while ((q.size() == 0) && !closed)
-      empty_cv.wait(lock);
-
-    return q.size() != 0;
   }
 };
 

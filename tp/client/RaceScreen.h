@@ -3,16 +3,17 @@
 
 #include <SDL2/SDL.h>
 #include "GameScreen.h"
-#include "../common/Race.h"
+#include "RaceProxy.h"
 #include "RaceView.h"
 #include "../common/Track.h"
 #include "../common/Posta.h"
 
 class RaceScreen : public GameScreen {
-  Race race;
+  std::unique_ptr<RaceProxy> race;
+  int carId;
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r, std::string race);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId);
   ~RaceScreen();
   GameScreen* start();
 };
