@@ -20,6 +20,7 @@ class Game {
   Cola in_queue;
   std::vector<Cola*> out_queues;
   std::atomic<bool> quit;
+  bool running;
   std::unique_ptr<TaskHandler> handler_chain;
   std::unordered_set<int> id_started;
 
@@ -35,7 +36,6 @@ public:
   bool didIdStarted(int user_id);
 
   // Thread control methods
-  void startPreGameLoop();
   void Start();
   void Shutdown();
   void Join();

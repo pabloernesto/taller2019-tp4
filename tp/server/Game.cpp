@@ -53,11 +53,11 @@ void Game::Loop() {
     time1 += rate;
     std::this_thread::sleep_for(rest);
   }
+  running = false;
 }
 
 void Game::preGameLoop(){
-
-  while (!quit) {
+  while (!quit && !running) {
     // Read client messages
     std::queue<std::string> to_process;
     in_queue.swap(to_process);
@@ -67,13 +67,18 @@ void Game::preGameLoop(){
       to_process.pop();
     }
   }
+  if (quit) return;
+
   // Realease all remaining messages, so games starts clean.
   std::queue<std::string> to_process;
   in_queue.swap(to_process);
 
+  // Create controllers for every car
   handler_chain.reset();
   for (auto& car : race->GetCars())
     handler_chain.reset(new CarController(handler_chain.release(), *car));
+
+  Loop();
 }
 
 
@@ -113,22 +118,14 @@ Track& Game::GetTrack() {
 
 void Game::startGame(int user_id){
   id_started.insert(user_id);
-  if (out_queues.size() == id_started.size()){
-    this->Shutdown();
-    this->Join();
-    this->Start();
-  }
+  if (out_queues.size() == id_started.size())
+    running = true;
 }
 
 // Thread control methods
 
-void Game::startPreGameLoop(){
-  update_thread = std::thread(&Game::preGameLoop, this);
-}
-
 void Game::Start() {
-  quit = false;
-  update_thread = std::thread(&Game::Loop, this);
+  update_thread = std::thread(&Game::preGameLoop, this);
 }
 
 void Game::Shutdown() {
@@ -143,7 +140,7 @@ void Game::Join() {
 Game::Game(int id, std::string track)
   : race(RaceFabric::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
-  handler_chain(), id(id)
+  running(false), handler_chain(), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
 }

@@ -33,7 +33,7 @@ void Server::startGame(int game_id, int user_id) {
 int Server::NewGame() {
   // TODO: pass real track
   games.emplace_back(new Game(maxid++, ""));
-  games.back()->startPreGameLoop();
+  games.back()->Start();
   return games.back()->id;
 }
 
