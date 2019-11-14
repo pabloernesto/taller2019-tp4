@@ -1,6 +1,6 @@
 #ifndef _CARCONTROLLER_H_
 #define _CARCONTROLLER_H_
-#include "Responsibility.h"
+#include "../common/Responsibility.h"
 #include "../common/Car.h"
 
 class CarController : public TaskHandler{

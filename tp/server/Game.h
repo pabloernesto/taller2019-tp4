@@ -4,7 +4,7 @@
 #include "../common/Race.h"
 #include "../common/blockingqueue.h"
 #include "../common/EnqueuedConnection.h"
-#include "Responsibility.h"
+#include "../common/Responsibility.h"
 #include <thread>
 #include <vector>
 #include <string>
