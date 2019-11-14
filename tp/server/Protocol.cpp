@@ -97,3 +97,20 @@ std::string ToJSON(Race& x){
 
   return std::string(buffer.GetString());
 }
+
+void AddMember(rapidjson::Document& d, std::string& key, Track& t) {
+  rapidjson::Value track(rapidjson::kArrayType);
+  for (auto& piece_ptr : t.getTrackPieces()) {
+    rapidjson::Value piece_json(rapidjson::kObjectType);
+    piece_json
+      .AddMember("type", piece_ptr->getTrackType(), d.GetAllocator())
+      .AddMember("size.x", piece_ptr->GetSize()[0], d.GetAllocator())
+      .AddMember("size.y", piece_ptr->GetSize()[1], d.GetAllocator())
+      .AddMember("pos.x", piece_ptr->GetPosition()[0], d.GetAllocator())
+      .AddMember("pos.y", piece_ptr->GetPosition()[1], d.GetAllocator());
+    track.PushBack(piece_json.Move(), d.GetAllocator());
+  }
+
+  rapidjson::Value key_json(key.c_str(), d.GetAllocator());
+  d.GetObject().AddMember(key_json, track.Move(), d.GetAllocator());
+}
