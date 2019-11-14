@@ -25,14 +25,14 @@ void ServerRoom::ListGames() {
 }
 
 void ServerRoom::JoinGame(int gameid) {
-  server.JoinGame(gameid, client);
+  server.JoinGame(gameid, *this);
   client_messages.clear();  // Clear leftover messages
   quit = true;
 }
 
 void ServerRoom::CreateGame() {
   int gameid = server.NewGame();
-  server.JoinGame(gameid, client);
+  server.JoinGame(gameid, *this);
   client_messages.clear();    // Clear leftover messages
   quit = true;
 }
@@ -62,5 +62,5 @@ void ServerRoom::Join() {
 
 ServerRoom::ServerRoom(Connection&& c, Server& s)
   : quit(false), client_messages(QUEUE_SIZE),
-  client(std::move(c), client_messages), thread(), server(s)
+  thread(), server(s), client(std::move(c), client_messages)
 {}

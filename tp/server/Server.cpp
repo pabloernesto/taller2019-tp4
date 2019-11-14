@@ -1,6 +1,5 @@
 #include "Server.h"
 #include <thread>
-#include "../common/EnqueuedConnection.h"
 
 void Server::Add(Connection&& c) {
   rooms.emplace_back(new ServerRoom(std::move(c), *this));
@@ -9,7 +8,7 @@ void Server::Add(Connection&& c) {
   // garbage collect dead rooms
 }
 
-void Server::JoinGame(int id, EnqueuedConnection& player) {
+void Server::JoinGame(int id, ServerRoom& player) {
   for (auto& game : games) {
     if (game->id != id) continue;
     game->AddPlayer(player);

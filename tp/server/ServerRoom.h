@@ -12,7 +12,6 @@ class Server;
 class ServerRoom {
   bool quit;
   BlockingQueue<std::string> client_messages;
-  EnqueuedConnection client;
   std::thread thread;
   Server& server;
 
@@ -24,6 +23,8 @@ class ServerRoom {
   void CreateGame();
 
 public:
+  EnqueuedConnection client;
+
   void Start();
   void Join();
 

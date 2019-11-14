@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "ServerRoom.h"
 #include "../common/socket.h"
-#include "../common/EnqueuedConnection.h"
 #include <vector>
 #include <thread>
 #include <memory>   // unique_ptr
@@ -16,7 +15,7 @@ class Server {
 
 public:
   void Add(Connection&& c);
-  void JoinGame(int id, EnqueuedConnection& player);
+  void JoinGame(int id, ServerRoom& player);
   // Instantiate a race. Returns game id.
   int NewGame();
 
