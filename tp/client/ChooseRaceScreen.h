@@ -17,6 +17,7 @@ public:
 
 private:
   void showMessage(std::string message, int size, int x, int y);
+  void GetGames(Connection& connection, rapidjson::Document* race_list);
 };
 
 #endif
