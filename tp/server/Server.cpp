@@ -41,6 +41,4 @@ void Server::Shutdown() {}
 
 void Server::Join() {}
 
-Server::Server() : games(), maxid(0), rooms() {
-  NewGame();
-}
+Server::Server() : games(), maxid(0), rooms() {}
