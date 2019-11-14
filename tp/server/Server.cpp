@@ -22,6 +22,36 @@ std::vector<std::unique_ptr<Game>>& Server::GetGames() {
   return games;
 }
 
+void Server::collectorLoop(){
+  std::unique_lock<std::mutex> lock(this->mutex);
+  while (!this->quit){ 
+    while (!this->notified){
+      this->cond_var.wait(lock);
+    }
+    
+    auto it = this->games.begin();
+    while (it != this->games.end()){
+      if ( ! (*it)->isRunning()){
+        it = this->games.erase(it);
+      } else {
+        it++;
+      }
+    }
+    this->notified = false;
+  }
+
+  // Shutdown remaining games
+  for (auto it = this->games.begin(); it != this->games.end(); it++){
+    (*it)->Shutdown();  
+  }
+  for (auto it = this->games.begin(); it != this->games.end(); it++){
+    (*it)->Join();
+  }
+}
+
+void Server::notify(){
+  this->notified = true;
+}
 
 int Server::NewGame() {
   // TODO: pass real track
@@ -30,8 +60,19 @@ int Server::NewGame() {
   return games.back()->id;
 }
 
-void Server::Shutdown() {}
+void Server::Start(){
+  collector_thread = std::thread(&Server::collectorLoop, this);
+}
 
-void Server::Join() {}
+void Server::Shutdown() {
+  this->quit = true;
+  this->notified = true;
+  this->cond_var.notify_one();
+}
 
-Server::Server() : games(), maxid(0), rooms() {}
+void Server::Join() {
+  if (collector_thread.joinable()) 
+    collector_thread.join();
+}
+
+Server::Server() : games(), maxid(0), rooms(), notified(false), quit(false){}

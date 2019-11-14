@@ -34,6 +34,7 @@ public:
   Track& GetTrack();
   void startGame(int user_id);
   bool didIdStarted(int user_id);
+  bool isRunning();
 
   // Thread control methods
   void Start();

@@ -133,6 +133,10 @@ void Game::startGame(int user_id){
     running = true;
 }
 
+bool Game::isRunning(){
+  return (!this->running) && (this->quit);
+}
+
 // Thread control methods
 
 void Game::Start() {
