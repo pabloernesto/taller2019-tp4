@@ -34,6 +34,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     server.JoinGame(gameid, client);
     client_messages.clear();    // Clear leftover messages
     quit = true;
+  
+  // Start an existing game
   } else if (reqtype == "s") {
     int game_id = req["game_id"].GetInt();
     int user_id = req["user_id"].GetInt();
