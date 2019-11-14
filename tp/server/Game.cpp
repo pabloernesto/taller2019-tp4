@@ -59,11 +59,12 @@ void Game::AddPlayer(EnqueuedConnection& player) {
   out_queues.push_back(&player.GetOutgoingQueue());
 
   // Add player car, and car controller
+  auto& car = race->AddNewCarToRace();
   TaskHandler* handler = handler_chain.release();
-  handler_chain.reset(new CarController(handler, race->AddNewCarToRace()));
+  handler_chain.reset(new CarController(handler, car));
 
   // Add player id to player's messages
-  const int playerid = out_queues.size();
+  const int playerid = car.GetId();
   player.OnReceive([playerid](std::string* msg){
     rapidjson::Document d;
     d.Parse(msg->c_str());
