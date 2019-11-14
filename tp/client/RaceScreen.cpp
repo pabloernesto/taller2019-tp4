@@ -16,12 +16,14 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
   : GameScreen(w, r), race(race), carId(carId)
 {}
 
+#include <iostream>
 GameScreen* RaceScreen::start() {
   SDL_Event sdl_event;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 
+  std::cerr << "RaceScreen::start id " << carId << "\n";
   CarProxy* car = race->GetCar(carId);
   RaceView view(this->window, this->renderer, race.get(), *car);
   UpdateLoop loop(renderer, race.get(), view);
