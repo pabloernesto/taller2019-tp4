@@ -73,12 +73,10 @@ void Game::Loop() {
 void Game::preGameLoop(){
   while (!quit && !running) {
     // Read client messages
-    std::queue<std::string> to_process;
-    in_queue.swap(to_process);
-    while (!to_process.empty()) {
-      auto&& request = Parse(to_process.front());
+    std::string str;
+    if (in_queue.trypop(&str)) {
+      auto&& request = Parse(str);
       handler_chain->Handle(&request);
-      to_process.pop();
     }
   }
   if (quit) return;
@@ -150,6 +148,9 @@ void Game::Start() {
 
 void Game::Shutdown() {
   quit = true;
+  for (auto& p : players) p->client.Shutdown();
+  for (auto& p : players) p->client.Join();
+  in_queue.close();
 }
 
 void Game::Join() {
