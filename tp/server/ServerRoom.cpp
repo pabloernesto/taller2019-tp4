@@ -34,6 +34,10 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     server.JoinGame(gameid, client);
     client_messages.clear();    // Clear leftover messages
     quit = true;
+  } else if (reqtype == "s") {
+    int game_id = req["game_id"].GetInt();
+    int user_id = req["user_id"].GetInt();
+    server.startGame(game_id, user_id);
   }
 }
 

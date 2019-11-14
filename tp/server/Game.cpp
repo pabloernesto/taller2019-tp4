@@ -90,6 +90,13 @@ Track& Game::GetTrack() {
 }
 
 
+void Game::startGame(int user_id){
+  id_started.insert(user_id);
+  if (out_queues.size() == id_started.size()){
+    this->Start();
+  }
+}
+
 // Thread control methods
 
 void Game::Start() {

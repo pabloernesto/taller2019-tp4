@@ -22,6 +22,8 @@ public:
 
   std::vector<std::unique_ptr<Game>>& GetGames();
 
+  void startGame(int game_id, int user_id);
+
   void Shutdown();
   void Join();
 

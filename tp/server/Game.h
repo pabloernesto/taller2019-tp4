@@ -10,6 +10,7 @@
 #include <string>
 #include <atomic>
 #include <memory>   // unique_ptr
+#include <unordered_set>
 
 typedef BlockingQueue<std::string> Cola;
 
@@ -20,6 +21,7 @@ class Game {
   std::vector<Cola*> out_queues;
   std::atomic<bool> quit;
   std::unique_ptr<TaskHandler> handler_chain;
+  std::unordered_set<int> id_started;
 
   void Loop();
 
@@ -28,6 +30,7 @@ public:
 
   void AddPlayer(EnqueuedConnection& player);
   Track& GetTrack();
+  void startGame(int user_id);
 
   // Thread control methods
   void Start();

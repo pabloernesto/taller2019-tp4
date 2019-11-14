@@ -13,7 +13,6 @@ void Server::JoinGame(int id, EnqueuedConnection& player) {
   for (auto& game : games) {
     if (game->id != id) continue;
     game->AddPlayer(player);
-    games.back()->Start();
     return;
   }
   throw std::runtime_error("Tratando de unirse a un juego que no existe");
@@ -21,6 +20,14 @@ void Server::JoinGame(int id, EnqueuedConnection& player) {
 
 std::vector<std::unique_ptr<Game>>& Server::GetGames() {
   return games;
+}
+
+void Server::startGame(int game_id, int user_id) {
+  for (auto it = games.begin(); it != games.end(); it ++){
+    if ((*it)->id == game_id){
+      (*it)->startGame(user_id);
+    }
+  }
 }
 
 int Server::NewGame() {
