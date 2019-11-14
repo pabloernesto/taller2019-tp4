@@ -24,6 +24,7 @@ class Game {
   std::unordered_set<int> id_started;
 
   void Loop();
+  void preGameLoop();
 
 public:
   int id;
@@ -31,8 +32,10 @@ public:
   void AddPlayer(EnqueuedConnection& player);
   Track& GetTrack();
   void startGame(int user_id);
+  bool didIdStarted(int user_id);
 
   // Thread control methods
+  void startPreGameLoop();
   void Start();
   void Shutdown();
   void Join();

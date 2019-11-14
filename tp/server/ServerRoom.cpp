@@ -17,12 +17,6 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     catch (std::runtime_error& e)
       { client.GetOutgoingQueue().push("{\"error\": \"no such game\"}"); }
   else if (reqtype == "c") CreateGame();
-  // Start an existing game
-  else if (reqtype == "s") {
-    int game_id = req["game_id"].GetInt();
-    int user_id = req["user_id"].GetInt();
-    server.startGame(game_id, user_id);
-  }
 }
 
 void ServerRoom::ListGames() {

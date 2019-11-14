@@ -4,6 +4,7 @@
 #include "Protocol.h"
 #include "../common/RaceFabric.h"
 #include "CarController.h"
+#include "StartGameController.h"
 #include <memory>
 
 #include "rapidjson/document.h"
@@ -54,14 +55,34 @@ void Game::Loop() {
   }
 }
 
+void Game::preGameLoop(){
+
+  while (!quit) {
+    // Read client messages
+    std::queue<std::string> to_process;
+    in_queue.swap(to_process);
+    while (!to_process.empty()) {
+      auto&& request = Parse(to_process.front());
+      handler_chain->Handle(&request);
+      to_process.pop();
+    }
+  }
+  // Realease all remaining messages, so games starts clean.
+  std::queue<std::string> to_process;
+  in_queue.swap(to_process);
+
+  handler_chain.reset();
+  for (auto& car : race->GetCars())
+    handler_chain.reset(new CarController(handler_chain.release(), *car));
+}
+
+
 void Game::AddPlayer(EnqueuedConnection& player) {
   // Start broadcasting messages to player
   out_queues.push_back(&player.GetOutgoingQueue());
 
-  // Add player car, and car controller
+  // Add player car
   auto& car = race->AddNewCarToRace();
-  TaskHandler* handler = handler_chain.release();
-  handler_chain.reset(new CarController(handler, car));
 
   // Add player id to player's messages
   const int playerid = car.GetId();
@@ -93,13 +114,20 @@ Track& Game::GetTrack() {
 void Game::startGame(int user_id){
   id_started.insert(user_id);
   if (out_queues.size() == id_started.size()){
+    this->Shutdown();
+    this->Join();
     this->Start();
   }
 }
 
 // Thread control methods
 
+void Game::startPreGameLoop(){
+  update_thread = std::thread(&Game::preGameLoop, this);
+}
+
 void Game::Start() {
+  quit = false;
   update_thread = std::thread(&Game::Loop, this);
 }
 
@@ -117,6 +145,5 @@ Game::Game(int id, std::string track)
   update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
   handler_chain(), id(id)
 {
-  // TODO: populate handler_chain()
-  handler_chain.reset(NULL);
+  handler_chain.reset(new StartGameController(NULL, (*this)));
 }
