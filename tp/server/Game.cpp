@@ -2,6 +2,7 @@
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
+#include "ServerRoom.h"
 #include "../common/RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
@@ -32,20 +33,20 @@ void Game::Loop() {
 
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
-      for (auto& q : out_queues)
-        q->push(std::string(json));
+      for (auto& p : players)
+        p->client.GetOutgoingQueue().push(std::string(json));
     }
 
     auto&& mods_json = ToJSON(race->getModifiers());
-    for (auto& q : out_queues)
-      q->push(std::string(mods_json));
+    for (auto& p : players)
+      p->client.GetOutgoingQueue().push(std::string(mods_json));
 
     // Check if race ended.
     if (this->race->Ended()){
       // Sent the new condition and winner id to every client.
       auto&& json = ToJSON(*(this->race));
-      for (auto& q : out_queues)
-        q->push(std::string(json));
+      for (auto p : players)
+        p->client.GetOutgoingQueue().push(std::string(json));
       // Now what? How do i exit? How do i report the clients?
       this->quit = true; 
     }
@@ -93,16 +94,16 @@ void Game::preGameLoop(){
 }
 
 
-void Game::AddPlayer(EnqueuedConnection& player) {
+void Game::AddPlayer(ServerRoom& player) {
   // Start broadcasting messages to player
-  out_queues.push_back(&player.GetOutgoingQueue());
+  players.push_back(&player);
 
   // Add player car
   auto& car = race->AddNewCarToRace();
 
   // Add player id to player's messages
   const int playerid = car.GetId();
-  player.OnReceive([playerid](std::string* msg){
+  player.client.OnReceive([playerid](std::string* msg){
     rapidjson::Document d;
     d.Parse(msg->c_str());
     d.AddMember("id", playerid, d.GetAllocator());
@@ -116,10 +117,12 @@ void Game::AddPlayer(EnqueuedConnection& player) {
   });
 
   // Start accepting player messages
-  player.SetIncomingQueue(in_queue);
+  player.client.SetIncomingQueue(in_queue);
 
   // Tell player which car is his
-  player.GetOutgoingQueue().push("{\"id\": " + std::to_string(playerid) + "}");
+  player.client.GetOutgoingQueue().push(
+    "{\"id\": " + std::to_string(playerid) + "}"
+  );
 }
 
 Track& Game::GetTrack() {
@@ -129,7 +132,7 @@ Track& Game::GetTrack() {
 
 void Game::startGame(int user_id){
   id_started.insert(user_id);
-  if (out_queues.size() == id_started.size())
+  if (players.size() == id_started.size())
     running = true;
 }
 
@@ -154,7 +157,7 @@ void Game::Join() {
 // TODO: pass real track
 Game::Game(int id, std::string track)
   : race(RaceFabric::makeRace1()),
-  update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
+  update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
   running(false), handler_chain(), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
