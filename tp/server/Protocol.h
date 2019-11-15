@@ -21,6 +21,6 @@ class Race;
 std::string ToJSON(Race& x);
 
 class Track;
-void AddMember(rapidjson::Document& d, std::string& key, Track& t);
+void AddMember(rapidjson::Document& d, std::string key, Track& t);
 
 #endif  // PROTOCOL_H_

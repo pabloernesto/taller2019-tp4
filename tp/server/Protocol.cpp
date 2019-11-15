@@ -98,7 +98,7 @@ std::string ToJSON(Race& x){
   return std::string(buffer.GetString());
 }
 
-void AddMember(rapidjson::Document& d, std::string& key, Track& t) {
+void AddMember(rapidjson::Document& d, std::string key, Track& t) {
   rapidjson::Value track(rapidjson::kArrayType);
   for (auto& piece_ptr : t.getTrackPieces()) {
     rapidjson::Value piece_json(rapidjson::kObjectType);

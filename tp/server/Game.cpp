@@ -119,9 +119,15 @@ void Game::AddPlayer(ServerRoom& player) {
   // Start accepting player messages
   player.client.SetIncomingQueue(in_queue);
 
-  // Tell player which car is his
+  // Send player the id of his car and the track's shape
+  rapidjson::Document d(rapidjson::kObjectType);
+  d.AddMember("id", playerid, d.GetAllocator());
+  AddMember(d, "track", race->GetTrack());
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
   player.client.GetOutgoingQueue().push(
-    "{\"id\": " + std::to_string(playerid) + "}"
+    std::string(buffer.GetString())
   );
 }
 
