@@ -5,7 +5,23 @@
 #include "RaceProxy.h"
 
 bool CreateButton::OnHandle(void* t) {
-  return true;
+  // Create the game
+  rapidjson::Document d;
+  {
+    std::string msg = "{\"type\":\"c\"}";
+    context->connection.SendStr(msg.c_str());
+    char* data = context->connection.GetStr();
+    d.Parse(data);
+    delete[] data;
+  }
+
+  // Build the race
+  RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
+
+  // Build the next screen
+  int id_player = d["id"].GetInt();
+  context->next_screen = new RaceScreen(window, renderer, proxy, id_player);
+  return false;
 }
 
 bool JoinButton::OnHandle(void* t) {
