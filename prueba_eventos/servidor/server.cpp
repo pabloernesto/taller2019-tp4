@@ -1,4 +1,3 @@
-#include "../common/Event.h"
 #include "../common/socket.h"
 #include <iostream>
 #include <memory>   // unique_ptr

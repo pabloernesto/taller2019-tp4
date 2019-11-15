@@ -6,6 +6,7 @@
 #include "GrassTrackPiece.h"
 #include "AsphaltTrackPiece.h"
 #include <iostream>
+#include "../common/string.h"
 
 const std::vector<float> Track::PIECE_SIZE(10, 10);
 

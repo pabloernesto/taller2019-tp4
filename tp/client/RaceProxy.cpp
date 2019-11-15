@@ -1,7 +1,5 @@
 #include "RaceProxy.h"
 #include "../common/string.h"
-#include "../common/GrassTrackPiece.h"
-#include "../common/AsphaltTrackPiece.h"
 #include <iostream>
 #define BQSIZE 100
 #define DEFAULTPOSITIONX 0

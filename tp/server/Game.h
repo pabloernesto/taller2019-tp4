@@ -1,7 +1,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "../common/Race.h"
+#include "Race.h"
 #include "../common/blockingqueue.h"
 #include "../common/EnqueuedConnection.h"
 #include "../common/Responsibility.h"

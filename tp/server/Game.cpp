@@ -3,7 +3,7 @@
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
 #include "ServerRoom.h"
-#include "../common/RaceFabric.h"
+#include "RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
 #include <memory>
