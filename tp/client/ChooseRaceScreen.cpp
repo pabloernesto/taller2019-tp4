@@ -42,6 +42,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
 GameScreen* ChooseRaceScreen::start(){
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_Event sdl_event;
 
   //Agrego el titulo
