@@ -48,13 +48,15 @@ void Server::collectorLoop(){
   }
 }
 
-void Server::notify(){
+void Server::notify() {
+  std::lock_guard<std::mutex> lock(mutex);
   this->notified = true;
+  cond_var.notify_one();
 }
 
 int Server::NewGame() {
   // TODO: pass real track
-  games.emplace_back(new Game(maxid++, "", this->mutex, this->cond_var, *this));
+  games.emplace_back(new Game(maxid++, "", this->mutex, *this));
   games.back()->Start();
   return games.back()->id;
 }
