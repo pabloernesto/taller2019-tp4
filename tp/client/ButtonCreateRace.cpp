@@ -18,5 +18,6 @@ RaceProxy* ButtonCreateRace::ReactToClick(int* id_player, int x, int y, Connecti
     printf("id: %d\n", *id_player);
     return race;
   }
+  *id_player = -1;
   return nullptr;
 }

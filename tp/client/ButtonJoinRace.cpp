@@ -15,6 +15,7 @@ RaceProxy* ButtonJoinRace::ReactToClick(int* id_player, int x, int y, Connection
     RaceProxy* race = new RaceProxy(track, std::move(connection));
     return race;
   }
+  *id_player = -1;
   return nullptr;
 }
 
