@@ -42,6 +42,7 @@ public:
   void startGame(int user_id);
   bool didIdStarted(int user_id);
   bool isRunning();
+  bool isOnPreGameLoop();
 
   // Thread control methods
   void Start();
