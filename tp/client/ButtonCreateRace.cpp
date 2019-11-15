@@ -10,10 +10,11 @@ RaceProxy* ButtonCreateRace::ReactToClick(int* id_player, int x, int y, Connecti
     connection.SendStr(join.c_str());
     rapidjson::Document game;
     char* data = connection.GetStr();
+    printf("info: %s\n", data);
     game.Parse(data);
     *id_player = game["id"].GetInt();
-    auto track = game["track"].GetObject();
-    RaceProxy* race = new RaceProxy(game, std::move(connection));
+    auto& track = game["track"];
+    RaceProxy* race = new RaceProxy(track, std::move(connection));
     printf("id: %d\n", *id_player);
     return race;
   }

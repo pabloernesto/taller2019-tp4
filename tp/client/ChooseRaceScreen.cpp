@@ -55,16 +55,16 @@ GameScreen* ChooseRaceScreen::start(){
   this->GetGames(connection, &race_list);
 
   //Muestro los botones de races
-  std::vector<std::unique_ptr<ButtonJoinRace>>::iterator it = buttons.begin();
+  std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
     (*it)->SetPosition(xButton, yButton);
     showMessage((*it)->GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
   }
 
   //Muestro el boton de crear race
-  ButtonCreateRace createRace("Create", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER);
-  createRace.SetPosition(xButton, yButton);
-  showMessage(createRace.GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
+  buttons.emplace_back(new ButtonCreateRace("Create", BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER));
+  buttons.back()->SetPosition(xButton, yButton);
+  showMessage(buttons.back()->GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
 
   SDL_RenderPresent(renderer);
 
@@ -76,13 +76,13 @@ GameScreen* ChooseRaceScreen::start(){
     if (sdl_event.button.button == SDL_BUTTON_LEFT){ //Boton izquierdo del mouse
 	    Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
-      std::vector<std::unique_ptr<ButtonJoinRace>>::iterator it = buttons.begin();
+      std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
         int id_player;
         RaceProxy* raceProxy = (*it)->ReactToClick(&id_player, x, y, connection);
         if (id_player != -1){
           raceProxy->Start();
-          return new RaceScreen(window, renderer, raceProxy, id_player+1);
+          return new RaceScreen(window, renderer, raceProxy, id_player);
         }
       }
     }

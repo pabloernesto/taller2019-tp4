@@ -10,10 +10,9 @@
 #define DEFAULTSIZEY 1
 #define DEFAULTANGLE 0
 
-RaceProxy::RaceProxy(rapidjson::Value& race_data, Connection&& connection) : 
+RaceProxy::RaceProxy(rapidjson::Value& track, Connection&& connection) : 
   bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
 {
-  auto& track = race_data["track"];
   auto arr = track.GetArray();
   for (auto it = arr.Begin(); it != arr.End(); ++it) {
     auto piece = it->GetObject();

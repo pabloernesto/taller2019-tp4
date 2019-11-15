@@ -11,8 +11,8 @@ RaceProxy* ButtonJoinRace::ReactToClick(int* id_player, int x, int y, Connection
     char* data = connection.GetStr();
     game.Parse(data);
     *id_player = game["id"].GetInt();
-    auto track = game["track"].GetObject();
-    RaceProxy* race = new RaceProxy(game, std::move(connection));
+    auto& track = game["track"];
+    RaceProxy* race = new RaceProxy(track, std::move(connection));
     return race;
   }
   return nullptr;

@@ -2,13 +2,14 @@
 #define CHOOSERACESCREEN_H_
 #include "GameScreen.h"
 #include "ButtonJoinRace.h"
+#include "Button.h"
 #include <vector>
 #include <string>
 #include <memory>   // unique_ptr
 
 class ChooseRaceScreen : public GameScreen{
 private:
-  std::vector<std::unique_ptr<ButtonJoinRace>> buttons;
+  std::vector<std::unique_ptr<Button>> buttons;
   
 public:
   ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r);
