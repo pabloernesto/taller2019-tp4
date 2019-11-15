@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <memory>   // unique_ptr
 #include "GameScreen.h"
+#include <SDL2/SDL_mixer.h>
 
 class Client {
   SDL_Window *window;
