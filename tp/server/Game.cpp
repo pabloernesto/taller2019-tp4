@@ -31,6 +31,7 @@ void Game::Loop() {
 
     race->Step();
 
+    // TODO: handle all notifications with a single document
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
       for (auto& p : players)
