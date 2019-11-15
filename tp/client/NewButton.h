@@ -22,6 +22,7 @@ public:
 };
 
 class TextButton : public NewButton {
+protected:
   SDL_Window* window;
   SDL_Renderer* renderer;
   std::string text;

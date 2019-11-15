@@ -15,10 +15,12 @@
 #define HEIGHT 480
 
 ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
-  : GameScreen(w, r), button_chain(), font() {
-    TTF_Init();
-    font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
-  }
+  : GameScreen(w, r), button_chain(), font(),
+  next_screen(), connection("localhost", "1234")
+{
+  TTF_Init();
+  font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
+}
 
 ChooseRaceScreen::~ChooseRaceScreen(){
   TTF_CloseFont(font);
@@ -55,7 +57,8 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
       button_w,         button_h
     };
     button_chain.reset(new JoinButton(
-      button_chain.release(), window, renderer, area, text, font, color));
+      button_chain.release(), window, renderer, area, text, font, color,
+      id_game, this));
     y += 50;
   }
 
@@ -64,7 +67,8 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
     button_w,         button_h
   };
   button_chain.reset(new CreateButton(
-    button_chain.release(), window, renderer, area, "New Game", font, color));
+    button_chain.release(), window, renderer, area, "New Game", font, color,
+    this));
 }
 
 void ChooseRaceScreen::DrawWindow(){
@@ -84,7 +88,6 @@ GameScreen* ChooseRaceScreen::start(){
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_Event sdl_event;
 
-  Connection connection("localhost", "1234");
   rapidjson::Document race_list;
 
   // Populate button_chain
@@ -93,25 +96,14 @@ GameScreen* ChooseRaceScreen::start(){
   DrawWindow();
   SDL_RenderPresent(renderer);
 
-  while (true) {
+  while (!next_screen) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
 
-    if (sdl_event.type == SDL_MOUSEBUTTONDOWN) {
-      // Sint32 x = sdl_event.button.x;
-      // Sint32 y = sdl_event.button.y;
-      // std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
-      // for (; it != buttons.end(); ++it) {
-      //   int id_player;
-      //   RaceProxy* raceProxy = (*it)->ReactToClick(&id_player, x, y, connection);
-      //   if (id_player != -1){
-      //     raceProxy->Start();
-      //     return new RaceScreen(window, renderer, raceProxy, id_player);
-      //   }
-      // }
+    // NOTE: Handle() may alter ChooseRaceScreen::next_screen
+    if (sdl_event.type == SDL_MOUSEBUTTONDOWN)
       button_chain->Handle(&sdl_event);
-    }
   }
 
   return nullptr;

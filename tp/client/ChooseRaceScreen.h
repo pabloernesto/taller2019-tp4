@@ -14,6 +14,9 @@ private:
   TTF_Font* font;
 
 public:
+  GameScreen* next_screen;
+  Connection connection;
+
   ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r);
   ~ChooseRaceScreen();
   GameScreen* start();
