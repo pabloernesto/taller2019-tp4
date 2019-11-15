@@ -8,15 +8,16 @@
 class NewButton : public TaskHandler {
   SDL_Window* window;
   SDL_Renderer* renderer;
+  SDL_Rect click_area;
 
 public:
   virtual void render() = 0;
   
   // Inherited from TaskHandler
-  bool ShouldHandle(void* t) override = 0; 
-  bool OnHandle(void* t) override = 0; 
+  bool ShouldHandle(void* t) override final;
+  bool OnHandle(void* t) override = 0;
 
-  NewButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r);
+  NewButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r, SDL_Rect area);
   virtual ~NewButton();
 };
 
