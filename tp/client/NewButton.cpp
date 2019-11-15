@@ -9,6 +9,8 @@ bool NewButton::ShouldHandle(void* t) {
 }
 
 void TextButton::render() {
+  if (next) ((NewButton*) next.get())->render();
+
   SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
