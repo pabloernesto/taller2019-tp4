@@ -2,6 +2,7 @@
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
+#include "ServerRoom.h"
 #include "../common/RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
@@ -32,13 +33,23 @@ void Game::Loop() {
 
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
-      for (auto& q : out_queues)
-        q->push(std::string(json));
+      for (auto& p : players)
+        p->client.GetOutgoingQueue().push(std::string(json));
     }
 
     auto&& mods_json = ToJSON(race->getModifiers());
-    for (auto& q : out_queues)
-      q->push(std::string(mods_json));
+    for (auto& p : players)
+      p->client.GetOutgoingQueue().push(std::string(mods_json));
+
+    // Check if race ended.
+    if (this->race->Ended()){
+      // Sent the new condition and winner id to every client.
+      auto&& json = ToJSON(*(this->race));
+      for (auto p : players)
+        p->client.GetOutgoingQueue().push(std::string(json));
+      // Now what? How do i exit? How do i report the clients?
+      this->quit = true; 
+    }
 
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
@@ -53,40 +64,46 @@ void Game::Loop() {
     time1 += rate;
     std::this_thread::sleep_for(rest);
   }
+  running = false;
+  std::lock_guard<std::mutex> lock(this->mutex);
+  this->server.notify();
+  this->cond_var.notify_one();
 }
 
 void Game::preGameLoop(){
-
-  while (!quit) {
+  while (!quit && !running) {
     // Read client messages
-    std::queue<std::string> to_process;
-    in_queue.swap(to_process);
-    while (!to_process.empty()) {
-      auto&& request = Parse(to_process.front());
+    std::string str;
+    if (in_queue.trypop(&str)) {
+      auto&& request = Parse(str);
       handler_chain->Handle(&request);
-      to_process.pop();
     }
   }
+  if (quit) return;
+
   // Realease all remaining messages, so games starts clean.
   std::queue<std::string> to_process;
   in_queue.swap(to_process);
 
+  // Create controllers for every car
   handler_chain.reset();
   for (auto& car : race->GetCars())
     handler_chain.reset(new CarController(handler_chain.release(), *car));
+
+  Loop();
 }
 
 
-void Game::AddPlayer(EnqueuedConnection& player) {
+void Game::AddPlayer(ServerRoom& player) {
   // Start broadcasting messages to player
-  out_queues.push_back(&player.GetOutgoingQueue());
+  players.push_back(&player);
 
   // Add player car
   auto& car = race->AddNewCarToRace();
 
   // Add player id to player's messages
   const int playerid = car.GetId();
-  player.OnReceive([playerid](std::string* msg){
+  player.client.OnReceive([playerid](std::string* msg){
     rapidjson::Document d;
     d.Parse(msg->c_str());
     d.AddMember("id", playerid, d.GetAllocator());
@@ -100,10 +117,18 @@ void Game::AddPlayer(EnqueuedConnection& player) {
   });
 
   // Start accepting player messages
-  player.SetIncomingQueue(in_queue);
+  player.client.SetIncomingQueue(in_queue);
 
-  // Tell player which car is his
-  player.GetOutgoingQueue().push("{\"id\": " + std::to_string(playerid) + "}");
+  // Send player the id of his car and the track's shape
+  rapidjson::Document d(rapidjson::kObjectType);
+  d.AddMember("id", playerid, d.GetAllocator());
+  AddMember(d, "track", race->GetTrack());
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
+  player.client.GetOutgoingQueue().push(
+    std::string(buffer.GetString())
+  );
 }
 
 Track& Game::GetTrack() {
@@ -113,26 +138,25 @@ Track& Game::GetTrack() {
 
 void Game::startGame(int user_id){
   id_started.insert(user_id);
-  if (out_queues.size() == id_started.size()){
-    this->Shutdown();
-    this->Join();
-    this->Start();
-  }
+  if (players.size() == id_started.size())
+    running = true;
+}
+
+bool Game::isRunning(){
+  return (!this->running) && (this->quit);
 }
 
 // Thread control methods
 
-void Game::startPreGameLoop(){
-  update_thread = std::thread(&Game::preGameLoop, this);
-}
-
 void Game::Start() {
-  quit = false;
-  update_thread = std::thread(&Game::Loop, this);
+  update_thread = std::thread(&Game::preGameLoop, this);
 }
 
 void Game::Shutdown() {
   quit = true;
+  for (auto& p : players) p->client.Shutdown();
+  for (auto& p : players) p->client.Join();
+  in_queue.close();
 }
 
 void Game::Join() {
@@ -140,10 +164,10 @@ void Game::Join() {
 }
 
 // TODO: pass real track
-Game::Game(int id, std::string track)
+Game::Game(int id, std::string track, std::mutex& mutex, std::condition_variable& cond_var, Server& server)
   : race(RaceFabric::makeRace1()),
-  update_thread(), in_queue(QUEUE_SIZE), out_queues(), quit(false),
-  handler_chain(), id(id)
+  update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
+  running(false), handler_chain(), mutex(mutex), cond_var(cond_var), server(server), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
 }

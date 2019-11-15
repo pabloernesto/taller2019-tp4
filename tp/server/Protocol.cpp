@@ -85,15 +85,32 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
   return std::string(buffer.GetString());
 }
 
-std::string ToJSON(Race& x) {
+std::string ToJSON(Race& x){
   rapidjson::Document d(rapidjson::kObjectType);
-
-  rapidjson::Value track_pieces_string (x.GetTrack().getTrackPiecesString().c_str(), d.GetAllocator());
-  d.AddMember("track", track_pieces_string, d.GetAllocator());
-
+  
+  d.AddMember("type", "race", d.GetAllocator());
+  d.AddMember("ended", x.Ended(), d.GetAllocator());
+  d.AddMember("winner_id", x.GetIdWinnerCar(), d.GetAllocator());
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   d.Accept(writer);
 
   return std::string(buffer.GetString());
+}
+
+void AddMember(rapidjson::Document& d, std::string key, Track& t) {
+  rapidjson::Value track(rapidjson::kArrayType);
+  for (auto& piece_ptr : t.getTrackPieces()) {
+    rapidjson::Value piece_json(rapidjson::kObjectType);
+    piece_json
+      .AddMember("type", piece_ptr->getTrackType(), d.GetAllocator())
+      .AddMember("size.x", piece_ptr->GetSize()[0], d.GetAllocator())
+      .AddMember("size.y", piece_ptr->GetSize()[1], d.GetAllocator())
+      .AddMember("pos.x", piece_ptr->GetPosition()[0], d.GetAllocator())
+      .AddMember("pos.y", piece_ptr->GetPosition()[1], d.GetAllocator());
+    track.PushBack(piece_json.Move(), d.GetAllocator());
+  }
+
+  rapidjson::Value key_json(key.c_str(), d.GetAllocator());
+  d.GetObject().AddMember(key_json, track.Move(), d.GetAllocator());
 }

@@ -4,28 +4,42 @@
 #include "Game.h"
 #include "ServerRoom.h"
 #include "../common/socket.h"
-#include "../common/EnqueuedConnection.h"
 #include <vector>
 #include <thread>
+#include <atomic>
 #include <memory>   // unique_ptr
+#include <mutex>
+#include <condition_variable>
 
-class Server {
+class Game;
+
+class Server{
   std::vector<std::unique_ptr<Game>> games;
   int maxid;
   std::vector<std::unique_ptr<ServerRoom>> rooms;
+  std::thread collector_thread;
+  std::mutex mutex;
+  std::condition_variable cond_var;
+  bool notified;
+  std::atomic<bool> quit;
+
+private:
+  void collectorLoop();
 
 public:
   void Add(Connection&& c);
-  void JoinGame(int id, EnqueuedConnection& player);
+  void JoinGame(int id, ServerRoom& player);
   // Instantiate a race. Returns game id.
   int NewGame();
+  void notify();
 
   std::vector<std::unique_ptr<Game>>& GetGames();
 
-  void startGame(int game_id, int user_id);
 
+  // Thread control methods
   void Shutdown();
   void Join();
+  void Start();
 
   Server();
 };
