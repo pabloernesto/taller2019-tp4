@@ -1,3 +1,4 @@
+#include <SDL2/SDL_mixer.h>
 #include "RaceScreen.h"
 #include <vector>
 #include "UpdateLoop.h"
@@ -21,6 +22,8 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
+  Mix_Music* startEngineSound = Mix_LoadMUS("Sonidos/engine_start_up_01.wav");
+  Mix_PlayMusic( startEngineSound, -1 );
 
   std::cerr << "RaceScreen::start id " << carId << "\n";
   CarProxy* car = race->GetCar(carId);

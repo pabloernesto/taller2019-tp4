@@ -9,6 +9,7 @@ class Client {
   SDL_Window *window;
   SDL_Renderer *renderer;
   std::unique_ptr<GameScreen> screen;
+  Mix_Music* music;
 
 public:
   Client();
