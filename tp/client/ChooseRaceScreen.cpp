@@ -92,7 +92,6 @@ GameScreen* ChooseRaceScreen::start(){
         }
       }
     }
-    SDL_RenderPresent(renderer);
   }
 
   return nullptr;
