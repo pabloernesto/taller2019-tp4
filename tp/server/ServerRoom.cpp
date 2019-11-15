@@ -58,8 +58,12 @@ void ServerRoom::Start() {
   thread = std::thread(&ServerRoom::Loop, this);
 }
 
-void ServerRoom::Shutdown(){
+void ServerRoom::ShutdownConnection(){
   client.Shutdown();
+}
+
+void ServerRoom::Shutdown(){
+  this->quit = true;
 }
 
 void ServerRoom::Join() {
