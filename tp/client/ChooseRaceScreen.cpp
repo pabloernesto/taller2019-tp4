@@ -106,7 +106,7 @@ GameScreen* ChooseRaceScreen::start(){
       button_chain->Handle(&sdl_event);
   }
 
-  return nullptr;
+  return next_screen;
 }
 
 void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
