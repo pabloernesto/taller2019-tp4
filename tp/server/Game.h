@@ -28,7 +28,6 @@ class Game {
   std::unique_ptr<TaskHandler> handler_chain;
   std::unordered_set<int> id_started;
   std::mutex& mutex;
-  std::condition_variable& cond_var;
   Server& server;
 
   void Loop();
@@ -48,7 +47,7 @@ public:
   void Shutdown();
   void Join();
 
-  Game(int id, std::string track,std::mutex& mutex , std::condition_variable& cond_var, Server& server);
+  Game(int id, std::string track,std::mutex& mutex, Server& server);
 };
 
 #endif  // GAME_H_
