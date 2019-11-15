@@ -39,22 +39,13 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   }
 }
 
-GameScreen* ChooseRaceScreen::start(){
-  SDL_SetWindowSize(window, WIDTH, HEIGHT);
-  SDL_RenderClear(renderer);
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  SDL_Event sdl_event;
-
+void ChooseRaceScreen::DrawWindow(){
   //Agrego el titulo
   int xButton = WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
-
-  Connection connection("localhost", "1234");
-  rapidjson::Document race_list;
-  this->GetGames(connection, &race_list);
-
+  
   //Muestro los botones de races
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
@@ -67,6 +58,20 @@ GameScreen* ChooseRaceScreen::start(){
   buttons.back()->SetPosition(xButton, yButton);
   showMessage(buttons.back()->GetName(), BUTTONSIZEPERLETTER, xButton, yButton);
 
+}
+
+GameScreen* ChooseRaceScreen::start(){
+  SDL_SetWindowSize(window, WIDTH, HEIGHT);
+  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_Event sdl_event;
+
+  Connection connection("localhost", "1234");
+  rapidjson::Document race_list;
+  this->GetGames(connection, &race_list);
+
+  DrawWindow();
+
   SDL_RenderPresent(renderer);
 
   while (true) {
@@ -78,7 +83,7 @@ GameScreen* ChooseRaceScreen::start(){
 	    Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
-      for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
+      for (; it != buttons.end(); ++it) {
         int id_player;
         RaceProxy* raceProxy = (*it)->ReactToClick(&id_player, x, y, connection);
         if (id_player != -1){
