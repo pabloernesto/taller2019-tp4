@@ -16,7 +16,7 @@ public:
   std::string GetName();
   void SetPosition(int x, int y);
   bool IWasClicked(int x, int y);
-  virtual int ReactToClick(int x, int y, Connection& connection) = 0;
+  virtual RaceProxy* ReactToClick(int* id_player, int x, int y, Connection& connection) = 0;
   rapidjson::Value& GetGame();
 };
 

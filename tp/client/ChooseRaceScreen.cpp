@@ -35,8 +35,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
     auto game = it_games->GetObject();
     int id_game = game["id"].GetInt();
     buttons.emplace_back(new ButtonJoinRace("race " + std::to_string(id_game), 
-                                    BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, 
-                                    id_game, std::move(*it_games)));
+                                    BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, id_game));
   }
 }
 
@@ -79,11 +78,9 @@ GameScreen* ChooseRaceScreen::start(){
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<ButtonJoinRace>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
-        int id_player = (*it)->ReactToClick(x, y, connection);
+        int id_player;
+        RaceProxy* raceProxy = (*it)->ReactToClick(&id_player, x, y, connection);
         if (id_player != -1){
-          RaceProxy* raceProxy = new RaceProxy(
-            (*it)->GetGame(),
-            std::move(connection));
           raceProxy->Start();
           return new RaceScreen(window, renderer, raceProxy, id_player+1);
         }

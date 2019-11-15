@@ -6,13 +6,11 @@ class ButtonJoinRace : public Button{
   private: 
     std::string name;
     SDL_Rect button;
-    rapidjson::Value game;
     int index;
 
   public:
-    ButtonJoinRace(std::string name, int width, int height, int index, rapidjson::Value&& game);
-    virtual int ReactToClick(int x, int y, Connection& connection);
-    rapidjson::Value& GetGame();
+    ButtonJoinRace(std::string name, int width, int height, int index);
+    virtual RaceProxy* ReactToClick(int* id_player, int x, int y, Connection& connection);
     int GetIndex();
 
 };

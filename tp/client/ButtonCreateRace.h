@@ -9,7 +9,7 @@ class ButtonCreateRace : public Button{
 
   public:
     ButtonCreateRace(std::string name, int width, int height);
-    virtual int ReactToClick(int x, int y, Connection& connection);
+    virtual RaceProxy* ReactToClick(int* id_player, int x, int y, Connection& connection);
 
 };
 

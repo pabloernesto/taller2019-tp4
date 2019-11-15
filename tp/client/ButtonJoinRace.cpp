@@ -1,25 +1,21 @@
 #include "ButtonJoinRace.h"
 
-ButtonJoinRace::ButtonJoinRace(std::string name, int width, int height, int index, rapidjson::Value&& game)
-  : Button(name, width, height), game(std::move(game)), index(index){}
+ButtonJoinRace::ButtonJoinRace(std::string name, int width, int height, int index)
+  : Button(name, width, height), index(index){}
 
-int ButtonJoinRace::ReactToClick(int x, int y, Connection& connection){
+RaceProxy* ButtonJoinRace::ReactToClick(int* id_player, int x, int y, Connection& connection){
   if (this->IWasClicked(x, y)){
     std::string join = "{\"type\":\"j\",\"id\":" + std::to_string(index) + "}";
     connection.SendStr(join.c_str());
-    int id_player;
-    {
-      char* data = connection.GetStr();
-      id_player = atoi(data);
-      delete[] data;
-    }
-    return id_player;
+    rapidjson::Document game;
+    char* data = connection.GetStr();
+    game.Parse(data);
+    *id_player = game["id"].GetInt();
+    auto track = game["track"].GetObject();
+    RaceProxy* race = new RaceProxy(game, std::move(connection));
+    return race;
   }
-  return -1;
-}
-
-rapidjson::Value& ButtonJoinRace::GetGame(){
-  return game;
+  return nullptr;
 }
 
 int ButtonJoinRace::GetIndex(){
