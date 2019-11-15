@@ -46,6 +46,15 @@ void Server::collectorLoop(){
   for (auto it = this->games.begin(); it != this->games.end(); it++){
     (*it)->Join();
   }
+
+  // Shutdown server rooms
+  for (auto it = this->rooms.begin(); it != this->rooms.end(); it++){
+    (*it)->ShutdownConnection();
+    (*it)->Shutdown();
+  }
+  for (auto it = this->rooms.begin(); it != this->rooms.end(); it++){
+    (*it)->Join();
+  }
 }
 
 void Server::notify() {

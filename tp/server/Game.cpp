@@ -44,11 +44,6 @@ void Game::Loop() {
 
     // Check if race ended.
     if (this->race->Ended()){
-      // Sent the new condition and winner id to every client.
-      auto&& json = ToJSON(*(this->race));
-      for (auto p : players)
-        p->client.GetOutgoingQueue().push(std::string(json));
-      // Now what? How do i exit? How do i report the clients?
       this->quit = true;
     }
 
@@ -66,7 +61,24 @@ void Game::Loop() {
     std::this_thread::sleep_for(rest);
   }
   running = false;
+  this->reconnectPlayersToServerRoom();
   this->server.notify();
+}
+
+void Game::reconnectPlayersToServerRoom(){
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->reconnectPlayer();
+  }
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->Join();
+  }
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->Start();
+  }
+  // Send the end of the race and winner id to every client.
+  auto&& json = ToJSON(*(this->race));
+  for (auto p : players)
+    p->client.GetOutgoingQueue().push(std::string(json));
 }
 
 void Game::preGameLoop(){
