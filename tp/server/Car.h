@@ -29,18 +29,7 @@ class Car : public Contactable{
   bool dead;
   Race* race;
   int laps;
-
-  static const b2Vec2 CAR_SIZE;
-  static const float32 WEIGHT_KG;
-  static const float32 ENGINE_POWER;
-  static const float MAX_SPEED;
-  static const float MAX_SPEED_REV;
-  static const float32 ANGULAR_VEL_MULT;
-  static const float32 FRICTION;
-  static const size_t EXPLODING_SEC_LIMIT;
-  static const size_t LIFE;
-  static const size_t SPEED_RED_TIME_SEC;
-  static const size_t FPS;
+  b2Vec2 car_size;
 
   public:
   Car(int id, Race* race);

@@ -4,9 +4,6 @@
 #include "Car.h"
 
 class Stone : public Modifier{
-
-  static const float SPEED_REDUCTION;
-
   public:
     Stone(b2Vec2 size);
     virtual void Place(b2World& world, b2Vec2 position, float32 angle);

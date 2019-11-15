@@ -1,7 +1,8 @@
 #include "Stone.h"
 #include <iostream>
+#include "Configuration.h"
 
-const float Stone::SPEED_REDUCTION = 4;
+extern Configuration configuration;
 
 Stone::Stone(b2Vec2 size) : Modifier(size){}
 
@@ -28,7 +29,7 @@ void Stone::GetContactedBy(Modifier* modifier){
 void Stone::modify(Car& car){
   // Asuming 60 fps
   car.reduceLife();
-  car.reduceSpeed(SPEED_REDUCTION);
+  car.reduceSpeed(configuration.STONE_SPEED_REDUCTION);
 }
 
 std::string Stone::getType(){

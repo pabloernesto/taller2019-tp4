@@ -24,6 +24,7 @@ class Race {
   int laps;
   bool ended;
   Car* winnerCar;
+  b2Vec2 modif_size;
 
 public:
   Race(std::string track, int laps, std::vector<std::unique_ptr<Posta>>* postas);

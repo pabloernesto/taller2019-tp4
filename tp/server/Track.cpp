@@ -7,13 +7,15 @@
 #include "AsphaltTrackPiece.h"
 #include <iostream>
 #include "../common/string.h"
+#include "Configuration.h"
 
-const std::vector<float> Track::PIECE_SIZE(10, 10);
+extern Configuration configuration;
 
 // Format for race_specs is "d d dd..." where the first digit is the number
 // of rows, the second is the number of columns, and the rest is -left to right,
 // top to bottom- the code of the track block
-Track::Track(std::string race_specs){
+Track::Track(std::string race_specs) : piece_size(configuration.PIECE_WIDTH, 
+  configuration.PIECE_HEIGHT){
   std::vector<std::string> parameters = split(race_specs);
   this->num_rows = stoi(parameters[0]);
   this->num_cols = stoi(parameters[1]);
@@ -28,15 +30,15 @@ Track::Track(std::string race_specs){
       row.push_back(parameters[2][block_counter] - '0');
 
       // Calculate the position of the center of the block
-      float x = (0.5 + i) * PIECE_SIZE[0];
-      float y = -(0.5 + j) * PIECE_SIZE[1];
+      float x = (0.5 + i) * piece_size[0];
+      float y = -(0.5 + j) * piece_size[1];
 
       if (row[i] == PASTO) {
         this->tracks.emplace_back(
-          new GrassTrackPiece(x, y, row[i], this->PIECE_SIZE));
+          new GrassTrackPiece(x, y, row[i], this->piece_size));
       } else {
         this->tracks.emplace_back(
-          new AsphaltTrackPiece(x, y, row[i], this->PIECE_SIZE));
+          new AsphaltTrackPiece(x, y, row[i], this->piece_size));
       }
       block_counter++;
     }

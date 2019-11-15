@@ -9,7 +9,7 @@ class Posta : public Contactable{
 private:
   int id;
   b2Body* body;
-  static const b2Vec2 POSTA_SIZE;
+  b2Vec2 posta_size;
   b2Vec2 position;
   float32 angle;
 

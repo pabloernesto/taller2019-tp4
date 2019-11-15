@@ -2,27 +2,17 @@
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include "Race.h"
+#include "Configuration.h"
 
 #define NUMBEROFFRAMESDYING 20
-
-const b2Vec2 Car::CAR_SIZE(1.2, 2.5);
-const float32 Car::WEIGHT_KG = 300;
-const float32 Car::ENGINE_POWER = 20000;
-const float Car::MAX_SPEED = 14;
-const float Car::MAX_SPEED_REV = 6;
-const float32 Car::ANGULAR_VEL_MULT = 0.2;
-const float32 Car::FRICTION = 2;
-const size_t Car::EXPLODING_SEC_LIMIT = 5;
-const size_t Car::LIFE = 5;
-const size_t Car::SPEED_RED_TIME_SEC = 3;
-const size_t Car::FPS = 60;
+extern Configuration configuration;
 
 Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
-  life(LIFE), max_speed(MAX_SPEED), angular_velocity(0), step_counter(0),
+  life(configuration.LIFE), max_speed(configuration.MAX_SPEED), angular_velocity(0), step_counter(0),
   step_counter_death(0), step_counter_max_speed_mult(0),
   max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1, {0,0},0)),
-  dead(false), race(race), laps(0)
+  dead(false), race(race), laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT)
 {}
 
 void Car::GasOn() {
@@ -73,12 +63,12 @@ void Car::BreakOff() {
 
 void Car::SteerLeft() {
   // steer = 'l';
-  angular_velocity = ANGULAR_VEL_MULT;
+  angular_velocity = configuration.ANGULAR_VEL_MULT;
 }
 
 void Car::SteerRight() {
   // steer = 'r';
-  angular_velocity = -ANGULAR_VEL_MULT;
+  angular_velocity = -configuration.ANGULAR_VEL_MULT;
 }
 
 void Car::SteerCenter() {
@@ -91,17 +81,17 @@ void Car::Place(b2World& world, b2Vec2 position) {
   b2BodyDef car_body_def;
   car_body_def.type = b2_dynamicBody;
   car_body_def.position = position;
-  car_body_def.linearDamping = FRICTION;
+  car_body_def.linearDamping = configuration.FRICTION;
   car_body_def.userData = this;
   body = world.CreateBody(&car_body_def);
 
   // Add collision and density to the car
   b2PolygonShape collision_box;
-  collision_box.SetAsBox(CAR_SIZE.x/2, CAR_SIZE.y/2);
+  collision_box.SetAsBox(configuration.CAR_WIDTH/2, configuration.CAR_HEIGHT/2);
 
   b2FixtureDef car_fixture_def;
   car_fixture_def.shape = &collision_box;
-  const float32 DENSITY = WEIGHT_KG / (CAR_SIZE.x * CAR_SIZE.y);
+  const float32 DENSITY = configuration.WEIGHT_KG / (configuration.CAR_WIDTH * configuration.CAR_HEIGHT);
   car_fixture_def.density = DENSITY;
   body->CreateFixture(&car_fixture_def);
 }
@@ -115,7 +105,7 @@ float Car::GetAngle() {
 }
 
 const b2Vec2& Car::GetSize() {
-  return CAR_SIZE;
+  return car_size;
 }
 
 void Car::setCounter(size_t value){
@@ -124,12 +114,7 @@ void Car::setCounter(size_t value){
 }
 
 void Car::updateCounter(size_t value){
-  // std::cout << "I'm in car!! About to update car counter\n";
   this->step_counter += value;
-  // if (this->step_counter > 30){
-    // this->step_counter = 30;
-  // }
-  // std::cout << "I'm in car!! Updated car counter\n";
 }
 
 void Car::updateMaxSpeedMultiplier(){
@@ -154,14 +139,14 @@ void Car::updateMaxSpeed(){
   // So, at 30 steps the speed should be half its original value.
 
   size_t counter = this->step_counter;
-  if (counter > FPS/2)
-    counter = FPS/2;
+  if (counter > configuration.FRAME_RATE/2)
+    counter = configuration.FRAME_RATE/2;
   // Max posible value is 30.
 
   if (this->reverse){
-    this->max_speed = (- (MAX_SPEED_REV) / (2 * FPS/2) * (counter)) + MAX_SPEED_REV;
+    this->max_speed = (- (configuration.MAX_SPEED_REV) / (2 * configuration.FRAME_RATE/2) * (counter)) + configuration.MAX_SPEED_REV;
   } else{
-    this->max_speed = (- (MAX_SPEED) / (2 * FPS/2) * (counter)) + MAX_SPEED;
+    this->max_speed = (- (configuration.MAX_SPEED) / (2 * configuration.FRAME_RATE/2) * (counter)) + configuration.MAX_SPEED;
   }
   this->updateMaxSpeedMultiplier();
   this->max_speed = this->max_speed * this->max_speed_multiplier;
@@ -214,15 +199,15 @@ void Car::Step(Track& track) {
     if (speed == 0){
       return;
     } else if (speed < 0){
-      force = { 0, ENGINE_POWER};
+      force = { 0, configuration.ENGINE_POWER};
     } else if (speed > 0){
-      force = { 0, -ENGINE_POWER };
+      force = { 0, -configuration.ENGINE_POWER };
     }
   } else if (gas) {
     if (reverse) {
-      force = { 0, -ENGINE_POWER};
+      force = { 0, -configuration.ENGINE_POWER};
     } else {
-      force = { 0, ENGINE_POWER };
+      force = { 0, configuration.ENGINE_POWER };
     }
   }
   // Apply the force in the direction the car is facing
@@ -231,7 +216,7 @@ void Car::Step(Track& track) {
   body->ApplyForceToCenter(force, true);
 
   // Taking into consideration that we have a 60fps.
-  if (life <= 0 || (this->step_counter >= (FPS * EXPLODING_SEC_LIMIT))){
+  if (life <= 0 || (this->step_counter >= (configuration.FRAME_RATE * configuration.EXPLODING_SEC_LIMIT))){
     this->DieAndRevive(track);
   }
 }
@@ -266,7 +251,7 @@ bool Car::isGoingForward(){
 }
 
 void Car::restoreLife(){
-  this->life = LIFE;
+  this->life = configuration.LIFE;
 }
 
 void Car::reduceLife(){
@@ -275,7 +260,7 @@ void Car::reduceLife(){
 
 void Car::reduceSpeed(float speed_reduction){
   this->speed_reducer = speed_reduction;
-  this->step_counter_red_speed = SPEED_RED_TIME_SEC;
+  this->step_counter_red_speed = configuration.SPEED_RED_TIME_SEC;
 }
 
 void Car::Contact(Contactable* contactable){
@@ -310,7 +295,7 @@ void Car::DieAndRevive(Track& track){
   }
   if (step_counter_death == 0) {
     body->SetTransform(lastPosta->GetPosition(), lastPosta->GetAngle());
-    life = LIFE;
+    life = configuration.LIFE;
     this->setCounter(0);
     dead = false;
   } else {
