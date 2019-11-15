@@ -1,9 +1,10 @@
 #include "Posta.h"
+#include "Configuration.h"
 
-const b2Vec2 Posta::POSTA_SIZE(15, 2);
+extern Configuration configuration;
 
 Posta::Posta(int id, b2Vec2 position, float32 angle) :
-  Contactable(), id(id), position(position), angle(angle) {}
+  Contactable(), id(id), posta_size(configuration.POSTA_WIDTH, configuration.POSTA_HEIGHT), position(position), angle(angle) {}
 
 void Posta::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);
@@ -26,7 +27,7 @@ void Posta::Place(b2World& world) {
 
   // Add collision and density to the posta
   b2PolygonShape shape_box;
-  shape_box.SetAsBox(POSTA_SIZE.x/2, POSTA_SIZE.y/2);
+  shape_box.SetAsBox(posta_size.x/2, posta_size.y/2);
 
   b2FixtureDef posta_fixture_def;
   posta_fixture_def.shape = &shape_box;

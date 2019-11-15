@@ -1,9 +1,8 @@
 #include "Boost.h"
 #include <iostream>
+#include "Configuration.h"
 
-const float Boost::BOOST_MULT = 1.3;
-const size_t Boost::BOOST_DURATION_SEC = 3;
-const size_t Boost ::FPS = 60;
+extern Configuration configuration;
 
 Boost::Boost(b2Vec2 size) : Modifier(size){}
 
@@ -29,7 +28,8 @@ void Boost::GetContactedBy(Modifier* modifier){
 
 void Boost::modify(Car& car){
   // Asuming 60 fps
-  car.multiplyMaxSpeed(BOOST_MULT, BOOST_DURATION_SEC * FPS);
+  car.multiplyMaxSpeed(configuration.BOOST_MULT, 
+    configuration.BOOST_DURATION_SEC * configuration.FRAME_RATE);
 }
 
 std::string Boost::getType(){
