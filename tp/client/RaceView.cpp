@@ -19,7 +19,7 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
 }
 
 RaceView::~RaceView(){
-	TTF_Quit();
+  TTF_Quit();
 }
 
 void RaceView::render(int tick) {
@@ -49,5 +49,5 @@ void RaceView::showMessage(std::string message){
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
   SDL_FreeSurface(surfaceMessage);
-	TTF_CloseFont(font);
+  TTF_CloseFont(font);
 }

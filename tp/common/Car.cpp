@@ -152,21 +152,21 @@ void Car::updateMaxSpeed(){
   // 1 frame (step) equals to 1/60 seconds.
   // 500 ms equals to 1/2 second.
   // So, at 30 steps the speed should be half its original value.
-  
+
   size_t counter = this->step_counter;
   if (counter > FPS/2)
     counter = FPS/2;
   // Max posible value is 30.
 
   if (this->reverse){
-    this->max_speed = (- (MAX_SPEED_REV) / (2 * FPS/2) * (counter)) + MAX_SPEED_REV; 
+    this->max_speed = (- (MAX_SPEED_REV) / (2 * FPS/2) * (counter)) + MAX_SPEED_REV;
   } else{
     this->max_speed = (- (MAX_SPEED) / (2 * FPS/2) * (counter)) + MAX_SPEED;
   }
   this->updateMaxSpeedMultiplier();
   this->max_speed = this->max_speed * this->max_speed_multiplier;
   // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
-  // where "x" is step_counter and "y" is max_speed. 
+  // where "x" is step_counter and "y" is max_speed.
 }
 
 float Car::getReducedSpeed(float speed_recv){
@@ -201,7 +201,7 @@ void Car::Step(Track& track) {
     b2Vec2 facing(0, 1);
     facing = b2Mul(rotation, facing);
     float speed = this->GetSpeed();
-    
+
     // To contemplate the speed reducer
     speed = this->getReducedSpeed(speed);
 

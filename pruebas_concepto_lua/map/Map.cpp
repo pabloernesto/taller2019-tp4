@@ -12,7 +12,7 @@ void Map::addPoint(size_t x, size_t y){
 }
 
 void Map::moveUpPoint(size_t x, size_t y){
-  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition(); 
+  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition();
   this->map[this->findPoint(x,y)].moveUp();
   std::vector<int> new_pos = this->map[this->findPoint(x,y)].getPosition();
   if (!this->isValidPos(new_pos[0], new_pos[1])){
@@ -27,7 +27,7 @@ bool Map::isValidPos(int x, int y){
 }
 
 void Map::moveDownPoint(size_t x, size_t y){
-  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition(); 
+  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition();
   this->map[this->findPoint(x,y)].moveDown();
   std::vector<int> new_pos = this->map[this->findPoint(x,y)].getPosition();
   if (!this->isValidPos(new_pos[0], new_pos[1])){
@@ -37,7 +37,7 @@ void Map::moveDownPoint(size_t x, size_t y){
 }
 
 void Map::moveLeftPoint(size_t x, size_t y){
-  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition(); 
+  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition();
   this->map[this->findPoint(x,y)].moveLeft();
   std::vector<int> new_pos = this->map[this->findPoint(x,y)].getPosition();
   if (!this->isValidPos(new_pos[0], new_pos[1])){
@@ -47,7 +47,7 @@ void Map::moveLeftPoint(size_t x, size_t y){
 }
 
 void Map::moveRightPoint(size_t x, size_t y){
-  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition(); 
+  std::vector<int> old_pos = this->map[this->findPoint(x,y)].getPosition();
   this->map[this->findPoint(x,y)].moveRight();
     // Que pasa si hay dos en el mismo lugar?
     // Excepcion?

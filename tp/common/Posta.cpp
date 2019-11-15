@@ -2,7 +2,7 @@
 
 const b2Vec2 Posta::POSTA_SIZE(15, 2);
 
-Posta::Posta(int id, b2Vec2 position, float32 angle) : 
+Posta::Posta(int id, b2Vec2 position, float32 angle) :
   Contactable(), id(id), position(position), angle(angle) {}
 
 void Posta::Contact(Contactable* contactable){

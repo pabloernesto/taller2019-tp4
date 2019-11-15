@@ -3,14 +3,14 @@
 #include <rapidjson/istreamwrapper.h>
 #include <rapidjson/writer.h>
 #include <fstream>
- 
+
 using namespace rapidjson;
- 
+
 //ESCRIBO EL JSON
 int main() {
   std::ifstream ifs("test.json");
   IStreamWrapper isw(ifs);
-  
+
   Document d;
   d.ParseStream(isw);
 
@@ -23,9 +23,9 @@ int main() {
   // Add an int member
   d.AddMember("meaning of life, the universe, and everything",
     42, d.GetAllocator());
-  
+
   // Add an object member
-  { 
+  {
     Value obj(kObjectType);
     obj.AddMember("code", "lyoko", d.GetAllocator());
     d.AddMember("this is an object", obj.Move(), d.GetAllocator());

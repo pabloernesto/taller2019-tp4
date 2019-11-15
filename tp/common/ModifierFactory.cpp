@@ -10,7 +10,7 @@ ModifierFactory::ModifierFactory(){
 }
 
 Modifier* ModifierFactory::createModifier(int num, b2Vec2 size){
-  return this->creators[num]->createModifier(size); 
+  return this->creators[num]->createModifier(size);
 }
 
 

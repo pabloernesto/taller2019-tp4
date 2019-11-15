@@ -48,7 +48,7 @@ void Game::Loop() {
       for (auto p : players)
         p->client.GetOutgoingQueue().push(std::string(json));
       // Now what? How do i exit? How do i report the clients?
-      this->quit = true; 
+      this->quit = true;
     }
 
     // Frame rate limiting

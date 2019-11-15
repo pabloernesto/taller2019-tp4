@@ -7,7 +7,7 @@ class CarController : public TaskHandler{
 
   private:
     Car& car;
-  
+
   public:
     CarController(TaskHandler* next, Car& car);
     virtual bool ShouldHandle(void* t) override;

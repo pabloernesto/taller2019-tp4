@@ -3,7 +3,7 @@
 #include "ModifierCreator.h"
 
 class BoostCreator : public ModifierCreator{
-  
+
   public:
     BoostCreator();
     virtual Modifier* createModifier(b2Vec2 size) override;

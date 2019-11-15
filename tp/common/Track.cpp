@@ -18,7 +18,7 @@ Track::Track(std::string race_specs){
   this->num_cols = stoi(parameters[1]);
   this->tracks_s = race_specs;
 
-  size_t block_counter = 0; 
+  size_t block_counter = 0;
   for (size_t j = 0; j < this->num_rows; j++){
     std::vector<int> row;
 
@@ -37,12 +37,12 @@ Track::Track(std::string race_specs){
         this->tracks.emplace_back(
           new AsphaltTrackPiece(x, y, row[i], this->PIECE_SIZE));
       }
-      block_counter++; 
+      block_counter++;
     }
 
     // Push it in to the block matrix
     this->blocks.push_back(row);
-  }   
+  }
 }
 
 

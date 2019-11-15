@@ -14,7 +14,7 @@
 #define WIDTH 640
 #define HEIGHT 480
 
-ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r) 
+ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), buttons() {
     TTF_Init();
   }
@@ -34,7 +34,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   for (; it_games != race_list->End(); ++it_games){
     auto game = it_games->GetObject();
     int id_game = game["id"].GetInt();
-    buttons.emplace_back(new ButtonJoinRace("race " + std::to_string(id_game), 
+    buttons.emplace_back(new ButtonJoinRace("race " + std::to_string(id_game),
                                     BUTTONSIZEPERLETTER, BUTTONSIZEPERLETTER, id_game));
   }
 }
@@ -45,7 +45,7 @@ void ChooseRaceScreen::DrawWindow(){
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
-  
+
   //Muestro los botones de races
   std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
   for (; it != buttons.end(); ++it, yButton += SPACEBETWEENBUTTONS + BUTTONSIZEPERLETTER) {
@@ -80,7 +80,7 @@ GameScreen* ChooseRaceScreen::start(){
     if (sdl_event.type == SDL_QUIT) break;
 
     if (sdl_event.button.button == SDL_BUTTON_LEFT){ //Boton izquierdo del mouse
-	    Sint32 x = sdl_event.button.x;
+      Sint32 x = sdl_event.button.x;
       Sint32 y = sdl_event.button.y;
       std::vector<std::unique_ptr<Button>>::iterator it = buttons.begin();
       for (; it != buttons.end(); ++it) {
@@ -108,5 +108,5 @@ void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
   SDL_FreeSurface(surfaceMessage);
-	TTF_CloseFont(font);
+  TTF_CloseFont(font);
 }

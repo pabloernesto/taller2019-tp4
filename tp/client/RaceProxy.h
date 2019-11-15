@@ -34,10 +34,10 @@ private:
 public:
   RaceProxy(rapidjson::Value& track, Connection&& connection);
   void Start();
-  std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces(); 
+  std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces();
   CarProxy* GetCar(int id);
   std::vector<std::unique_ptr<CarProxy>>& GetCars();
   std::vector<ModifierProxy> getModifiers();
 };
 
-#endif 
+#endif

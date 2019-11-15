@@ -52,7 +52,7 @@ void Ai::decideNewPosition(){
   lua_getglobal(L, "decide");
   // Creo que podria hacer este getglobal antes y despues cargar todo lo demas
   // para hacer el call de la funcion despues.
-  
+
   // Call the function with zero arguments and expect one result.
   lua_pcall(L, 0, 1, 0);
   // Get the result number on the top of the stack.
@@ -67,7 +67,7 @@ void Ai::passCurrentPosition(){
   this->loadPosition(pos[0], pos[1]);
   // Pop table and save it on global variable "position"
   lua_setglobal(this->L, "position");
-} 
+}
 
 /*
 void Ai::passMap(){
@@ -107,7 +107,7 @@ void Ai::loadPosition(size_t x, size_t y){
   lua_pushnumber(this->L, y);
   // Set the coordenate in the pushed index in the position table
   lua_settable(this->L, -3); //-3 because it's the table pos in the stack
-  // Now i have a loaded table in the stack  
+  // Now i have a loaded table in the stack
 }
 
 Ai::~Ai(){

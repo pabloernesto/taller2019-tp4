@@ -5,7 +5,7 @@
 
 class KeyEvent : public Event {
   std::string direction;
-  
+
   public:
   KeyEvent(std::string d);
   std::string ToStr();

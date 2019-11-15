@@ -144,7 +144,7 @@ $(target): $(o_files)
 		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
 		false; \
 	fi >&2
-	$(LD) $(o_files) -o $(target) $(LDFLAGS) -llua -ldl 
+	$(LD) $(o_files) -o $(target) $(LDFLAGS) -llua -ldl
 
 clean:
 	$(RM) $(o_files) $(target)

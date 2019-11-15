@@ -27,7 +27,7 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiecePro
   }
 }
 
-void TrackView::renderBackGroundForPiece(Camara& camara, int trackcode, 
+void TrackView::renderBackGroundForPiece(Camara& camara, int trackcode,
       std::vector<float> position, std::vector<float> size){
     if (trackcode > 1 && trackcode < 6){
       auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");

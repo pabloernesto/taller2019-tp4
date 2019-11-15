@@ -10,7 +10,7 @@ private:
   int id;
   b2Body* body;
   static const b2Vec2 POSTA_SIZE;
-  b2Vec2 position; 
+  b2Vec2 position;
   float32 angle;
 
 public:

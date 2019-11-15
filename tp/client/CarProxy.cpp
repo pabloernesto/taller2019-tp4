@@ -3,8 +3,8 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, 
-                      float angle, float size_x, float size_y, int id) : 
+CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
+                      float angle, float size_x, float size_y, int id) :
                       outqueue(outqueue), x(x), y(y), angle(angle),
                       size_x(size_x), size_y(size_y), dead(false), id(id){}
 
@@ -26,7 +26,7 @@ std::vector<float> CarProxy::GetPosition(){
   std::vector<float> v;
   v.push_back(this->x);
   v.push_back(this->y);
-  return v; 
+  return v;
 }
 
 std::vector<float> CarProxy::GetSize(){

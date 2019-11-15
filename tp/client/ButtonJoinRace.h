@@ -3,7 +3,7 @@
 #include "Button.h"
 
 class ButtonJoinRace : public Button{
-  private: 
+  private:
     std::string name;
     SDL_Rect button;
     int index;

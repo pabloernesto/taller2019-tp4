@@ -3,7 +3,7 @@
 #include "Modifier.h"
 
 class ModifierCreator{
-  
+
   public:
     ModifierCreator();
     virtual Modifier* createModifier(b2Vec2 size) = 0;

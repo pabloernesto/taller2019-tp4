@@ -12,7 +12,7 @@ class Micromachines{
 private:
   std::map<std::string,Race> races;
   std::vector<Track> tracks;
-  
+
 public:
   Micromachines();
   void addRace(std::string name, Track& track);

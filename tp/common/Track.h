@@ -28,7 +28,7 @@ private:
   std::vector<std::vector<int>> blocks;
   std::vector<std::unique_ptr<TrackPiece>> tracks;
   std::string tracks_s;
-  
+
 public:
   Track(std::string race_specs);
   void updateCarCounter(Car& car);

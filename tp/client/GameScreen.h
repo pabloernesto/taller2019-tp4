@@ -7,7 +7,7 @@ class GameScreen {
 protected:
   SDL_Window* window;
   SDL_Renderer* renderer;
-  
+
 public:
   // Derived classes should do their work in this method
   // Return a pointer to the next screen, if any

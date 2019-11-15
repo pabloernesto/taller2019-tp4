@@ -5,7 +5,7 @@
 
 Client::Client() {
   SDL_Init(SDL_INIT_EVERYTHING);
-	IMG_Init(IMG_INIT_PNG);
+  IMG_Init(IMG_INIT_PNG);
   window = SDL_CreateWindow(
     "Micromachines",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,

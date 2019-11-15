@@ -1,4 +1,4 @@
-#include "Point.h" 
+#include "Point.h"
 #define SPEED 2
 
 Point::Point(int x, int y) :  x(x), y(y), speed(SPEED){}

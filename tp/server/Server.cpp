@@ -23,11 +23,11 @@ std::vector<std::unique_ptr<Game>>& Server::GetGames() {
 
 void Server::collectorLoop(){
   std::unique_lock<std::mutex> lock(this->mutex);
-  while (!this->quit){ 
+  while (!this->quit){
     while (!this->notified){
       this->cond_var.wait(lock);
     }
-    
+
     auto it = this->games.begin();
     while (it != this->games.end()){
       if ( ! (*it)->isRunning()){
@@ -41,7 +41,7 @@ void Server::collectorLoop(){
 
   // Shutdown remaining games
   for (auto it = this->games.begin(); it != this->games.end(); it++){
-    (*it)->Shutdown();  
+    (*it)->Shutdown();
   }
   for (auto it = this->games.begin(); it != this->games.end(); it++){
     (*it)->Join();
@@ -70,7 +70,7 @@ void Server::Shutdown() {
 }
 
 void Server::Join() {
-  if (collector_thread.joinable()) 
+  if (collector_thread.joinable())
     collector_thread.join();
 }
 

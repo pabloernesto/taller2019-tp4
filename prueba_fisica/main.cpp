@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, // x and y
     640, 480,                                       // Width and Height
     SDL_WINDOW_SHOWN);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
   // Setup physics
   b2Vec2 gravity(0, 0);
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     car.GasOn();
   }
 
-	SDL_DestroyRenderer(renderer);
+  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
 }

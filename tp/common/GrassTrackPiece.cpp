@@ -1,7 +1,7 @@
 #include "GrassTrackPiece.h"
 #include <iostream>
 
-GrassTrackPiece::GrassTrackPiece(float x, float y, int track_type, std::vector<float> size) : 
+GrassTrackPiece::GrassTrackPiece(float x, float y, int track_type, std::vector<float> size) :
                                                       TrackPiece(x,y, track_type, size){}
 
 const bool GrassTrackPiece::isCarOverMe(Car& car){

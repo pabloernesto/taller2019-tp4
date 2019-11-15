@@ -1,7 +1,7 @@
 #include "StartGameController.h"
 #include "rapidjson/document.h"
 
-StartGameController::StartGameController(TaskHandler* next, Game& game) : 
+StartGameController::StartGameController(TaskHandler* next, Game& game) :
                               TaskHandler(next), game(game){}
 
 bool StartGameController::ShouldHandle(void* t){

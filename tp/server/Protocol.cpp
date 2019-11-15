@@ -87,7 +87,7 @@ std::string ToJSON(std::vector<std::unique_ptr<Game>>& x) {
 
 std::string ToJSON(Race& x){
   rapidjson::Document d(rapidjson::kObjectType);
-  
+
   d.AddMember("type", "race", d.GetAllocator());
   d.AddMember("ended", x.Ended(), d.GetAllocator());
   d.AddMember("winner_id", x.GetIdWinnerCar(), d.GetAllocator());

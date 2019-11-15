@@ -10,14 +10,14 @@
 #define DEFAULTSIZEY 1
 #define DEFAULTANGLE 0
 
-RaceProxy::RaceProxy(rapidjson::Value& track, Connection&& connection) : 
+RaceProxy::RaceProxy(rapidjson::Value& track, Connection&& connection) :
   bq(BQSIZE), ec(std::move(connection), bq), cars(), modifiers()
 {
   auto arr = track.GetArray();
   for (auto it = arr.Begin(); it != arr.End(); ++it) {
     auto piece = it->GetObject();
-    this->tracks.emplace_back(new TrackPieceProxy(piece["type"].GetInt(), piece["pos.x"].GetFloat(), 
-      piece["pos.y"].GetFloat(), piece["size.x"].GetFloat(), piece["size.y"].GetFloat()));   
+    this->tracks.emplace_back(new TrackPieceProxy(piece["type"].GetInt(), piece["pos.x"].GetFloat(),
+      piece["pos.y"].GetFloat(), piece["size.x"].GetFloat(), piece["size.y"].GetFloat()));
   }
 }
 
@@ -28,7 +28,7 @@ void RaceProxy::UpdateLoop() {
       ; // tirar error
     rapidjson::Document msg;
     msg.Parse(str.c_str());
-    
+
     if (msg.HasMember("error")) {
       throw std::runtime_error(msg["error"].GetString());
 
@@ -36,12 +36,12 @@ void RaceProxy::UpdateLoop() {
       std::lock_guard<std::mutex> lock(cars_mtx);
       CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
       if (!car){
-        cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
-          msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(), 
+        cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
+          msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
           msg["id"].GetInt()));
       } else {
         car->update(
-          msg["position.x"].GetFloat(), msg["position.y"].GetFloat(), 
+          msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
           msg["angle"].GetFloat(),
           msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
           msg["dead"].GetBool());
@@ -54,7 +54,7 @@ void RaceProxy::UpdateLoop() {
       for (;it != list.end(); ++it){
         auto modifier = it->GetObject();
         modifiers.emplace_back(new ModifierProxy(modifier["position.x"].GetFloat(),modifier["position.y"].GetFloat(),
-          modifier["size.x"].GetFloat(), modifier["size.x"].GetFloat(), 
+          modifier["size.x"].GetFloat(), modifier["size.x"].GetFloat(),
           modifier["modifier.type"].GetString()));
       }
     }
@@ -73,7 +73,7 @@ CarProxy* RaceProxy::GetCar(int id){
       return it->get();
     }
   }
-  cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), DEFAULTPOSITIONX, DEFAULTPOSITIONY, 
+  cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), DEFAULTPOSITIONX, DEFAULTPOSITIONY,
     DEFAULTANGLE, DEFAULTSIZEX, DEFAULTSIZEY, id));
   return cars.back().get();
 }

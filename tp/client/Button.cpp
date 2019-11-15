@@ -10,7 +10,7 @@ Button::~Button() {
 }
 
 std::string Button::GetName(){
-  return name; 
+  return name;
 }
 
 void Button::SetPosition(int x, int y){

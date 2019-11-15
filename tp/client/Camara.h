@@ -18,4 +18,4 @@ public:
     float angle, int tick);
 };
 
-#endif 
+#endif

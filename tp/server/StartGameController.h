@@ -7,7 +7,7 @@ class StartGameController : public TaskHandler {
 
   private:
     Game& game;
-    
+
   public:
     StartGameController(TaskHandler* next, Game& game);
     virtual bool ShouldHandle(void* t) override;

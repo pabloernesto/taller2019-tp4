@@ -45,5 +45,5 @@ bool CarController::OnHandle(void* t){
   } else {
     throw std::runtime_error("Bad command " + command);
   }
-  return false; 
+  return false;
 }

@@ -3,7 +3,7 @@
 #include "ModifierCreator.h"
 
 class HealthBoxCreator : public ModifierCreator{
-  
+
   public:
     HealthBoxCreator();
     virtual Modifier* createModifier(b2Vec2 size) override;

@@ -4,14 +4,14 @@
 #include <string>
 
 class ModifierProxy {
-  
+
   private:
     float x;
     float y;
     float size_x;
     float size_y;
     std::string type;
-    
+
   public:
     ModifierProxy(float x, float y, float size_x, float size_y, std::string type);
     std::vector<float> GetPosition();

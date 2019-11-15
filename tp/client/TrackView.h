@@ -16,7 +16,7 @@ public:
   void render(Camara& camara, std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces);
 
 private:
-  void renderBackGroundForPiece(Camara& camara, int trackcode, 
+  void renderBackGroundForPiece(Camara& camara, int trackcode,
       std::vector<float> position, std::vector<float> size);
 };
 
