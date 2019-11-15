@@ -27,10 +27,9 @@ void Server::collectorLoop(){
     while (!this->notified){
       this->cond_var.wait(lock);
     }
-
     auto it = this->games.begin();
     while (it != this->games.end()){
-      if ( ! (*it)->isRunning()){
+      if ( (! (*it)->isRunning()) && (! (*it)->isOnPreGameLoop())){
         it = this->games.erase(it);
       } else {
         it++;
@@ -77,7 +76,7 @@ void Server::Start(){
 void Server::Shutdown() {
   this->quit = true;
   this->notified = true;
-  this->cond_var.notify_one();
+  this->cond_var.notify_all();
 }
 
 void Server::Join() {

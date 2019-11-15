@@ -154,7 +154,11 @@ void Game::startGame(int user_id){
 }
 
 bool Game::isRunning(){
-  return (!this->running) && (this->quit);
+  return (this->running) && (!this->quit);
+}
+
+bool Game::isOnPreGameLoop(){
+  return (!quit) && (!running);
 }
 
 // Thread control methods
