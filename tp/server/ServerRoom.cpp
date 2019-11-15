@@ -37,6 +37,10 @@ void ServerRoom::CreateGame() {
   quit = true;
 }
 
+void ServerRoom::reconnectPlayer(){
+  this->client.SetIncomingQueue(this->client_messages);
+}
+
 void ServerRoom::Loop() {
   while (!quit) {
     std::string str;
@@ -54,8 +58,11 @@ void ServerRoom::Start() {
   thread = std::thread(&ServerRoom::Loop, this);
 }
 
-void ServerRoom::Join() {
+void ServerRoom::Shutdown(){
   client.Shutdown();
+}
+
+void ServerRoom::Join() {
   if (thread.joinable())
     thread.join();
 }

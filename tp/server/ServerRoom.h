@@ -24,7 +24,8 @@ class ServerRoom {
 
 public:
   EnqueuedConnection client;
-
+  void reconnectPlayer();
+  void Shutdown();
   void Start();
   void Join();
 

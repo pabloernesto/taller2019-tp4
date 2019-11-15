@@ -32,6 +32,7 @@ class Game {
 
   void Loop();
   void preGameLoop();
+  void reconnectPlayersToServerRoom();
 
 public:
   int id;
