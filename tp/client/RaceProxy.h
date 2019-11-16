@@ -46,6 +46,7 @@ public:
   std::vector<ModifierProxy> getModifiers();
   bool Ended();
   int GetWinnerId();
+  void SendToServer(std::string&& msg);
 };
 
 #endif
