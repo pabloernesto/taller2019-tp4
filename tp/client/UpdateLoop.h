@@ -7,20 +7,24 @@
 #include <thread>
 #include <atomic>
 #include "Camara.h"
+#include "Button.h"
 
 class UpdateLoop {
   SDL_Renderer* renderer;
   RaceProxy* race;
   RaceView& view;
   std::thread t;
+  std::unique_ptr<Button> button_chain;
 
   public:
-  UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v);
   std::atomic<bool> quit;
   void Loop();
   void Start();
   void Join();
 
+  UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v);
+
+  friend class RaceScreen;
 };
 
 #endif

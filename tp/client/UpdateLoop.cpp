@@ -6,7 +6,7 @@
 static const int FRAMERATE = 60;
 
 UpdateLoop::UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v)
-  : renderer(ren), race(r), view(v), t(), quit(false)
+  : renderer(ren), race(r), view(v), t(), button_chain(), quit(false)
 {}
 
 void UpdateLoop::Loop() {
@@ -17,6 +17,7 @@ void UpdateLoop::Loop() {
   while (!quit) {
     SDL_RenderClear(renderer);
     view.render(tick);
+    if (button_chain) button_chain->render();
     SDL_RenderPresent(renderer);
 
     // Frame rate limiting

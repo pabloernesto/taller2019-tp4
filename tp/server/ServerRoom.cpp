@@ -15,7 +15,7 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     try
       { JoinGame(req["id"].GetInt()); }
     catch (std::runtime_error& e)
-      { client.GetOutgoingQueue().push("{\"error\": \"no such game\"}"); }
+      { client.GetOutgoingQueue().push("{\"error\": \"Game is not available anymore\"}"); }
   else if (reqtype == "c") CreateGame();
 }
 

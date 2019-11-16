@@ -49,6 +49,9 @@ LDFLAGS += -lSDL2_image
 # Linkea a SDL_ttf
 LDFLAGS += -lSDL2_ttf
 
+# Linkea a SDL_mixer
+LDFLAGS += -lSDL2_mixer
+
 # Linkea a Box2D
 LDFLAGS += -lBox2D
 

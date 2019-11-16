@@ -28,8 +28,14 @@ private:
   std::thread t;
   std::vector<std::unique_ptr<TrackPieceProxy>> tracks;
 
+  bool ended;
+  int winner_id;
+
   void UpdateLoop();
   CarProxy* GetCarWithId(int id);
+  void UpdateCar(rapidjson::Document& msg);
+  void UpdateModifiers(rapidjson::Document& msg);
+  void UpdateRace(rapidjson::Document& msg);
 
 public:
   RaceProxy(rapidjson::Value& track, Connection&& connection);
@@ -38,6 +44,9 @@ public:
   CarProxy* GetCar(int id);
   std::vector<std::unique_ptr<CarProxy>>& GetCars();
   std::vector<ModifierProxy> getModifiers();
+  bool Ended();
+  int GetWinnerId();
+  void SendToServer(std::string&& msg);
 };
 
 #endif
