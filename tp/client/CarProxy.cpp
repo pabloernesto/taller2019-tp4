@@ -4,10 +4,10 @@
 #include "rapidjson/stringbuffer.h"
 
 CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
-                      float angle, float size_x, float size_y, int id, bool break_) :
+                      float angle, float size_x, float size_y, int id) :
                       outqueue(outqueue), x(x), y(y), angle(angle),
                       size_x(size_x), size_y(size_y), dead(false), id(id),
-                      break_(break_){}
+                      break_(false){}
 
 void CarProxy::sendMethod(std::string method){
   outqueue.push("{\"type\": \"intent\", \"command\": \"" + method + "\"}");

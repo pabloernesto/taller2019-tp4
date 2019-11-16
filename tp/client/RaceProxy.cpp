@@ -25,7 +25,7 @@ void RaceProxy::UpdateCar(rapidjson::Document& msg){
   if (!car){
     cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
       msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
-      msg["id"].GetInt(), msg["break"].GetBool()));
+      msg["id"].GetInt()));
   } else {
     car->update(
       msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
@@ -83,7 +83,7 @@ CarProxy* RaceProxy::GetCar(int id){
     }
   }
   cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), DEFAULTPOSITIONX, DEFAULTPOSITIONY,
-    DEFAULTANGLE, DEFAULTSIZEX, DEFAULTSIZEY, id, false));
+    DEFAULTANGLE, DEFAULTSIZEX, DEFAULTSIZEY, id));
   return cars.back().get();
 }
 
