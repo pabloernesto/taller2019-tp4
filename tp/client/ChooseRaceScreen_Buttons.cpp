@@ -17,6 +17,7 @@ bool CreateButton::OnHandle(void* t) {
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
+  proxy->Start();
 
   // Build the next screen
   int id_player = d["id"].GetInt();
@@ -37,6 +38,7 @@ bool JoinButton::OnHandle(void* t) {
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
+  proxy->Start();
 
   // Build the next screen
   int id_player = d["id"].GetInt();
