@@ -11,8 +11,8 @@
 #include <thread>
 #include <atomic>
 // Que uso? 
-#include "../CarProxy.h"
-#include "../RaceProxy.h" 
+#include "CarProxy.h"
+#include "RaceProxy.h" 
 // o 
 // class CarProxy;
 // Esto tambien va a formar parte de la libreria?

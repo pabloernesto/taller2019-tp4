@@ -6,7 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include <dlfcn.h>
-#include "lua/Ai.h"
+#include "Ai.h"
 #include "RaceScreen_Buttons.h"
 
 static const int WIDTH = 600;
@@ -68,19 +68,19 @@ GameScreen* RaceScreen::start() {
 
 void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 
-  void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
-  char* err = dlerror();
-  if (!shared_lib){
-    throw std::runtime_error(std::string(err));
-  }
+  // void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
+  // char* err = dlerror();
+  // if (!shared_lib){
+    // throw std::runtime_error(std::string(err));
+  // }
   
-  Ai* (*create)(CarProxy*, RaceProxy*);
-  void (*destroy)(Ai*);
-  create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
-  destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
+  // Ai* (*create)(CarProxy*, RaceProxy*);
+  // void (*destroy)(Ai*);
+  // create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
+  // destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
   
-  Ai* ai = (Ai*)create(car, this->race.get());
-  ai->Start();
+  Ai ai(car, this->race.get());
+  ai.Start();
 
   while (true) {
     SDL_WaitEvent(&sdl_event);
@@ -92,11 +92,11 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 
   }
   
-  ai->Shutdown();
-  ai->Join();
+  ai.Shutdown();
+  ai.Join();
 
-  destroy(ai);   
-  dlclose(shared_lib);
+  // destroy(ai);   
+  // dlclose(shared_lib);
 }
 
 void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){

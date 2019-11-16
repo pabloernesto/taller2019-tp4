@@ -62,12 +62,16 @@ LDFLAGS += -lBox2D
 # Linkea librerias dinamicas
 LDFLAGS += -ldl
 
+#Lua 
+
+LDFLAGS += -llua5.3
+
 # reglas
 ########
 
 # targets
 .PHONY: all
-all: $(target) lua
+all: $(target)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
@@ -82,7 +86,3 @@ valgrind: all
 .PHONY: clean
 clean: lua
 	$(RM) $(objects) $(target)
-
-.PHONY: lua
-lua:
-	$(MAKE) --directory=lua $(TARGET)

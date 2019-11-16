@@ -1,5 +1,5 @@
 #include "Ai.h"
-#include "../TrackPieceProxy.h"
+#include "TrackPieceProxy.h"
 #include <chrono>  
 const int Ai::SLEEP_TIME_MS = 100;
 
