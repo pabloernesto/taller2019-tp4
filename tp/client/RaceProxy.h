@@ -39,7 +39,6 @@ private:
 
 public:
   RaceProxy(rapidjson::Value& track, Connection&& connection);
-  void Start();
   std::vector<std::unique_ptr<TrackPieceProxy>>& getTrackPieces();
   CarProxy* GetCar(int id);
   std::vector<std::unique_ptr<CarProxy>>& GetCars();
@@ -47,6 +46,11 @@ public:
   bool Ended();
   int GetWinnerId();
   void SendToServer(std::string&& msg);
+
+  // Thread control methods
+  void Start();
+  void Shutdown();
+  void Join();
 };
 
 #endif
