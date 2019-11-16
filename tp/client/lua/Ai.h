@@ -11,7 +11,8 @@
 #include <thread>
 #include <atomic>
 // Que uso? 
-#include "../CarProxy.h" 
+#include "../CarProxy.h"
+#include "../RaceProxy.h" 
 // o 
 // class CarProxy;
 // Esto tambien va a formar parte de la libreria?
@@ -22,15 +23,19 @@ class Ai{
     static const int SLEEP_TIME_MS;
     // Used pointer because of extern "C"
     CarProxy* car;
+    RaceProxy* race;
     lua_State* L;
 
     std::atomic<bool> quit;
     std::thread thread;
 
     int decide();
+    void passCurrentPosition();
+    void passMap();
+    void loadXandYonTable(float x, float y);
 
   public:
-    Ai(CarProxy* car);
+    Ai(CarProxy* car, RaceProxy* race);
     void run();
     
     // void setCar(CarProxy* car);

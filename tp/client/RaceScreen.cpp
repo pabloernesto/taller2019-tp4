@@ -4,8 +4,8 @@
 #include "Camara.h"
 #include <iostream>
 #include <math.h>
-#include "lua/Ai.h"
 #include <dlfcn.h>
+#include "lua/Ai.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -48,7 +48,7 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car){
   void *shared_lib = dlopen("./07_lib.so", RTLD_NOW);
   char* err = dlerror();
   if (!shared_lib){
-    // levantar excepcion;
+    throw std::runtime_error(std::string(err));
   }
   
   Ai* (*create)(CarProxy*);
