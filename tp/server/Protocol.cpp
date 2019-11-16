@@ -2,7 +2,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
-#include "../common/Car.h"
+#include "Car.h"
 #include "Game.h"
 
 rapidjson::Document Parse(std::string& x) {

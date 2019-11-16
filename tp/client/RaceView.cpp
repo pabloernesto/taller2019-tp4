@@ -37,6 +37,14 @@ void RaceView::render(int tick) {
 
   for (auto& car : cars)
     car.render(tick);
+  
+  if (race->Ended()){
+    if (race->GetWinnerId() == car.GetId()){
+      showMessage("GANASTE");
+    } else {
+      showMessage("PERDISTE");
+    }
+  }
 }
 
 void RaceView::showMessage(std::string message){

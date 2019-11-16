@@ -3,7 +3,7 @@
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
 #include "ServerRoom.h"
-#include "../common/RaceFabric.h"
+#include "RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
 #include <memory>
@@ -44,11 +44,6 @@ void Game::Loop() {
 
     // Check if race ended.
     if (this->race->Ended()){
-      // Sent the new condition and winner id to every client.
-      auto&& json = ToJSON(*(this->race));
-      for (auto p : players)
-        p->client.GetOutgoingQueue().push(std::string(json));
-      // Now what? How do i exit? How do i report the clients?
       this->quit = true;
     }
 
@@ -66,7 +61,24 @@ void Game::Loop() {
     std::this_thread::sleep_for(rest);
   }
   running = false;
+  this->reconnectPlayersToServerRoom();
   this->server.notify();
+}
+
+void Game::reconnectPlayersToServerRoom(){
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->reconnectPlayer();
+  }
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->Join();
+  }
+  for (auto it = this->players.begin(); it != this->players.end(); it++){
+    (*it)->Start();
+  }
+  // Send the end of the race and winner id to every client.
+  auto&& json = ToJSON(*(this->race));
+  for (auto p : players)
+    p->client.GetOutgoingQueue().push(std::string(json));
 }
 
 void Game::preGameLoop(){
@@ -142,7 +154,11 @@ void Game::startGame(int user_id){
 }
 
 bool Game::isRunning(){
-  return (!this->running) && (this->quit);
+  return (this->running) && (!this->quit);
+}
+
+bool Game::isOnPreGameLoop(){
+  return (!quit) && (!running);
 }
 
 // Thread control methods

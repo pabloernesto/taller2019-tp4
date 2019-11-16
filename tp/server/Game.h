@@ -1,7 +1,7 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "../common/Race.h"
+#include "Race.h"
 #include "../common/blockingqueue.h"
 #include "../common/EnqueuedConnection.h"
 #include "../common/Responsibility.h"
@@ -32,6 +32,7 @@ class Game {
 
   void Loop();
   void preGameLoop();
+  void reconnectPlayersToServerRoom();
 
 public:
   int id;
@@ -41,6 +42,7 @@ public:
   void startGame(int user_id);
   bool didIdStarted(int user_id);
   bool isRunning();
+  bool isOnPreGameLoop();
 
   // Thread control methods
   void Start();

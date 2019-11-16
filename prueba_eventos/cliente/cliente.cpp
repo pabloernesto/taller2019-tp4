@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-#include "../common/Event.h"
 #include "../common/socket.h"
 
 int main(int argc, char **argv) {

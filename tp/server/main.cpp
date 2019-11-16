@@ -9,7 +9,8 @@ Configuration configuration("Configuracion/config.json");
 int main(int argc, char **argv) {
   Listener listener("1234");
   Server server;
-
+  server.Start();
+  
   std::thread acceptor_thread([&listener, &server]() {
     while (true) {
       try { server.Add(listener.Accept()); }
@@ -25,7 +26,9 @@ int main(int argc, char **argv) {
 
   listener.Shutdown();
   acceptor_thread.join();
-
+  std::cerr << "Acceptor thread joined\n";
   server.Shutdown();
+  std::cerr << "Server shutdown\n";
   server.Join();
+  std::cerr << "Server joined\n";
 }

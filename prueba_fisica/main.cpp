@@ -3,6 +3,9 @@
 #include <memory>     // unique_ptr
 #include <iostream>   // cout
 #include "Car.h"
+#include "Configuration.h"
+
+extern Configuration configuration;
 
 const float32 timestep = 1 / 60.0;
 const int32 velocityIterations = 8;
@@ -13,11 +16,10 @@ typedef struct {
   int y;
 } pixel_vect_s;
 
-const int PIXELS_PER_METER = 10;
 pixel_vect_s MKStoPixelTransform(const b2Vec2& vector) {
   pixel_vect_s v {
-    PIXELS_PER_METER * vector.x,
-    PIXELS_PER_METER * vector.y
+    configuration.PIXELS_PER_METER * vector.x,
+    configuration.PIXELS_PER_METER * vector.y
   };
   return v;
 }

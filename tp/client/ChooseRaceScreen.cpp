@@ -1,7 +1,6 @@
 #include "ChooseRaceScreen.h"
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
-#include "../common/RaceFabric.h"
 #include "../common/socket.h"
 #include "rapidjson/document.h"
 #include <iostream>

@@ -5,12 +5,13 @@
 #include "../common/blockingqueue.h"
 #include "../common/EnqueuedConnection.h"
 #include <thread>
+#include <atomic>
 #include "rapidjson/document.h"
 
 class Server;
 
 class ServerRoom {
-  bool quit;
+  std::atomic<bool> quit;
   BlockingQueue<std::string> client_messages;
   std::thread thread;
   Server& server;
@@ -24,7 +25,9 @@ class ServerRoom {
 
 public:
   EnqueuedConnection client;
-
+  void reconnectPlayer();
+  void ShutdownConnection();
+  void Shutdown();
   void Start();
   void Join();
 
