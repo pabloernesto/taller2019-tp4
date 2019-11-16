@@ -1,7 +1,7 @@
 #ifndef CHOOSERACESCREEN_H_
 #define CHOOSERACESCREEN_H_
 #include "GameScreen.h"
-#include "NewButton.h"
+#include "Button.h"
 #include <vector>
 #include <string>
 #include <memory>   // unique_ptr
@@ -10,7 +10,7 @@
 
 class ChooseRaceScreen : public GameScreen{
 private:
-  std::unique_ptr<NewButton> button_chain;
+  std::unique_ptr<Button> button_chain;
   TTF_Font* font;
 
 public:

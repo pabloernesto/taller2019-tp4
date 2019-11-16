@@ -1,7 +1,7 @@
 #ifndef CHOOSERACESCREENBUTTON_H_
 #define CHOOSERACESCREENBUTTON_H_
 
-#include "NewButton.h"
+#include "Button.h"
 
 class ChooseRaceScreen;
 

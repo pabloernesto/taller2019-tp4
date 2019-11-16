@@ -1,12 +1,12 @@
-#ifndef NEWBUTTON_H_
-#define NEWBUTTON_H_
+#ifndef BUTTON_H_
+#define BUTTON_H_
 
 #include "../common/Responsibility.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
 // A button handles SDL mouse events
-class NewButton : public TaskHandler {
+class Button : public TaskHandler {
 protected:
   SDL_Rect click_area;
 
@@ -17,11 +17,11 @@ public:
   bool ShouldHandle(void* t) override final;
   bool OnHandle(void* t) override = 0;
 
-  NewButton(TaskHandler* next, SDL_Rect area);
-  virtual ~NewButton();
+  Button(TaskHandler* next, SDL_Rect area);
+  virtual ~Button();
 };
 
-class TextButton : public NewButton {
+class TextButton : public Button {
 protected:
   SDL_Window* window;
   SDL_Renderer* renderer;
@@ -39,4 +39,4 @@ public:
   virtual ~TextButton();
 };
 
-#endif  // NEWBUTTON_H_
+#endif  // BUTTON_H_
