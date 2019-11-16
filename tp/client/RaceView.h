@@ -29,6 +29,7 @@ public:
   void render(int tick);
 
 private:
+  void AddCarView(CarProxy& carProxy);
   void showMessage(std::string message);
 };
 

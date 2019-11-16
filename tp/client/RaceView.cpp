@@ -13,16 +13,26 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   auto& base_cars = race->GetCars();
 
   for (auto it = base_cars.begin(); it != base_cars.end(); it++){
-    cars.emplace_back(
-      imagecache.getImage("Imagenes/pitstop_car_1.png"),
-      imagecache.getImage("Imagenes/explosion.png"),
-      **it, camara);
+    this->AddCarView((**it));
   }
   TTF_Init();
 }
 
 RaceView::~RaceView(){
   TTF_Quit();
+}
+
+void RaceView::AddCarView(CarProxy& carProxy){
+  std::string img_route;
+  if (carProxy.GetId() != car.GetId()){
+    img_route = "Imagenes/pitstop_car_2.png";
+  } else {
+    img_route = "Imagenes/pitstop_car_1.png";
+  }
+  cars.emplace_back(
+    imagecache.getImage(img_route),
+    imagecache.getImage("Imagenes/explosion.png"),
+    carProxy, camara);
 }
 
 void RaceView::render(int tick) {
@@ -34,16 +44,7 @@ void RaceView::render(int tick) {
   auto& carProxies = race->GetCars();
   if (carProxies.size() > cars.size()){
     for (auto it = carProxies.begin() + cars.size(); it != carProxies.end(); it++){
-    std::string img_route;
-    if ((*it)->GetId() != car.GetId()){
-      img_route = "Imagenes/pitstop_car_2.png";
-    } else {
-      img_route = "Imagenes/pitstop_car_1.png";
-    }
-    cars.emplace_back(
-      imagecache.getImage(img_route),
-      imagecache.getImage("Imagenes/explosion.png"),
-      **it, camara);
+      this->AddCarView((**it));
     }
   }
 
