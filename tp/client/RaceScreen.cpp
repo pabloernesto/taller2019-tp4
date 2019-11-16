@@ -74,12 +74,12 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
     throw std::runtime_error(std::string(err));
   }
   
-  Ai* (*create)(CarProxy*);
+  Ai* (*create)(CarProxy*, RaceProxy*);
   void (*destroy)(Ai*);
-  create = (Ai* (*)(CarProxy*))dlsym(shared_lib, "createAi");
+  create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
   destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
   
-  Ai* ai = (Ai*)create(car);
+  Ai* ai = (Ai*)create(car, this->race.get());
   ai->Start();
 
   while (true) {
