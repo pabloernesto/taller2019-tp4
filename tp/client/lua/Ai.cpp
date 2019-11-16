@@ -62,22 +62,39 @@ void Ai::passMap(){
   // Fill the table with the positons
   size_t map_table_index = 1;
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
-    // All asphalt pieces have trackType < 6
-    if ((*it)->getTrackType() < 6){
-      std::vector<float> pos = (*it)->GetPosition();
-      // Push index of the next position (which is a table)
-      lua_pushnumber(this->L, map_table_index);
-      // Load the position
-      this->loadXandYonTable(pos[0], pos[1]);
-      // Set the created position in the pushed index in the map table.
-      lua_settable(this->L, -3);
-      map_table_index++;
-    }
-  
+    std::vector<float> pos = (*it)->GetPosition();
+    // Push index of the next position (which is a table)
+    lua_pushnumber(this->L, map_table_index);
+    // Load the position
+    this->loadTrackPiece(pos[0], pos[1], (*it)->getTrackType());
+    // Set the created position in the pushed index in the map table.
+    lua_settable(this->L, -3);
+    map_table_index++;  
   }
 
   // Pop and assign the map table to de global variable.
   lua_setglobal(this->L, "map");
+}
+
+void Ai::loadTrackPiece(float x, float y, int type){
+  // Create new table and push it into the stack
+  lua_newtable(this->L);
+  // Push x in index = 1 (of table)
+  lua_pushnumber(this->L, 1);
+  lua_pushnumber(this->L, x);
+  // Set the coordenate in the pushed index in the position table
+  lua_settable(this->L, -3); //-3 because it's the table pos in the stack
+  // Push y in index = 2 (of table)
+  lua_pushnumber(this->L, 2);
+  lua_pushnumber(this->L, y);
+  // Set the coordenate in the pushed index in the position table
+  lua_settable(this->L, -3); //-3 because it's the table pos in the stack
+  
+  lua_pushnumber(this->L, 3);
+  lua_pushnumber(this->L, type);
+  lua_settable(this->L, -3); //-3 because it's the table pos in the stack
+
+  // Now i have a loaded table in the stack
 }
 
 void Ai::loadXandYonTable(float x, float y){

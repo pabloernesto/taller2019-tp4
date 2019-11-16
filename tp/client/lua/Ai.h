@@ -33,6 +33,7 @@ class Ai{
     void passCurrentPosition();
     void passMap();
     void loadXandYonTable(float x, float y);
+    void loadTrackPiece(float x, float y, int type);
 
   public:
     Ai(CarProxy* car, RaceProxy* race);
