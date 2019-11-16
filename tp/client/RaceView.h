@@ -30,6 +30,7 @@ public:
 
 private:
   void AddCarView(CarProxy& carProxy);
+  void renderLife(int life);
   void showMessage(std::string message);
 };
 

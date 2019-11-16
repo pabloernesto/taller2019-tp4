@@ -22,7 +22,7 @@ std::string ToJSON(Car& x) {
   d.AddMember("size.y", x.GetSize().y , d.GetAllocator());
   d.AddMember("dead", x.isDead(), d.GetAllocator());
   d.AddMember("break", x.isBreakOn(), d.GetAllocator());
-  // TODO: get life
+  d.AddMember("life", x.GetLife(), d.GetAllocator());
 
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

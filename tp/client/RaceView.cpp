@@ -38,6 +38,11 @@ void RaceView::AddCarView(CarProxy& carProxy){
     carProxy, camara);
 }
 
+void RaceView::renderLife(int life){
+  SDL_Rect r = {10,10,life*20,20};
+  SDL_RenderDrawRect(renderer, &r);
+}
+
 void RaceView::render(int tick) {
   camara.Update();
   SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
@@ -62,6 +67,8 @@ void RaceView::render(int tick) {
   for (auto& car : cars){
     car.render(tick);
   }
+
+  this->renderLife(car.GetLife());
   
   if (race->Ended()){
     if (race->GetWinnerId() == car.GetId()){

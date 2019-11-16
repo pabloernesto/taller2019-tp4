@@ -7,13 +7,14 @@ CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
                       float angle, float size_x, float size_y, int id) :
                       outqueue(outqueue), x(x), y(y), angle(angle),
                       size_x(size_x), size_y(size_y), dead(false), id(id),
-                      break_(false){}
+                      break_(false), life(0){}
 
 void CarProxy::sendMethod(std::string method){
   outqueue.push("{\"type\": \"intent\", \"command\": \"" + method + "\"}");
 }
 
-void CarProxy::update(float x, float y, float angle, float size_x, float size_y,bool dead, bool break_){
+void CarProxy::update(float x, float y, float angle, float size_x, float size_y,
+  bool dead, bool break_, int life){
   this->x = x;
   this->y = y;
   this->angle = angle;
@@ -21,6 +22,7 @@ void CarProxy::update(float x, float y, float angle, float size_x, float size_y,
   this->size_y = size_y;
   this->dead = dead;
   this->break_ = break_;
+  this->life = life;
 }
 
 std::vector<float> CarProxy::GetPosition(){
@@ -46,6 +48,10 @@ float CarProxy::GetAngle(){
 int CarProxy::GetId(){
   std::unique_lock<std::mutex> lock(m);
   return this->id;
+}
+
+int CarProxy::GetLife(){
+  return life;
 }
 
 void CarProxy::GasOn(){
