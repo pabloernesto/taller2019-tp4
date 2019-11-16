@@ -2,7 +2,7 @@
 #define _AI_H_
 
 #ifdef __cplusplus
-  #include <lua.hpp>
+  #include <lua5.3/lua.hpp>
 #else
   #include <lua.h>
   #include <lualib.h>
