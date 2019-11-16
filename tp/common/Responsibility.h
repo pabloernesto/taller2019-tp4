@@ -7,6 +7,7 @@
 // pattern implementation.
 
 class TaskHandler {
+protected:
   // Each handler may choose to ignore a given task, which will be passed on
   // to the next handler in line.
   // When a handler is destroyed, unique_ptr ensures that subordinate handlers

@@ -1,23 +1,42 @@
 #ifndef BUTTON_H_
 #define BUTTON_H_
-#include <string>
-#include <SDL2/SDL.h>
-#include <memory>   // unique_ptr
-#include "RaceProxy.h"
 
-class Button {
-private:
-  std::string name;
-  SDL_Rect button;
+#include "../common/Responsibility.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
+// A button handles SDL mouse events
+class Button : public TaskHandler {
+protected:
+  SDL_Rect click_area;
 
 public:
-  Button(std::string name, int width, int height);
-  ~Button();
-  std::string GetName();
-  void SetPosition(int x, int y);
-  bool IWasClicked(int x, int y);
-  virtual RaceProxy* ReactToClick(int* id_player, int x, int y, Connection& connection) = 0;
-  rapidjson::Value& GetGame();
+  virtual void render() = 0;
+  
+  // Inherited from TaskHandler
+  bool ShouldHandle(void* t) override final;
+  bool OnHandle(void* t) override = 0;
+
+  Button(TaskHandler* next, SDL_Rect area);
+  virtual ~Button();
 };
 
-#endif
+class TextButton : public Button {
+protected:
+  SDL_Window* window;
+  SDL_Renderer* renderer;
+  std::string text;
+  TTF_Font* font;
+  SDL_Color color;
+
+public:
+  void render() override final;
+
+  bool OnHandle(void* t) override = 0;
+
+  TextButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r, SDL_Rect area,
+    std::string text, TTF_Font* font, SDL_Color color);
+  virtual ~TextButton();
+};
+
+#endif  // BUTTON_H_

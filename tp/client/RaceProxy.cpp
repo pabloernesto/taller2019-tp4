@@ -123,3 +123,7 @@ bool RaceProxy::Ended(){
 int RaceProxy::GetWinnerId(){
   return winner_id;
 }
+
+void RaceProxy::SendToServer(std::string&& msg) {
+  ec.GetOutgoingQueue().push(std::move(msg));
+}
