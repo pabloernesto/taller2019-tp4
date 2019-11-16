@@ -40,7 +40,10 @@ void RaceView::AddCarView(CarProxy& carProxy){
 
 void RaceView::renderLife(int life){
   SDL_Rect r = {10,10,life*20,20};
+  SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
   SDL_RenderDrawRect(renderer, &r);
+  SDL_RenderFillRect(renderer, &r);
+  showMessage(std::to_string(life), 10, 35, 20, 20);
 }
 
 void RaceView::render(int tick) {
@@ -72,19 +75,19 @@ void RaceView::render(int tick) {
   
   if (race->Ended()){
     if (race->GetWinnerId() == car.GetId()){
-      showMessage("GANASTE");
+      showMessage("GANASTE",0,0,70,70);
     } else {
-      showMessage("PERDISTE");
+      showMessage("PERDISTE",0,0,70,70);
     }
   }
 }
 
-void RaceView::showMessage(std::string message){
+void RaceView::showMessage(std::string message, int x, int y, int width, int height){
   TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  SDL_Rect Message_rect = {0, 0, 70*7, 70};
+  SDL_Rect Message_rect = {x, y, width* (int) message.size(), height};
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);

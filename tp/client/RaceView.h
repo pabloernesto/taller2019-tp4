@@ -31,7 +31,7 @@ public:
 private:
   void AddCarView(CarProxy& carProxy);
   void renderLife(int life);
-  void showMessage(std::string message);
+  void showMessage(std::string message, int x, int y, int width, int height);
 };
 
 #endif    // RACEVIEW_H_
