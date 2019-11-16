@@ -43,7 +43,7 @@ class Ai{
     virtual void Shutdown();
     virtual void Start();
     virtual void Join();
-    ~Ai();
+    virtual ~Ai();
 
 };
 #endif
