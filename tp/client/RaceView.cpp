@@ -3,6 +3,9 @@
 #include "ModifierView.h"
 #include <iostream>
 
+#define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
+#define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
+
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
   camara(0, 0, 600, 400, car), imagecache(w, r),
@@ -25,9 +28,9 @@ RaceView::~RaceView(){
 void RaceView::AddCarView(CarProxy& carProxy){
   std::string img_route;
   if (carProxy.GetId() != car.GetId()){
-    img_route = "Imagenes/pitstop_car_2.png";
+    img_route = OTHERSCARIMAGEROUTE;
   } else {
-    img_route = "Imagenes/pitstop_car_1.png";
+    img_route = MYCARIMAGEROUTE;
   }
   cars.emplace_back(
     imagecache.getImage(img_route),
