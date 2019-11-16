@@ -5,7 +5,7 @@
 
 
 bool StartRaceButton::OnHandle(void* t) {
-  rapidjson::Document d;
+  rapidjson::Document d(rapidjson::kObjectType);
   d.AddMember("type", "s", d.GetAllocator());
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
