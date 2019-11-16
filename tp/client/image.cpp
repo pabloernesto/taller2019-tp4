@@ -34,6 +34,6 @@ void Image::ChangeColor(){
   Uint8 g;
   Uint8 b;
   SDL_GetTextureColorMod(texture, &r, &g, &b);
-  std::cout << "r: " << r << " g: " << g << " b: " << b << "\n";
-  SDL_SetTextureColorMod(texture, r, g, b);
+  std::cout << "r: " << r+40 << " g: " << g+40 << " b: " << b+40 << "\n";
+  SDL_SetTextureColorMod(texture, r+40, g+40, b+40);
 }

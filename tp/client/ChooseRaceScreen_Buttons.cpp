@@ -3,6 +3,8 @@
 #include "ChooseRaceScreen.h"
 #include "RaceScreen.h"
 #include "RaceProxy.h"
+#include <stdexcept>  // runtime_error
+#include <iostream>
 
 bool CreateButton::OnHandle(void* t) {
   // Create the game
@@ -35,6 +37,12 @@ bool JoinButton::OnHandle(void* t) {
     d.Parse(data);
     delete[] data;
   }
+
+  std::cout << "aca llega\n";
+  if (d.HasMember("error")){
+    throw std::runtime_error(d["error"].GetString());
+  }
+  std::cout << "aca no\n";
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));

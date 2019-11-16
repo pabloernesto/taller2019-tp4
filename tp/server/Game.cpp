@@ -117,6 +117,7 @@ void Game::AddPlayer(ServerRoom& player) {
   player.client.OnReceive([playerid](std::string* msg){
     rapidjson::Document d;
     d.Parse(msg->c_str());
+    d.AddMember("type", "join", d.GetAllocator());
     d.AddMember("id", playerid, d.GetAllocator());
 
     rapidjson::StringBuffer buffer;

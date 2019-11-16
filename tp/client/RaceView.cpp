@@ -34,6 +34,10 @@ void RaceView::render(int tick) {
   auto& carProxies = race->GetCars();
   if (carProxies.size() > cars.size()){
     for (auto it = carProxies.begin() + cars.size(); it != carProxies.end(); it++){
+    //Image& img = imagecache.getImage("Imagenes/pitstop_car_1.png");
+    //if ((*it)->GetId() != car.GetId()){
+      //img.ChangeColor();
+    //}
     cars.emplace_back(
       imagecache.getImage("Imagenes/pitstop_car_1.png"),
       imagecache.getImage("Imagenes/explosion.png"),
