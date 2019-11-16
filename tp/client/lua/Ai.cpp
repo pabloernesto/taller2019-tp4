@@ -62,7 +62,8 @@ void Ai::passMap(){
   // Fill the table with the positons
   size_t map_table_index = 1;
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
-    if ((*it)->getTrackType() != 6){
+    // All asphalt pieces have trackType < 6
+    if ((*it)->getTrackType() < 6){
       std::vector<float> pos = (*it)->GetPosition();
       // Push index of the next position (which is a table)
       lua_pushnumber(this->L, map_table_index);
@@ -74,7 +75,7 @@ void Ai::passMap(){
     }
   
   }
-  
+
   // Pop and assign the map table to de global variable.
   lua_setglobal(this->L, "map");
 }
