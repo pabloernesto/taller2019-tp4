@@ -46,4 +46,4 @@ Los binarios se pueden instalar de las siguientes formas:
 ### Lua
 
 Este proyecto usa un interprete de Lua embebido en el programa cliente.
-Los binarios se pueden instalar desde apt con `sudo apt install liblua5.3-dev`
+Los binarios se pueden instalar desde apt con `sudo apt install lua5.3 liblua5.3-dev`
