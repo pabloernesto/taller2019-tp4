@@ -45,5 +45,4 @@ Configuration::Configuration(const char* name){
 }
 
 Configuration::~Configuration(){
-  printf("MUERE\n");
 }

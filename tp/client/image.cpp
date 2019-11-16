@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <iostream>
 
 Image::Image(const char* path, SDL_Window* w, SDL_Renderer* r)
   : renderer(r),
@@ -26,4 +27,13 @@ void Image::render(int tick) {
 
 void Image::render(int tick, SDL_Rect* where, double angle) {
   SDL_RenderCopyEx(renderer, texture, NULL, where, angle, NULL, SDL_FLIP_NONE);
+}
+
+void Image::ChangeColor(){
+  Uint8 r;
+  Uint8 g;
+  Uint8 b;
+  SDL_GetTextureColorMod(texture, &r, &g, &b);
+  std::cout << "r: " << r << " g: " << g << " b: " << b << "\n";
+  SDL_SetTextureColorMod(texture, r, g, b);
 }

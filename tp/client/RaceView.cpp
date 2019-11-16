@@ -1,6 +1,7 @@
 #include "RaceView.h"
 #include <SDL2/SDL_ttf.h>
 #include "ModifierView.h"
+#include <iostream>
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
@@ -10,11 +11,13 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);
   auto& base_cars = race->GetCars();
-  for (auto it = base_cars.begin() + cars.size(); it != base_cars.end(); it++)
+
+  for (auto it = base_cars.begin(); it != base_cars.end(); it++){
     cars.emplace_back(
       imagecache.getImage("Imagenes/pitstop_car_1.png"),
       imagecache.getImage("Imagenes/explosion.png"),
       **it, camara);
+  }
   TTF_Init();
 }
 
@@ -27,6 +30,17 @@ void RaceView::render(int tick) {
   SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
   track.render(camara, this->race->getTrackPieces());
 
+  //Actualizo CarViews
+  auto& carProxies = race->GetCars();
+  if (carProxies.size() > cars.size()){
+    for (auto it = carProxies.begin() + cars.size(); it != carProxies.end(); it++){
+    cars.emplace_back(
+      imagecache.getImage("Imagenes/pitstop_car_1.png"),
+      imagecache.getImage("Imagenes/explosion.png"),
+      **it, camara);
+    }
+  }
+
   // Modifiers may be added or removed at any time. Re-get this every tick.
   auto&& modifiers = this->race->getModifiers();
   for (auto& modifier : modifiers) {
@@ -35,8 +49,17 @@ void RaceView::render(int tick) {
     view.render(tick);
   }
 
-  for (auto& car : cars)
+  for (auto& car : cars){
     car.render(tick);
+  }
+  
+  if (race->Ended()){
+    if (race->GetWinnerId() == car.GetId()){
+      showMessage("GANASTE");
+    } else {
+      showMessage("PERDISTE");
+    }
+  }
 }
 
 void RaceView::showMessage(std::string message){

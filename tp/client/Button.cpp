@@ -1,23 +1,38 @@
 #include "Button.h"
-#include <string>
 
-Button::Button(std::string name, int width, int height)
-  : name(name),
-  button({0, 0, width * (int) name.size(), height})
+bool Button::ShouldHandle(void* t) {
+  SDL_Event* e = (SDL_Event*) t;
+  SDL_Point click_pos{ e->button.x, e->button.y };
+  return
+    e->button.button == SDL_BUTTON_LEFT
+    && SDL_PointInRect(&click_pos, &click_area);
+}
+
+void TextButton::render() {
+  if (next) ((Button*) next.get())->render();
+
+  SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+  SDL_RenderCopy(renderer, texture, NULL, &click_area);
+  SDL_DestroyTexture(texture);
+  SDL_FreeSurface(surface);
+}
+
+
+
+// Constructors/destructors
+
+Button::~Button() {}
+
+Button::Button(TaskHandler* next, SDL_Rect area)
+  : TaskHandler(next), click_area(area)
 {}
 
-Button::~Button() {
-}
+TextButton::TextButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
+  SDL_Rect area, std::string text, TTF_Font* font, SDL_Color color)
+  : Button(next, area), window(w), renderer(r), text(text), font(font),
+  color(color)
+{}
 
-std::string Button::GetName(){
-  return name;
-}
-
-void Button::SetPosition(int x, int y){
-  this->button.x = x - (button.w / 2);
-  this->button.y = y - (button.h / 2);
-}
-
-bool Button::IWasClicked(int x, int y){
-  return (x > button.x && x < button.x + button.w && y > button.y && y < button.y + button.h);
-}
+TextButton::~TextButton() {}
