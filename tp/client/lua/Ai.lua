@@ -13,7 +13,10 @@ function decide():
   if next(prev_track) == nil then
     return 0
   end
+  -- Any other iteration
   current_track = find_current_track
+  closest_track = find_closest_track
+  -- Now what?
 end
 
 
@@ -28,7 +31,20 @@ function find_current_track():
 
 function find_closest_track(current_track):
   min = nil
-  for k,v in pairs(map):
-    -- 
+  for k,v in pairs(map) do
+    if (k == current_track) then goto continue end
+    if (min == nil) then
+      min = k
+      goto continue
+    end
+    if (distance(current_track, min) > distance(current_track, k)) then
+      min = k
+    end 
+    ::continue::
+  end
   return min
+end
+
+function distance(k1, k2):
+  return math.sqrt(math.pow((map[k1][1] * map[k2][1]), 2) + math.pow((map[k1][2] * map[k2][2]), 2))
 end
