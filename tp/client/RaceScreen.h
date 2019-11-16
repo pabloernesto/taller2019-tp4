@@ -11,7 +11,7 @@
 class RaceScreen : public GameScreen {
   std::unique_ptr<RaceProxy> race;
   int carId;
-  Mix_Music* startEngineSound;
+  Mix_Chunk* startEngineSound;
   TTF_Font* font;
 
 public:

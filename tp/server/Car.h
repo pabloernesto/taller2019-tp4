@@ -74,6 +74,7 @@ class Car : public Contactable{
   virtual void GetContactedBy(Modifier* modifier);
   bool isDead();
   int GetId();
+  bool isBreakOn();
 
 private:
   void DieAndRevive(Track& track);

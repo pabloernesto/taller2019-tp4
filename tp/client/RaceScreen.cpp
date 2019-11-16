@@ -12,17 +12,18 @@ static const int WIDTH = 600;
 static const int HEIGHT = 400;
 
 RaceScreen::~RaceScreen(){
-  Mix_FreeMusic(startEngineSound);
+  Mix_FreeChunk(startEngineSound);
   TTF_CloseFont(font);
   TTF_Quit();
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId)
   : GameScreen(w, r), race(race), carId(carId), 
-  startEngineSound(Mix_LoadMUS("Sonidos/engine_start_up_01.wav")), font()
+  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font()
 {
   TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
+  Mix_VolumeChunk(startEngineSound, 10);
 }
 
 #include <iostream>
@@ -31,9 +32,8 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  Mix_PlayMusic( startEngineSound, -1 );
+  Mix_PlayChannel(-1, startEngineSound, 0);
 
-  std::cerr << "RaceScreen::start id " << carId << "\n";
   CarProxy* car = race->GetCar(carId);
 
   RaceView view(this->window, this->renderer, race.get(), *car);

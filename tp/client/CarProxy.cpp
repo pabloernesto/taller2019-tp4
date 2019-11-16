@@ -4,21 +4,23 @@
 #include "rapidjson/stringbuffer.h"
 
 CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
-                      float angle, float size_x, float size_y, int id) :
+                      float angle, float size_x, float size_y, int id, bool break_) :
                       outqueue(outqueue), x(x), y(y), angle(angle),
-                      size_x(size_x), size_y(size_y), dead(false), id(id){}
+                      size_x(size_x), size_y(size_y), dead(false), id(id),
+                      break_(break_){}
 
 void CarProxy::sendMethod(std::string method){
   outqueue.push("{\"type\": \"intent\", \"command\": \"" + method + "\"}");
 }
 
-void CarProxy::update(float x, float y, float angle, float size_x, float size_y,bool dead){
+void CarProxy::update(float x, float y, float angle, float size_x, float size_y,bool dead, bool break_){
   this->x = x;
   this->y = y;
   this->angle = angle;
   this->size_x = size_x;
   this->size_y = size_y;
   this->dead = dead;
+  this->break_ = break_;
 }
 
 std::vector<float> CarProxy::GetPosition(){
@@ -77,4 +79,8 @@ bool CarProxy::isDead(){
 
 void CarProxy::SteerCenter(){
   this->sendMethod("SteerCenter");
+}
+
+bool CarProxy::HasBreakOn(){
+  return break_;
 }

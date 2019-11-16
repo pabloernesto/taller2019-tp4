@@ -310,3 +310,7 @@ bool Car::isDead(){
 int Car::GetId(){
   return id;
 }
+
+bool Car::isBreakOn(){
+  return break_;
+}

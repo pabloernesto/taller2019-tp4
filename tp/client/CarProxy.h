@@ -14,16 +14,17 @@ class CarProxy {
     float size_y;
     bool dead;
     int id;
+    bool break_;
     std::mutex m;
 
     void sendMethod(std::string method);
 
   public:
-    CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, float angle, float size_x, float size_y, int id);
+    CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, float angle, float size_x, float size_y, int id, bool break_);
     std::vector<float> GetPosition();
     std::vector<float> GetSize();
     float GetAngle();
-    void update(float x, float y, float angle, float size_x, float size_y, bool dead);
+    void update(float x, float y, float angle, float size_x, float size_y, bool dead, bool break_);
     int GetId();
     bool isDead();
     void GasOn();
@@ -33,6 +34,7 @@ class CarProxy {
     void SteerRight();
     void SteerLeft();
     void SteerCenter();
+    bool HasBreakOn();
 };
 
 #endif

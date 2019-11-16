@@ -28,12 +28,3 @@ void Image::render(int tick) {
 void Image::render(int tick, SDL_Rect* where, double angle) {
   SDL_RenderCopyEx(renderer, texture, NULL, where, angle, NULL, SDL_FLIP_NONE);
 }
-
-void Image::ChangeColor(){
-  Uint8 r;
-  Uint8 g;
-  Uint8 b;
-  SDL_GetTextureColorMod(texture, &r, &g, &b);
-  std::cout << "r: " << r+40 << " g: " << g+40 << " b: " << b+40 << "\n";
-  SDL_SetTextureColorMod(texture, r+40, g+40, b+40);
-}

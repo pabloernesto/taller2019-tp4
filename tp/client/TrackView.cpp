@@ -23,7 +23,8 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiecePro
     auto trackcode = (*it)->getTrackType();
     renderBackGroundForPiece(camara, trackcode, pos, size);
     auto& trackimage = imagecache.getImage(image_paths[trackcode]);
-    camara.renderMe(pos, size, trackimage, 0, 0);
+    std::vector<Mix_Chunk*> sounds = {};
+    camara.renderMe(pos, size, trackimage, sounds, 0, 0);
   }
 }
 
@@ -31,6 +32,7 @@ void TrackView::renderBackGroundForPiece(Camara& camara, int trackcode,
       std::vector<float> position, std::vector<float> size){
     if (trackcode > 1 && trackcode < 6){
       auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");
-      camara.renderMe(position, size, trackimage, 0, 0);
+      std::vector<Mix_Chunk*> sounds = {};
+      camara.renderMe(position, size, trackimage, sounds, 0, 0);
     }
 }

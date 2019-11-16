@@ -21,6 +21,7 @@ std::string ToJSON(Car& x) {
   d.AddMember("size.x", x.GetSize().x , d.GetAllocator());
   d.AddMember("size.y", x.GetSize().y , d.GetAllocator());
   d.AddMember("dead", x.isDead(), d.GetAllocator());
+  d.AddMember("break", x.isBreakOn(), d.GetAllocator());
   // TODO: get life
 
   rapidjson::StringBuffer buffer;

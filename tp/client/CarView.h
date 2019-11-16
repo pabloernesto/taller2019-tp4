@@ -2,6 +2,7 @@
 #define CARVIEW_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "CarProxy.h"
 #include "image.h"
 #include "Camara.h"
@@ -12,10 +13,13 @@ class CarView {
   Image& imageAlive;
   Image& imageDead;
   Camara& camara;
+  Mix_Chunk* motor_sound;
+  Mix_Chunk* break_sound;
 
 public:
-  virtual void render(int tick);
   CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara);
+  ~CarView();
+  virtual void render(int tick);
 };
 
 

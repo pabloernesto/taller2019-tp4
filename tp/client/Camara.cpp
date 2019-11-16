@@ -18,8 +18,8 @@ SDL_Rect Camara::GetPosition(){
   return this->camara;
 }
 
-void Camara::renderMe(std::vector<float> position, std::vector<float> size, Image& image,
-  float angle, int tick)
+void Camara::renderMe(std::vector<float> position, std::vector<float> size, Image& image, 
+  std::vector<Mix_Chunk*>& sounds, float angle, int tick)
 {
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);
@@ -53,5 +53,9 @@ void Camara::renderMe(std::vector<float> position, std::vector<float> size, Imag
       (int) objsize_pixels[1]
     };
     image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
+  }
+
+  for (auto& sound : sounds){
+    Mix_PlayChannel(-1, sound, 0);
   }
 }
