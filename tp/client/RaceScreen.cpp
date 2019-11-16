@@ -68,7 +68,7 @@ GameScreen* RaceScreen::start() {
 
 void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 
-  void *shared_lib = dlopen("./07_lib.so", RTLD_NOW);
+  void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
   char* err = dlerror();
   if (!shared_lib){
     throw std::runtime_error(std::string(err));
