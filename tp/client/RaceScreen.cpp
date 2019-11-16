@@ -2,7 +2,6 @@
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
 #include <vector>
-#include "UpdateLoop.h"
 #include "Camara.h"
 #include <iostream>
 #include <math.h>
@@ -19,8 +18,8 @@ RaceScreen::~RaceScreen(){
   TTF_Quit();
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId)
-  : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua)
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
+  : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
   startEngineSound(Mix_LoadMUS("Sonidos/engine_start_up_01.wav")), font()
 {
   TTF_Init();
@@ -55,9 +54,9 @@ GameScreen* RaceScreen::start() {
   loop.Start();
 
   if (is_Lua){
-    luaLoop(sdl_event, car);
+    luaLoop(sdl_event, car, loop);
   } else {
-    userLoop(sdl_event, car);
+    userLoop(sdl_event, car, loop);
   }
 
   loop.quit = true;
@@ -67,7 +66,7 @@ GameScreen* RaceScreen::start() {
 }
 
 
-void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car){
+void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 
   void *shared_lib = dlopen("./07_lib.so", RTLD_NOW);
   char* err = dlerror();
@@ -86,6 +85,11 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car){
   while (true) {
     SDL_WaitEvent(&sdl_event);
     if (sdl_event.type == SDL_QUIT) break;
+    
+    if (sdl_event.type == SDL_MOUSEBUTTONDOWN) {
+      if (loop.button_chain) loop.button_chain->Handle(&sdl_event);
+    }
+
   }
   
   ai->Shutdown();
@@ -95,7 +99,7 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car){
   dlclose(shared_lib);
 }
 
-void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car){
+void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
   while (true) {
     SDL_WaitEvent(&sdl_event);
 

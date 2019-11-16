@@ -40,9 +40,9 @@ class Ai{
     void run();
     
     // void setCar(CarProxy* car);
-    void Shutdown();
-    void Start();
-    void Join();
+    virtual void Shutdown();
+    virtual void Start();
+    virtual void Join();
     ~Ai();
 
 };

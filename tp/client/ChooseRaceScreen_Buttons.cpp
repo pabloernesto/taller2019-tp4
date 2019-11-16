@@ -21,7 +21,7 @@ bool CreateButton::OnHandle(void* t) {
 
   // Build the next screen
   int id_player = d["id"].GetInt();
-  context->next_screen = new RaceScreen(window, renderer, proxy, id_player);
+  context->next_screen = new RaceScreen(window, renderer, proxy, id_player, true);
   return false;
 }
 
@@ -42,7 +42,7 @@ bool JoinButton::OnHandle(void* t) {
 
   // Build the next screen
   int id_player = d["id"].GetInt();
-  context->next_screen = new RaceScreen(window, renderer, proxy, id_player);
+  context->next_screen = new RaceScreen(window, renderer, proxy, id_player, true);
   return false;
 }
 

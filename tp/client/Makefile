@@ -55,6 +55,9 @@ LDFLAGS += -lSDL2_mixer
 # Linkea a Box2D
 LDFLAGS += -lBox2D
 
+# Linkea librerias dinamicas
+LDFLAGS += -ldl
+
 # reglas
 ########
 
