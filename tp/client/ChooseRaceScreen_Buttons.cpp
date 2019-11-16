@@ -38,13 +38,10 @@ bool JoinButton::OnHandle(void* t) {
     delete[] data;
   }
 
-  std::cout << "aca llega\n";
   if (d.HasMember("error")){
     SDL_ShowSimpleMessageBox(0, "Error to join game", d["error"].GetString(), window);
     return true;
-    //throw std::runtime_error(d["error"].GetString());
   }
-  std::cout << "aca no\n";
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
