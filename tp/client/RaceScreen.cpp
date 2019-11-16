@@ -77,5 +77,8 @@ GameScreen* RaceScreen::start() {
   loop.quit = true;
   loop.Join();
 
+  race->Shutdown();
+  race->Join();
+
   return nullptr;
 }

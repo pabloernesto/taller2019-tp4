@@ -58,7 +58,7 @@ void RaceProxy::UpdateLoop() {
   while (true) {
     std::string str;
     if (!ec.GetIncomingQueue().trypop(&str))
-      ; // tirar error
+      break;
     rapidjson::Document msg;
     msg.Parse(str.c_str());
 
@@ -72,10 +72,6 @@ void RaceProxy::UpdateLoop() {
       UpdateRace(msg);
     }
   }
-}
-
-void RaceProxy::Start() {
-  t = std::thread(&RaceProxy::UpdateLoop, this);
 }
 
 CarProxy* RaceProxy::GetCar(int id){
@@ -127,4 +123,25 @@ int RaceProxy::GetWinnerId(){
 
 void RaceProxy::SendToServer(std::string&& msg) {
   ec.GetOutgoingQueue().push(std::move(msg));
+}
+
+
+
+// Thread control methods
+
+void RaceProxy::Start() {
+  t = std::thread(&RaceProxy::UpdateLoop, this);
+}
+
+void RaceProxy::Shutdown() {
+  ec.Shutdown();
+  std::cerr << "RaceProxy shutdown issued\n";
+}
+
+void RaceProxy::Join() {
+  std::cerr << "RaceProxy joining...\n";
+  ec.Join();
+  bq.close();
+  if (t.joinable()) t.join();
+  std::cerr << "...RaceProxy joined\n";
 }
