@@ -84,5 +84,6 @@ valgrind: all
 	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(target)
 
 .PHONY: clean
-clean: lua
+clean:
 	$(RM) $(objects) $(target)
+
