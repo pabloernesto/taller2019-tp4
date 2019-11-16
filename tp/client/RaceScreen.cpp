@@ -37,15 +37,18 @@ GameScreen* RaceScreen::start() {
 
   RaceView view(this->window, this->renderer, race.get(), *car);
   UpdateLoop loop(renderer, race.get(), view);
-
-  SDL_Point screen_center = { WIDTH/2, HEIGHT/2 };
-  SDL_Rect area = {
-    screen_center.x - 100/2,  screen_center.y + 40/2,
-    100,                      40
-  };
-  SDL_Color color = { 255, 255, 255 };
-  loop.button_chain.reset(new StartRaceButton(
-    nullptr, window, renderer, area, "START", font, color, this));
+  // Add start button to loop
+  // TODO: destroy buttons once they are used
+  {
+    SDL_Point screen_center = { WIDTH/2, HEIGHT/2 };
+    SDL_Rect area = {
+      screen_center.x - 100/2,  screen_center.y + 40/2,
+      100,                      40
+    };
+    SDL_Color color = { 255, 255, 255 };
+    loop.button_chain.reset(new StartRaceButton(
+      nullptr, window, renderer, area, "START", font, color, this));
+  }
   loop.Start();
 
   while (true) {
