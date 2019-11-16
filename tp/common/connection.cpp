@@ -68,7 +68,7 @@ Connection::~Connection() {
 int Connection::Send(const char *buffer, int n) {
   int sent = 0;
   while (sent < n) {
-    int r = send(fd, buffer, n - sent, 0);
+    int r = send(fd, buffer, n - sent, MSG_NOSIGNAL);
     if (r <= 0)
       return sent;
     sent += r;
