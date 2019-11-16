@@ -10,10 +10,12 @@ static const int WIDTH = 600;
 static const int HEIGHT = 400;
 
 RaceScreen::~RaceScreen(){
+  Mix_FreeMusic(startEngineSound);
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId)
-  : GameScreen(w, r), race(race), carId(carId)
+  : GameScreen(w, r), race(race), carId(carId), 
+  startEngineSound(Mix_LoadMUS("Sonidos/engine_start_up_01.wav"))
 {}
 
 #include <iostream>
@@ -22,7 +24,6 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  Mix_Music* startEngineSound = Mix_LoadMUS("Sonidos/engine_start_up_01.wav");
   Mix_PlayMusic( startEngineSound, -1 );
 
   std::cerr << "RaceScreen::start id " << carId << "\n";

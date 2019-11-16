@@ -9,6 +9,7 @@
 class RaceScreen : public GameScreen {
   std::unique_ptr<RaceProxy> race;
   int carId;
+  Mix_Music* startEngineSound;
 
 public:
   RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId);

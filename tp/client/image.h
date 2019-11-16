@@ -21,6 +21,8 @@ public:
   // Render to a certain part of the screen, at a certain angle
   // angle is clockwise, in degrees
   virtual void render(int tick, SDL_Rect* where, double angle);
+
+  void ChangeColor();
 };
 
 // An Animation loads a single image from file, and iterprets it as a grid
