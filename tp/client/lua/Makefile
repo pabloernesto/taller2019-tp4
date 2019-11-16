@@ -10,8 +10,11 @@ headers=$(wildcard *.h)
 # intermediate objects
 objects=$(patsubst %.cpp, %.o, $(sources))
 
+# client objects
+objects+=$(wildcard ../*.o)
+
 # common objects
-# objects+=$(wildcard ../common/*.o)
+objects+=$(wildcard ../../common/*.o)
 
 # opciones de compilador
 ########################

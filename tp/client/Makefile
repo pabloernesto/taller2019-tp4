@@ -32,6 +32,9 @@ CXXFLAGS += -ggdb -DDEBUG -fno-inline
 # Estandar de C++ a usar
 CXXFLAGS += -std=c++11
 
+# Opciones para libreria dinamica
+CXXFLAGS += -fPIC
+
 # opciones del enlazador
 ########################
 
