@@ -1,11 +1,7 @@
-# Recursive makes are intolerable otherwise
-MAKEFLAGS += --no-print-directory
-
 # targets
 #########
 
-target=client.exe
-TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
+target=Ai.so
 
 # source files
 sources=$(wildcard *.cpp)
@@ -15,7 +11,7 @@ headers=$(wildcard *.h)
 objects=$(patsubst %.cpp, %.o, $(sources))
 
 # common objects
-objects+=$(wildcard ../common/*.o)
+# objects+=$(wildcard ../common/*.o)
 
 # opciones de compilador
 ########################
@@ -32,11 +28,17 @@ CXXFLAGS += -ggdb -DDEBUG -fno-inline
 # Estandar de C++ a usar
 CXXFLAGS += -std=c++11
 
+# Opciones para libreria dinamica
+CXXFLAGS += -fPIC
+
 # opciones del enlazador
 ########################
 
 # Usar el enlazador de C++
 LD = $(CXX)
+
+# Opciones para libreria dinamica
+LDFLAGS += -shared
 
 # Permite el uso de pthread en C y C++.
 # Permite el uso de built-in threads en C++.
@@ -45,44 +47,33 @@ LDFLAGS += -pthread
 # LDFLAGS += -static
 
 # Linkea a SDL2
-LDFLAGS += $(shell sdl2-config --cflags --libs)
+# LDFLAGS += $(shell sdl2-config --cflags --libs)
 
 # Linkea a SDL_image
-LDFLAGS += -lSDL2_image
+# LDFLAGS += -lSDL2_image
 
 # Linkea a SDL_ttf
-LDFLAGS += -lSDL2_ttf
+# LDFLAGS += -lSDL2_ttf
 
 # Linkea a SDL_mixer
-LDFLAGS += -lSDL2_mixer
+# LDFLAGS += -lSDL2_mixer
 
 # Linkea a Box2D
-LDFLAGS += -lBox2D
+# LDFLAGS += -lBox2D
 
 # Linkea librerias dinamicas
-LDFLAGS += -ldl
+# LDFLAGS += -ldl
 
 # reglas
 ########
 
 # targets
 .PHONY: all
-all: $(target) lua
+all: $(target)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
 
-.PHONY: run
-run: all
-	./$(target)
-
-valgrind: all
-	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(target)
-
 .PHONY: clean
-clean: lua
+clean:
 	$(RM) $(objects) $(target)
-
-.PHONY: lua
-lua:
-	$(MAKE) --directory=lua $(TARGET)
