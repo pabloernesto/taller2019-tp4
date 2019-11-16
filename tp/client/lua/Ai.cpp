@@ -56,6 +56,12 @@ void Ai::passCurrentPosition(){
 void Ai::passMap(){
   std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces = this->race->getTrackPieces();
   
+  // Send track_piece_size
+  std::vector<float> size = track_pieces.front()->GetSize();
+  this->loadXandYonTable(size[0], size[1]);
+  // Pop table and save it on global variable "track_size"
+  lua_setglobal(this->L, "track_size");
+
   // Create and push the map table
   lua_newtable(this->L);
 
