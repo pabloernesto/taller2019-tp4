@@ -9,12 +9,17 @@ void Server::Add(Connection&& c) {
 }
 
 void Server::JoinGame(int id, ServerRoom& player) {
+  // Race condition: what if a game is removed while iterating the vector?
   for (auto& game : games) {
-    if (game->id != id) continue;
+    if ( (game->id != id) || (game->isRunning()) || ( (!game->isRunning()) && (!game->isOnPreGameLoop()) ) ) 
+      continue;
+        // First case: Game doesn't exist.
+        // Second case: Game already started.
+        // Third case: Game finished and it's waiting for collectorLoop to remove him.
     game->AddPlayer(player);
     return;
   }
-  throw std::runtime_error("Tratando de unirse a un juego que no existe");
+  throw std::runtime_error("Tratando de unirse a un juego que no existe o ya comenzo");
 }
 
 std::vector<std::unique_ptr<Game>>& Server::GetGames() {
