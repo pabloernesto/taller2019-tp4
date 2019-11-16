@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "GameScreen.h"
 #include "RaceProxy.h"
 #include "RaceView.h"
