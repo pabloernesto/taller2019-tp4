@@ -40,7 +40,9 @@ bool JoinButton::OnHandle(void* t) {
 
   std::cout << "aca llega\n";
   if (d.HasMember("error")){
-    throw std::runtime_error(d["error"].GetString());
+    SDL_ShowSimpleMessageBox(0, "Error to join game", d["error"].GetString(), window);
+    return true;
+    //throw std::runtime_error(d["error"].GetString());
   }
   std::cout << "aca no\n";
 
