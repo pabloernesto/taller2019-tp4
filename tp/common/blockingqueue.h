@@ -26,7 +26,7 @@ class BlockingQueue {
 
   void push(T&& x) {
     std::unique_lock<std::mutex> lock(mtx);
-    while (q.size() == max_size)
+    while (q.size() == max_size && !closed)
       full_cv.wait(lock);
 
     if (closed) throw std::runtime_error("trying to push to a closed queue");
@@ -70,6 +70,7 @@ class BlockingQueue {
     std::unique_lock<std::mutex> lock(mtx);
     closed = true;
     empty_cv.notify_all();
+    full_cv.notify_all();
   }
 };
 
