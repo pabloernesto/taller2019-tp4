@@ -35,9 +35,19 @@ void Ai::run(){
   std::cout << "Ai started\n";
   while (!this->quit){
     int decision = this->decide();
+    // std::cout << "Track on table: ";
     // luaL_dostring(L, "print(current_track)");
+    // std::cout << "Track position_x: ";
+    // luaL_dostring(L, "print(map[current_track][1])");
+    // std::cout << "Track position_y: ";
+    // luaL_dostring(L, "print(map[current_track][2]");
     // luaL_dostring(L, "print(disty)");
-    std::cout << "Decision: " << decision << '\n';
+    // std::cout << "Car position_x: ";
+    // luaL_dostring(L, "print(car[1])");
+    // std::cout << "Car position_y: ";
+    // luaL_dostring(L, "print(car[2]");
+    
+    // std::cout << "Decision: " << decision << '\n';
     if (decision == 0) car->GasOn();
     else if (decision == 1) car->GasOff();
     else if (decision == 2) car->SteerCenter(); 
@@ -69,6 +79,7 @@ int Ai::decide(){
 
 void Ai::passCurrentPosition(){
   std::vector<float> pos = this->car->GetPosition();
+  // std::cout << "Car_x: " << pos[0] << " " << pos[1] << '\n';
   this->loadXandYonTable(pos[0], pos[1]);
   // Pop table and save it on global variable "car"
   lua_setglobal(this->L, "car");

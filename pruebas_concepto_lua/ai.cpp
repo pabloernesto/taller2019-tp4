@@ -36,6 +36,10 @@ void Ai::run(){
     // std::vector<std::vector<int>> pos = map.getPositions();
     std::cout << "(" << pos[0] << ", ";
     std::cout << pos[1] << ")" << "\n";
+    std::cout << "Pos x: ";
+    luaL_dostring(L, "print(position[1])");
+    std::cout << "Pos y: ";
+    luaL_dostring(L, "print(position[2])");
     this->decideNewPosition();
     pos = this->point.getPosition();
     std::cout << "LUA's new positions:\n";
