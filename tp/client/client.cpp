@@ -27,6 +27,10 @@ Client::~Client() {
 
 void Client::start() {
   screen.reset(new Inicio(window, renderer));
-  while (auto new_screen = screen->start())
-    screen.reset(new_screen);
+  try {
+    while (auto new_screen = screen->start())
+      screen.reset(new_screen);
+  } catch (std::runtime_error& e){
+    SDL_ShowSimpleMessageBox(0, "Error", e.what(), window);
+  }
 }
