@@ -42,3 +42,10 @@ Los binarios se pueden instalar de las siguientes formas:
 
 [include/rapidjson]: https://github.com/Tencent/rapidjson
 [CMake]: https://cmake.org/
+
+### FFmpeg
+
+Este proyecto usa [FFmpeg] para la grabación de video. 
+Los binarios se pueden instalar con el comando `sudo apt install ffmpeg`.
+
+[FFmpeg]: https://www.ffmpeg.org/
