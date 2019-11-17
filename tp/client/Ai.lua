@@ -33,8 +33,8 @@ function decide()
   end
   
   if map[current_track][3] == 2 then
-    disty = distance(car[0], car[1], map[current_track][0], map[current_track][1] + track_size[1])
-    distx = distance(car[0], car[1], map[current_track][0] + track_size[0], map[current_track][1])
+    disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] + track_size[2])
+    distx = distance(car[1], car[2], map[current_track][1] + track_size[1], map[current_track][2])
     if (disty < distx) then
       return 3
     else
@@ -43,8 +43,8 @@ function decide()
   end
   
   if map[current_track][3] == 3 then
-    disty = distance(car[0], car[1], map[current_track][0], map[current_track][1] - track_size[1])
-    distx = distance(car[0], car[1], map[current_track][0] + track_size[0], map[current_track][1])
+    disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] - track_size[2])
+    distx = distance(car[1], car[2], map[current_track][1] + track_size[1], map[current_track][2])
     if disty < distx then
       return 4
     else
@@ -53,8 +53,8 @@ function decide()
   end
 
   if map[current_track][3] == 4 then
-    disty = distance(car[0], car[1], map[current_track][0], map[current_track][1] + track_size[1])
-    distx = distance(car[0], car[1], map[current_track][0] - track_size[0], map[current_track][1])
+    disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] + track_size[2])
+    distx = distance(car[1], car[2], map[current_track][1] - track_size[1], map[current_track][2])
     if disty < distx then
       return 4
     else
@@ -63,8 +63,8 @@ function decide()
   end
   
   if map[current_track][3] == 5 then
-    disty = distance(car[0], car[1], map[current_track][0], map[current_track][1] - track_size[1])
-    distx = distance(car[0], car[1], map[current_track][0] - track_size[0], map[current_track][1])
+    disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] - track_size[2])
+    distx = distance(car[1], car[2], map[current_track][1] - track_size[1], map[current_track][2])
     if disty < distx then
       return 4
     else
