@@ -1,7 +1,7 @@
 #include "ChooseRaceScreen_Buttons.h"
 #include <SDL2/SDL.h>
 #include "ChooseRaceScreen.h"
-#include "RaceScreen.h"
+#include "StartRaceScreen.h"
 #include "RaceProxy.h"
 #include <stdexcept>  // runtime_error
 #include <iostream>
@@ -22,7 +22,7 @@ bool RaceButton::OnHandle(void* t) {
 
   // Build the next screen
   int id_player = d["id"].GetInt();
-  context->next_screen = new RaceScreen(window, renderer, proxy, id_player);
+  context->next_screen = new StartRaceScreen(window, renderer, proxy, id_player);
   return false;
 }
 

@@ -1,19 +1,19 @@
-#ifndef RACESCREENBUTTON_H_
-#define RACESCREENBUTTON_H_
+#ifndef STARTRACEBUTTON_H_
+#define STARTRACEBUTTON_H_
 
 #include "Button.h"
 
-class RaceScreen;
+class StartRaceScreen;
 
 class StartRaceButton : public TextButton {
-  RaceScreen* context;
+  StartRaceScreen* context;
 
 public:
   bool OnHandle(void* t) override;
 
   StartRaceButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
     SDL_Rect area, std::string text, TTF_Font* font, SDL_Color color,
-    RaceScreen* context);
+    StartRaceScreen* context);
 };
 
-#endif  // RACESCREENBUTTON_H_
+#endif  // STARTRACEBUTTON_H_

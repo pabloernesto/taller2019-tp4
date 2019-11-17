@@ -1,10 +1,12 @@
-#include "RaceScreen_Buttons.h"
+#include "StartRaceScreen_Buttons.h"
 #include "RaceScreen.h"
+#include "StartRaceScreen.h"
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 
 
 bool StartRaceButton::OnHandle(void* t) {
+  // Start the race
   rapidjson::Document d(rapidjson::kObjectType);
   d.AddMember("type", "s", d.GetAllocator());
   rapidjson::StringBuffer buffer;
@@ -12,12 +14,16 @@ bool StartRaceButton::OnHandle(void* t) {
   d.Accept(writer);
   context->race->SendToServer(std::string(buffer.GetString()));
 
+  // Transition screens
+  context->next_screen = new RaceScreen(
+    window, renderer, context->race.release(), context->player_id);
+
   return false;
 }
 
 StartRaceButton::StartRaceButton(TaskHandler* next, SDL_Window* w,
   SDL_Renderer* r, SDL_Rect area, std::string text, TTF_Font* font,
-  SDL_Color color, RaceScreen* context)
+  SDL_Color color, StartRaceScreen* context)
   : TextButton(next, w, r, area, text, font, color),
   context(context)
 {}
