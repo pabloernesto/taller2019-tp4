@@ -81,6 +81,18 @@ void Game::reconnectPlayersToServerRoom(){
     p->client.GetOutgoingQueue().push(std::string(json));
 }
 
+void Game::Broadcast(std::string& msg) {
+  for (auto it = players.begin(); it != players.end(); )
+    try {
+      (*it)->client.GetOutgoingQueue().push(std::string(msg));
+      it++;
+    } catch (std::runtime_error& e) {
+      // TODO: mark room for garbage collection
+      // TODO: remove controller from handler_chain
+      it = players.erase(it);
+    }
+}
+
 void Game::preGameLoop(){
   while (!quit && !running) {
     // Read client messages
