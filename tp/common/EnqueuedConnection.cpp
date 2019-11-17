@@ -10,6 +10,7 @@ void Sender::Loop() {
       break;
   }
   connection.ShutdownWrite();
+  q.close();
 }
 
 void Receiver::Loop() {

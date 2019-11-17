@@ -37,13 +37,11 @@ void Game::Loop() {
     // TODO: handle all notifications with a single document
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
-      for (auto& p : players)
-        p->client.GetOutgoingQueue().push(std::string(json));
+      Broadcast(json);
     }
 
     auto&& mods_json = ToJSON(race->getModifiers());
-    for (auto& p : players)
-      p->client.GetOutgoingQueue().push(std::string(mods_json));
+    Broadcast(mods_json);
 
     // Check if race ended.
     if (this->race->Ended()){
@@ -80,8 +78,19 @@ void Game::reconnectPlayersToServerRoom(){
   }
   // Send the end of the race and winner id to every client.
   auto&& json = ToJSON(*(this->race));
-  for (auto p : players)
-    p->client.GetOutgoingQueue().push(std::string(json));
+  Broadcast(json);
+}
+
+void Game::Broadcast(std::string& msg) {
+  for (auto it = players.begin(); it != players.end(); )
+    try {
+      (*it)->client.GetOutgoingQueue().push(std::string(msg));
+      it++;
+    } catch (std::runtime_error& e) {
+      // TODO: mark room for garbage collection
+      // TODO: remove controller from handler_chain
+      it = players.erase(it);
+    }
 }
 
 void Game::preGameLoop(){
@@ -174,7 +183,6 @@ void Game::Start() {
 void Game::Shutdown() {
   quit = true;
   for (auto& p : players) p->client.Shutdown();
-  for (auto& p : players) p->client.Join();
   in_queue.close();
 }
 

@@ -35,6 +35,7 @@ void Server::collectorLoop(){
     auto it = this->games.begin();
     while (it != this->games.end()){
       if ( (! (*it)->isRunning()) && (! (*it)->isOnPreGameLoop())){
+        (*it)->Join();
         it = this->games.erase(it);
       } else {
         it++;
@@ -42,13 +43,11 @@ void Server::collectorLoop(){
     }
     this->notified = false;
   }
+  lock.unlock();
 
-  // Shutdown remaining games
-  for (auto it = this->games.begin(); it != this->games.end(); it++){
-    (*it)->Shutdown();
-  }
-  for (auto it = this->games.begin(); it != this->games.end(); it++){
-    (*it)->Join();
+  for (auto& game : games) {
+    game->Shutdown();
+    game->Join();
   }
 
   // Shutdown server rooms
@@ -80,8 +79,7 @@ void Server::Start(){
 
 void Server::Shutdown() {
   this->quit = true;
-  this->notified = true;
-  this->cond_var.notify_all();
+  notify();
 }
 
 void Server::Join() {

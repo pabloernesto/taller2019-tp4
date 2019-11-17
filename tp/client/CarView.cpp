@@ -25,9 +25,12 @@ void CarView::render(int tick) {
   // The car image points downward, add 180 degrees to flip it up
   Image& img = car.isDead() ? imageDead : imageAlive;
   std::vector<Mix_Chunk*> sounds = {};
-  sounds.push_back(motor_sound);
   if (car.HasBreakOn()){
+    Mix_Pause(-1);
     sounds.push_back(break_sound);
+  } else {
+    Mix_Pause(-1);
+    sounds.push_back(motor_sound);
   }
   camara.renderMe(
     position,
