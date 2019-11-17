@@ -48,7 +48,10 @@ void Ai::run(){
     // luaL_dostring(L, "print(car[2]");
     
     std::cout << "Decision: " << decision << '\n';
-    if (decision == 0) car->GasOn();
+    if (decision == 0) {
+      car->SteerCenter();
+      car->GasOn();
+    }
     else if (decision == 1) car->GasOff();
     else if (decision == 2){
       car->SteerCenter();
