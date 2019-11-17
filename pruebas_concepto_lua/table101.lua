@@ -8,3 +8,5 @@ print(a.x)
 print(a["asd"])
 print(a.asd)
 print(a)
+d = {{1,2,3}}
+print(d[1][3])

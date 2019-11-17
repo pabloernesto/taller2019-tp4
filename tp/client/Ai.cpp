@@ -1,6 +1,7 @@
 #include "Ai.h"
 #include "TrackPieceProxy.h"
 #include <chrono>  
+#include <iostream>
 const int Ai::SLEEP_TIME_MS = 100;
 
 extern "C" Ai* createAi(CarProxy* car, RaceProxy* race){
@@ -11,16 +12,32 @@ extern "C" void destroyAi(Ai* ai){
   delete ai;
 }
 
-Ai::Ai(CarProxy* car, RaceProxy* race) : car(car), race(race) {
+// extern "C" { static int printNumber(lua_State* L){
+//   double d = lua_tonumber(L, 1);
+//   std::cout << "Numero: " << d << '\n';
+//   return 0;
+// }
+// }
+
+
+Ai::Ai(CarProxy* car, RaceProxy* race) : car(car), race(race), quit(false) {
   this->L = luaL_newstate();
   luaL_openlibs(L);
-  luaL_dofile(L, "ai.lua");
+  int r_v = luaL_dofile(L, "Ai.lua");
+  if (r_v != 0){
+    std::cout << "Error: " << r_v << '\n';
+  }
+  // lua_pushcfunction(L, printNumber);
+  // lua_setglobal(L, "printnum");
 }
 
 void Ai::run(){
+  std::cout << "Ai started\n";
   while (!this->quit){
     int decision = this->decide();
-    
+    // luaL_dostring(L, "print(current_track)");
+    // luaL_dostring(L, "print(disty)");
+    std::cout << "Decision: " << decision << '\n';
     if (decision == 0) car->GasOn();
     else if (decision == 1) car->GasOff();
     else if (decision == 2) car->SteerCenter(); 
@@ -39,7 +56,11 @@ int Ai::decide(){
   lua_getglobal(L, "decide");
 
   // Call the function with zero arguments and expect one result.
-  lua_pcall(L, 0, 1, 0);
+  int error = lua_pcall(L, 0, 1, 0);
+  if (error != 0){
+    std::cout << "Error: " << error << '\n';
+    std::cout << lua_tostring(L, -1) << '\n';
+  }
 
   // Get the result number on the top of the stack.
   int result = lua_tonumber(L, -1);

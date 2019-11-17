@@ -23,7 +23,7 @@
 Ai::Ai(/*Map& map,*/ Point& point) : point(point){
   this->L = luaL_newstate();
   luaL_openlibs(L);
-  luaL_dofile(L, "ai.lua");
+  luaL_dofile(L, "Ai.lua");
   // Hay que verificar este resultado...
 }
 

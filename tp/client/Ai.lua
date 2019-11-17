@@ -2,9 +2,23 @@ car = {}
 map = {}
 track_size = {}
 
-function decide():
+function distance(x1, y1, x2, y2)
+  return math.sqrt(math.pow((x1 * x2), 2) + math.pow((y1 * y2), 2))
+end
+
+function find_current_track()
+  for k,v in pairs(map) do
+    x_condition = ((v[1] - track_size[1]) < car[1]) and (car[1] < (v[1] + track_size[1])) 
+    y_condition = ((v[2] - track_size[2]) < car[2]) and (car[2] < (v[2] + track_size[2]))
+    if x_condition and y_condition then
+      return k
+    end
+  end
+  return nil
+end
+
+function decide()
   current_track = find_current_track()
-  
   if  map[current_track][3] == 6 then
     -- Grass piece
     -- I try to go reverse
@@ -57,19 +71,9 @@ function decide():
     end
   end
   
-  -- In case of error i just go forward
-  return 0
+  -- In case of error i dont do nothing forward
+  return 7
 end
-
-
-function find_current_track():
-  for k,v in pairs(map):
-    x_condition = ((v[1] - track_size[1]) < car[1]) and (car[1] < (v[1] + track_size[1])) 
-    y_condition = (v[2] - track_size[2]) < car[2]) and (car[2] < (v[2] + track_size[2]))
-    if x_condition and y_condition then
-      return k
-    end
-  return nil
 
 -- function find_closest_track(current_track):
   -- min = nil
@@ -87,6 +91,3 @@ function find_current_track():
   -- return min
 -- end
 
-function distance(x1, y1, x2, y2):
-  return math.sqrt(math.pow((x1 * x2), 2) + math.pow((y1 * y2), 2))
-end
