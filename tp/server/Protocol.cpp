@@ -91,7 +91,9 @@ std::string ToJSON(Race& x){
 
   d.AddMember("type", "race", d.GetAllocator());
   d.AddMember("ended", x.Ended(), d.GetAllocator());
-  d.AddMember("winner_id", x.GetIdWinnerCar(), d.GetAllocator());
+  d.AddMember("winner_id", rapidjson::Value(), d.GetAllocator());
+  if (x.Ended()) d["winner_id"] = x.GetIdWinnerCar();
+
   rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   d.Accept(writer);
