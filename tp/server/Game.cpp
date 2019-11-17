@@ -180,7 +180,6 @@ void Game::Start() {
 void Game::Shutdown() {
   quit = true;
   for (auto& p : players) p->client.Shutdown();
-  for (auto& p : players) p->client.Join();
   in_queue.close();
 }
 
