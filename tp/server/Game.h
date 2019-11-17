@@ -33,6 +33,7 @@ class Game {
   void Loop();
   void preGameLoop();
   void reconnectPlayersToServerRoom();
+  void Broadcast(std::string& msg);
 
 public:
   int id;
