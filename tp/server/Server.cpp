@@ -35,6 +35,7 @@ void Server::collectorLoop(){
     auto it = this->games.begin();
     while (it != this->games.end()){
       if ( (! (*it)->isRunning()) && (! (*it)->isOnPreGameLoop())){
+        (*it)->Join();
         it = this->games.erase(it);
       } else {
         it++;
