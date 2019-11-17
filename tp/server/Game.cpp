@@ -17,6 +17,8 @@
 
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
+static const int MODS_TIME_SEC = 5;
+static const int MODS_FRAMES = MODS_TIME_SEC * FRAMERATE;
 
 void Game::Loop() {
   const auto rate = std::chrono::milliseconds(1000 / FRAMERATE);
@@ -31,6 +33,8 @@ void Game::Loop() {
       handler_chain->Handle(&request);
       to_process.pop();
     }
+
+    this->executeMods();
 
     race->Step();
 
@@ -64,6 +68,17 @@ void Game::Loop() {
   running = false;
   this->reconnectPlayersToServerRoom();
   this->server.notify();
+}
+
+void Game::executeMods(){
+  if (this->frame_counter_mods == MODS_FRAMES ){
+    for (auto it = this->mods.begin(); it != this->mods.end(); it++){
+      (*it)->execute(this->race.get());
+    }
+    this->frame_counter_mods = 0;
+  } else {
+    this->frame_counter_mods += 1;
+  }
 }
 
 void Game::reconnectPlayersToServerRoom(){
@@ -194,7 +209,8 @@ void Game::Join() {
 Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   : race(RaceFabric::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
-  running(false), handler_chain(), mutex(mutex), server(server), id(id)
+  running(false), handler_chain(), mutex(mutex), server(server), 
+  frame_counter_mods(0), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
   
@@ -204,11 +220,13 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   Mod* (*create)();
   void* shared_lib;
   while (ent != NULL){
+    // std::cout << "About to search for plugins\n";
     std::string file = "./Plugins/" + std::string(ent->d_name);        
     if (file.substr(file.size()- 3) != ".so"){
       ent = readdir(plugins_dir);
       continue;
     }
+    // std::cout << "Found a library\n";
     shared_lib = dlopen(file.c_str(), RTLD_NOW);
     char* err = dlerror();
     if (!shared_lib){

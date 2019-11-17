@@ -31,11 +31,13 @@ class Game {
   std::mutex& mutex;
   Server& server;
   std::vector<std::unique_ptr<Mod>> mods;
+  int frame_counter_mods;
 
   void Loop();
   void preGameLoop();
   void reconnectPlayersToServerRoom();
   void Broadcast(std::string& msg);
+  void executeMods();
 
 public:
   int id;

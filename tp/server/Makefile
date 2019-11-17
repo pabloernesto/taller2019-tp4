@@ -49,6 +49,9 @@ LDFLAGS += -lSDL2_image
 # Linkea a Box2D
 LDFLAGS += -lBox2D
 
+# Para poder levantar librerias dinamicas
+LDFLAGS += -ldl
+
 # reglas
 ########
 
