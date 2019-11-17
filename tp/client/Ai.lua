@@ -40,9 +40,9 @@ function decide()
     return 0
   end
   
-  if prev_decision == 3 or prev_decision == 4 then
-    return 0
-  end
+  -- if prev_decision == 3 or prev_decision == 4 then
+    -- return 0
+  -- end
 
   if map[current_track][3] == 2 then
     disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] + track_size[2])

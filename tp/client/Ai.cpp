@@ -35,7 +35,7 @@ void Ai::run(){
   std::cout << "Ai started\n";
   int decision = 0;
   while (!this->quit){
-    int decision = this->decide(decision);
+    decision = this->decide(decision);
     // std::cout << "Track on table: ";
     // luaL_dostring(L, "print(current_track)");
     // std::cout << "Track position_x: ";
