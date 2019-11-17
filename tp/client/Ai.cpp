@@ -50,9 +50,18 @@ void Ai::run(){
     std::cout << "Decision: " << decision << '\n';
     if (decision == 0) car->GasOn();
     else if (decision == 1) car->GasOff();
-    else if (decision == 2) car->SteerCenter(); 
-    else if (decision == 3) car->SteerRight();
-    else if (decision == 4) car->SteerLeft();
+    else if (decision == 2){
+      car->SteerCenter();
+      car->GasOn();
+    }  
+    else if (decision == 3) {
+      car->SteerRight();
+      car->GasOn();
+    }
+    else if (decision == 4){
+      car->SteerLeft();
+      car->GasOn();
+    }  
     else if (decision == 5) car->BreakOn(); 
     else if (decision == 6) car->BreakOff();
 

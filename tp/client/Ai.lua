@@ -69,7 +69,7 @@ function decide()
       return 4
     else
       return 3
-    end
+    end 
   end
   
   -- In case of error i dont do nothing forward
