@@ -26,9 +26,10 @@ void CarView::render(int tick) {
   Image& img = car.isDead() ? imageDead : imageAlive;
   std::vector<Mix_Chunk*> sounds = {};
   if (car.HasBreakOn()){
-    std::cout << "FRENO\n";
+    Mix_Pause(-1);
     sounds.push_back(break_sound);
   } else {
+    Mix_Pause(-1);
     sounds.push_back(motor_sound);
   }
   camara.renderMe(
