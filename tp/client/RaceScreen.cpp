@@ -7,6 +7,8 @@
 #include <iostream>
 #include <math.h>
 #include "RaceScreen_Buttons.h"
+#include "Podium.h"
+#include "ChooseRaceScreen.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -52,7 +54,7 @@ GameScreen* RaceScreen::start() {
   }
   loop.Start();
 
-  while (true) {
+  while (!race->Ended()) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
@@ -73,12 +75,14 @@ GameScreen* RaceScreen::start() {
       if (loop.button_chain) loop.button_chain->Handle(&sdl_event);
     }
   }
+  std::cout << "va a terminar\n";
 
   loop.quit = true;
   loop.Join();
 
   race->Shutdown();
   race->Join();
+  std::cout << "termina\n";
 
-  return nullptr;
+  return new ChooseRaceScreen(window, renderer);
 }

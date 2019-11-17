@@ -17,6 +17,7 @@ ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
   next_screen(), connection("localhost", "1234")
 {
+  std::cout << "aca \n";
   TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 }
@@ -82,10 +83,13 @@ void ChooseRaceScreen::DrawWindow(){
 }
 
 GameScreen* ChooseRaceScreen::start(){
+  std::cout << "aca 1\n";
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
+  std::cout << "aca 2\n";
   SDL_RenderClear(renderer);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_Event sdl_event;
+  std::cout << "aca 3\n";
 
   rapidjson::Document race_list;
 

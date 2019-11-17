@@ -50,8 +50,9 @@ void RaceProxy::UpdateModifiers(rapidjson::Document& msg){
 }
 
 void RaceProxy::UpdateRace(rapidjson::Document& msg){
+  std::lock_guard<std::mutex> lock(end_mtx);
   ended = msg["ended"].GetBool();
-  winner_id = msg["winner_id"].GetBool();
+  winner_id = msg["winner_id"].GetInt();
 }
 
 void RaceProxy::UpdateLoop() {
@@ -64,12 +65,14 @@ void RaceProxy::UpdateLoop() {
 
     if (msg.HasMember("error")) {
       throw std::runtime_error(msg["error"].GetString());
-    } else if (std::string(msg["type"].GetString()) == "car") {
-      UpdateCar(msg);
-    } else if (std::string(msg["type"].GetString()) == "modifier") {
-      UpdateModifiers(msg);
-    } else if (std::string(msg["type"].GetString()) == "race") {
-      UpdateRace(msg);
+    }else if (msg.HasMember("type")) {
+      if (std::string(msg["type"].GetString()) == "car") {
+        UpdateCar(msg);
+      } else if (std::string(msg["type"].GetString()) == "modifier") {
+        UpdateModifiers(msg);
+      } else if (std::string(msg["type"].GetString()) == "race") {
+        UpdateRace(msg);
+      }
     }
   }
 }
@@ -118,6 +121,7 @@ bool RaceProxy::Ended(){
 }
 
 int RaceProxy::GetWinnerId(){
+  std::lock_guard<std::mutex> lock(end_mtx);
   return winner_id;
 }
 
