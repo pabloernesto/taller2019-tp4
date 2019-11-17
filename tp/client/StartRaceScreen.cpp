@@ -36,13 +36,13 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   int x, y;
   SDL_GetWindowSize(window, &x, &y);
   x /= 2;
-  y /= 70;
+  y /= 2;
 
   const int button_w = 150;
   const int button_h = 40;
   const SDL_Color color = { 255, 255, 255 };
   SDL_Rect area = {
-    x - button_w/2,   y + button_h/2,
+    x - button_w/2,   y - button_h/2,
     button_w,         button_h
   };
   button_chain.reset(
