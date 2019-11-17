@@ -33,8 +33,9 @@ Ai::Ai(CarProxy* car, RaceProxy* race) : car(car), race(race), quit(false) {
 
 void Ai::run(){
   std::cout << "Ai started\n";
+  int decision = 0;
   while (!this->quit){
-    int decision = this->decide();
+    int decision = this->decide(decision);
     // std::cout << "Track on table: ";
     // luaL_dostring(L, "print(current_track)");
     // std::cout << "Track position_x: ";
@@ -76,8 +77,9 @@ void Ai::run(){
   }
 }
 
-int Ai::decide(){
+int Ai::decide(int prev_decision){
   this->passCurrentPosition();
+  this->passPrevDecision(prev_decision);
   this->passMap();
   lua_getglobal(L, "decide");
 
@@ -91,6 +93,11 @@ int Ai::decide(){
   // Get the result number on the top of the stack.
   int result = lua_tonumber(L, -1);
   return result;
+}
+
+void Ai::passPrevDecision(int prev_decision){
+  lua_pushnumber(this->L, prev_decision);
+  lua_setglobal(this->L, "prev_decision");
 }
 
 void Ai::passCurrentPosition(){

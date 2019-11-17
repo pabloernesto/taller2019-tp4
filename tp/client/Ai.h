@@ -29,8 +29,9 @@ class Ai{
     std::atomic<bool> quit;
     std::thread thread;
 
-    int decide();
+    int decide(int prev_decision);
     void passCurrentPosition();
+    void passPrevDecision(int prev_decision);
     void passMap();
     void loadXandYonTable(float x, float y);
     void loadTrackPiece(float x, float y, int type);

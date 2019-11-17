@@ -1,4 +1,5 @@
 car = {}
+prev_decision = nil
 map = {}
 track_size = {}
 -- current_track = nil
@@ -33,9 +34,16 @@ function decide()
   if map[current_track][3] < 2 then
     -- Horizontal or vertical piece
     -- I go forward
+    if prev_decision == 5 then
+      return 3
+    end
     return 0
   end
   
+  if prev_decision == 3 or prev_decision == 4 then
+    return 0
+  end
+
   if map[current_track][3] == 2 then
     disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] + track_size[2])
     distx = distance(car[1], car[2], map[current_track][1] + track_size[1], map[current_track][2])
