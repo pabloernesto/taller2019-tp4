@@ -34,13 +34,11 @@ void Game::Loop() {
     // TODO: handle all notifications with a single document
     for (auto& carp : race->GetCars()) {
       auto&& json = ToJSON(*carp);
-      for (auto& p : players)
-        p->client.GetOutgoingQueue().push(std::string(json));
+      Broadcast(json);
     }
 
     auto&& mods_json = ToJSON(race->getModifiers());
-    for (auto& p : players)
-      p->client.GetOutgoingQueue().push(std::string(mods_json));
+    Broadcast(mods_json);
 
     // Check if race ended.
     if (this->race->Ended()){
@@ -77,8 +75,7 @@ void Game::reconnectPlayersToServerRoom(){
   }
   // Send the end of the race and winner id to every client.
   auto&& json = ToJSON(*(this->race));
-  for (auto p : players)
-    p->client.GetOutgoingQueue().push(std::string(json));
+  Broadcast(json);
 }
 
 void Game::Broadcast(std::string& msg) {
