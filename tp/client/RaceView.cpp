@@ -7,6 +7,9 @@
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
 #define ENDSIGNSIZE 70
 #define LIFENUMBERSIZE 20
+#define LIFEPOSX 10
+#define LIFEPOSY 10
+
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
@@ -41,11 +44,12 @@ void RaceView::AddCarView(CarProxy& carProxy){
 }
 
 void RaceView::renderLife(int life){
-  SDL_Rect r = {10,10,life*LIFENUMBERSIZE,LIFENUMBERSIZE};
+  /*SDL_Rect r = {10,10,life*LIFENUMBERSIZE,LIFENUMBERSIZE};
   SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
   SDL_RenderDrawRect(renderer, &r);
-  SDL_RenderFillRect(renderer, &r);
-  showMessage(std::to_string(life), 10, 35, LIFENUMBERSIZE, LIFENUMBERSIZE);
+  SDL_RenderFillRect(renderer, &r);*/
+  showMessage("LIFE: " + std::to_string(life), LIFEPOSX, LIFEPOSY,
+    LIFENUMBERSIZE, LIFENUMBERSIZE);
 }
 
 void RaceView::render(int tick) {
