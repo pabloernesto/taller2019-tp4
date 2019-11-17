@@ -75,14 +75,12 @@ GameScreen* RaceScreen::start() {
       if (loop.button_chain) loop.button_chain->Handle(&sdl_event);
     }
   }
-  std::cout << "va a terminar\n";
 
   loop.quit = true;
   loop.Join();
 
   race->Shutdown();
   race->Join();
-  std::cout << "termina\n";
 
   return new ChooseRaceScreen(window, renderer);
 }

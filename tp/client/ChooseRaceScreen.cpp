@@ -10,8 +10,8 @@
 #define TITLESIZEPERLETTER 35
 #define BUTTONSIZEPERLETTER 27
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 600
+#define HEIGHT 400
 
 ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
@@ -82,9 +82,13 @@ void ChooseRaceScreen::DrawWindow(){
 }
 
 GameScreen* ChooseRaceScreen::start(){
+  int w;
+  int h;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
+  SDL_GL_GetDrawableSize(window, &w, &h);
+  SDL_RenderSetLogicalSize(renderer, w, h);
+  SDL_SetRenderDrawColor(renderer, 1, 1, 1, 255);
   SDL_RenderClear(renderer);
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_Event sdl_event;
 
   rapidjson::Document race_list;
@@ -109,6 +113,8 @@ GameScreen* ChooseRaceScreen::start(){
 }
 
 void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
+  std::cout << "mensaje: " << message << " x: " << x << " y: " << y << "\n";
+
   TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
