@@ -6,41 +6,14 @@
 #include <stdexcept>  // runtime_error
 #include <iostream>
 
-bool CreateButton::OnHandle(void* t) {
+bool RaceButton::OnHandle(void* t) {
   // Create the game
   rapidjson::Document d;
   {
-    std::string msg = "{\"type\":\"c\"}";
     context->connection.SendStr(msg.c_str());
     char* data = context->connection.GetStr();
     d.Parse(data);
     delete[] data;
-  }
-
-  // Build the race
-  RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
-  proxy->Start();
-
-  // Build the next screen
-  int id_player = d["id"].GetInt();
-  context->next_screen = new RaceScreen(window, renderer, proxy, id_player);
-  return false;
-}
-
-bool JoinButton::OnHandle(void* t) {
-  // Join the game
-  rapidjson::Document d;
-  {
-    std::string msg = "{\"type\":\"j\",\"id\":" + std::to_string(id_game) + "}";
-    context->connection.SendStr(msg.c_str());
-    char* data = context->connection.GetStr();
-    d.Parse(data);
-    delete[] data;
-  }
-
-  if (d.HasMember("error")){
-    SDL_ShowSimpleMessageBox(0, "Error to join game", d["error"].GetString(), window);
-    return true;
   }
 
   // Build the race
@@ -57,16 +30,24 @@ bool JoinButton::OnHandle(void* t) {
 
 // Constructors/destructors
 
+RaceButton::RaceButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
+  SDL_Rect area, std::string text, TTF_Font* font, SDL_Color color,
+  ChooseRaceScreen* context, std::string msg)
+  : TextButton(next, w, r, area, text, font, color), context(context),
+  msg(std::move(msg))
+{}
+
+
 CreateButton::CreateButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
   SDL_Rect area, std::string text, TTF_Font* font, SDL_Color color,
   ChooseRaceScreen* context)
-  : TextButton(next, w, r, area, text, font, color),
-  context(context)
+  : RaceButton(next, w, r, area, text, font, color, context,
+  "{\"type\": \"c\"}")
 {}
 
 JoinButton::JoinButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
   SDL_Rect area, std::string text, TTF_Font* font, SDL_Color color,
   int id_game, ChooseRaceScreen* context)
-  : TextButton(next, w, r, area, text, font, color),
-  id_game(id_game), context(context)
+  : RaceButton(next, w, r, area, text, font, color, context,
+  "{\"type\": \"j\", \"id\":" + std::to_string(id_game) + "}")
 {}
