@@ -54,7 +54,7 @@ void Camara::renderMe(std::vector<float> position, std::vector<float> size, Imag
     };
     image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
   }
-
+  
   for (auto& sound : sounds){
     Mix_PlayChannel(-1, sound, 0);
   }
