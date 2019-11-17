@@ -7,7 +7,10 @@
 #include "CarController.h"
 #include "StartGameController.h"
 #include <memory>
-
+#include <string>
+#include <sys/types.h> //For directories
+#include <dirent.h> //For directories
+#include <dlfcn.h>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -186,4 +189,32 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   running(false), handler_chain(), mutex(mutex), server(server), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
+  
+  // Load plugins
+  DIR* plugins_dir = opendir("Plugins");
+  struct dirent* ent = readdir(plugins_dir);
+  Mod* (*create)();
+  void* shared_lib;
+  while (ent != NULL){
+    std::string file = "./Plugins/" + std::string(ent->d_name);        
+    if (file.substr(file.size()- 3) != ".so"){
+      ent = readdir(plugins_dir);
+      continue;
+    }
+    shared_lib = dlopen(file.c_str(), RTLD_NOW);
+    char* err = dlerror();
+    if (!shared_lib){
+      throw std::runtime_error(std::string(err));
+    }
+    // Destroy hace falta o no...?
+    // Mod* (*destroy)(Mod*)
+    
+    create = (Mod* (*)())dlsym(shared_lib, "createMod");
+    this->mods.emplace_back(create());
+    dlclose(shared_lib);
+    ent = readdir(plugins_dir);
+  }
+
+  closedir(plugins_dir);
+  
 }

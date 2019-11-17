@@ -15,6 +15,7 @@
 #include <mutex>
 #include <condition_variable>
 #include "Server.h"
+#include "Plugins/Mod.h"
 
 typedef BlockingQueue<std::string> Cola;
 
@@ -29,6 +30,7 @@ class Game {
   std::unordered_set<int> id_started;
   std::mutex& mutex;
   Server& server;
+  std::vector<std::unique_ptr<Mod>> mods;
 
   void Loop();
   void preGameLoop();
