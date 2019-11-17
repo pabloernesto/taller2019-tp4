@@ -55,14 +55,17 @@ void Ai::run(){
     }
     else if (decision == 1) car->GasOff();
     else if (decision == 2){
+      car->BreakOff();
       car->SteerCenter();
       car->GasOn();
     }  
     else if (decision == 3) {
+      car->BreakOff();
       car->SteerRight();
       car->GasOn();
     }
     else if (decision == 4){
+      car->BreakOff();
       car->SteerLeft();
       car->GasOn();
     }  
