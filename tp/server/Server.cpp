@@ -43,13 +43,11 @@ void Server::collectorLoop(){
     }
     this->notified = false;
   }
+  lock.unlock();
 
-  // Shutdown remaining games
-  for (auto it = this->games.begin(); it != this->games.end(); it++){
-    (*it)->Shutdown();
-  }
-  for (auto it = this->games.begin(); it != this->games.end(); it++){
-    (*it)->Join();
+  for (auto& game : games) {
+    game->Shutdown();
+    game->Join();
   }
 
   // Shutdown server rooms
@@ -80,9 +78,6 @@ void Server::Start(){
 }
 
 void Server::Shutdown() {
-  for (auto& game : games) game->Shutdown();
-  for (auto& game : games) game->Join();
-
   this->quit = true;
   notify();
 }
