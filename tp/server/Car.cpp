@@ -314,3 +314,7 @@ int Car::GetId(){
 bool Car::isBreakOn(){
   return break_;
 }
+
+int Car::GetLife(){
+  return life;
+}

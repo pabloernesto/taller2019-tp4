@@ -5,11 +5,11 @@
 #include <iostream>
 
 CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
-  : car(car), imageAlive(ailive), imageDead(dead), camara(camara),
-    motor_sound(Mix_LoadWAV("Sonidos/engine noise 2.wav")),
+  : car(car), imageAlive(ailive), imageDead(dead), camara(camara)
+    ,motor_sound(Mix_LoadWAV("Sonidos/Engine noise.wav")),
     break_sound(Mix_LoadWAV("Sonidos/skid-piece-fadeinout.wav"))
   {
-    Mix_VolumeChunk(motor_sound, 10);
+    Mix_VolumeChunk(motor_sound, 3);
     Mix_VolumeChunk(break_sound, 20);
   }
 
@@ -24,7 +24,8 @@ void CarView::render(int tick) {
 
   // The car image points downward, add 180 degrees to flip it up
   Image& img = car.isDead() ? imageDead : imageAlive;
-  std::vector<Mix_Chunk*> sounds = {motor_sound};
+  std::vector<Mix_Chunk*> sounds = {};
+  sounds.push_back(motor_sound);
   if (car.HasBreakOn()){
     sounds.push_back(break_sound);
   }

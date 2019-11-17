@@ -31,7 +31,7 @@ void RaceProxy::UpdateCar(rapidjson::Document& msg){
       msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
       msg["angle"].GetFloat(),
       msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
-      msg["dead"].GetBool(), msg["break"].GetBool());
+      msg["dead"].GetBool(), msg["break"].GetBool(), msg["life"].GetInt());
 
   }
 }

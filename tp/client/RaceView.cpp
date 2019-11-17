@@ -5,6 +5,8 @@
 
 #define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
+#define ENDSIGNSIZE 70
+#define LIFENUMBERSIZE 20
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
@@ -32,10 +34,18 @@ void RaceView::AddCarView(CarProxy& carProxy){
   } else {
     img_route = MYCARIMAGEROUTE;
   }
-  cars.emplace_back(
+  cars.emplace_back(new CarView(
     imagecache.getImage(img_route),
     imagecache.getImage("Imagenes/explosion.png"),
-    carProxy, camara);
+    carProxy, camara));
+}
+
+void RaceView::renderLife(int life){
+  SDL_Rect r = {10,10,life*LIFENUMBERSIZE,LIFENUMBERSIZE};
+  SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
+  SDL_RenderDrawRect(renderer, &r);
+  SDL_RenderFillRect(renderer, &r);
+  showMessage(std::to_string(life), 10, 35, LIFENUMBERSIZE, LIFENUMBERSIZE);
 }
 
 void RaceView::render(int tick) {
@@ -60,24 +70,26 @@ void RaceView::render(int tick) {
   }
 
   for (auto& car : cars){
-    car.render(tick);
+    car->render(tick);
   }
+
+  this->renderLife(car.GetLife());
   
   if (race->Ended()){
     if (race->GetWinnerId() == car.GetId()){
-      showMessage("GANASTE");
+      showMessage("GANASTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
     } else {
-      showMessage("PERDISTE");
+      showMessage("PERDISTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
     }
   }
 }
 
-void RaceView::showMessage(std::string message){
+void RaceView::showMessage(std::string message, int x, int y, int width, int height){
   TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  SDL_Rect Message_rect = {0, 0, 70*7, 70};
+  SDL_Rect Message_rect = {x, y, width* (int) message.size(), height};
 
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);

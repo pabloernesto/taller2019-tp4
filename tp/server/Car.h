@@ -75,6 +75,7 @@ class Car : public Contactable{
   bool isDead();
   int GetId();
   bool isBreakOn();
+  int GetLife();
 
 private:
   void DieAndRevive(Track& track);
