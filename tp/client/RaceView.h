@@ -17,7 +17,7 @@ class RaceView {
   RaceProxy* race;
   SDL_Window *window;
   SDL_Renderer *renderer;
-  std::vector<CarView> cars;
+  std::vector<CarView*> cars;
   Camara camara;
   ImageCache imagecache;
   TrackView track;

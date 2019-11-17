@@ -15,7 +15,7 @@ Client::Client() {
     0);
   renderer = SDL_CreateRenderer(window, -1, 0);
   music = Mix_LoadMUS("Sonidos/Race of the Wasp.wav");
-  Mix_PlayMusic( music, -1 );
+  //Mix_PlayMusic( music, -1 );
 }
 
 Client::~Client() {

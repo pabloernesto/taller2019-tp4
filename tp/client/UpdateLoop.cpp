@@ -1,5 +1,5 @@
 #include "UpdateLoop.h"
-
+#include <iostream>
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
 
@@ -15,6 +15,7 @@ void UpdateLoop::Loop() {
   int tick = 0;
 
   while (!quit) {
+
     SDL_RenderClear(renderer);
     view.render(tick);
     if (button_chain) button_chain->render();

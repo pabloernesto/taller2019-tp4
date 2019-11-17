@@ -5,6 +5,8 @@
 
 #define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
+#define ENDSIGNSIZE 70
+#define LIFENUMBERSIZE 20
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
@@ -32,18 +34,18 @@ void RaceView::AddCarView(CarProxy& carProxy){
   } else {
     img_route = MYCARIMAGEROUTE;
   }
-  cars.emplace_back(
+  cars.emplace_back(new CarView(
     imagecache.getImage(img_route),
     imagecache.getImage("Imagenes/explosion.png"),
-    carProxy, camara);
+    carProxy, camara));
 }
 
 void RaceView::renderLife(int life){
-  SDL_Rect r = {10,10,life*20,20};
+  SDL_Rect r = {10,10,life*LIFENUMBERSIZE,LIFENUMBERSIZE};
   SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
   SDL_RenderDrawRect(renderer, &r);
   SDL_RenderFillRect(renderer, &r);
-  showMessage(std::to_string(life), 10, 35, 20, 20);
+  showMessage(std::to_string(life), 10, 35, LIFENUMBERSIZE, LIFENUMBERSIZE);
 }
 
 void RaceView::render(int tick) {
@@ -68,16 +70,16 @@ void RaceView::render(int tick) {
   }
 
   for (auto& car : cars){
-    car.render(tick);
+    car->render(tick);
   }
 
   this->renderLife(car.GetLife());
   
   if (race->Ended()){
     if (race->GetWinnerId() == car.GetId()){
-      showMessage("GANASTE",0,0,70,70);
+      showMessage("GANASTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
     } else {
-      showMessage("PERDISTE",0,0,70,70);
+      showMessage("PERDISTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
     }
   }
 }
