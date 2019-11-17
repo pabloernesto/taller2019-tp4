@@ -20,6 +20,10 @@ end
 
 function decide()
   current_track = find_current_track()
+  if current_track == nil then
+    return 5
+  end
+  
   if  map[current_track][3] == 6 then
     -- Grass piece
     -- I try to go reverse
@@ -72,8 +76,6 @@ function decide()
     end 
   end
   
-  -- In case of error i dont do nothing forward
-  return 7
 end
 
 -- function find_closest_track(current_track):

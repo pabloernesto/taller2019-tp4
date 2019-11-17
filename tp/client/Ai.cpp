@@ -49,6 +49,7 @@ void Ai::run(){
     
     std::cout << "Decision: " << decision << '\n';
     if (decision == 0) {
+      car->BreakOff();
       car->SteerCenter();
       car->GasOn();
     }
