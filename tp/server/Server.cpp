@@ -79,6 +79,9 @@ void Server::Start(){
 }
 
 void Server::Shutdown() {
+  for (auto& game : games) game->Shutdown();
+  for (auto& game : games) game->Join();
+
   this->quit = true;
   this->notified = true;
   this->cond_var.notify_all();
