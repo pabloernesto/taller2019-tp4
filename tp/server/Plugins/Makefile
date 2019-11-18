@@ -1,7 +1,7 @@
 # targets
 #########
 
-target=????
+target=DestroyAllCarsMod.so
 
 # source files
 sources=$(wildcard *.cpp)
@@ -11,7 +11,7 @@ headers=$(wildcard *.h)
 objects=$(patsubst %.cpp, %.o, $(sources))
 
 # server objects
-objects+=$(wildcard ../*.o)
+# objects+=$(wildcard ../*.o)
 
 # common objects
 # objects+=$(wildcard ../../common/*.o)
