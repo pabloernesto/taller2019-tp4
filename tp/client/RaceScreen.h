@@ -18,8 +18,6 @@ public:
   RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId);
   ~RaceScreen();
   GameScreen* start();
-
-  friend class StartRaceButton;
 };
 
 #endif    // RACESCREEN_H_

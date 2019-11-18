@@ -14,7 +14,6 @@ class UpdateLoop {
   RaceProxy* race;
   RaceView& view;
   std::thread t;
-  std::unique_ptr<Button> button_chain;
 
   public:
   std::atomic<bool> quit;
