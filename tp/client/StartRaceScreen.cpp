@@ -21,7 +21,6 @@ GameScreen* StartRaceScreen::start() {
 
 StartRaceScreen::~StartRaceScreen() {
   TTF_CloseFont(font);
-  TTF_Quit();
 }
 
 StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
@@ -29,7 +28,6 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   : GameScreen(w, r), race(race), player_id(player_id), button_chain(),
   next_screen()
 {
-  TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 
   // populate button chain
@@ -42,9 +40,20 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   const int button_h = 40;
   const SDL_Color color = { 255, 255, 255 };
   SDL_Rect area = {
-    x - button_w/2,   y - button_h/2,
+    x/2 - button_w/2,   y - button_h/2,
     button_w,         button_h
   };
+  StartRaceWithAIButton* startAIButton = 
+  new StartRaceWithAIButton(nullptr, w, r, area, "START WITH AI", font, color, this);
+
+  const int button_w = 150;
+  const int button_h = 40;
+  const SDL_Color color = { 255, 255, 255 };
+  SDL_Rect area = {
+    3*x/2 - button_w/2,   y - button_h/2,
+    button_w,         button_h
+  };
+  
   button_chain.reset(
-    new StartRaceButton(nullptr, w, r, area, "START", font, color, this));
+    new StartRaceWithoutAIButton(startAIButton, w, r, area, "START WITHOUT AI", font, color, this));
 }

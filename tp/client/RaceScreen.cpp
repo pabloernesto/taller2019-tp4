@@ -17,9 +17,9 @@ RaceScreen::~RaceScreen(){
   TTF_Quit();
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId)
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool withLua)
   : GameScreen(w, r), race(race), carId(carId), 
-  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font()
+  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font(), withLua(withLua)
 {
   TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
@@ -28,7 +28,6 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
 
 #include <iostream>
 GameScreen* RaceScreen::start() {
-  SDL_Event sdl_event;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
@@ -40,6 +39,29 @@ GameScreen* RaceScreen::start() {
   UpdateLoop loop(renderer, race.get(), view);
   loop.Start();
 
+  if (withLua){
+    startWithLua();
+  } else {
+    startWithoutLua();
+  }
+
+  loop.quit = true;
+  loop.Join();
+
+  race->Shutdown();
+  race->Join();
+
+  if (race->Ended())
+    return new Podium(window, renderer, (race->GetWinnerId() == car->GetId()));
+  return nullptr;
+}
+
+void RaceScreen::startWithLua(){
+
+}
+
+void RaceScreen::startWithoutLua(){
+  SDL_Event sdl_event;
   while (!race->Ended()) {
     SDL_WaitEvent(&sdl_event);
 
@@ -58,14 +80,4 @@ GameScreen* RaceScreen::start() {
       else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOff();
     }
   }
-
-  loop.quit = true;
-  loop.Join();
-
-  race->Shutdown();
-  race->Join();
-
-  if (race->Ended())
-    return new Podium(window, renderer, (race->GetWinnerId() == car->GetId()));
-  return nullptr;
 }

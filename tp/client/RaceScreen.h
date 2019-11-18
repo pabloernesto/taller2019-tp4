@@ -13,9 +13,13 @@ class RaceScreen : public GameScreen {
   int carId;
   Mix_Chunk* startEngineSound;
   TTF_Font* font;
+  bool withLua;
+
+  void startWithLua();
+  void startWithoutLua();
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool withLua);
   ~RaceScreen();
   GameScreen* start();
 };
