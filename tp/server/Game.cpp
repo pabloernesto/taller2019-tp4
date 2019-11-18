@@ -79,7 +79,9 @@ void Game::executeMods(){
       cars_interface.push_back((*it).get());
     }
     for (auto it = this->mods.begin(); it != this->mods.end(); it++){
+      std::cout << "Before the disaster\n";
       (*it)->execute(this->race.get(), cars_interface);
+      std::cout << "After the disaster\n";
     }
     this->frame_counter_mods = 0;
   } else {
@@ -233,6 +235,7 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
       continue;
     }
     std::cout << "Found a library\n";
+    std::cout << "Library name: " << file << "\n";
     shared_lib = dlopen(file.c_str(), RTLD_NOW);
     char* err = dlerror();
     if (!shared_lib){
@@ -243,7 +246,7 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
     
     create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());
-    dlclose(shared_lib); //Puedo cerrar la libreria? O no?
+    //dlclose(shared_lib); //Puedo cerrar la libreria? O no?
     ent = readdir(plugins_dir);
   }
 
