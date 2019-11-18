@@ -126,3 +126,47 @@ bool Race::Ended(){
 int Race::GetIdWinnerCar(){
   return winnerCar->GetId();
 }
+
+void Race::placeModifier(float x, float y, int num){
+  b2Vec2 pos = { x , y};
+  Modifier* mod = this->modif_factory.createModifier(num, this->modif_size);
+  mod->Place(this->world, pos, 0);
+  this->modifiers.emplace_back(mod);
+}
+
+void Race::placeStoneModifier(float x, float y){
+  this->placeModifier(x, y, 0);
+}
+
+void Race::placeBoostModifier(float x, float y){
+  this->placeModifier(x, y, 1);
+}
+
+void Race::placeHealthModifier(float x, float y){
+  this->placeModifier(x, y, 2);
+}
+
+void Race::removeModifiersByType(std::string type){
+  auto it = this->modifiers.begin();
+  while (it != this->modifiers.end()){
+    if ( (*it)->getType() == type){
+      it = this->modifiers.erase(it);
+    } else {
+      it++;
+    }
+  }
+}
+
+void Race::removeModifiers(){
+  this->modifiers.clear();
+}
+
+void Race::removeStoneModifiers(){
+  this->removeModifiersByType("Stone");
+}
+void Race::removeBoostModifiers(){
+  this->removeModifiersByType("Boost");
+}
+void Race::removeHealthModifiers(){
+  this->removeModifiersByType("Health");
+}

@@ -5,11 +5,12 @@
 #include "Track.h"
 #include "Contactable.h"
 #include "Posta.h"
+#include "CarModInterface.h"
 
 class Track;
 class Race;
 
-class Car : public Contactable{
+class Car : public Contactable, public CarModInterface{
   int id;
   b2Body* body;
   bool gas;
@@ -61,12 +62,13 @@ class Car : public Contactable{
   // Called on every step of the simulation to apply external (user) forces
   void Step(Track& track);
 
-  // Methods for modifiers:
-  void restoreLife();
-  void multiplyMaxSpeed(float multiplier, size_t steps);
+  // Methods for modifiers (and CarModInterface):
+  void restoreLife() override;
+  void multiplyMaxSpeed(float multiplier, size_t steps) override;
   void updateMaxSpeedMultiplier();
-  void reduceLife();
+  void reduceLife() override;
   void reduceSpeed(float speed_reduction);
+  bool isDamaged() override;
 
   virtual void Contact(Contactable* contactable);
   virtual void GetContactedBy(Car* car);
