@@ -6,6 +6,7 @@
 #include "RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
+#include <iostream>
 #include <memory>
 #include <string>
 #include <sys/types.h> //For directories
@@ -225,13 +226,13 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   Mod* (*create)();
   void* shared_lib;
   while (ent != NULL){
-    // std::cout << "About to search for plugins\n";
+    std::cout << "About to search for plugins\n";
     std::string file = "./Plugins/" + std::string(ent->d_name);        
     if (file.substr(file.size()- 3) != ".so"){
       ent = readdir(plugins_dir);
       continue;
     }
-    // std::cout << "Found a library\n";
+    std::cout << "Found a library\n";
     shared_lib = dlopen(file.c_str(), RTLD_NOW);
     char* err = dlerror();
     if (!shared_lib){
@@ -242,7 +243,7 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
     
     create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());
-    dlclose(shared_lib);
+    dlclose(shared_lib); //Puedo cerrar la libreria? O no?
     ent = readdir(plugins_dir);
   }
 
