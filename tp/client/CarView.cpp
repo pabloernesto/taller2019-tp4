@@ -9,8 +9,11 @@ CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
     ,motor_sound(Mix_LoadWAV("Sonidos/Engine noise.wav")),
     break_sound(Mix_LoadWAV("Sonidos/skid-piece-fadeinout.wav"))
   {
-    Mix_VolumeChunk(motor_sound, 3);
-    Mix_VolumeChunk(break_sound, 20);
+    if (motor_sound) Mix_VolumeChunk(motor_sound, 3);
+    else std::cerr << "CarView: failed to load motor sound\n";
+
+    if (break_sound) Mix_VolumeChunk(break_sound, 20);
+    else std::cerr << "CarView: failed to load break sound\n";
   }
 
 CarView::~CarView(){
