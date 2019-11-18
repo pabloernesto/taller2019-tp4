@@ -49,7 +49,6 @@ Este proyecto usa [FFmpeg] para la grabación de video. Para esto se instalaron
 las librerias libavutil-dev, libswresample-dev, libavformat-dev, libavcodec-dev 
 y libswscale-dev con:
 `sudo apt install libavutil-dev libswresample-dev libavformat-dev libavcodec-dev libswscale-dev`.
-Los binarios se pueden instalar con el comando `sudo apt install ffmpeg`.
 
 [FFmpeg]: https://www.ffmpeg.org/
 ### Lua
