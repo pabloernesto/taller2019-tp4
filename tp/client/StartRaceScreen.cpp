@@ -36,24 +36,24 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   x /= 2;
   y /= 2;
 
-  const int button_w = 150;
-  const int button_h = 40;
-  const SDL_Color color = { 255, 255, 255 };
-  SDL_Rect area = {
-    x/2 - button_w/2,   y - button_h/2,
-    button_w,         button_h
+  const int buttonAI_w = 150;
+  const int buttonAI_h = 40;
+  const SDL_Color colorAI = { 255, 255, 255 };
+  SDL_Rect areaAI = {
+    x/2 - buttonAI_w/2,   y - buttonAI_h/2,
+    buttonAI_w,         buttonAI_h
   };
   StartRaceWithAIButton* startAIButton = 
-  new StartRaceWithAIButton(nullptr, w, r, area, "START WITH AI", font, color, this);
+  new StartRaceWithAIButton(nullptr, w, r, areaAI, "START WITH AI", font, colorAI, this);
 
-  const int button_w = 150;
-  const int button_h = 40;
-  const SDL_Color color = { 255, 255, 255 };
-  SDL_Rect area = {
-    3*x/2 - button_w/2,   y - button_h/2,
-    button_w,         button_h
+  const int buttonNoAI_w = 150;
+  const int buttonNoAI_h = 40;
+  const SDL_Color colorNoAI = { 255, 255, 255 };
+  SDL_Rect areaNoAI = {
+    3*x/2 - buttonNoAI_w/2,   y - buttonNoAI_h/2,
+    buttonNoAI_w,         buttonNoAI_h
   };
   
   button_chain.reset(
-    new StartRaceWithoutAIButton(startAIButton, w, r, area, "START WITHOUT AI", font, color, this));
+    new StartRaceWithoutAIButton(startAIButton, w, r, areaNoAI, "START WITHOUT AI", font, colorNoAI, this));
 }

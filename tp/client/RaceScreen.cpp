@@ -2,11 +2,13 @@
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
 #include <vector>
-#include "UpdateLoop.h"
 #include "Camara.h"
 #include <iostream>
 #include <math.h>
 #include "Podium.h"
+#include <dlfcn.h>
+#include "Ai.h"
+#include "StartRaceScreen_Buttons.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -14,20 +16,19 @@ static const int HEIGHT = 400;
 RaceScreen::~RaceScreen(){
   Mix_FreeChunk(startEngineSound);
   TTF_CloseFont(font);
-  TTF_Quit();
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool withLua)
-  : GameScreen(w, r), race(race), carId(carId), 
-  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font(), withLua(withLua)
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
+  : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
+  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font()
 {
-  TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   Mix_VolumeChunk(startEngineSound, 10);
 }
 
 #include <iostream>
 GameScreen* RaceScreen::start() {
+  SDL_Event sdl_event;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
@@ -39,10 +40,10 @@ GameScreen* RaceScreen::start() {
   UpdateLoop loop(renderer, race.get(), view);
   loop.Start();
 
-  if (withLua){
-    startWithLua();
+  if (is_Lua){
+    luaLoop(sdl_event, car, loop);
   } else {
-    startWithoutLua();
+    userLoop(sdl_event, car, loop);
   }
 
   loop.quit = true;
@@ -56,13 +57,36 @@ GameScreen* RaceScreen::start() {
   return nullptr;
 }
 
-void RaceScreen::startWithLua(){
+void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 
+  // void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
+  // char* err = dlerror();
+  // if (!shared_lib){
+    // throw std::runtime_error(std::string(err));
+  // }
+  
+  // Ai* (*create)(CarProxy*, RaceProxy*);
+  // void (*destroy)(Ai*);
+  // create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
+  // destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
+  
+  Ai ai(car, this->race.get());
+  ai.Start();
+
+  while (true) {
+    SDL_WaitEvent(&sdl_event);
+    if (sdl_event.type == SDL_QUIT) break;
+  }
+  
+  ai.Shutdown();
+  ai.Join();
+
+  // destroy(ai);   
+  // dlclose(shared_lib);
 }
 
-void RaceScreen::startWithoutLua(){
-  SDL_Event sdl_event;
-  while (!race->Ended()) {
+void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
+  while (true) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;

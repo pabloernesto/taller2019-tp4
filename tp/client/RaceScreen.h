@@ -7,19 +7,21 @@
 #include "GameScreen.h"
 #include "RaceProxy.h"
 #include "RaceView.h"
+#include "UpdateLoop.h"
 
 class RaceScreen : public GameScreen {
   std::unique_ptr<RaceProxy> race;
   int carId;
+  bool is_Lua;
+
   Mix_Chunk* startEngineSound;
   TTF_Font* font;
-  bool withLua;
-
-  void startWithLua();
-  void startWithoutLua();
+  
+  void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
+  void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
 
 public:
-  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool withLua);
+  RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua);
   ~RaceScreen();
   GameScreen* start();
 };

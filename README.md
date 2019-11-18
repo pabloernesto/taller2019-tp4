@@ -49,3 +49,7 @@ Este proyecto usa [FFmpeg] para la grabación de video.
 Los binarios se pueden instalar con el comando `sudo apt install ffmpeg`.
 
 [FFmpeg]: https://www.ffmpeg.org/
+### Lua
+
+Este proyecto usa un interprete de Lua embebido en el programa cliente.
+Los binarios se pueden instalar desde apt con `sudo apt install liblua5.3-dev`

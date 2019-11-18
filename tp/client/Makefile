@@ -1,7 +1,11 @@
+# Recursive makes are intolerable otherwise
+MAKEFLAGS += --no-print-directory
+
 # targets
 #########
 
 target=client.exe
+TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
 
 # source files
 sources=$(wildcard *.cpp)
@@ -55,6 +59,13 @@ LDFLAGS += -lSDL2_mixer
 # Linkea a Box2D
 LDFLAGS += -lBox2D
 
+# Linkea librerias dinamicas
+LDFLAGS += -ldl
+
+#Lua 
+
+LDFLAGS += -llua5.3
+
 # reglas
 ########
 
@@ -75,3 +86,4 @@ valgrind: all
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
+

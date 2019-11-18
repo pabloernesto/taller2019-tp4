@@ -20,7 +20,8 @@ public:
     int player_id);
   ~StartRaceScreen();
 
-  friend class StartRaceButton;
+  friend class StartRaceWithAIButton;
+  friend class StartRaceWithoutAIButton;
 };
 
 #endif  // STARTRACESCREEN_H_
