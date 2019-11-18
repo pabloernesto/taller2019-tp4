@@ -10,8 +10,10 @@
 #include "ContactListener.h"
 #include "Posta.h"
 #include "ModifierFactory.h"
+#include "Plugins/RaceModInterface.h"
+#include <string>
 
-class Race {
+class Race : public RaceModInterface {
   b2World world;
   std::vector<std::unique_ptr<Car>> cars;
   std::unique_ptr<std::vector<std::unique_ptr<Posta>>> postas;
@@ -42,9 +44,21 @@ public:
   int GetIdWinnerCar();
   Race();
 
+  // RaceModInterface
+  // Modifiers
+  virtual void placeRandomModifier(float x, float y) override; //This one is used in internal methods
+  virtual void placeStoneModifier(float x, float y) override;
+  virtual void placeBoostModifier(float x, float y) override;
+  virtual void placeHealthModifier(float x, float y) override;
+  virtual void removeModifiers() override;
+  virtual void removeStoneModifiers() override;
+  virtual void removeBoostModifiers() override;
+  virtual void removeHealthModifiers() override;
+
 private:
+  void placeModifier(float x, float y, int num);
+  void removeModifiersByType(std::string type);
   void placeModifiers();
-  void placeRandomModifier(float x, float y);
   void removeUsedModifiers();
 };
 

@@ -303,6 +303,10 @@ void Car::DieAndRevive(Track& track){
   }
 }
 
+bool Car::isDamaged(){
+  return this->life < configuration.LIFE;
+}
+
 bool Car::isDead(){
   return dead;
 }

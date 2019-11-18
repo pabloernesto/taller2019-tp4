@@ -1,11 +1,7 @@
-MAKEFLAGS += --no-print-directory
-
 # targets
 #########
 
-target=server.exe
-
-TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
+target=DestroyAllCarsMod.so
 
 # source files
 sources=$(wildcard *.cpp)
@@ -14,8 +10,11 @@ headers=$(wildcard *.h)
 # intermediate objects
 objects=$(patsubst %.cpp, %.o, $(sources))
 
+# server objects
+# objects+=$(wildcard ../*.o)
+
 # common objects
-objects+=$(wildcard ../common/*.o)
+# objects+=$(wildcard ../../common/*.o)
 
 # opciones de compilador
 ########################
@@ -32,29 +31,41 @@ CXXFLAGS += -ggdb -DDEBUG -fno-inline
 # Estandar de C++ a usar
 CXXFLAGS += -std=c++11
 
+# Opciones para libreria dinamica
+CXXFLAGS += -fPIC
+
 # opciones del enlazador
 ########################
 
 # Usar el enlazador de C++
 LD = $(CXX)
 
+# Opciones para libreria dinamica
+LDFLAGS += -shared
+
 # Permite el uso de pthread en C y C++.
 # Permite el uso de built-in threads en C++.
-LDFLAGS += -pthread
+# LDFLAGS += -pthread
 
 # LDFLAGS += -static
 
 # Linkea a SDL2
-LDFLAGS += $(shell sdl2-config --cflags --libs)
+# LDFLAGS += $(shell sdl2-config --cflags --libs)
 
 # Linkea a SDL_image
-LDFLAGS += -lSDL2_image
+# LDFLAGS += -lSDL2_image
+
+# Linkea a SDL_ttf
+# LDFLAGS += -lSDL2_ttf
+
+# Linkea a SDL_mixer
+# LDFLAGS += -lSDL2_mixer
 
 # Linkea a Box2D
-LDFLAGS += -lBox2D
+# LDFLAGS += -lBox2D
 
-# Para poder levantar librerias dinamicas
-LDFLAGS += -ldl
+# Linkea librerias dinamicas
+# LDFLAGS += -ldl
 
 # reglas
 ########
@@ -62,16 +73,10 @@ LDFLAGS += -ldl
 # targets
 .PHONY: all
 all: $(target)
-	$(MAKE) --directory=Plugins $(TARGET)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
 
-.PHONY: run
-run: all
-	./$(target)
-
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
-	$(MAKE) --directory=Plugins $(TARGET)

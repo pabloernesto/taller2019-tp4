@@ -6,14 +6,20 @@
 #include "RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
+// #include <iostream>
 #include <memory>
-
+#include <string>
+#include <sys/types.h> //For directories
+#include <dirent.h> //For directories
+#include <dlfcn.h>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
+static const int MODS_TIME_SEC = 5;
+static const int MODS_FRAMES = MODS_TIME_SEC * FRAMERATE;
 
 void Game::Loop() {
   const auto rate = std::chrono::milliseconds(1000 / FRAMERATE);
@@ -28,6 +34,8 @@ void Game::Loop() {
       handler_chain->Handle(&request);
       to_process.pop();
     }
+
+    this->executeMods();
 
     race->Step();
 
@@ -58,9 +66,34 @@ void Game::Loop() {
     time1 += rate;
     std::this_thread::sleep_for(rest);
   }
+  this->closeModsLibraries();
   running = false;
   this->reconnectPlayersToServerRoom();
   this->server.notify();
+}
+
+void Game::closeModsLibraries(){
+  for (auto it = this->mods_shared_libs.begin(); it != this->mods_shared_libs.end(); it++){
+    dlclose((*it));
+  }
+}
+
+void Game::executeMods(){
+  
+  if (this->frame_counter_mods == MODS_FRAMES ){
+    std::vector<CarModInterface*> cars_interface;
+    for (auto it = this->race->GetCars().begin(); it != this->race->GetCars().end(); it++){
+      cars_interface.push_back((*it).get());
+    }
+    for (auto it = this->mods.begin(); it != this->mods.end(); it++){
+      // std::cout << "Before the disaster\n";
+      (*it)->execute(this->race.get(), cars_interface);
+      // std::cout << "After the disaster\n";
+    }
+    this->frame_counter_mods = 0;
+  } else {
+    this->frame_counter_mods += 1;
+  }
 }
 
 void Game::reconnectPlayersToServerRoom(){
@@ -191,7 +224,39 @@ void Game::Join() {
 Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   : race(RaceFabric::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
-  running(false), handler_chain(), mutex(mutex), server(server), id(id)
+  running(false), handler_chain(), mutex(mutex), server(server), 
+  frame_counter_mods(0), id(id)
 {
   handler_chain.reset(new StartGameController(NULL, (*this)));
+  
+  // Load plugins
+  DIR* plugins_dir = opendir("Plugins");
+  struct dirent* ent = readdir(plugins_dir);
+  Mod* (*create)();
+  void* shared_lib;
+  while (ent != NULL){
+    // std::cout << "About to search for plugins\n";
+    std::string file = "./Plugins/" + std::string(ent->d_name);        
+    if (file.substr(file.size()- 3) != ".so"){
+      ent = readdir(plugins_dir);
+      continue;
+    }
+    // std::cout << "Found a library\n";
+    // std::cout << "Library name: " << file << "\n";
+    shared_lib = dlopen(file.c_str(), RTLD_NOW);
+    char* err = dlerror();
+    if (!shared_lib){
+      throw std::runtime_error(std::string(err));
+    }
+    // Destroy hace falta o no...?
+    // Mod* (*destroy)(Mod*)
+    
+    create = (Mod* (*)())dlsym(shared_lib, "create");
+    this->mods.emplace_back(create());
+    this->mods_shared_libs.push_back(shared_lib);
+    ent = readdir(plugins_dir);
+  }
+
+  closedir(plugins_dir);
+  
 }
