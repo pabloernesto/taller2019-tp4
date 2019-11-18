@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 #include "client.h"
 #include "inicio.h"
 
@@ -16,9 +17,11 @@ Client::Client() {
   renderer = SDL_CreateRenderer(window, -1, 0);
   music = Mix_LoadMUS("Sonidos/Race of the Wasp.wav");
   Mix_PlayMusic( music, -1 );
+  TTF_Init();
 }
 
 Client::~Client() {
+  TTF_Quit();
   Mix_FreeMusic(music);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
@@ -27,6 +30,10 @@ Client::~Client() {
 
 void Client::start() {
   screen.reset(new Inicio(window, renderer));
-  while (auto new_screen = screen->start())
-    screen.reset(new_screen);
+  try {
+    while (auto new_screen = screen->start())
+      screen.reset(new_screen);
+  } catch (std::runtime_error& e){
+    SDL_ShowSimpleMessageBox(0, "Error", e.what(), window);
+  }
 }

@@ -2,8 +2,8 @@
 #include "image.h"
 #include "ChooseRaceScreen.h"
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 600
+#define HEIGHT 400
 #define FONDO "Imagenes/Micro-Machines.bmp"
 
 Inicio::Inicio(SDL_Window* w, SDL_Renderer* r) : GameScreen(w, r) {

@@ -5,7 +5,6 @@
 
 #define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
-#define ENDSIGNSIZE 70
 #define LIFENUMBERSIZE 20
 #define LIFEPOSX 10
 #define LIFEPOSY 10
@@ -23,12 +22,9 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   for (auto it = base_cars.begin(); it != base_cars.end(); it++){
     this->AddCarView((**it));
   }
-  TTF_Init();
 }
 
-RaceView::~RaceView(){
-  TTF_Quit();
-}
+RaceView::~RaceView(){}
 
 void RaceView::AddCarView(CarProxy& carProxy){
   std::string img_route;
@@ -44,10 +40,6 @@ void RaceView::AddCarView(CarProxy& carProxy){
 }
 
 void RaceView::renderLife(int life){
-  /*SDL_Rect r = {10,10,life*LIFENUMBERSIZE,LIFENUMBERSIZE};
-  SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-  SDL_RenderDrawRect(renderer, &r);
-  SDL_RenderFillRect(renderer, &r);*/
   showMessage("LIFE: " + std::to_string(life), LIFEPOSX, LIFEPOSY,
     LIFENUMBERSIZE, LIFENUMBERSIZE);
 }
@@ -78,14 +70,6 @@ void RaceView::render(int tick) {
   }
 
   this->renderLife(car.GetLife());
-  
-  if (race->Ended()){
-    if (race->GetWinnerId() == car.GetId()){
-      showMessage("GANASTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
-    } else {
-      showMessage("PERDISTE",0,0,ENDSIGNSIZE,ENDSIGNSIZE);
-    }
-  }
 }
 
 void RaceView::showMessage(std::string message, int x, int y, int width, int height){

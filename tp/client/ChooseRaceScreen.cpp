@@ -10,20 +10,18 @@
 #define TITLESIZEPERLETTER 35
 #define BUTTONSIZEPERLETTER 27
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 600
+#define HEIGHT 400
 
 ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
   next_screen(), connection("localhost", "1234")
 {
-  TTF_Init();
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 }
 
 ChooseRaceScreen::~ChooseRaceScreen(){
   TTF_CloseFont(font);
-  TTF_Quit();
 }
 
 void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* race_list){
@@ -52,7 +50,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
     int id_game = game["id"].GetInt();
     std::string text = "Game " + std::to_string(id_game);
     SDL_Rect area = {
-      x - button_w/2,   y + button_h/2,
+      x - button_w/2,   y - button_h/2,
       button_w,         button_h
     };
     button_chain.reset(new JoinButton(
@@ -62,7 +60,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   }
 
   SDL_Rect area = {
-    x - button_w/2,   y + button_h/2,
+    x - button_w/2,   y - button_h/2,
     button_w,         button_h
   };
   button_chain.reset(new CreateButton(
@@ -82,9 +80,13 @@ void ChooseRaceScreen::DrawWindow(){
 }
 
 GameScreen* ChooseRaceScreen::start(){
+  int w;
+  int h;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
-  SDL_RenderClear(renderer);
+  SDL_GL_GetDrawableSize(window, &w, &h);
+  SDL_RenderSetLogicalSize(renderer, w, h);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
   SDL_Event sdl_event;
 
   rapidjson::Document race_list;

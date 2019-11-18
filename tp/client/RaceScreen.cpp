@@ -2,27 +2,25 @@
 #include <SDL2/SDL_ttf.h>
 #include "RaceScreen.h"
 #include <vector>
-#include "UpdateLoop.h"
 #include "Camara.h"
 #include <iostream>
 #include <math.h>
-#include "RaceScreen_Buttons.h"
+#include "Podium.h"
+#include <dlfcn.h>
+#include "Ai.h"
+#include "StartRaceScreen_Buttons.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
 
 RaceScreen::~RaceScreen(){
   Mix_FreeChunk(startEngineSound);
-  TTF_CloseFont(font);
-  TTF_Quit();
 }
 
-RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId)
-  : GameScreen(w, r), race(race), carId(carId), 
-  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font()
+RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
+  : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
+  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav"))
 {
-  TTF_Init();
-  font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   Mix_VolumeChunk(startEngineSound, 10);
 }
 
@@ -38,21 +36,55 @@ GameScreen* RaceScreen::start() {
 
   RaceView view(this->window, this->renderer, race.get(), *car);
   UpdateLoop loop(renderer, race.get(), view);
-  // Add start button to loop
-  // TODO: destroy buttons once they are used
-  {
-    SDL_Point screen_center = { WIDTH/2, HEIGHT/2 };
-    SDL_Rect area = {
-      screen_center.x - 100/2,  screen_center.y + 40/2,
-      100,                      40
-    };
-    SDL_Color color = { 255, 255, 255 };
-    loop.button_chain.reset(new StartRaceButton(
-      nullptr, window, renderer, area, "START", font, color, this));
-  }
   loop.Start();
 
-  while (true) {
+  if (is_Lua){
+    luaLoop(sdl_event, car, loop);
+  } else {
+    userLoop(sdl_event, car, loop);
+  }
+
+  loop.quit = true;
+  loop.Join();
+
+  race->Shutdown();
+  race->Join();
+
+  if (race->Ended())
+    return new Podium(window, renderer, (race->GetWinnerId() == car->GetId()));
+  return nullptr;
+}
+
+void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
+
+  // void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
+  // char* err = dlerror();
+  // if (!shared_lib){
+    // throw std::runtime_error(std::string(err));
+  // }
+  
+  // Ai* (*create)(CarProxy*, RaceProxy*);
+  // void (*destroy)(Ai*);
+  // create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
+  // destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
+  
+  Ai ai(car, this->race.get());
+  ai.Start();
+
+  while (!race->Ended()) {
+    SDL_WaitEvent(&sdl_event);
+    if (sdl_event.type == SDL_QUIT) break;
+  }
+  
+  ai.Shutdown();
+  ai.Join();
+
+  // destroy(ai);   
+  // dlclose(shared_lib);
+}
+
+void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
+  while (!race->Ended()) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
@@ -68,17 +100,6 @@ GameScreen* RaceScreen::start() {
       else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerCenter();
       else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOff();
       else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOff();
-    
-    } else if (sdl_event.type == SDL_MOUSEBUTTONDOWN) {
-      if (loop.button_chain) loop.button_chain->Handle(&sdl_event);
     }
   }
-
-  loop.quit = true;
-  loop.Join();
-
-  race->Shutdown();
-  race->Join();
-
-  return nullptr;
 }

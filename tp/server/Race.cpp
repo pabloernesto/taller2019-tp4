@@ -81,7 +81,7 @@ Car& Race::AddCar(float x, float y, int id) {
 Car& Race::AddNewCarToRace(){
   b2Vec2 where;
   if (cars.size() == 0 ){
-    where = { 0 , -20 };
+    where = { 5 , -25 };
     //WARNING: HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   } else {
     where = cars.back()->GetPosition();

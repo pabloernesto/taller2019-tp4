@@ -30,6 +30,7 @@ private:
 
   bool ended;
   int winner_id;
+  std::mutex end_mtx;
 
   void UpdateLoop();
   CarProxy* GetCarWithId(int id);

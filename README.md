@@ -45,7 +45,13 @@ Los binarios se pueden instalar de las siguientes formas:
 
 ### FFmpeg
 
-Este proyecto usa [FFmpeg] para la grabación de video. 
-Los binarios se pueden instalar con el comando `sudo apt install ffmpeg`.
+Este proyecto usa [FFmpeg] para la grabación de video. Para esto se instalaron
+las librerias libavutil-dev, libswresample-dev, libavformat-dev, libavcodec-dev 
+y libswscale-dev con:
+`sudo apt install libavutil-dev libswresample-dev libavformat-dev libavcodec-dev libswscale-dev`.
 
 [FFmpeg]: https://www.ffmpeg.org/
+### Lua
+
+Este proyecto usa un interprete de Lua embebido en el programa cliente.
+Los binarios se pueden instalar desde apt con `sudo apt install liblua5.3-dev`
