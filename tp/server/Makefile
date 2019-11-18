@@ -1,7 +1,11 @@
+MAKEFLAGS += --no-print-directory
+
 # targets
 #########
 
 target=server.exe
+
+TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
 
 # source files
 sources=$(wildcard *.cpp)
@@ -58,6 +62,7 @@ LDFLAGS += -ldl
 # targets
 .PHONY: all
 all: $(target)
+	$(MAKE) --directory=Plugins $(TARGET)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)
@@ -69,3 +74,4 @@ run: all
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
+	$(MAKE) --directory=Plugins $(TARGET)
