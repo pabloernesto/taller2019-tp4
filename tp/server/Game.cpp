@@ -73,7 +73,7 @@ void Game::Loop() {
 }
 
 void Game::closeModsLibraries(){
-  for (auto it = this->mods_shared_libs.begin(); this->mods_shared_libs.end(); it++){
+  for (auto it = this->mods_shared_libs.begin(); it != this->mods_shared_libs.end(); it++){
     dlclose((*it));
   }
 }
@@ -253,7 +253,6 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
     
     create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());
-    //dlclose(shared_lib); //Puedo cerrar la libreria? O no?
     this->mods_shared_libs.push_back(shared_lib);
     ent = readdir(plugins_dir);
   }
