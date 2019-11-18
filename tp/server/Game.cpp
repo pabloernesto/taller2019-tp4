@@ -71,9 +71,14 @@ void Game::Loop() {
 }
 
 void Game::executeMods(){
+  
   if (this->frame_counter_mods == MODS_FRAMES ){
+    std::vector<CarModInterface*> cars_interface;
+    for (auto it = this->race->GetCars().begin(); it != this->race->GetCars().end(); it++){
+      cars_interface.push_back((*it).get());
+    }
     for (auto it = this->mods.begin(); it != this->mods.end(); it++){
-      (*it)->execute(this->race.get());
+      (*it)->execute(this->race.get(), cars_interface);
     }
     this->frame_counter_mods = 0;
   } else {
@@ -235,7 +240,7 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
     // Destroy hace falta o no...?
     // Mod* (*destroy)(Mod*)
     
-    create = (Mod* (*)())dlsym(shared_lib, "createMod");
+    create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());
     dlclose(shared_lib);
     ent = readdir(plugins_dir);
