@@ -32,12 +32,14 @@ class Game {
   Server& server;
   std::vector<std::unique_ptr<Mod>> mods;
   int frame_counter_mods;
+  std::vector<void*> mods_shared_libs;
 
   void Loop();
   void preGameLoop();
   void reconnectPlayersToServerRoom();
   void Broadcast(std::string& msg);
   void executeMods();
+  void closeModsLibraries();
 
 public:
   int id;

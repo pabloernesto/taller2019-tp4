@@ -6,7 +6,7 @@
 #include "RaceFabric.h"
 #include "CarController.h"
 #include "StartGameController.h"
-#include <iostream>
+// #include <iostream>
 #include <memory>
 #include <string>
 #include <sys/types.h> //For directories
@@ -66,9 +66,16 @@ void Game::Loop() {
     time1 += rate;
     std::this_thread::sleep_for(rest);
   }
+  this->closeModsLibraries();
   running = false;
   this->reconnectPlayersToServerRoom();
   this->server.notify();
+}
+
+void Game::closeModsLibraries(){
+  for (auto it = this->mods_shared_libs.begin(); this->mods_shared_libs.end(); it++){
+    dlclose((*it));
+  }
 }
 
 void Game::executeMods(){
@@ -79,9 +86,9 @@ void Game::executeMods(){
       cars_interface.push_back((*it).get());
     }
     for (auto it = this->mods.begin(); it != this->mods.end(); it++){
-      std::cout << "Before the disaster\n";
+      // std::cout << "Before the disaster\n";
       (*it)->execute(this->race.get(), cars_interface);
-      std::cout << "After the disaster\n";
+      // std::cout << "After the disaster\n";
     }
     this->frame_counter_mods = 0;
   } else {
@@ -228,14 +235,14 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   Mod* (*create)();
   void* shared_lib;
   while (ent != NULL){
-    std::cout << "About to search for plugins\n";
+    // std::cout << "About to search for plugins\n";
     std::string file = "./Plugins/" + std::string(ent->d_name);        
     if (file.substr(file.size()- 3) != ".so"){
       ent = readdir(plugins_dir);
       continue;
     }
-    std::cout << "Found a library\n";
-    std::cout << "Library name: " << file << "\n";
+    // std::cout << "Found a library\n";
+    // std::cout << "Library name: " << file << "\n";
     shared_lib = dlopen(file.c_str(), RTLD_NOW);
     char* err = dlerror();
     if (!shared_lib){
@@ -247,6 +254,7 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
     create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());
     //dlclose(shared_lib); //Puedo cerrar la libreria? O no?
+    this->mods_shared_libs.push_back(shared_lib);
     ent = readdir(plugins_dir);
   }
 
