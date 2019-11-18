@@ -5,7 +5,7 @@
 #include "Track.h"
 #include "Contactable.h"
 #include "Posta.h"
-#include "CarModInterface.h"
+#include "Plugins/CarModInterface.h"
 
 class Track;
 class Race;

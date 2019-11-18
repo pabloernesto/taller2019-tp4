@@ -10,7 +10,7 @@
 #include "ContactListener.h"
 #include "Posta.h"
 #include "ModifierFactory.h"
-#include "RaceModInterface.h"
+#include "Plugins/RaceModInterface.h"
 #include <string>
 
 class Race : public RaceModInterface {

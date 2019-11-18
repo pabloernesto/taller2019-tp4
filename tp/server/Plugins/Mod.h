@@ -1,7 +1,7 @@
 #ifndef _MOD_H_
 #define _MOD_H_
-#include "../RaceModInterface.h"
-#include "../CarModInterface.h"
+#include "RaceModInterface.h"
+#include "CarModInterface.h"
 #include <vector>
 
 class Mod {
