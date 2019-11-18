@@ -8,7 +8,6 @@
 #include <math.h>
 #include "RaceScreen_Buttons.h"
 #include "Podium.h"
-#include "ChooseRaceScreen.h"
 
 static const int WIDTH = 600;
 static const int HEIGHT = 400;
@@ -82,5 +81,7 @@ GameScreen* RaceScreen::start() {
   race->Shutdown();
   race->Join();
 
-  return new ChooseRaceScreen(window, renderer);
+  if (race->Ended())
+    return new Podium(window, renderer, (race->GetWinnerId() == car->GetId()));
+  return nullptr;
 }

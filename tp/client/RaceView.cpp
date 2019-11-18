@@ -22,12 +22,9 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   for (auto it = base_cars.begin(); it != base_cars.end(); it++){
     this->AddCarView((**it));
   }
-  TTF_Init();
 }
 
-RaceView::~RaceView(){
-  TTF_Quit();
-}
+RaceView::~RaceView(){}
 
 void RaceView::AddCarView(CarProxy& carProxy){
   std::string img_route;

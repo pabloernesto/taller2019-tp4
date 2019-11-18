@@ -7,7 +7,7 @@ class Podium : public GameScreen{
 private:
   bool winner;
 
-  void showMessage(std::string message, int x, int y, int width, int height);
+  void showMessage(std::string message, int size, int x, int y);
 public:
   Podium(SDL_Window *w, SDL_Renderer *r, bool winner);
   GameScreen* start();
