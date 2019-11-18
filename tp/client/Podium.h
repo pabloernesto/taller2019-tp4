@@ -9,6 +9,7 @@ private:
 
   void showMessage(std::string message, int size, int x, int y);
 public:
+  GameScreen* next_screen;
   Podium(SDL_Window *w, SDL_Renderer *r, bool winner);
   GameScreen* start();
 };
