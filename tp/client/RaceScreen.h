@@ -15,7 +15,6 @@ class RaceScreen : public GameScreen {
   bool is_Lua;
 
   Mix_Chunk* startEngineSound;
-  TTF_Font* font;
   
   void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
   void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);

@@ -15,14 +15,12 @@ static const int HEIGHT = 400;
 
 RaceScreen::~RaceScreen(){
   Mix_FreeChunk(startEngineSound);
-  TTF_CloseFont(font);
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
   : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
-  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav")), font()
+  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav"))
 {
-  font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   Mix_VolumeChunk(startEngineSound, 10);
 }
 
