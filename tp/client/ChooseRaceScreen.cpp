@@ -50,7 +50,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
     int id_game = game["id"].GetInt();
     std::string text = "Game " + std::to_string(id_game);
     SDL_Rect area = {
-      x - button_w/2,   y + button_h/2,
+      x - button_w/2,   y - button_h/2,
       button_w,         button_h
     };
     button_chain.reset(new JoinButton(
@@ -60,7 +60,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   }
 
   SDL_Rect area = {
-    x - button_w/2,   y + button_h/2,
+    x - button_w/2,   y - button_h/2,
     button_w,         button_h
   };
   button_chain.reset(new CreateButton(
