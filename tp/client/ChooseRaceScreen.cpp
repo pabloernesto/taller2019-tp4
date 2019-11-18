@@ -21,7 +21,8 @@ ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
 }
 
 ChooseRaceScreen::~ChooseRaceScreen(){
-  TTF_CloseFont(font);
+  // NOTE: closing the font results on a segfault, why?
+  // TTF_CloseFont(font);
 }
 
 void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* race_list){
