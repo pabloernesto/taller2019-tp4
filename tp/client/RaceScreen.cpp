@@ -73,7 +73,7 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
   Ai ai(car, this->race.get());
   ai.Start();
 
-  while (true) {
+  while (!race->Ended()) {
     SDL_WaitEvent(&sdl_event);
     if (sdl_event.type == SDL_QUIT) break;
   }
@@ -86,7 +86,7 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 }
 
 void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
-  while (true) {
+  while (!race->Ended()) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
