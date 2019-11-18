@@ -21,7 +21,8 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
   : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
   startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav"))
 {
-  Mix_VolumeChunk(startEngineSound, 10);
+  if (startEngineSound) Mix_VolumeChunk(startEngineSound, 10);
+  else std::cerr << "RaceScreen: failed to load start engine sound\n";
 }
 
 #include <iostream>

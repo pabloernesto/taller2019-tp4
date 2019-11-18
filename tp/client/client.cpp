@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "client.h"
 #include "inicio.h"
+#include <iostream>
 
 Client::Client() {
   SDL_Init(SDL_INIT_EVERYTHING);
@@ -15,8 +16,11 @@ Client::Client() {
     100, 100,
     SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, 0);
+
   music = Mix_LoadMUS("Sonidos/Race of the Wasp.wav");
-  Mix_PlayMusic( music, -1 );
+  if (music) Mix_PlayMusic( music, -1 );
+  else std::cerr << "Client: failed to load background music\n";
+
   TTF_Init();
 }
 
