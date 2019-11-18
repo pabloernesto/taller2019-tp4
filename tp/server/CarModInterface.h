@@ -1,5 +1,6 @@
 #ifndef _CARMODINTERFACE_H_
 #define _CARMODINTERFACE_H_
+#include <stdlib.h>
 
 class CarModInterface {
   
