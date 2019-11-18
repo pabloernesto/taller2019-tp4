@@ -31,10 +31,9 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 
   // populate button chain
-  int x, y;
-  SDL_GetWindowSize(window, &x, &y);
-  x /= 2;
-  y /= 2;
+  int
+    x = 600 / 2,
+    y = 400 / 2;
 
   const int buttonAI_w = 150;
   const int buttonAI_h = 40;

@@ -105,6 +105,10 @@ GameScreen* ChooseRaceScreen::start(){
     // NOTE: Handle() may alter ChooseRaceScreen::next_screen
     if (sdl_event.type == SDL_MOUSEBUTTONDOWN)
       button_chain->Handle(&sdl_event);
+
+    SDL_RenderClear(renderer);
+    DrawWindow();
+    SDL_RenderPresent(renderer);
   }
 
   return next_screen;
