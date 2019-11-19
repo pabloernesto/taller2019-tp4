@@ -20,10 +20,10 @@ bool RaceButton::OnHandle(void* t) {
   }
   
   // HANDLE: "error":"Game is not available anymore"
-  rapidjson::StringBuffer buffer;
-  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-  d.Accept(writer);
-  std::cout << std::string(buffer.GetString()) << '\n';
+  if (d.HasMember("error")){
+    SDL_ShowSimpleMessageBox(0, "Error", d["error"].GetString(), window);
+    return false;
+  }
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
