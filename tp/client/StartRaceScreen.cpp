@@ -23,8 +23,10 @@ StartRaceScreen::~StartRaceScreen() {
   // NOTE: closing the font results on a segfault, why?
   // TTF_CloseFont(font);
 
-  race->Shutdown();
-  race->Join();
+  if (race) {
+    race->Shutdown();
+    race->Join();
+  }
 }
 
 StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
