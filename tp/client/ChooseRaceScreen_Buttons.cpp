@@ -5,6 +5,9 @@
 #include "RaceProxy.h"
 #include <stdexcept>  // runtime_error
 #include <iostream>
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 
 bool RaceButton::OnHandle(void* t) {
   // Create the game
@@ -15,6 +18,12 @@ bool RaceButton::OnHandle(void* t) {
     d.Parse(data);
     delete[] data;
   }
+  
+  // HANDLE: "error":"Game is not available anymore"
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
+  std::cout << std::string(buffer.GetString()) << '\n';
 
   // Build the race
   RaceProxy* proxy = new RaceProxy(d["track"], std::move(context->connection));
