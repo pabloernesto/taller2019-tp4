@@ -10,7 +10,7 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
     ; // tirar un error
   std::string reqtype = req["type"].GetString();
 
-  if (reqtype == "l") ListGames();
+  if (reqtype == "l") ListAvailableGames();
   else if (reqtype == "j")
     try
       { JoinGame(req["id"].GetInt()); }
@@ -19,8 +19,8 @@ void ServerRoom::HandleRequest(rapidjson::Document& req) {
   else if (reqtype == "c") CreateGame();
 }
 
-void ServerRoom::ListGames() {
-  auto&& json = ToJSON(server.GetGames());
+void ServerRoom::ListAvailableGames() {
+  auto&& json = ToJSON(server.GetAvailableGames());
   client.GetOutgoingQueue().push(std::move(json));
 }
 
