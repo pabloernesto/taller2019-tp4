@@ -26,6 +26,9 @@ class Car : public Contactable, public CarModInterface{
   float max_speed_multiplier;
   float speed_reducer;
   size_t step_counter_red_speed;
+  float angular_vel_modif;
+  size_t step_counter_ang_velocity;
+
   std::unique_ptr<Posta> lastPosta;
   bool dead;
   Race* race;
@@ -57,6 +60,7 @@ class Car : public Contactable, public CarModInterface{
   const b2Vec2& GetSize();
   void updateCounter(size_t value);
   void updateMaxSpeed();
+  void updateAngularVelocity();
   void setCounter(size_t value);
   bool isGoingForward();
   // Called on every step of the simulation to apply external (user) forces
@@ -65,6 +69,7 @@ class Car : public Contactable, public CarModInterface{
   // Methods for modifiers (and CarModInterface):
   void restoreLife() override;
   void multiplyMaxSpeed(float multiplier, size_t steps) override;
+  void incrementAngularVelocity(float amount, size_t steps);
   void updateMaxSpeedMultiplier();
   void reduceLife() override;
   void reduceSpeed(float speed_reduction);

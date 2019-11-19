@@ -58,22 +58,18 @@ void RaceProxy::UpdateRace(rapidjson::Document& msg){
 void RaceProxy::UpdateLoop() {
   while (true) {
     std::string str;
-    if (!ec.GetIncomingQueue().trypop(&str))
-      break;
+    if (!ec.GetIncomingQueue().trypop(&str)) break;
+
     rapidjson::Document msg;
     msg.Parse(str.c_str());
+    if (msg.HasMember("error")) break;
 
-    if (msg.HasMember("error")) {
-      throw std::runtime_error(msg["error"].GetString());
-    }else if (msg.HasMember("type")) {
-      if (std::string(msg["type"].GetString()) == "car") {
-        UpdateCar(msg);
-      } else if (std::string(msg["type"].GetString()) == "modifier") {
-        UpdateModifiers(msg);
-      } else if (std::string(msg["type"].GetString()) == "race") {
-        UpdateRace(msg);
-      }
-    }
+    if (!msg.HasMember("type")) continue;
+    std::string type(msg["type"].GetString());
+  
+    if (type == "car") UpdateCar(msg);
+    else if (type == "modifier") UpdateModifiers(msg);
+    else if (type == "race") UpdateRace(msg);
   }
 }
 

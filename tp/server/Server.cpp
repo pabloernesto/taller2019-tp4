@@ -26,6 +26,17 @@ std::vector<std::unique_ptr<Game>>& Server::GetGames() {
   return games;
 }
 
+std::vector<Game*> Server::GetAvailableGames(){
+  // Race condition: what if a game is removed while iterating the vector?
+  std::vector<Game*> v;
+  for (auto it = this->games.begin(); it != this->games.end(); it++){
+    if ((*it)->isOnPreGameLoop()){
+      v.push_back((*it).get());
+    }
+  }
+  return v;
+}
+
 void Server::collectorLoop(){
   std::unique_lock<std::mutex> lock(this->mutex);
   while (!this->quit){

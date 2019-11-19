@@ -11,8 +11,9 @@ Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
   life(configuration.LIFE), max_speed(configuration.MAX_SPEED), angular_velocity(0), step_counter(0),
   step_counter_death(0), step_counter_max_speed_mult(0),
-  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), lastPosta(new Posta(-1, {0,0},0)),
-  dead(false), race(race), laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT)
+  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), angular_vel_modif(0), 
+  step_counter_ang_velocity(0),lastPosta(new Posta(-1, {0,0},0)), dead(false), race(race), 
+  laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT)
 {}
 
 void Car::GasOn() {
@@ -64,11 +65,13 @@ void Car::BreakOff() {
 void Car::SteerLeft() {
   // steer = 'l';
   angular_velocity = configuration.ANGULAR_VEL_MULT;
+  this->updateAngularVelocity();
 }
 
 void Car::SteerRight() {
   // steer = 'r';
   angular_velocity = -configuration.ANGULAR_VEL_MULT;
+  this->updateAngularVelocity();
 }
 
 void Car::SteerCenter() {
@@ -130,6 +133,24 @@ void Car::updateMaxSpeedMultiplier(){
 void Car::multiplyMaxSpeed(float multiplier, size_t steps){
   this->step_counter_max_speed_mult = steps;
   this->max_speed_multiplier = multiplier;
+}
+
+void Car::updateAngularVelocity(){
+  if (this->step_counter_ang_velocity == 0){
+    // do nothing
+  } else {
+    this->step_counter_ang_velocity -= 1;
+    if (this->angular_velocity >= 0){
+      this->angular_velocity = this->angular_vel_modif;
+    } else {
+      this->angular_velocity = -this->angular_vel_modif;
+    }
+  }
+}
+
+void Car::incrementAngularVelocity(float amount, size_t steps){
+  this->angular_vel_modif = amount;
+  this->step_counter_ang_velocity = steps;
 }
 
 void Car::updateMaxSpeed(){

@@ -5,6 +5,9 @@
 #include "RaceProxy.h"
 #include <stdexcept>  // runtime_error
 #include <iostream>
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 
 bool RaceButton::OnHandle(void* t) {
   // Create the game
@@ -14,6 +17,12 @@ bool RaceButton::OnHandle(void* t) {
     char* data = context->connection.GetStr();
     d.Parse(data);
     delete[] data;
+  }
+  
+  // HANDLE: "error":"Game is not available anymore"
+  if (d.HasMember("error")){
+    SDL_ShowSimpleMessageBox(0, "Error", d["error"].GetString(), window);
+    return false;
   }
 
   // Build the race

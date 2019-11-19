@@ -66,7 +66,6 @@ void Game::Loop() {
     time1 += rate;
     std::this_thread::sleep_for(rest);
   }
-  this->closeModsLibraries();
   running = false;
   this->reconnectPlayersToServerRoom();
   this->server.notify();
@@ -259,4 +258,9 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
 
   closedir(plugins_dir);
   
+}
+
+Game::~Game(){
+  this->mods.clear();
+  this->closeModsLibraries();
 }
