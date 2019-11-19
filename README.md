@@ -45,9 +45,13 @@ Los binarios se pueden instalar de las siguientes formas:
 
 ### FFmpeg
 
-Este proyecto usa [FFmpeg] para la grabación de video. Para esto se instalaron
+Este proyecto usa [FFmpeg] version 4 para la grabación de video. Para esto se instalaron
 las librerias libavutil-dev, libswresample-dev, libavformat-dev, libavcodec-dev 
 y libswscale-dev con:
+
+`sudo add-apt-repository ppa:jonathonf/ffmpeg-4`.
+`sudo apt-get update`.
+`sudo apt-get install ffmpeg`.
 `sudo apt install libavutil-dev libswresample-dev libavformat-dev libavcodec-dev libswscale-dev`.
 
 Para reproducir el video generado por el juego, se recomienda utilizar MPlayer.
