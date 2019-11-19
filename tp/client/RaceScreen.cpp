@@ -51,7 +51,7 @@ GameScreen* RaceScreen::start() {
   race->Shutdown();
   race->Join();
 
-  if (race->Ended())
+  if (race->Ended() && race->GetWinnerId() != -1)
     return new Podium(window, renderer, (race->GetWinnerId() == car->GetId()));
   return nullptr;
 }
@@ -72,9 +72,12 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
   Ai ai(car, this->race.get());
   ai.Start();
 
-  while (!race->Ended()) {
+  bool error_shown = false;
+  while (race->GetWinnerId() == -1) {
     SDL_WaitEvent(&sdl_event);
     if (sdl_event.type == SDL_QUIT) break;
+    if (!error_shown && race->Ended() && race->GetWinnerId() == -1)
+      SDL_ShowSimpleMessageBox(0, "Error", "exception", window);
   }
   
   ai.Shutdown();
@@ -85,22 +88,32 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
 }
 
 void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
-  while (!race->Ended()) {
+  bool ignoring_keyboard = false;
+  while (race->GetWinnerId() == -1) {
     SDL_WaitEvent(&sdl_event);
 
     if (sdl_event.type == SDL_QUIT) break;
 
-    if (sdl_event.type == SDL_KEYDOWN) {
-      if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerLeft();
-      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerRight();
-      else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOn();
-      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOn();
-    
-    } else if (sdl_event.type == SDL_KEYUP) {
-      if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerCenter();
-      else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerCenter();
-      else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOff();
-      else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOff();
+    try {
+      if (ignoring_keyboard) {
+        ; // pass
+      } else if (sdl_event.type == SDL_KEYDOWN) {
+        if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerLeft();
+        else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerRight();
+        else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOn();
+        else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOn();
+      
+      } else if (sdl_event.type == SDL_KEYUP) {
+        if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerCenter();
+        else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerCenter();
+        else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOff();
+        else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOff();
+      }
+    } catch (std::runtime_error& e) {
+      // msg
+      SDL_ShowSimpleMessageBox(0, "Error", e.what(), window);
+      ignoring_keyboard = true;
+      race->Shutdown();
     }
   }
 }

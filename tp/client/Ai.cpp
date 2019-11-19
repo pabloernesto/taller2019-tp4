@@ -36,42 +36,34 @@ void Ai::run(){
   int decision = 0;
   while (!this->quit){
     decision = this->decide(decision);
-    // std::cout << "Track on table: ";
-    // luaL_dostring(L, "print(current_track)");
-    // std::cout << "Track position_x: ";
-    // luaL_dostring(L, "print(map[current_track][1])");
-    // std::cout << "Track position_y: ";
-    // luaL_dostring(L, "print(map[current_track][2]");
-    // luaL_dostring(L, "print(disty)");
-    // std::cout << "Car position_x: ";
-    // luaL_dostring(L, "print(car[1])");
-    // std::cout << "Car position_y: ";
-    // luaL_dostring(L, "print(car[2]");
-    
-    std::cout << "Decision: " << decision << '\n';
-    if (decision == 0) {
-      car->BreakOff();
-      car->SteerCenter();
-      car->GasOn();
+    try {
+      if (decision == 0) {
+        car->BreakOff();
+        car->SteerCenter();
+        car->GasOn();
+      }
+      else if (decision == 1) car->GasOff();
+      else if (decision == 2){
+        car->BreakOff();
+        car->SteerCenter();
+        car->GasOn();
+      }  
+      else if (decision == 3) {
+        car->BreakOff();
+        car->SteerRight();
+        car->GasOn();
+      }
+      else if (decision == 4){
+        car->BreakOff();
+        car->SteerLeft();
+        car->GasOn();
+      }  
+      else if (decision == 5) car->BreakOn(); 
+      else if (decision == 6) car->BreakOff();
+    } catch (std::runtime_error& e) {
+      race->Shutdown();
+      quit = true;
     }
-    else if (decision == 1) car->GasOff();
-    else if (decision == 2){
-      car->BreakOff();
-      car->SteerCenter();
-      car->GasOn();
-    }  
-    else if (decision == 3) {
-      car->BreakOff();
-      car->SteerRight();
-      car->GasOn();
-    }
-    else if (decision == 4){
-      car->BreakOff();
-      car->SteerLeft();
-      car->GasOn();
-    }  
-    else if (decision == 5) car->BreakOn(); 
-    else if (decision == 6) car->BreakOff();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MS));    
   }
