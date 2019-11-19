@@ -2,6 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "ModifierView.h"
 #include <iostream>
+#include "Filmer.h"
 
 #define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
@@ -9,10 +10,9 @@
 #define LIFEPOSX 10
 #define LIFEPOSY 10
 
-
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
-  camara(0, 0, 600, 400, car), imagecache(w, r),
+  camara(0, 0, 600, 400, car), filmer(w,r), imagecache(w, r),
   track(imagecache), car(car)
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
@@ -44,18 +44,19 @@ void RaceView::renderLife(int life){
     LIFENUMBERSIZE, LIFENUMBERSIZE);
 }
 
-void RaceView::render(int tick) {
-  camara.Update();
-  SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
-  track.render(camara, this->race->getTrackPieces());
-
-  //Actualizo CarViews
+void RaceView::UpdateNewCars(){
   auto& carProxies = race->GetCars();
   if (carProxies.size() > cars.size()){
     for (auto it = carProxies.begin() + cars.size(); it != carProxies.end(); it++){
       this->AddCarView((**it));
     }
   }
+}
+
+void RaceView::RenderView(int tick){
+  SDL_SetRenderDrawColor(renderer, 34, 139, 34, 255);
+  SDL_RenderClear(renderer);
+  track.render(camara, this->race->getTrackPieces());
 
   // Modifiers may be added or removed at any time. Re-get this every tick.
   auto&& modifiers = this->race->getModifiers();
@@ -70,6 +71,20 @@ void RaceView::render(int tick) {
   }
 
   this->renderLife(car.GetLife());
+}
+
+void RaceView::render(int tick) {
+  this->UpdateNewCars();
+  camara.Update();
+
+  //Render on user screen
+  SDL_SetRenderTarget(renderer, NULL);
+  this->RenderView(tick);
+  
+  //Render on film
+  SDL_SetRenderTarget(renderer, filmer.GetTexture());
+  this->RenderView(tick);
+  filmer.FilmFrame();
 }
 
 void RaceView::showMessage(std::string message, int x, int y, int width, int height){
