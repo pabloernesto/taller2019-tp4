@@ -140,7 +140,11 @@ void Car::updateAngularVelocity(){
     // do nothing
   } else {
     this->step_counter_ang_velocity -= 1;
-    this->angular_velocity = this->angular_vel_modif;
+    if (this->angular_velocity >= 0){
+      this->angular_velocity = this->angular_vel_modif;
+    } else {
+      this->angular_velocity = -this->angular_vel_modif;
+    }
   }
 }
 
