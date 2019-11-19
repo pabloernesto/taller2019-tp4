@@ -10,6 +10,7 @@
 #include "Camara.h"
 #include <vector>
 #include "CarProxy.h"
+#include "Filmer.h"
 
 // TODO: create View base class
 
@@ -19,6 +20,7 @@ class RaceView {
   SDL_Renderer *renderer;
   std::vector<CarView*> cars;
   Camara camara;
+  Filmer filmer;
   ImageCache imagecache;
   TrackView track;
   CarProxy& car;
@@ -31,6 +33,8 @@ public:
 private:
   void AddCarView(CarProxy& carProxy);
   void renderLife(int life);
+  void UpdateNewCars();
+  void RenderView(int tick);
   void showMessage(std::string message, int x, int y, int width, int height);
 };
 

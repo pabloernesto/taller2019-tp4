@@ -50,7 +50,12 @@ las librerias libavutil-dev, libswresample-dev, libavformat-dev, libavcodec-dev
 y libswscale-dev con:
 `sudo apt install libavutil-dev libswresample-dev libavformat-dev libavcodec-dev libswscale-dev`.
 
+Para reproducir el video generado por el juego, se recomienda utilizar MPlayer.
+Puede instalarse con `sudo apt install mplayer mplayer-gui` y ejecutar con 
+`mplayer <path_to_video_file>`.
+
 [FFmpeg]: https://www.ffmpeg.org/
+
 ### Lua
 
 Este proyecto usa un interprete de Lua embebido en el programa cliente.

@@ -63,8 +63,10 @@ LDFLAGS += -lBox2D
 LDFLAGS += -ldl
 
 #Lua 
-
 LDFLAGS += -llua5.3
+
+# Linkea librerias para FFmpeg
+LDFLAGS += -lavformat -lavcodec -lavutil -lswscale
 
 # reglas
 ########
