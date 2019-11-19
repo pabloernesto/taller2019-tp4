@@ -13,6 +13,7 @@ Podium::Podium(SDL_Window *w, SDL_Renderer *r, bool winner)
   : GameScreen(w, r), winner(winner), next_screen(){}
 
 GameScreen* Podium::start(){
+  SDL_SetRenderTarget(renderer, NULL);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
