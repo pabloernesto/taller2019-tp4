@@ -21,7 +21,8 @@ ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
 }
 
 ChooseRaceScreen::~ChooseRaceScreen(){
-  TTF_CloseFont(font);
+  // NOTE: closing the font results on a segfault, why?
+  // TTF_CloseFont(font);
 }
 
 void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* race_list){
@@ -115,7 +116,6 @@ GameScreen* ChooseRaceScreen::start(){
 }
 
 void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
-  TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -125,5 +125,4 @@ void ChooseRaceScreen::showMessage(std::string message, int size, int x, int y){
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
   SDL_FreeSurface(surfaceMessage);
-  TTF_CloseFont(font);
 }
