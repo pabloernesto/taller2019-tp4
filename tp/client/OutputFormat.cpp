@@ -28,8 +28,8 @@ static void encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *pkt,
     }
 }
 
-OutputFormat::OutputFormat(FormatContext& context, const std::string& filename)
-        : context(context) {
+OutputFormat::OutputFormat(FormatContext& context, const std::string& filename, 
+        int width, int height) : context(context) {
     this->frame = av_frame_alloc();
     if (!frame) {
         throw std::runtime_error("No se pudo reservar memoria para frame");
@@ -50,7 +50,7 @@ OutputFormat::OutputFormat(FormatContext& context, const std::string& filename)
     if (!codec) {
         throw std::runtime_error("No se pudo instanciar codec");
     }
-    codecContextInit(codec);
+    codecContextInit(codec, width, height);
     this->outputFile = fopen(filename.c_str(), "wb");
     initFrame();
 }
@@ -83,11 +83,11 @@ void OutputFormat::writeFrame(const char* data, SwsContext* ctx ) {
     encode(this->codecContext, frame, pkt, this->outputFile);
 }
 
-void OutputFormat::codecContextInit(AVCodec* codec){
+void OutputFormat::codecContextInit(AVCodec* codec, int width, int height){
     this->codecContext = avcodec_alloc_context3(codec);
     // La resolución debe ser múltiplo de 2
-    this->codecContext->width = 608;
-    this->codecContext->height = 400;
+    this->codecContext->width = width;
+    this->codecContext->height = height;
     this->codecContext->time_base = {1,25};
     this->codecContext->framerate = {25,1};
     this->codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
