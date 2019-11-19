@@ -40,6 +40,8 @@ Configuration::Configuration(const char* name){
 	MODIFIER_WIDTH = d["MODIFIER_WIDTH"].GetFloat();
 	MODIFIER_HEIGHT = d["MODIFIER_HEIGHT"].GetFloat();
 	STONE_SPEED_REDUCTION = d["STONE_SPEED_REDUCTION"].GetFloat();
+  OIL_INCREMENT = d["OIL_INCREMENT"].GetFloat();
+  OIL_DURATION = d["OIL_DURATION"].GetFloat();
 	PIECE_WIDTH = d["PIECE_WIDTH"].GetFloat();
 	PIECE_HEIGHT = d["PIECE_HEIGHT"].GetFloat();
 }

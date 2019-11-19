@@ -33,6 +33,8 @@ public:
 	float MODIFIER_WIDTH;
 	float MODIFIER_HEIGHT;
 	float STONE_SPEED_REDUCTION;
+  float OIL_INCREMENT;
+  float OIL_DURATION;
 	float PIECE_WIDTH;
 	float PIECE_HEIGHT;
 
