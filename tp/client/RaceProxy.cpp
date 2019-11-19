@@ -71,6 +71,7 @@ void RaceProxy::UpdateLoop() {
     else if (type == "modifier") UpdateModifiers(msg);
     else if (type == "race") UpdateRace(msg);
   }
+  this->ended = true;
 }
 
 CarProxy* RaceProxy::GetCar(int id){
@@ -135,6 +136,8 @@ void RaceProxy::Start() {
 
 void RaceProxy::Shutdown() {
   ec.Shutdown();
+  ec.Join();
+  bq.close();
   std::cerr << "RaceProxy shutdown issued\n";
 }
 

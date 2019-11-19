@@ -76,8 +76,10 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
   while (race->GetWinnerId() == -1) {
     SDL_WaitEvent(&sdl_event);
     if (sdl_event.type == SDL_QUIT) break;
-    if (!error_shown && race->Ended() && race->GetWinnerId() == -1)
+    if (!error_shown && race->Ended() && race->GetWinnerId() == -1){
       SDL_ShowSimpleMessageBox(0, "Error", "exception", window);
+      error_shown = true;
+    }
   }
   
   ai.Shutdown();
