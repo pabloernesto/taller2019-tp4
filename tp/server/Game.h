@@ -57,6 +57,7 @@ public:
   void Join();
 
   Game(int id, std::string track,std::mutex& mutex, Server& server);
+  ~Game();
 };
 
 #endif  // GAME_H_
