@@ -20,7 +20,7 @@ public:
     return std::move(data);
   }
 
-  bool tryset_drop(T&& data) {
+  bool tryset_dropnew(T&& data) {
     std::lock_guard<std::mutex> lock(m);
     if (set) return;
 
@@ -29,7 +29,7 @@ public:
     cv.notify_one();
   }
 
-  bool tryset_overwrite(T&& data) {
+  bool tryset_dropold(T&& data) {
     std::lock_guard<std::mutex> lock(m);
     this->data = data;
     set = true;
