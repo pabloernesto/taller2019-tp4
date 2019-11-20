@@ -10,7 +10,7 @@ CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
     ,motor_sound(Sound("Sonidos/Engine noise.wav")),
     break_sound(Sound("Sonidos/skid-piece-fadeinout.wav"))
   {
-    motor_sound.SetVolume(6);
+    motor_sound.SetVolume(8);
     break_sound.SetVolume(50);
   }
 
