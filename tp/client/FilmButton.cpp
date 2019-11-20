@@ -12,4 +12,5 @@ FilmButton::FilmButton(TaskHandler* next, SDL_Window* w, SDL_Renderer* r,
 bool FilmButton::OnHandle(void* t) {
   context->StartFilming();
   text = STOPFILMINGTEXT;
+  return false;
 }
