@@ -37,5 +37,5 @@ void Filmer::FilmFrame(){
   SDL_GetWindowSize(window, &w, &h);
   std::vector<char> dataBuffer(BUFFER_WIDTH*h*3);
   SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, dataBuffer.data(), BUFFER_WIDTH * 3);
-  videoOutput.writeFrame(dataBuffer.data(), videoContex);
+  //videoOutput.writeFrame(dataBuffer.data(), videoContex);
 }

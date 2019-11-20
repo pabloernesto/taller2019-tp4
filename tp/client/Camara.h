@@ -6,6 +6,7 @@
 #include "CarProxy.h"
 #include "image.h"
 #include <vector>
+#include "Sound.h"
 
 class Camara{
   SDL_Rect camara;
@@ -16,7 +17,7 @@ public:
   void Update();
   SDL_Rect GetPosition();
   void renderMe(std::vector<float> position, std::vector<float> size, Image& image, 
-  std::vector<Mix_Chunk*>& sounds, float angle, int tick);
+  std::vector<Sound*>& sounds, float angle, int tick);
 };
 
 #endif

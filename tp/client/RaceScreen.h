@@ -8,13 +8,13 @@
 #include "RaceProxy.h"
 #include "RaceView.h"
 #include "UpdateLoop.h"
+#include "Sound.h"
 
 class RaceScreen : public GameScreen {
   std::unique_ptr<RaceProxy> race;
   int carId;
   bool is_Lua;
-
-  Mix_Chunk* startEngineSound;
+  Sound startEngineSound;
   
   void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
   void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);

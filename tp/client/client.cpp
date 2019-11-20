@@ -9,7 +9,8 @@
 Client::Client() {
   SDL_Init(SDL_INIT_EVERYTHING);
   IMG_Init(IMG_INIT_PNG);
-  Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096 );
+  Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 1, 4096 );
+  Mix_AllocateChannels(16);
   window = SDL_CreateWindow(
     "Micromachines",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,

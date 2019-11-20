@@ -62,7 +62,7 @@ LDFLAGS += -ldl
 # targets
 .PHONY: all
 all: $(target)
-	$(MAKE) --directory=Plugins $(TARGET)
+	#$(MAKE) --directory=Plugins $(TARGET)
 
 $(target): $(objects)
 	$(LD) -o $@ $(objects) $(LDFLAGS)

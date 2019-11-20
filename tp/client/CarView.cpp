@@ -3,38 +3,32 @@
 #include "MKStoPixel.h"
 #include <math.h>
 #include <iostream>
+#include "Sound.h"
 
 CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
   : car(car), imageAlive(ailive), imageDead(dead), camara(camara)
-    ,motor_sound(Mix_LoadWAV("Sonidos/Engine noise.wav")),
-    break_sound(Mix_LoadWAV("Sonidos/skid-piece-fadeinout.wav"))
+    ,motor_sound(Sound("Sonidos/Engine noise.wav")),
+    break_sound(Sound("Sonidos/skid-piece-fadeinout.wav"))
   {
-    if (motor_sound) Mix_VolumeChunk(motor_sound, 3);
-    else std::cerr << "CarView: failed to load motor sound\n";
-
-    if (break_sound) Mix_VolumeChunk(break_sound, 20);
-    else std::cerr << "CarView: failed to load break sound\n";
+    motor_sound.SetVolume(6);
+    break_sound.SetVolume(50);
   }
 
 CarView::~CarView(){
-  Mix_FreeChunk(break_sound);
-  Mix_FreeChunk(motor_sound);
 }
 
 void CarView::render(int tick) {
   std::vector<float> position = this->car.GetPosition();
   std::vector<float> size = this->car.GetSize();
 
-  // The car image points downward, add 180 degrees to flip it up
   Image& img = car.isDead() ? imageDead : imageAlive;
-  std::vector<Mix_Chunk*> sounds = {};
+  std::vector<Sound*> sounds = {};
   if (car.HasBreakOn()){
-    Mix_Pause(-1);
-    sounds.push_back(break_sound);
-  } else {
-    Mix_Pause(-1);
-    sounds.push_back(motor_sound);
+    sounds.push_back(&break_sound);
   }
+  sounds.push_back(&motor_sound);
+  
+  // The car image points downward, add 180 degrees to flip it up
   camara.renderMe(
     position,
     size,

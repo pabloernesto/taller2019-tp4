@@ -7,14 +7,15 @@
 #include "image.h"
 #include "Camara.h"
 #include <vector>
+#include "Sound.h"
 
 class CarView {
   CarProxy& car;
   Image& imageAlive;
   Image& imageDead;
   Camara& camara;
-  Mix_Chunk* motor_sound;
-  Mix_Chunk* break_sound;
+  Sound motor_sound;
+  Sound break_sound;
 
 public:
   CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara);

@@ -14,15 +14,13 @@ static const int WIDTH = 600;
 static const int HEIGHT = 400;
 
 RaceScreen::~RaceScreen(){
-  Mix_FreeChunk(startEngineSound);
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
   : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
-  startEngineSound(Mix_LoadWAV("Sonidos/engine_start_up_01.wav"))
+  startEngineSound(Sound("Sonidos/engine_start_up_01.wav"))
 {
-  if (startEngineSound) Mix_VolumeChunk(startEngineSound, 10);
-  else std::cerr << "RaceScreen: failed to load start engine sound\n";
+  startEngineSound.SetVolume(10);
 }
 
 #include <iostream>
@@ -31,7 +29,7 @@ GameScreen* RaceScreen::start() {
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
-  Mix_PlayChannel(-1, startEngineSound, 0);
+  startEngineSound.Play();
 
   CarProxy* car = race->GetCar(carId);
 

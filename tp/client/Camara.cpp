@@ -1,6 +1,7 @@
 #include "Camara.h"
 #include "MKStoPixel.h"
 #include <math.h>
+#include <iostream>
 
 Camara::Camara(int x, int y, int w, int h, CarProxy& car): camara({x,y,w,h}),
   mainBody(car){}
@@ -19,7 +20,7 @@ SDL_Rect Camara::GetPosition(){
 }
 
 void Camara::renderMe(std::vector<float> position, std::vector<float> size, Image& image, 
-  std::vector<Mix_Chunk*>& sounds, float angle, int tick)
+  std::vector<Sound*>& sounds, float angle, int tick)
 {
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);
@@ -55,7 +56,7 @@ void Camara::renderMe(std::vector<float> position, std::vector<float> size, Imag
     image.render(tick, &where, angle * RADIANS_TO_DEGREES_FACTOR);
     
     for (auto& sound : sounds){
-      Mix_Resume(Mix_PlayChannel(-1, sound, 0));
+      sound->Play();
     }
   }
 }
