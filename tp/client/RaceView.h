@@ -29,6 +29,7 @@ public:
   RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car);
   ~RaceView();
   void render(int tick);
+  void StartFilming();
 
 private:
   void AddCarView(CarProxy& carProxy);

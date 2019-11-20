@@ -13,12 +13,15 @@ private:
   OutputFormat videoOutput;
   SDL_Texture* videoTexture;
   SwsContext * videoContex;
+  bool filming;
 
 public:
   Filmer(SDL_Window* window, SDL_Renderer* renderer);
   ~Filmer();
   SDL_Texture* GetTexture();
   void FilmFrame();
+  void StartFilming();
+  bool IsFilming();
 };
 
 #endif    // FILMER_H

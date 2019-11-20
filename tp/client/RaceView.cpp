@@ -82,9 +82,15 @@ void RaceView::render(int tick) {
   this->RenderView(tick);
   
   //Render on film
-  SDL_SetRenderTarget(renderer, filmer.GetTexture());
-  this->RenderView(tick);
-  filmer.FilmFrame();
+  if (filmer.IsFilming()){
+    SDL_SetRenderTarget(renderer, filmer.GetTexture());
+    this->RenderView(tick);
+    filmer.FilmFrame();
+  }
+}
+
+void RaceView::StartFilming(){
+  filmer.StartFilming();
 }
 
 void RaceView::showMessage(std::string message, int x, int y, int width, int height){

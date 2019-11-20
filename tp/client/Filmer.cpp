@@ -11,7 +11,8 @@ const int BUFFER_WIDTH = 608, BUFFER_HEIGHT = 400;
 
 Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) : 
   window(window), renderer(renderer), context(), 
-  videoOutput(context, FILENAME, BUFFER_WIDTH, BUFFER_HEIGHT)
+  videoOutput(context, FILENAME, BUFFER_WIDTH, BUFFER_HEIGHT),
+  filming(false)
 {
   int w;
   int h;
@@ -38,4 +39,12 @@ void Filmer::FilmFrame(){
   std::vector<char> dataBuffer(BUFFER_WIDTH*h*3);
   SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, dataBuffer.data(), BUFFER_WIDTH * 3);
   //videoOutput.writeFrame(dataBuffer.data(), videoContex);
+}
+
+void Filmer::StartFilming(){
+  filming = true;
+}
+
+bool Filmer::IsFilming(){
+  return filming;
 }
