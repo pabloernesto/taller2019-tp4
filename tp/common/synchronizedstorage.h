@@ -26,12 +26,14 @@ public:
 
     this->data = data;
     set = true;
+    cv.notify_one();
   }
 
   bool tryset_overwrite(T&& data) {
     std::lock_guard<std::mutex> lock(m);
     this->data = data;
     set = true;
+    cv.notify_one();
   }
 };
 
