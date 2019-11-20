@@ -20,20 +20,28 @@ public:
     return std::move(data);
   }
 
+  // Try to set the value of data. If data was already set, do nothing.
+  // Returns true if data was already set.
   bool tryset_dropnew(T&& data) {
     std::lock_guard<std::mutex> lock(m);
-    if (set) return;
+    if (set) return true;
 
     this->data = data;
     set = true;
     cv.notify_one();
+    return false;
   }
 
+  // Try to set the value of data. If data was already set, overwrite it.
+  // Returns true if data was already set.
   bool tryset_dropold(T&& data) {
     std::lock_guard<std::mutex> lock(m);
-    this->data = data;
+    auto old_set = set;
     set = true;
+
+    this->data = data;
     cv.notify_one();
+    return old_set;
   }
 };
 
