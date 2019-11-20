@@ -11,6 +11,7 @@
 #include <vector>
 #include "CarProxy.h"
 #include "Filmer.h"
+#include "FilmButton.h"
 
 // TODO: create View base class
 
@@ -24,12 +25,13 @@ class RaceView {
   ImageCache imagecache;
   TrackView track;
   CarProxy& car;
+  TTF_Font* font;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car);
   ~RaceView();
   void render(int tick);
-  void StartFilming();
+  void ChangeFilmingState();
 
 private:
   void AddCarView(CarProxy& carProxy);

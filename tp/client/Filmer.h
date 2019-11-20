@@ -21,6 +21,7 @@ public:
   SDL_Texture* GetTexture();
   void FilmFrame();
   void StartFilming();
+  void StopFilming();
   bool IsFilming();
 };
 
