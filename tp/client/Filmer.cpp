@@ -12,6 +12,7 @@ const int BUFFER_WIDTH = 608, BUFFER_HEIGHT = 400;
 Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) : 
   window(window), renderer(renderer), context(), 
   videoOutput(context, FILENAME, BUFFER_WIDTH, BUFFER_HEIGHT),
+  videoTexture(), videoContex(),
   filming(false)
 {
   int w;
