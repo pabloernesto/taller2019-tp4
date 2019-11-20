@@ -27,6 +27,7 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
 GameScreen* RaceScreen::start() {
   SDL_Event sdl_event;
   SDL_SetWindowSize(window, WIDTH, HEIGHT);
+  SDL_SetWindowResizable(window, SDL_FALSE);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
   startEngineSound.Play();
