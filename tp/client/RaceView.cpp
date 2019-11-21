@@ -78,19 +78,15 @@ void RaceView::render(int tick) {
   camara.Update();
 
   //Render on user screen
-  SDL_SetRenderTarget(renderer, NULL);
   this->RenderView(tick);
   
   //Render on film
-  if (filmer.IsFilming()){
-    SDL_SetRenderTarget(renderer, filmer.GetTexture());
-    this->RenderView(tick);
+  if (filmer.IsFilming())
     filmer.FilmFrame();
-  }
 }
 
 void RaceView::StartFilming(){
-  filmer.StartFilming();
+  filmer.Start();
 }
 
 void RaceView::showMessage(std::string message, int x, int y, int width, int height){

@@ -13,7 +13,7 @@ Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) :
   window(window), renderer(renderer), context(), 
   videoOutput(context, FILENAME, BUFFER_WIDTH, BUFFER_HEIGHT),
   videoTexture(), videoContex(),
-  filming(false)
+  t(), filming(false)
 {
   int w;
   int h;
@@ -25,27 +25,49 @@ Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) :
 }
 
 Filmer::~Filmer(){
+  Shutdown();
+  Join();
   videoOutput.close();
   sws_freeContext(videoContex);
+}
+
+
+void Filmer::Loop() {
+  while (filming) {
+    std::vector<char> data = synchro.get();
+    videoOutput.writeFrame(data.data(), videoContex);
+  }
 }
 
 SDL_Texture* Filmer::GetTexture(){
   return videoTexture;
 }
 
-void Filmer::FilmFrame(){
-  int w;
+void Filmer::FilmFrame() {
   int h;
-  SDL_GetWindowSize(window, &w, &h);
-  std::vector<char> dataBuffer(BUFFER_WIDTH*h*3);
-  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, dataBuffer.data(), BUFFER_WIDTH * 3);
-  //videoOutput.writeFrame(dataBuffer.data(), videoContex);
-}
-
-void Filmer::StartFilming(){
-  filming = true;
+  SDL_GetWindowSize(window, NULL, &h);
+  std::vector<char> buffer(h * BUFFER_WIDTH * 3);
+  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, buffer.data(), BUFFER_WIDTH * 3);
+  synchro.tryset_dropold(std::move(buffer));
 }
 
 bool Filmer::IsFilming(){
   return filming;
+}
+
+
+
+// Thread control methods
+
+void Filmer::Start() {
+  filming = true;
+  t = std::thread(&Filmer::Loop, this);
+}
+
+void Filmer::Shutdown() {
+  filming = false;
+}
+
+void Filmer::Join() {
+  if (t.joinable()) t.join();
 }
