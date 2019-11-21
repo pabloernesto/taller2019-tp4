@@ -64,6 +64,7 @@ bool Filmer::IsFilming(){
 
 void Filmer::Start() {
   filming = true;
+  synchro.open();
   t = std::thread(&Filmer::Loop, this);
 }
 
