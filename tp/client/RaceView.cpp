@@ -12,11 +12,14 @@ extern Configuration configuration;
 #define LIFENUMBERSIZE 20
 #define LIFEPOSX 10
 #define LIFEPOSY 10
+#define FILMBUTTONWIDTH 30
+#define FILMBUTTONHEIGHT 10
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
-  camara(0, 0, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT, car), 
-  filmer(w,r), imagecache(w, r), track(imagecache), car(car)
+  camara(0, 0, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT, car),
+  filmer(w,r), imagecache(w, r), track(imagecache), car(car),
+  font(TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50))
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);
@@ -27,7 +30,9 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   }
 }
 
-RaceView::~RaceView(){}
+RaceView::~RaceView(){
+  TTF_CloseFont(font);
+}
 
 void RaceView::AddCarView(CarProxy& carProxy){
   std::string img_route;
@@ -81,17 +86,20 @@ void RaceView::render(int tick) {
   camara.Update();
 
   //Render on user screen
-  SDL_SetRenderTarget(renderer, NULL);
   this->RenderView(tick);
-  
-  //Render on film
-  SDL_SetRenderTarget(renderer, filmer.GetTexture());
-  this->RenderView(tick);
-  filmer.FilmFrame();
+  filmer.FilmFrame();   // Does nothing if filmer hasn't started
+}
+
+void RaceView::ChangeFilmingState(){
+  if (!filmer.IsFilming()){
+    filmer.Join();
+    filmer.Start();
+  } else {
+    filmer.Shutdown();
+  }
 }
 
 void RaceView::showMessage(std::string message, int x, int y, int width, int height){
-  TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -100,5 +108,4 @@ void RaceView::showMessage(std::string message, int x, int y, int width, int hei
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
   SDL_FreeSurface(surfaceMessage);
-  TTF_CloseFont(font);
 }
