@@ -2,6 +2,7 @@
 #define RACEVIEW_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "RaceProxy.h"
 #include "CarView.h"
 #include "TrackView.h"
@@ -24,12 +25,13 @@ class RaceView {
   ImageCache imagecache;
   TrackView track;
   CarProxy& car;
+  TTF_Font* font;
 
 public:
   RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car);
   ~RaceView();
   void render(int tick);
-  void StartFilming();
+  void ChangeFilmingState();
 
 private:
   void AddCarView(CarProxy& carProxy);

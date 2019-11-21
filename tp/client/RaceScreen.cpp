@@ -39,9 +39,9 @@ GameScreen* RaceScreen::start() {
   loop.Start();
 
   if (is_Lua){
-    luaLoop(sdl_event, car, loop);
+    luaLoop(sdl_event, car, loop, view);
   } else {
-    userLoop(sdl_event, car, loop);
+    userLoop(sdl_event, car, loop, view);
   }
 
   loop.quit = true;
@@ -55,7 +55,7 @@ GameScreen* RaceScreen::start() {
   return nullptr;
 }
 
-void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
+void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view){
 
   // void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
   // char* err = dlerror();
@@ -79,6 +79,9 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
       SDL_ShowSimpleMessageBox(0, "Error", "exception", window);
       error_shown = true;
     }
+    if (sdl_event.type == SDL_KEYDOWN && sdl_event.key.keysym.sym == SDLK_f) {
+      view.ChangeFilmingState();
+    }
   }
   
   ai.Shutdown();
@@ -88,7 +91,7 @@ void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
   // dlclose(shared_lib);
 }
 
-void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop){
+void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view){
   bool ignoring_keyboard = false;
   while (race->GetWinnerId() == -1) {
     SDL_WaitEvent(&sdl_event);
@@ -103,6 +106,7 @@ void RaceScreen::userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop)
         else if (sdl_event.key.keysym.sym == SDLK_RIGHT) car->SteerRight();
         else if (sdl_event.key.keysym.sym == SDLK_UP) car->GasOn();
         else if (sdl_event.key.keysym.sym == SDLK_DOWN) car->BreakOn();
+        else if (sdl_event.key.keysym.sym == SDLK_f) view.ChangeFilmingState();
       
       } else if (sdl_event.type == SDL_KEYUP) {
         if (sdl_event.key.keysym.sym == SDLK_LEFT) car->SteerCenter();

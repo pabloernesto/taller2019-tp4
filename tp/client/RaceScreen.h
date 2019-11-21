@@ -16,8 +16,8 @@ class RaceScreen : public GameScreen {
   bool is_Lua;
   Sound startEngineSound;
   
-  void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
-  void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop);
+  void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view);
+  void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view);
 
 public:
   RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua);
