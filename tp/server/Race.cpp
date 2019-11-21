@@ -2,7 +2,7 @@
 #include <Box2D/Box2D.h>
 #include <chrono>
 #include <random>
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 extern Configuration configuration;
 

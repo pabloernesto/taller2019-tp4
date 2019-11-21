@@ -7,7 +7,7 @@
 #include "AsphaltTrackPiece.h"
 #include <iostream>
 #include "../common/string.h"
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 extern Configuration configuration;
 

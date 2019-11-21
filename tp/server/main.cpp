@@ -2,9 +2,9 @@
 #include "../common/socket.h"
 #include "Server.h"
 #include <thread>
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
-Configuration configuration("Configuracion/config.json");
+Configuration configuration("../common/Configuracion/config.json");
 
 int main(int argc, char **argv) {
   Listener listener("1234");

@@ -1,6 +1,6 @@
 #include "Oil.h"
 #include <iostream>
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 extern Configuration configuration;
 

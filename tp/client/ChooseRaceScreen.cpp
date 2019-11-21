@@ -5,13 +5,13 @@
 #include "rapidjson/document.h"
 #include <iostream>
 #include "ChooseRaceScreen_Buttons.h"
+#include "../common/Configuration.h"
 
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
 #define BUTTONSIZEPERLETTER 27
 
-#define WIDTH 600
-#define HEIGHT 400
+extern Configuration configuration;
 
 ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
@@ -71,7 +71,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
 
 void ChooseRaceScreen::DrawWindow(){
   //Agrego el titulo
-  int xButton = WIDTH/2;
+  int xButton = configuration.WINDOW_WIDTH/2;
   int yButton = TITLESIZEPERLETTER/2;
   showMessage("Choose a race..", TITLESIZEPERLETTER, xButton, yButton);
   yButton += SPACEBETWEENBUTTONS + TITLESIZEPERLETTER;
@@ -83,7 +83,7 @@ void ChooseRaceScreen::DrawWindow(){
 GameScreen* ChooseRaceScreen::start(){
   int w;
   int h;
-  SDL_SetWindowSize(window, WIDTH, HEIGHT);
+  SDL_SetWindowSize(window, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT);
   SDL_GL_GetDrawableSize(window, &w, &h);
   SDL_RenderSetLogicalSize(renderer, w, h);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

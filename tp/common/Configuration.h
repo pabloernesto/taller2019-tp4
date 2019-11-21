@@ -37,6 +37,8 @@ public:
   float OIL_DURATION;
 	float PIECE_WIDTH;
 	float PIECE_HEIGHT;
+	int WINDOW_WIDTH;
+	int WINDOW_HEIGHT;
 
   Configuration(const char* name);
   ~Configuration();

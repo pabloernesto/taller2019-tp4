@@ -3,6 +3,9 @@
 #include "ModifierView.h"
 #include <iostream>
 #include "Filmer.h"
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 #define MYCARIMAGEROUTE "Imagenes/pitstop_car_1.png"
 #define OTHERSCARIMAGEROUTE "Imagenes/pitstop_car_2.png"
@@ -12,8 +15,8 @@
 
 RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& car)
   : race(race), window(w), renderer(r), cars(),
-  camara(0, 0, 600, 400, car), filmer(w,r), imagecache(w, r),
-  track(imagecache), car(car)
+  camara(0, 0, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT, car), 
+  filmer(w,r), imagecache(w, r), track(imagecache), car(car)
 {
   imagecache.LoadAnimation("Imagenes/pitstop_car_1.png", 3, 1, 10);
   imagecache.LoadAnimation("Imagenes/explosion.png", 12, 1, 10);

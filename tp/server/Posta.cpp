@@ -1,5 +1,5 @@
 #include "Posta.h"
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 extern Configuration configuration;
 

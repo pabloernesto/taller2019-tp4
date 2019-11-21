@@ -2,7 +2,7 @@
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include "Race.h"
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 #define NUMBEROFFRAMESDYING 20
 extern Configuration configuration;

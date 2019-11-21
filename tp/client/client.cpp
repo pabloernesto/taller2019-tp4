@@ -5,6 +5,9 @@
 #include "client.h"
 #include "inicio.h"
 #include <iostream>
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 Client::Client() {
   SDL_Init(SDL_INIT_EVERYTHING);
@@ -14,7 +17,7 @@ Client::Client() {
   window = SDL_CreateWindow(
     "Micromachines",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    100, 100,
+    configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT,
     SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, 0);
 

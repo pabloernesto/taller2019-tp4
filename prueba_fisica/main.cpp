@@ -3,7 +3,7 @@
 #include <memory>     // unique_ptr
 #include <iostream>   // cout
 #include "Car.h"
-#include "Configuration.h"
+#include "../common/Configuration.h"
 
 extern Configuration configuration;
 

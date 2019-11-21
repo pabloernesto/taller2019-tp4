@@ -10,9 +10,6 @@
 #include "Ai.h"
 #include "StartRaceScreen_Buttons.h"
 
-static const int WIDTH = 600;
-static const int HEIGHT = 400;
-
 RaceScreen::~RaceScreen(){
 }
 
@@ -26,7 +23,6 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
 #include <iostream>
 GameScreen* RaceScreen::start() {
   SDL_Event sdl_event;
-  SDL_SetWindowSize(window, WIDTH, HEIGHT);
   SDL_SetWindowResizable(window, SDL_FALSE);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);

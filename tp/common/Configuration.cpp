@@ -1,4 +1,4 @@
-#include "Configuration.h"
+#include "../common/Configuration.h"
 #include <rapidjson/document.h>
 #include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/istreamwrapper.h>
@@ -44,6 +44,8 @@ Configuration::Configuration(const char* name){
   OIL_DURATION = d["OIL_DURATION"].GetFloat();
 	PIECE_WIDTH = d["PIECE_WIDTH"].GetFloat();
 	PIECE_HEIGHT = d["PIECE_HEIGHT"].GetFloat();
+	WINDOW_WIDTH = d["WINDOW_WIDTH"].GetInt();
+	WINDOW_HEIGHT = d["WINDOW_HEIGHT"].GetInt();
 }
 
 Configuration::~Configuration(){

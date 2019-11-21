@@ -3,11 +3,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "GoToChooseRaceScreen.h"
-#define WIDTH 600
-#define HEIGHT 400
+#include <iostream>
+#include "../common/Configuration.h"
+
 #define ENDSIGNSIZE 70
 #define BUTTONSIZE 20
-#include <iostream>
+
+extern Configuration configuration;
 
 Podium::Podium(SDL_Window *w, SDL_Renderer *r, bool winner)
   : GameScreen(w, r), winner(winner), next_screen(){}
@@ -22,13 +24,15 @@ GameScreen* Podium::start(){
   std::string name = "Play again";
   int widthButton = (int)name.size()*BUTTONSIZE;
   GoToChooseRaceScreen chooseRace(nullptr, window, renderer, 
-  {WIDTH/2 - widthButton/2, HEIGHT - BUTTONSIZE, widthButton, BUTTONSIZE}, name, 
-  font, {225,225,225}, this);
+    {configuration.WINDOW_WIDTH/2 - widthButton/2, 
+    configuration.WINDOW_HEIGHT - BUTTONSIZE, 
+    widthButton, BUTTONSIZE}, name, 
+    font, {225,225,225}, this);
 
   if (winner){
-    showMessage("GANASTE",ENDSIGNSIZE,WIDTH/2,ENDSIGNSIZE/2);
+    showMessage("GANASTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2);
   } else {
-    showMessage("PERDISTE",ENDSIGNSIZE,WIDTH/2,ENDSIGNSIZE/2);
+    showMessage("PERDISTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2);
   }
 
   chooseRace.render();
