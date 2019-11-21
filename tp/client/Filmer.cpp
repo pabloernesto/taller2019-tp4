@@ -34,9 +34,9 @@ Filmer::~Filmer(){
 
 void Filmer::Loop() {
   while (filming) {
-    std::vector<char> data;
-    if (!synchro.get(&data)) continue;
-    videoOutput.writeFrame(data.data(), videoContex);
+    std::vector<char>* data;
+    if (!synchro.Consume(&data)) continue;
+    videoOutput.writeFrame(data->data(), videoContex);
   }
 }
 
@@ -47,11 +47,13 @@ SDL_Texture* Filmer::GetTexture(){
 void Filmer::FilmFrame() {
   if (!filming) return;
 
+  auto& buffer = synchro.GetBuffer();
   int h;
   SDL_GetWindowSize(window, NULL, &h);
-  std::vector<char> buffer(h * BUFFER_WIDTH * 3);
+  buffer.reserve(h * BUFFER_WIDTH * 3);
+
   SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, buffer.data(), BUFFER_WIDTH * 3);
-  synchro.tryset_dropold(std::move(buffer));
+  synchro.Produce();
 }
 
 bool Filmer::IsFilming(){

@@ -6,7 +6,7 @@
 #include "OutputFormat.h"
 #include <thread>
 #include <atomic>
-#include "../common/synchronizedstorage.h"
+#include "../common/FrameDropper.h"
 #include <vector>
 
 class Filmer {
@@ -24,7 +24,7 @@ private:
   void Loop();
 
 public:
-  SynchronizedStorage<std::vector<char>> synchro;
+  FrameDropper<std::vector<char>> synchro;
 
   Filmer(SDL_Window* window, SDL_Renderer* renderer);
   ~Filmer();
