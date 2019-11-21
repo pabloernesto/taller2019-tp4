@@ -68,6 +68,11 @@ public:
     closed = true;
     cv.notify_one();
   }
+
+  void open() {
+    std::lock_guard<std::mutex> lock(m);
+    closed = false;
+  }
 };
 
 #endif  // FRAMEDROPPER_H_
