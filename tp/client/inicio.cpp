@@ -1,8 +1,11 @@
 #include "inicio.h"
 #include "image.h"
 #include "ChooseRaceScreen.h"
+#include "../common/Configuration.h"
 
-#define FONDO "Imagenes/Micro-Machines.bmp"
+extern Configuration configuration;
+
+#define FONDO "Micro-Machines.bmp"
 
 Inicio::Inicio(SDL_Window* w, SDL_Renderer* r) : GameScreen(w, r) {
 }
@@ -11,7 +14,7 @@ Inicio::~Inicio(){
 }
 
 GameScreen* Inicio::start() {
-  Image fondo(FONDO, window, renderer);
+  Image fondo((configuration.IMAGES_ROUTE + FONDO).c_str(), window, renderer);
 
   while (true) {
     SDL_Event sdl_event;

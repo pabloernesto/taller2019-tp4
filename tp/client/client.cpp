@@ -15,13 +15,13 @@ Client::Client() {
   Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 1, 4096 );
   Mix_AllocateChannels(16);
   window = SDL_CreateWindow(
-    "Micromachines",
+    (configuration.WINDOW_NAME).c_str(),
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT,
     SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window, -1, 0);
 
-  music = Mix_LoadMUS("Sonidos/Race of the Wasp.wav");
+  music = Mix_LoadMUS((configuration.SOUNDS_ROUTE + configuration.BACKGROUND_MUSIC).c_str());
   if (music) Mix_PlayMusic( music, -1 );
   else std::cerr << "Client: failed to load background music\n";
 

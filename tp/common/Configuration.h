@@ -2,6 +2,7 @@
 #define CONFIGURATION_H_
 
 #include <SDL2/SDL.h>
+#include <string>
 
 struct Configuration {
 public:
@@ -39,6 +40,11 @@ public:
 	float PIECE_HEIGHT;
 	int WINDOW_WIDTH;
 	int WINDOW_HEIGHT;
+	std::string WINDOW_NAME;
+	std::string SOUNDS_ROUTE;
+  std::string IMAGES_ROUTE;
+	std::string FONTS_ROUTE;
+	std::string BACKGROUND_MUSIC;
 
   Configuration(const char* name);
   ~Configuration();

@@ -10,6 +10,7 @@
 #define SPACEBETWEENBUTTONS 10
 #define TITLESIZEPERLETTER 35
 #define BUTTONSIZEPERLETTER 27
+#define FONT "MAKISUPA.TTF"
 
 extern Configuration configuration;
 
@@ -17,7 +18,7 @@ ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
   next_screen(), connection("localhost", "1234")
 {
-  font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
+  font = TTF_OpenFont((configuration.FONTS_ROUTE + FONT).c_str(), 50);
 }
 
 ChooseRaceScreen::~ChooseRaceScreen(){
