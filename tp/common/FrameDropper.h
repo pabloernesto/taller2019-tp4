@@ -27,15 +27,20 @@ class FrameDropper {
   std::mutex m;
   std::condition_variable cv;
 
+  bool closed = false;
+
 public:
-  T& Consume() {
+  bool Consume(T** output) {
     std::unique_lock<std::mutex> lock(m);
-    while (!next) cv.wait(lock);
+    while (!next && !closed) cv.wait(lock);
+
+    if (closed) return false;
 
     consuming = next;
     next = nullptr;
 
-    return *consuming;
+    *output = consuming;
+    return true;
   }
 
   // This function is not meant to be called repeatedly in sequence,
@@ -43,8 +48,8 @@ public:
   T& GetBuffer() {
     std::lock_guard<std::mutex> lock(m);
     for (auto& p : buffers)
-      if (p != consuming && p != next) {
-        producing = p;
+      if (&p != consuming && &p != next) {
+        producing = &p;
         break;
       }
     return *producing;
@@ -55,6 +60,12 @@ public:
     // If next has not been consumed yet, ignore it
     next = producing;
     producing = nullptr;
+    cv.notify_one();
+  }
+
+  void close() {
+    std::lock_guard<std::mutex> lock(m);
+    closed = true;
     cv.notify_one();
   }
 };
