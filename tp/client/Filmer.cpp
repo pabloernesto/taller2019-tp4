@@ -14,7 +14,9 @@ extern Configuration configuration;
 
 Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) : 
   window(window), renderer(renderer), context(), 
-  videoOutput(context, FILENAME, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT)
+  videoOutput(context, FILENAME, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT),
+  videoTexture(), videoContex(),
+  t(), filming(false)
 {
   videoTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, 
     SDL_TEXTUREACCESS_TARGET, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT);
@@ -24,16 +26,56 @@ Filmer::Filmer(SDL_Window* window, SDL_Renderer* renderer) :
 }
 
 Filmer::~Filmer(){
+  Shutdown();
+  Join();
   videoOutput.close();
   sws_freeContext(videoContex);
+}
+
+
+void Filmer::Loop() {
+  while (filming) {
+    std::vector<char>* data;
+    if (!synchro.Consume(&data)) continue;
+    videoOutput.writeFrame(data->data(), videoContex);
+  }
 }
 
 SDL_Texture* Filmer::GetTexture(){
   return videoTexture;
 }
 
-void Filmer::FilmFrame(){
-  std::vector<char> dataBuffer(configuration.WINDOW_WIDTH * configuration.WINDOW_HEIGHT*3);
-  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, dataBuffer.data(), configuration.WINDOW_WIDTH * 3);
-  videoOutput.writeFrame(dataBuffer.data(), videoContex);
+void Filmer::FilmFrame() {
+  if (!filming) return;
+
+  auto& buffer = synchro.GetBuffer();
+  int h;
+  SDL_GetWindowSize(window, NULL, &h);
+  buffer.reserve(h * configuration.WINDOW_WIDTH * 3);
+
+  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, buffer.data(), configuration.WINDOW_WIDTH * 3);
+  synchro.Produce();
+}
+
+bool Filmer::IsFilming(){
+  return filming;
+}
+
+
+
+// Thread control methods
+
+void Filmer::Start() {
+  filming = true;
+  synchro.open();
+  t = std::thread(&Filmer::Loop, this);
+}
+
+void Filmer::Shutdown() {
+  filming = false;
+  synchro.close();
+}
+
+void Filmer::Join() {
+  if (t.joinable()) t.join();
 }
