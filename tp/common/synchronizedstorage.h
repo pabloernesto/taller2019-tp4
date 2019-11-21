@@ -6,18 +6,23 @@
 
 template<class T>
 class SynchronizedStorage {
-  bool set;
+  bool closed = false;
+  bool set = false;
   T data;
   std::mutex m;
   std::condition_variable cv;
 
 public:
-  T get() {
+  // Returns true on success, false on a closed synchro
+  bool get(T* buffer) {
     std::unique_lock<std::mutex> lock(m);
-    while (!set) cv.wait(lock);
+    while (!set && !closed) cv.wait(lock);
+
+    if (closed) return false;
 
     set = false;
-    return std::move(data);
+    *buffer = std::move(data);
+    return true;
   }
 
   // Try to set the value of data. If data was already set, do nothing.
@@ -42,6 +47,12 @@ public:
     this->data = data;
     cv.notify_one();
     return old_set;
+  }
+
+  void close() {
+    std::lock_guard<std::mutex> lock(m);
+    closed = true;
+    cv.notify_one();
   }
 };
 

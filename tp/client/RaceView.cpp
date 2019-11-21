@@ -88,6 +88,7 @@ void RaceView::render(int tick) {
 
 void RaceView::ChangeFilmingState(){
   if (!filmer.IsFilming()){
+    filmer.Join();
     filmer.Start();
   } else {
     filmer.Shutdown();

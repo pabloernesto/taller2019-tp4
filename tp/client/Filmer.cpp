@@ -34,7 +34,8 @@ Filmer::~Filmer(){
 
 void Filmer::Loop() {
   while (filming) {
-    std::vector<char> data = synchro.get();
+    std::vector<char> data;
+    if (!synchro.get(&data)) continue;
     videoOutput.writeFrame(data.data(), videoContex);
   }
 }
@@ -68,6 +69,7 @@ void Filmer::Start() {
 
 void Filmer::Shutdown() {
   filming = false;
+  synchro.close();
 }
 
 void Filmer::Join() {
