@@ -34,9 +34,7 @@ void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* rac
   }
 
   // x is screen center
-  int x;
-  SDL_GetWindowSize(window, &x, NULL);
-  x /= 2;
+  int x = configuration.WINDOW_WIDTH/2;
 
   // y is some ways from the top + constant * buttons.size
   int y = 70;
@@ -81,11 +79,6 @@ void ChooseRaceScreen::DrawWindow(){
 }
 
 GameScreen* ChooseRaceScreen::start(){
-  int w;
-  int h;
-  SDL_SetWindowSize(window, configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT);
-  SDL_GL_GetDrawableSize(window, &w, &h);
-  SDL_RenderSetLogicalSize(renderer, w, h);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;

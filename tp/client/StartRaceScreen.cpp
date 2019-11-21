@@ -1,5 +1,8 @@
 #include "StartRaceScreen.h"
 #include "StartRaceScreen_Buttons.h"
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 GameScreen* StartRaceScreen::start() {
   while (!next_screen) {
@@ -37,9 +40,8 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 
   // populate button chain
-  int
-    x = 600 / 2,
-    y = 400 / 2;
+  int x = configuration.WINDOW_WIDTH / 2;
+  int y = configuration.WINDOW_HEIGHT / 2;
 
   const int buttonAI_w = 150;
   const int buttonAI_h = 40;

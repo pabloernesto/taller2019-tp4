@@ -18,7 +18,7 @@ Client::Client() {
     "Micromachines",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     configuration.WINDOW_WIDTH, configuration.WINDOW_HEIGHT,
-    SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window, -1, 0);
 
   music = Mix_LoadMUS("Sonidos/Race of the Wasp.wav");
