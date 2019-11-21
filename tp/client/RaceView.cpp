@@ -83,10 +83,7 @@ void RaceView::render(int tick) {
 
   //Render on user screen
   this->RenderView(tick);
-  
-  //Render on film
-  if (filmer.IsFilming())
-    filmer.FilmFrame();
+  filmer.FilmFrame();   // Does nothing if filmer hasn't started
 }
 
 void RaceView::ChangeFilmingState(){
