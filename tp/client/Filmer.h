@@ -4,6 +4,10 @@
 #include <SDL2/SDL.h>
 #include "FormatContext.h"
 #include "OutputFormat.h"
+#include <thread>
+#include <atomic>
+#include "../common/synchronizedstorage.h"
+#include <vector>
 
 class Filmer {
 private:
@@ -13,16 +17,25 @@ private:
   OutputFormat videoOutput;
   SDL_Texture* videoTexture;
   SwsContext * videoContex;
-  bool filming;
+
+  std::thread t;
+  std::atomic<bool> filming;
+
+  void Loop();
 
 public:
+  SynchronizedStorage<std::vector<char>> synchro;
+
   Filmer(SDL_Window* window, SDL_Renderer* renderer);
   ~Filmer();
   SDL_Texture* GetTexture();
   void FilmFrame();
-  void StartFilming();
-  void StopFilming();
   bool IsFilming();
+
+  // Thread control methods
+  void Start();
+  void Shutdown();
+  void Join();
 };
 
 #endif    // FILMER_H

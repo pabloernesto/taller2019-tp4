@@ -2,6 +2,7 @@
 #define RACEVIEW_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "RaceProxy.h"
 #include "CarView.h"
 #include "TrackView.h"
@@ -11,7 +12,6 @@
 #include <vector>
 #include "CarProxy.h"
 #include "Filmer.h"
-#include "FilmButton.h"
 
 // TODO: create View base class
 
