@@ -25,6 +25,8 @@ class ServerRoom {
 
 public:
   EnqueuedConnection client;
+  std::atomic<bool> disconnected;
+
   void reconnectPlayer();
   void ShutdownConnection();
   void Shutdown();

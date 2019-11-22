@@ -39,13 +39,17 @@ void ServerRoom::CreateGame() {
 
 void ServerRoom::reconnectPlayer(){
   this->client.SetIncomingQueue(this->client_messages);
+  this->client.close_incoming = true;
 }
 
 void ServerRoom::Loop() {
   while (!quit) {
     std::string str;
-    if (!client_messages.trypop(&str))
-      ; // handle client disconnection
+    if (!client_messages.trypop(&str)) {
+      // Client disconnected, mark room for garbage collection
+      disconnected = true;
+      break;
+    }
 
     rapidjson::Document d;
     d.Parse(str.c_str());
@@ -73,5 +77,6 @@ void ServerRoom::Join() {
 
 ServerRoom::ServerRoom(Connection&& c, Server& s)
   : quit(false), client_messages(QUEUE_SIZE),
-  thread(), server(s), client(std::move(c), client_messages)
+  thread(), server(s), client(std::move(c), client_messages),
+  disconnected(false)
 {}

@@ -116,8 +116,9 @@ void Game::Broadcast(std::string& msg) {
       (*it)->client.GetOutgoingQueue().push(std::string(msg));
       it++;
     } catch (std::runtime_error& e) {
-      // TODO: mark room for garbage collection
-      // TODO: remove controller from handler_chain
+      // Client disconnected, mark room for garbage collection and ignore
+      // in future loops
+      (*it)->disconnected = true;
       it = players.erase(it);
     }
 }
@@ -170,6 +171,7 @@ void Game::AddPlayer(ServerRoom& player) {
   });
 
   // Start accepting player messages
+  player.client.close_incoming = false;
   player.client.SetIncomingQueue(in_queue);
 
   // Send player the id of his car and the track's shape

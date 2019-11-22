@@ -43,11 +43,22 @@ void Server::collectorLoop(){
     while (!this->notified){
       this->cond_var.wait(lock);
     }
-    auto it = this->games.begin();
-    while (it != this->games.end()){
+
+    // Clear dead games
+    for (auto it = this->games.begin(); it != this->games.end(); ) {
       if ( (! (*it)->isRunning()) && (! (*it)->isOnPreGameLoop())){
         (*it)->Join();
         it = this->games.erase(it);
+      } else {
+        it++;
+      }
+    }
+
+    // Clear dead rooms
+    for (auto it = rooms.begin(); it != rooms.end(); ) {
+      if ((*it)->disconnected) {
+        (*it)->Join();
+        it = rooms.erase(it);
       } else {
         it++;
       }
