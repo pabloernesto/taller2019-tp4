@@ -56,6 +56,10 @@ void Game::Loop() {
       this->quit = true;
     }
 
+    // Reset car contacts
+    for (auto& car : race->GetCars())
+      car->was_contacted_last_tick = false;
+
     // Frame rate limiting
     const auto time2 = std::chrono::system_clock::now();
     auto rest = rate - (time2 - time1);
