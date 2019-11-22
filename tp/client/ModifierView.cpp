@@ -1,6 +1,7 @@
 #include "ModifierView.h"
 #include "MKStoPixel.h"
 #include <math.h>
+#include <iostream>
 
 ModifierView::ModifierView(Image& image, ModifierProxy& modifier, Camara& camara)
   : modifier(modifier), image(image), camara(camara) {}
@@ -17,4 +18,5 @@ void ModifierView::render(int tick) {
     sounds,
     0,
     tick);
+    
 }

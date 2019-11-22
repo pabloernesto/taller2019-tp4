@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Filmer.h"
 #include "../common/Configuration.h"
+#include "TextPrinter.h"
 
 extern Configuration configuration;
 
@@ -32,9 +33,7 @@ RaceView::RaceView(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, CarProxy& ca
   }
 }
 
-RaceView::~RaceView(){
-  TTF_CloseFont(font);
-}
+RaceView::~RaceView(){}
 
 void RaceView::AddCarView(CarProxy& carProxy){
   std::string img_route;
@@ -50,8 +49,11 @@ void RaceView::AddCarView(CarProxy& carProxy){
 }
 
 void RaceView::renderLife(int life){
-  showMessage("LIFE: " + std::to_string(life), LIFEPOSX, LIFEPOSY,
-    LIFENUMBERSIZE, LIFENUMBERSIZE);
+  TextPrinter printer(font);
+  std::string message = "LIFE: " + std::to_string(life);
+  int width = LIFENUMBERSIZE * (int)message.size();
+  printer.showMessage(message, LIFENUMBERSIZE, 
+    (LIFEPOSX + width/2), (LIFEPOSY + LIFENUMBERSIZE/2), renderer);
 }
 
 void RaceView::UpdateNewCars(){
@@ -99,15 +101,4 @@ void RaceView::ChangeFilmingState(){
   } else {
     filmer.Shutdown();
   }
-}
-
-void RaceView::showMessage(std::string message, int x, int y, int width, int height){
-  SDL_Color color = {255, 255, 255};
-  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
-  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  SDL_Rect Message_rect = {x, y, width* (int) message.size(), height};
-
-  SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
-  SDL_DestroyTexture(Message);
-  SDL_FreeSurface(surfaceMessage);
 }

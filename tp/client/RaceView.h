@@ -38,7 +38,6 @@ private:
   void renderLife(int life);
   void UpdateNewCars();
   void RenderView(int tick);
-  void showMessage(std::string message, int x, int y, int width, int height);
 };
 
 #endif    // RACEVIEW_H_

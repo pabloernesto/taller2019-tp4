@@ -5,6 +5,7 @@
 #include "GoToChooseRaceScreen.h"
 #include <iostream>
 #include "../common/Configuration.h"
+#include "TextPrinter.h"
 
 #define ENDSIGNSIZE 70
 #define BUTTONSIZE 20
@@ -33,10 +34,11 @@ GameScreen* Podium::start(){
     widthButton, BUTTONSIZE}, name, 
     font, {225,225,225}, this);
 
+  TextPrinter printer(font);
   if (winner){
-    showMessage("GANASTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2);
+    printer.showMessage("GANASTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2,renderer);
   } else {
-    showMessage("PERDISTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2);
+    printer.showMessage("PERDISTE",ENDSIGNSIZE,configuration.WINDOW_WIDTH/2,ENDSIGNSIZE/2,renderer);
   }
 
   chooseRace.render();
@@ -52,16 +54,4 @@ GameScreen* Podium::start(){
   }
 
   return next_screen;
-}
-
-void Podium::showMessage(std::string message, int size, int x, int y){
-  SDL_Color color = {255, 255, 255};
-  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
-  SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-  int width = size * (int)message.size();
-  SDL_Rect Message_rect = {x - width/2, y - size/2, width, size};
-
-  SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
-  SDL_DestroyTexture(Message);
-  SDL_FreeSurface(surfaceMessage);
 }
