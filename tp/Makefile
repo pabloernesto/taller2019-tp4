@@ -25,19 +25,19 @@ $(target):
 
 .PHONY: install
 install:
-	cp -t /usr/bin \
+	cp --target-directory /usr/bin \
 		client/micromachines.exe \
 		server/micromachines-server.exe
-	mkdir -p /var/micromachines
-	cp -r -t /var/micromachines \
+	mkdir --parents /var/micromachines
+	cp --recursive --target-directory /var/micromachines \
 		client/Fuentes \
 		client/Imagenes \
 		client/Sonidos
-	cp -t /etc \
+	cp --target-directory /etc \
 		common/Configuracion/micromachines.json
 
 .PHONY: uninstall
 uninstall:
-	rm /usr/micromachines.exe /usr/micromachines-server.exe
-	rm -r /var/micromachines
-	rm /etc/micromachines.json
+	rm --force /usr/bin/micromachines.exe /usr/bin/micromachines-server.exe
+	rm --force --recursive /var/micromachines
+	rm --force /etc/micromachines.json
