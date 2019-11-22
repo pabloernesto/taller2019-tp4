@@ -39,6 +39,7 @@ void ServerRoom::CreateGame() {
 
 void ServerRoom::reconnectPlayer(){
   this->client.SetIncomingQueue(this->client_messages);
+  this->client.close_incoming = true;
 }
 
 void ServerRoom::Loop() {

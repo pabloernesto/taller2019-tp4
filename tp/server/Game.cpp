@@ -171,6 +171,7 @@ void Game::AddPlayer(ServerRoom& player) {
   });
 
   // Start accepting player messages
+  player.client.close_incoming = false;
   player.client.SetIncomingQueue(in_queue);
 
   // Send player the id of his car and the track's shape
