@@ -3,19 +3,21 @@
 
 extern Configuration configuration;
 
-static const std::vector<std::string> image_paths = {
-  configuration.IMAGES_ROUTE + "horizontal.bmp",
-  configuration.IMAGES_ROUTE + "vertical.bmp",
-  configuration.IMAGES_ROUTE + "giro_arribader.bmp",
-  configuration.IMAGES_ROUTE + "giro_abajoder.bmp",
-  configuration.IMAGES_ROUTE + "giro_arribaizq.bmp",
-  configuration.IMAGES_ROUTE + "giro_abajoizq.bmp",
-  configuration.IMAGES_ROUTE + "pasto.bmp"
-};
+static std::vector<std::string> image_paths;
 
 TrackView::TrackView(ImageCache& i)
   : imagecache(i)
-{}
+{
+  if (image_paths.size() == 0) image_paths = {
+    configuration.IMAGES_ROUTE + "horizontal.bmp",
+    configuration.IMAGES_ROUTE + "vertical.bmp",
+    configuration.IMAGES_ROUTE + "giro_arribader.bmp",
+    configuration.IMAGES_ROUTE + "giro_abajoder.bmp",
+    configuration.IMAGES_ROUTE + "giro_arribaizq.bmp",
+    configuration.IMAGES_ROUTE + "giro_abajoizq.bmp",
+    configuration.IMAGES_ROUTE + "pasto.bmp"
+  };
+}
 
 void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces) {
   for (auto it = track_pieces.begin(); it != track_pieces.end(); it++){
