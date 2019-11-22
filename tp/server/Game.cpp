@@ -49,7 +49,7 @@ void Game::Loop() {
     Broadcast(mods_json);
 
     // Check if race ended.
-    if (this->race->Ended()){
+    if (this->race->Ended() || this->players.size() == 0){
       this->quit = true;
     }
 
