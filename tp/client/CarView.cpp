@@ -4,11 +4,17 @@
 #include <math.h>
 #include <iostream>
 #include "Sound.h"
+#include "../common/Configuration.h"
+
+#define ENGINENOISE "Engine noise.wav"
+#define BREAKNOISE "skid-piece-fadeinout.wav"
+
+extern Configuration configuration;
 
 CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
   : car(car), imageAlive(ailive), imageDead(dead), camara(camara)
-    ,motor_sound(Sound("Sonidos/Engine noise.wav")),
-    break_sound(Sound("Sonidos/skid-piece-fadeinout.wav"))
+    ,motor_sound(Sound(configuration.SOUNDS_ROUTE + ENGINENOISE)),
+    break_sound(Sound(configuration.SOUNDS_ROUTE + BREAKNOISE))
   {
     motor_sound.SetVolume(8);
     break_sound.SetVolume(50);

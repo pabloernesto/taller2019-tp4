@@ -17,9 +17,7 @@ Podium::Podium(SDL_Window *w, SDL_Renderer *r, bool winner)
   font(TTF_OpenFont((configuration.FONTS_ROUTE + FONT).c_str(), 50)),
   next_screen() {}
 
-Podium::~Podium(){
-  TTF_CloseFont(font);
-}
+Podium::~Podium(){}
 
 GameScreen* Podium::start(){
   SDL_SetRenderTarget(renderer, NULL);

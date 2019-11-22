@@ -1,13 +1,16 @@
 #include "TrackView.h"
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 static const std::vector<std::string> image_paths = {
-  "Imagenes/horizontal.bmp",
-  "Imagenes/vertical.bmp",
-  "Imagenes/giro_arribader.bmp",
-  "Imagenes/giro_abajoder.bmp",
-  "Imagenes/giro_arribaizq.bmp",
-  "Imagenes/giro_abajoizq.bmp",
-  "Imagenes/pasto.bmp"
+  configuration.IMAGES_ROUTE + "horizontal.bmp",
+  configuration.IMAGES_ROUTE + "vertical.bmp",
+  configuration.IMAGES_ROUTE + "giro_arribader.bmp",
+  configuration.IMAGES_ROUTE + "giro_abajoder.bmp",
+  configuration.IMAGES_ROUTE + "giro_arribaizq.bmp",
+  configuration.IMAGES_ROUTE + "giro_abajoizq.bmp",
+  configuration.IMAGES_ROUTE + "pasto.bmp"
 };
 
 TrackView::TrackView(ImageCache& i)
@@ -31,7 +34,7 @@ void TrackView::render(Camara& camara, std::vector<std::unique_ptr<TrackPiecePro
 void TrackView::renderBackGroundForPiece(Camara& camara, int trackcode,
       std::vector<float> position, std::vector<float> size){
     if (trackcode > 1 && trackcode < 6){
-      auto& trackimage = imagecache.getImage("Imagenes/gray.jpg");
+      auto& trackimage = imagecache.getImage(configuration.IMAGES_ROUTE + "gray.jpg");
       std::vector<Sound*> sounds = {};
       camara.renderMe(position, size, trackimage, sounds, 0, 0);
     }
