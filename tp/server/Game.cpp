@@ -3,7 +3,7 @@
 #include <thread>   // std::this_thread::sleep_for
 #include "Protocol.h"
 #include "ServerRoom.h"
-#include "RaceFabric.h"
+#include "RaceFactory.h"
 #include "CarController.h"
 #include "StartGameController.h"
 // #include <iostream>
@@ -221,7 +221,7 @@ void Game::Join() {
 
 // TODO: pass real track
 Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
-  : race(RaceFabric::makeRace1()),
+  : race(RaceFactory::makeRace1()),
   update_thread(), in_queue(QUEUE_SIZE), players(), quit(false),
   running(false), handler_chain(), mutex(mutex), server(server), 
   frame_counter_mods(0), id(id)
