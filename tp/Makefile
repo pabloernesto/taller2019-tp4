@@ -29,6 +29,7 @@ install:
 		client/micromachines.exe \
 		server/micromachines-server.exe
 	mkdir --parents /var/micromachines
+	mkdir --parents /var/micromachines/Plugins
 	cp --recursive --target-directory /var/micromachines \
 		client/Fuentes \
 		client/Imagenes \

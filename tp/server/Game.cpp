@@ -15,6 +15,9 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
@@ -229,13 +232,13 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   handler_chain.reset(new StartGameController(NULL, (*this)));
   
   // Load plugins
-  DIR* plugins_dir = opendir("Plugins");
+  DIR* plugins_dir = opendir(configuration.PLUGINS_ROUTE.c_str());
   struct dirent* ent = readdir(plugins_dir);
   Mod* (*create)();
   void* shared_lib;
   while (ent != NULL){
     // std::cout << "About to search for plugins\n";
-    std::string file = "./Plugins/" + std::string(ent->d_name);        
+    std::string file = configuration.PLUGINS_ROUTE + std::string(ent->d_name);
     if (file.substr(file.size()- 3) != ".so"){
       ent = readdir(plugins_dir);
       continue;
