@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include <functional>
+#include <atomic>
 
 // This file describes the public interface of the Enqueued Connection (EC)
 // class. This class provides continuous reading/writing over a network
@@ -50,6 +51,7 @@ class Receiver {
 
 public:
   BlockingQueue<std::string>* q;
+  std::atomic<bool> close_incoming;
 
   // After a message arrives from the connection, but before adding it to the
   // queue, this hook will be called (if defined), and allowed to examine,
@@ -73,6 +75,8 @@ class EnqueuedConnection {
   Receiver receiver;
 
 public:
+  std::atomic<bool>& close_incoming;
+
   BlockingQueue<std::string>& GetOutgoingQueue();
   BlockingQueue<std::string>& GetIncomingQueue();
 

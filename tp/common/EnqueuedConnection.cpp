@@ -24,7 +24,7 @@ void Receiver::Loop() {
     if (on_receive && !on_receive(&item)) continue;
     q->push(std::move(item));
   }
-  // Since the queue may be shared by different ECs, don't close it from here
+  if (close_incoming) q->close();
 }
 
 BlockingQueue<std::string>& EnqueuedConnection::GetOutgoingQueue() {
@@ -50,7 +50,8 @@ void EnqueuedConnection::Join() {
 
 EnqueuedConnection::EnqueuedConnection(Connection&& c,
   BlockingQueue<std::string>& in_queue)
-  : connection(std::move(c)), sender(connection), receiver(connection, &in_queue)
+  : connection(std::move(c)), sender(connection),
+  receiver(connection, &in_queue), close_incoming(receiver.close_incoming)
 {
   sender.Start();
   receiver.Start();
@@ -67,7 +68,7 @@ Sender::Sender(Connection& c)
 {}
 
 Receiver::Receiver(Connection& c, BlockingQueue<std::string>* in_queue)
-  : connection(c), t(), q(in_queue), on_receive(nullptr)
+  : connection(c), t(), q(in_queue), close_incoming(true), on_receive(nullptr)
 {}
 
 void Sender::Start() {
