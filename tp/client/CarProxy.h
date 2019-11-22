@@ -40,6 +40,7 @@ class CarProxy {
     void SteerLeft();
     void SteerCenter();
     bool HasBreakOn();
+    bool WasContactedLastTick();
 };
 
 #endif

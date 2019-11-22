@@ -91,3 +91,7 @@ void CarProxy::SteerCenter(){
 bool CarProxy::HasBreakOn(){
   return break_;
 }
+
+bool CarProxy::WasContactedLastTick() {
+  return was_contacted_last_tick;
+}
