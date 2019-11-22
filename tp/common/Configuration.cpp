@@ -46,6 +46,11 @@ Configuration::Configuration(const char* name){
 	PIECE_HEIGHT = d["PIECE_HEIGHT"].GetFloat();
 	WINDOW_WIDTH = d["WINDOW_WIDTH"].GetInt();
 	WINDOW_HEIGHT = d["WINDOW_HEIGHT"].GetInt();
+	WINDOW_NAME = d["WINDOW_NAME"].GetString();
+	SOUNDS_ROUTE = d["SOUNDS_ROUTE"].GetString();
+  IMAGES_ROUTE = d["IMAGES_ROUTE"].GetString();
+	FONTS_ROUTE = d["FONTS_ROUTE"].GetString();
+	BACKGROUND_MUSIC = d["BACKGROUND_MUSIC"].GetString();
 }
 
 Configuration::~Configuration(){

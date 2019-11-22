@@ -8,18 +8,22 @@
 
 #define ENDSIGNSIZE 70
 #define BUTTONSIZE 20
+#define FONT "MAKISUPA.TTF"
 
 extern Configuration configuration;
 
 Podium::Podium(SDL_Window *w, SDL_Renderer *r, bool winner)
-  : GameScreen(w, r), winner(winner), next_screen(){}
+  : GameScreen(w, r), winner(winner), 
+  font(TTF_OpenFont((configuration.FONTS_ROUTE + FONT).c_str(), 50)),
+  next_screen() {}
+
+Podium::~Podium(){}
 
 GameScreen* Podium::start(){
   SDL_SetRenderTarget(renderer, NULL);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   SDL_Event sdl_event;
-  TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
 
   std::string name = "Play again";
   int widthButton = (int)name.size()*BUTTONSIZE;
@@ -47,12 +51,10 @@ GameScreen* Podium::start(){
       chooseRace.Handle(&sdl_event);
   }
 
-  TTF_CloseFont(font);
   return next_screen;
 }
 
 void Podium::showMessage(std::string message, int size, int x, int y){
-  TTF_Font* font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
   SDL_Color color = {255, 255, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -62,5 +64,4 @@ void Podium::showMessage(std::string message, int size, int x, int y){
   SDL_RenderCopyEx(renderer, Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
   SDL_DestroyTexture(Message);
   SDL_FreeSurface(surfaceMessage);
-  TTF_CloseFont(font);
 }

@@ -1,11 +1,11 @@
-#include "RaceFabric.h"
+#include "RaceFactory.h"
 #include <string>
 #include <vector>
 #include <math.h>
 
-RaceFabric::RaceFabric(){}
+RaceFactory::RaceFactory(){}
 
-Race* RaceFabric::makeRace1(){
+Race* RaceFactory::makeRace1(){
   std::string track = "6 9 666662004204661661163005661166666661162004661305663005";
   std::vector<std::unique_ptr<Posta>>* postas = new std::vector<std::unique_ptr<Posta>>();
   postas->emplace_back(new Posta(0, {5,-20}, 0));

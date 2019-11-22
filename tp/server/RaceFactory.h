@@ -6,10 +6,10 @@
 #include <vector>
 #include "Race.h"
 
-class RaceFabric {
+class RaceFactory {
 
 public:
-  RaceFabric();
+  RaceFactory();
   static Race* makeRace1();
 };
 

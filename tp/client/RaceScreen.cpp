@@ -9,13 +9,18 @@
 #include <dlfcn.h>
 #include "Ai.h"
 #include "StartRaceScreen_Buttons.h"
+#include "../common/Configuration.h"
+
+#define ENGINESTARTSOUND "engine_start_up_01.wav"
+
+extern Configuration configuration;
 
 RaceScreen::~RaceScreen(){
 }
 
 RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carId, bool is_Lua)
   : GameScreen(w, r), race(race), carId(carId), is_Lua(is_Lua),
-  startEngineSound(Sound("Sonidos/engine_start_up_01.wav"))
+  startEngineSound(Sound(configuration.SOUNDS_ROUTE + ENGINESTARTSOUND))
 {
   startEngineSound.SetVolume(10);
 }
