@@ -3,7 +3,7 @@ MAKEFLAGS += --no-print-directory
 # targets
 #########
 
-target=server.exe
+target=micromachines_server.exe
 
 TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
 
