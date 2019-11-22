@@ -2,6 +2,8 @@
 #include "StartRaceScreen_Buttons.h"
 #include "../common/Configuration.h"
 
+#define FONT "MAKISUPA.TTF"
+
 extern Configuration configuration;
 
 GameScreen* StartRaceScreen::start() {
@@ -37,7 +39,7 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   : GameScreen(w, r), race(race), player_id(player_id), button_chain(),
   next_screen()
 {
-  font = TTF_OpenFont("Fuentes/MAKISUPA.TTF", 50);
+  font = TTF_OpenFont((configuration.FONTS_ROUTE + FONT).c_str(), 50);
 
   // populate button chain
   int x = configuration.WINDOW_WIDTH / 2;
