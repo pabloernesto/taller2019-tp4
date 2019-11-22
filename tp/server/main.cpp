@@ -4,7 +4,7 @@
 #include <thread>
 #include "../common/Configuration.h"
 
-Configuration configuration("../common/Configuracion/config.json");
+Configuration configuration("/etc/micromachines.json");
 
 int main(int argc, char **argv) {
   Listener listener("1234");

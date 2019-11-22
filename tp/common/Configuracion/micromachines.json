@@ -34,8 +34,9 @@
 	"WINDOW_WIDTH": 600,
 	"WINDOW_HEIGHT": 400,
 	"WINDOW_NAME" : "Micromachines",
-	"SOUNDS_ROUTE" : "Sonidos/",
-	"IMAGES_ROUTE" : "Imagenes/",
-	"FONTS_ROUTE" : "Fuentes/",
+	"SOUNDS_ROUTE" : "/var/micromachines/Sonidos/",
+	"IMAGES_ROUTE" : "/var/micromachines/Imagenes/",
+	"FONTS_ROUTE" : "/var/micromachines/Fuentes/",
+	"PLUGINS_ROUTE": "/var/micromachines/Plugins/",
 	"BACKGROUND_MUSIC" : "Race of the Wasp.wav"
 }

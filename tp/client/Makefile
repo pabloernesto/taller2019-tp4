@@ -4,7 +4,7 @@ MAKEFLAGS += --no-print-directory
 # targets
 #########
 
-target=client.exe
+target=micromachines.exe
 TARGET := $(if $(MAKECMDGOALS),$(firstword $(MAKECMDGOALS)),all)
 
 # source files

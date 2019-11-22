@@ -22,3 +22,23 @@ client server: common
 
 $(target):
 	$(MAKE) --directory=$@ $(TARGET)
+
+.PHONY: install
+install:
+	cp --target-directory /usr/bin \
+		client/micromachines.exe \
+		server/micromachines-server.exe
+	mkdir --parents /var/micromachines
+	mkdir --parents /var/micromachines/Plugins
+	cp --recursive --target-directory /var/micromachines \
+		client/Fuentes \
+		client/Imagenes \
+		client/Sonidos
+	cp --target-directory /etc \
+		common/Configuracion/micromachines.json
+
+.PHONY: uninstall
+uninstall:
+	rm --force /usr/bin/micromachines.exe /usr/bin/micromachines-server.exe
+	rm --force --recursive /var/micromachines
+	rm --force /etc/micromachines.json
