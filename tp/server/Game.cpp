@@ -116,8 +116,9 @@ void Game::Broadcast(std::string& msg) {
       (*it)->client.GetOutgoingQueue().push(std::string(msg));
       it++;
     } catch (std::runtime_error& e) {
-      // TODO: mark room for garbage collection
-      // TODO: remove controller from handler_chain
+      // Client disconnected, mark room for garbage collection and ignore
+      // in future loops
+      (*it)->disconnected = true;
       it = players.erase(it);
     }
 }
