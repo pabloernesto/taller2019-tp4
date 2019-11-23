@@ -51,6 +51,7 @@ Configuration::Configuration(const char* name){
   IMAGES_ROUTE = d["IMAGES_ROUTE"].GetString();
 	FONTS_ROUTE = d["FONTS_ROUTE"].GetString();
 	PLUGINS_ROUTE = d["PLUGINS_ROUTE"].GetString();
+  AI_SCRIPT_ROUTE = d["AI_SCRIPT_ROUTE"].GetString();
 	BACKGROUND_MUSIC = d["BACKGROUND_MUSIC"].GetString();
 }
 

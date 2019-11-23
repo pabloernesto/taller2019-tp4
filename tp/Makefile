@@ -34,6 +34,8 @@ install:
 		client/Fuentes \
 		client/Imagenes \
 		client/Sonidos
+	cp --target-directory /var/micromachines \
+		client/Ai.lua
 	cp --target-directory /etc \
 		common/Configuracion/micromachines.json
 

@@ -38,5 +38,6 @@
 	"IMAGES_ROUTE" : "/var/micromachines/Imagenes/",
 	"FONTS_ROUTE" : "/var/micromachines/Fuentes/",
 	"PLUGINS_ROUTE": "/var/micromachines/Plugins/",
+	"AI_SCRIPT_ROUTE": "/var/micromachines/Ai.lua",
 	"BACKGROUND_MUSIC" : "Race of the Wasp.wav"
 }

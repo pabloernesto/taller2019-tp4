@@ -1,6 +1,11 @@
 #include "Ai.h"
 #include "TrackPieceProxy.h"
 #include <chrono>  
+
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
+
 const int Ai::SLEEP_TIME_MS = 100;
 
 extern "C" Ai* createAi(CarProxy* car, RaceProxy* race){
@@ -14,7 +19,7 @@ extern "C" void destroyAi(Ai* ai){
 Ai::Ai(CarProxy* car, RaceProxy* race) : car(car), race(race), quit(false) {
   this->L = luaL_newstate();
   luaL_openlibs(L);
-  int r_v = luaL_dofile(L, "Ai.lua");
+  int r_v = luaL_dofile(L, configuration.AI_SCRIPT_ROUTE.c_str());
   if (r_v != 0)
     throw std::runtime_error(
       "Ai::Ai: luaL_dofile returned " + std::to_string(r_v));

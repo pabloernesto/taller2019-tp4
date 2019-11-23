@@ -45,6 +45,7 @@ public:
   std::string IMAGES_ROUTE;
 	std::string FONTS_ROUTE;
 	std::string PLUGINS_ROUTE;
+	std::string AI_SCRIPT_ROUTE;
 	std::string BACKGROUND_MUSIC;
 
   Configuration(const char* name);
