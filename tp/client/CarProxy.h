@@ -17,6 +17,7 @@ class CarProxy {
     bool break_;
     std::mutex m;
     int life;
+    bool was_contacted_last_tick;
 
     void sendMethod(std::string method);
 
@@ -27,7 +28,7 @@ class CarProxy {
     std::vector<float> GetSize();
     float GetAngle();
     void update(float x, float y, float angle, float size_x, float size_y, 
-      bool dead, bool break_, int life);
+      bool dead, bool break_, int life, bool was_contacted_last_tick);
     int GetId();
     int GetLife();
     bool isDead();
@@ -39,6 +40,7 @@ class CarProxy {
     void SteerLeft();
     void SteerCenter();
     bool HasBreakOn();
+    bool WasContactedLastTick();
 };
 
 #endif

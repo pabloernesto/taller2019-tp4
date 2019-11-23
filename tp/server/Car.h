@@ -35,7 +35,9 @@ class Car : public Contactable, public CarModInterface{
   int laps;
   b2Vec2 car_size;
 
-  public:
+public:
+  bool was_contacted_last_tick;
+
   Car(int id, Race* race);
   virtual void Place(b2World& world, b2Vec2 position);
 

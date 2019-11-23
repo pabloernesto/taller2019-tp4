@@ -13,7 +13,8 @@ Car::Car(int id, Race* race)
   step_counter_death(0), step_counter_max_speed_mult(0),
   max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), angular_vel_modif(0), 
   step_counter_ang_velocity(0),lastPosta(new Posta(-1, {0,0},0)), dead(false), race(race), 
-  laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT)
+  laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT),
+  was_contacted_last_tick(false)
 {}
 
 void Car::GasOn() {
@@ -289,6 +290,7 @@ void Car::Contact(Contactable* contactable){
 }
 
 void Car::GetContactedBy(Car* car){
+  was_contacted_last_tick = true;
   life -= 1;
 }
 

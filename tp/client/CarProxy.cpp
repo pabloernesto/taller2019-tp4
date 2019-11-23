@@ -7,14 +7,14 @@ CarProxy::CarProxy(BlockingQueue<std::string>& outqueue, float x, float y,
                       float angle, float size_x, float size_y, int id) :
                       outqueue(outqueue), x(x), y(y), angle(angle),
                       size_x(size_x), size_y(size_y), dead(false), id(id),
-                      break_(false), life(0){}
+                      break_(false), life(0), was_contacted_last_tick(false) {}
 
 void CarProxy::sendMethod(std::string method){
   outqueue.push("{\"type\": \"intent\", \"command\": \"" + method + "\"}");
 }
 
 void CarProxy::update(float x, float y, float angle, float size_x, float size_y,
-  bool dead, bool break_, int life){
+  bool dead, bool break_, int life, bool was_contacted_last_tick){
   this->x = x;
   this->y = y;
   this->angle = angle;
@@ -23,6 +23,7 @@ void CarProxy::update(float x, float y, float angle, float size_x, float size_y,
   this->dead = dead;
   this->break_ = break_;
   this->life = life;
+  this->was_contacted_last_tick = was_contacted_last_tick;
 }
 
 std::vector<float> CarProxy::GetPosition(){
@@ -89,4 +90,8 @@ void CarProxy::SteerCenter(){
 
 bool CarProxy::HasBreakOn(){
   return break_;
+}
+
+bool CarProxy::WasContactedLastTick() {
+  return was_contacted_last_tick;
 }
