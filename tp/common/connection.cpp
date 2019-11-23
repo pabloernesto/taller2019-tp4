@@ -81,7 +81,7 @@ int Connection::Get(void *buffer, int n) {
   char *s = (char*) buffer;
   int received = 0;
   while (received < n) {
-    int r = recv(fd, s, n - received, 0);
+    int r = recv(fd, s, n - received, MSG_WAITALL);
     if (r <= 0) return received;
     received += r;
     s += received;
