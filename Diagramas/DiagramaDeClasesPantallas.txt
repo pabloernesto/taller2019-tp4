@@ -1,0 +1,48 @@
+@startuml
+
+class ChooseRaceScreen{
+  Connection connection
+  GameScreen* start()
+
+  void GetGames(Connection& connection, 
+rapidjson* race_list)
+  void DrawWindow()
+}
+
+class GameScreen {
+  SDL_Window* window
+  SDL_Renderer* renderer
+  GameScreen* start()
+}
+
+class Inicio{
+  GameScreen* start()
+}
+
+class Podium{
+  GameScreen* start()
+}
+
+class RaceScreen{
+  bool is_Lua
+  void userLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view)
+  void luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view)
+  GameScreen* start()
+}
+
+class RaceProxy{
+}
+
+class StartRaceScreen{
+  int player_id
+  GameScreen* start()
+}
+
+GameScreen <|-- ChooseRaceScreen
+GameScreen <|-- Inicio
+GameScreen <|-- Podium
+GameScreen <|-- RaceScreen
+RaceScreen o-- RaceProxy
+GameScreen <|-- StartRaceScreen
+StartRaceScreen o-- RaceProxy
+@enduml

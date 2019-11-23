@@ -1,0 +1,60 @@
+@startuml
+
+class Camara{
+  SDL_Rect camara
+  void renderMe(vector<float> position, 
+vector<float> size, Image& image, 
+vector<Sound*>& sounds, float angle, int tick)
+}
+
+class CarView{
+  void render(int tick)
+}
+
+class Filmer {
+  OutputFormat videoOutput
+  SwsContext * videoContex
+
+  void FilmFrame()
+}
+
+class ModifierView {
+  void render(int tick)
+}
+
+class RaceView {
+  void render(int tick)
+  void ChangeFilmingState()
+}
+
+class TrackView {
+  void render(Camara& camara, 
+vector<unique_ptr<TrackPieceProxy>>& track_pieces)
+}
+
+class UpdateLoop {
+  thread t
+  atomic<bool> quit
+  void Loop()
+  void Start()
+  void Join()
+}
+
+
+CarView o-- CarProxy
+CarView o-- Camara
+ModifierView o-- Camara
+ModifierView o-- ModifierProxy
+RaceProxy o-- CarProxy
+RaceProxy o-- ModifierProxy
+RaceProxy o-- TrackPieceProxy
+RaceView o-- RaceProxy
+RaceView o-- CarView
+RaceView *-- Camara
+RaceView *-- Filmer
+RaceView o-- TrackView
+RaceView o-- CarProxy
+UpdateLoop o-- RaceProxy
+UpdateLoop o-- RaceView
+Camara o-- CarProxy
+@enduml

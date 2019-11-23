@@ -1,0 +1,25 @@
+@startuml
+
+class AsphaltTrackPiece{
+  void updateCarCounter(Car& car)
+  const bool isCarOverMe(Car& car)
+}
+
+class GrassTrackPiece{
+  void updateCarCounter(Car& car)
+  const bool isCarOverMe(Car& car)
+}
+
+class TrackPiece{
+  float x
+  float y
+  std::vector<float> size
+  int track_type
+
+  virtual void updateCarCounter(Car& car) = 0
+}
+
+TrackPiece <|-- GrassTrackPiece
+TrackPiece <|-- AsphaltTrackPiece
+
+@enduml

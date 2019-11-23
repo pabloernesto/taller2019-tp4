@@ -1,0 +1,54 @@
+@startuml
+class CarProxy{
+    float x;
+    float y;
+    float angle;
+    float size_x;
+    float size_y;
+    int id;
+    int life;
+
+    void GasOn()
+    void GasOff()
+    void BreakOn()
+    void BreakOff()
+    void SteerRight()
+    void SteerLeft()
+    void SteerCenter()
+    bool HasBreakOn()
+}
+
+class ModifierProxy {
+    float x
+    float y
+    float size_x
+    float size_y
+    string type
+}
+
+class RaceProxy {
+  bool ended
+  int winner_id
+  void UpdateLoop()
+  bool Ended()
+  int GetWinnerId()
+}
+
+class TrackPieceProxy {
+    int track_type
+    float x
+    float y
+    float size_x
+    float size_y
+}
+
+
+CarView o-- CarProxy
+ModifierView o-- ModifierProxy
+RaceProxy o-- CarProxy
+RaceProxy o-- ModifierProxy
+RaceProxy o-- TrackPieceProxy
+RaceView o-- RaceProxy
+RaceView o-- CarProxy
+
+@enduml

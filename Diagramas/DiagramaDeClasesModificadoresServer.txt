@@ -1,0 +1,31 @@
+@startuml
+
+class Modifier{
+    b2Body* body
+    b2Vec2 size
+
+    void modify(Car& car)
+}
+
+class Boost{
+    void modify(Car& car) override
+}
+
+class HealthBox{
+    void modify(Car& car)
+}
+
+class Oil{
+    void modify(Car& car)
+}
+
+class Stone{
+    void modify(Car& car)
+}
+
+Modifier <|-- HealthBox
+Modifier <|-- Boost
+Modifier <|-- Oil
+Modifier <|-- Stone
+
+@enduml

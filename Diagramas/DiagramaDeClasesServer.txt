@@ -1,0 +1,131 @@
+@startuml
+
+class Car{
+  int id
+  b2Body* body;
+  bool gas
+  bool break_
+  bool reverse
+  int life
+  float max_speed
+  float32 angular_velocity
+  bool dead
+  int laps
+
+  void GasOn()
+  void GasOff()
+  void BreakOn()
+  void BreakOff()
+  void SteerLeft()
+  void SteerRight()
+  void SteerCenter()
+  void reverseOn()
+  void reverseOff()
+}
+
+class Contactable {
+  void Contact(Contactable* contactable)
+  void GetContactedBy(Car* car)
+  void GetContactedBy(Posta* posta)
+  void GetContactedBy(Modifier* modifier)
+}
+
+class Game {
+  thread update_thread
+  atomic<bool> quit
+  bool running
+  int id
+  
+  void Loop()
+  void preGameLoop()
+  void reconnectPlayersToServerRoom()
+  void Broadcast(std::string& msg)
+  void executeMods()
+  void AddPlayer(ServerRoom& player)
+  void startGame(int user_id)
+}
+
+class Modifier{
+    b2Body* body
+    b2Vec2 size
+
+    void modify(Car& car)
+}
+
+class Posta{
+  int id
+  b2Body* body
+}
+
+class Race{
+  b2World world;
+  ContactListener listener;
+  int laps;
+  bool ended;
+  Car* winnerCar;
+  
+  Car& AddCar(float x, float y, int id)
+  Car& AddNewCarToRace()
+  void SetWinner(Car* car)
+  bool Ended()
+  int GetIdWinnerCar()
+}
+
+class ServerRoom {
+  atomic<bool> quit
+  BlockingQueue<string> client_messages
+  thread thread
+  
+  void HandleRequest(rapidjson& req)
+  void Loop()
+  void ListAvailableGames()
+  void JoinGame(int gameid)
+  void CreateGame()
+  void reconnectPlayer()
+  void ShutdownConnection()
+}
+
+class Track{
+  size_t num_rows
+  size_t num_cols
+  vector<vector<int>> blocks
+
+  void updateCarCounter(Car& car)
+}
+
+class TrackPiece{
+  float x
+  float y
+  std::vector<float> size
+  int track_type
+
+  virtual void updateCarCounter(Car& car) = 0
+}
+
+class Server{
+  thread collector_thread
+  atomic<bool> quit
+
+  void Add(Connection&& c)
+  void JoinGame(int id, ServerRoom& player)
+  int NewGame()
+}
+
+
+Contactable <|-- Car
+Contactable <|-- Posta
+Car o-- Race
+Game *-- Race
+Game *-- ServerRoom
+Game o-- Server
+Contactable <|-- Modifier
+Race o-- Car
+Race o-- Posta
+Race o-- Modifier
+Race o-- Track
+ServerRoom o-- Server
+Track *-- TrackPiece
+Server *-- Game
+Server *-- ServerRoom
+
+@enduml
