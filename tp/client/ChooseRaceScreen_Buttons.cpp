@@ -15,6 +15,7 @@ bool RaceButton::OnHandle(void* t) {
   {
     context->connection.SendStr(msg.c_str());
     char* data = context->connection.GetStr();
+    if (!data) throw std::runtime_error("server disconnected");
     d.Parse(data);
     delete[] data;
   }
