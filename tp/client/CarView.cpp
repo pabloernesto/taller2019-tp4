@@ -8,17 +8,20 @@
 
 #define ENGINENOISE "Engine noise.wav"
 #define BREAKNOISE "skid-piece-fadeinout.wav"
+#define CRASHNOISE "crash_sound.wav"
 
 extern Configuration configuration;
 
 CarView::CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara)
-  : car(car), imageAlive(ailive), imageDead(dead), camara(camara)
-    ,motor_sound(Sound(configuration.SOUNDS_ROUTE + ENGINENOISE)),
-    break_sound(Sound(configuration.SOUNDS_ROUTE + BREAKNOISE))
-  {
-    motor_sound.SetVolume(8);
-    break_sound.SetVolume(50);
-  }
+  : car(car), imageAlive(ailive), imageDead(dead), camara(camara),
+  motor_sound(Sound(configuration.SOUNDS_ROUTE + ENGINENOISE)),
+  break_sound(Sound(configuration.SOUNDS_ROUTE + BREAKNOISE)),
+  crash_sound(configuration.SOUNDS_ROUTE + CRASHNOISE)
+{
+  motor_sound.SetVolume(8);
+  break_sound.SetVolume(50);
+  crash_sound.SetVolume(70);
+}
 
 CarView::~CarView(){
 }
@@ -29,9 +32,8 @@ void CarView::render(int tick) {
 
   Image& img = car.isDead() ? imageDead : imageAlive;
   std::vector<Sound*> sounds = {};
-  if (car.HasBreakOn()){
-    sounds.push_back(&break_sound);
-  }
+  if (car.HasBreakOn()) sounds.push_back(&break_sound);
+  if (car.WasContactedLastTick()) sounds.push_back(&crash_sound);
   sounds.push_back(&motor_sound);
   
   // The car image points downward, add 180 degrees to flip it up

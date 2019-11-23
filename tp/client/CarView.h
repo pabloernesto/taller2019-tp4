@@ -16,6 +16,7 @@ class CarView {
   Camara& camara;
   Sound motor_sound;
   Sound break_sound;
+  Sound crash_sound;
 
 public:
   CarView(Image& ailive, Image& dead, CarProxy& car, Camara& camara);
