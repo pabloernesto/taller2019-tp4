@@ -48,6 +48,8 @@ public:
 	std::string PLUGINS_ROUTE;
 	std::string AI_SCRIPT_ROUTE;
 	std::string BACKGROUND_MUSIC;
+	std::string SERVER_HOST;
+	std::string SERVER_PORT;
 
   Configuration(const char* name);
   ~Configuration();

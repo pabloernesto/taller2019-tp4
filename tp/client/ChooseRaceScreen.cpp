@@ -17,7 +17,10 @@ extern Configuration configuration;
 
 ChooseRaceScreen::ChooseRaceScreen(SDL_Window *w, SDL_Renderer *r)
   : GameScreen(w, r), button_chain(), font(),
-  next_screen(), connection("localhost", "1234") 
+  next_screen(),
+  connection(
+    configuration.SERVER_HOST.c_str(),
+    configuration.SERVER_PORT.c_str()) 
   {
     font = TTF_OpenFont((configuration.FONTS_ROUTE + FONT).c_str(), 50);
   }

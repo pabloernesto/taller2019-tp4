@@ -54,6 +54,8 @@ Configuration::Configuration(const char* name){
 	PLUGINS_ROUTE = d["PLUGINS_ROUTE"].GetString();
   AI_SCRIPT_ROUTE = d["AI_SCRIPT_ROUTE"].GetString();
 	BACKGROUND_MUSIC = d["BACKGROUND_MUSIC"].GetString();
+	SERVER_HOST = d["SERVER_HOST"].GetString();
+	SERVER_PORT = d["SERVER_PORT"].GetString();
 }
 
 Configuration::~Configuration(){

@@ -7,7 +7,7 @@
 Configuration configuration("/etc/micromachines.json");
 
 int main(int argc, char **argv) {
-  Listener listener("1234");
+  Listener listener(configuration.SERVER_PORT.c_str());
   Server server;
   server.Start();
   
