@@ -8,11 +8,12 @@ extern Configuration configuration;
 
 Car::Car(int id, Race* race)
   : Contactable(), id(id), body(), gas(false), break_(false), reverse(false),
-  life(configuration.LIFE), max_speed(configuration.MAX_SPEED), angular_velocity(0), step_counter(0),
-  step_counter_death(0), step_counter_max_speed_mult(0),
-  max_speed_multiplier(1), speed_reducer(0), step_counter_red_speed(0), angular_vel_modif(0), 
-  step_counter_ang_velocity(0),lastPosta(new Posta(-1, {0,0},0)), dead(false), race(race), 
-  laps(0), car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT),
+  life(configuration.LIFE), max_speed(configuration.MAX_SPEED),
+  angular_velocity(0), step_counter(0), step_counter_death(0),
+  step_counter_max_speed_mult(0), max_speed_multiplier(1), speed_reducer(0),
+  step_counter_red_speed(0), angular_vel_modif(0), step_counter_ang_velocity(0),
+  lastPosta(new Posta(-1, {0,0},0)), dead(false), race(race), laps(0),
+  car_size(configuration.CAR_WIDTH, configuration.CAR_HEIGHT),
   was_contacted_last_tick(false)
 {}
 
@@ -94,7 +95,8 @@ void Car::Place(b2World& world, b2Vec2 position) {
 
   b2FixtureDef car_fixture_def;
   car_fixture_def.shape = &collision_box;
-  const float32 DENSITY = configuration.WEIGHT_KG / (configuration.CAR_WIDTH * configuration.CAR_HEIGHT);
+  const float32 DENSITY = configuration.WEIGHT_KG
+    / (configuration.CAR_WIDTH * configuration.CAR_HEIGHT);
   car_fixture_def.density = DENSITY;
   body->CreateFixture(&car_fixture_def);
 }
@@ -163,14 +165,13 @@ void Car::updateMaxSpeed(){
     counter = configuration.FRAME_RATE/2;
   // Max posible value is 30.
 
-  if (this->reverse){
-    this->max_speed = (- (configuration.MAX_SPEED_REV) / (2 * configuration.FRAME_RATE/2) * (counter)) + configuration.MAX_SPEED_REV;
-  } else{
-    this->max_speed = (- (configuration.MAX_SPEED) / (2 * configuration.FRAME_RATE/2) * (counter)) + configuration.MAX_SPEED;
-  }
+  const float base = this->reverse
+    ? configuration.MAX_SPEED_REV
+    : configuration.MAX_SPEED;
+  this->max_speed = base * (1 - (float) (counter) / configuration.FRAME_RATE);
   this->updateMaxSpeedMultiplier();
   this->max_speed = this->max_speed * this->max_speed_multiplier;
-  // It's a linear function that fulfills two points: (0, MAX_SPEED) and (30, MAX_SPEED/2)
+  // It's a linear function that goes through (0, MAX_SPEED) and (30, MAX_SPEED/2)
   // where "x" is step_counter and "y" is max_speed.
 }
 
@@ -234,10 +235,10 @@ void Car::Step(Track& track) {
   force = b2Mul(rotation, force);
   body->ApplyForceToCenter(force, true);
 
-  // Taking into consideration that we have a 60fps.
-  if (life <= 0 || (this->step_counter >= (configuration.FRAME_RATE * configuration.EXPLODING_SEC_LIMIT))){
+  const size_t explode_after_frames =
+    configuration.FRAME_RATE * configuration.EXPLODING_SEC_LIMIT;
+  if (life <= 0|| (this->step_counter >= explode_after_frames))
     this->DieAndRevive(track);
-  }
 }
 
 const b2Transform& Car::GetTransform(){
