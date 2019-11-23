@@ -3,6 +3,9 @@
 #include <vector>
 #include <math.h>
 #include "Track.h"
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 RaceFactory::RaceFactory(){}
 
@@ -18,5 +21,5 @@ Race* RaceFactory::makeRace1(){
   postas->emplace_back(new Posta(3, {55,-50}, 0));
   postas->emplace_back(new Posta(4, {5,-50}, 0));
 
-  return new Race(track, 1, postas);
+  return new Race(track, configuration.LAPS, postas);
 }

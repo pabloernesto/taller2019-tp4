@@ -44,6 +44,7 @@ Configuration::Configuration(const char* name){
   OIL_DURATION = d["OIL_DURATION"].GetFloat();
 	PIECE_WIDTH = d["PIECE_WIDTH"].GetFloat();
 	PIECE_HEIGHT = d["PIECE_HEIGHT"].GetFloat();
+  LAPS = d["LAPS"].GetInt();
 	WINDOW_WIDTH = d["WINDOW_WIDTH"].GetInt();
 	WINDOW_HEIGHT = d["WINDOW_HEIGHT"].GetInt();
 	WINDOW_NAME = d["WINDOW_NAME"].GetString();

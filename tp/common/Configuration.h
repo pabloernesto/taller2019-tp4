@@ -38,6 +38,7 @@ public:
   float OIL_DURATION;
 	float PIECE_WIDTH;
 	float PIECE_HEIGHT;
+	int LAPS;
 	int WINDOW_WIDTH;
 	int WINDOW_HEIGHT;
 	std::string WINDOW_NAME;
