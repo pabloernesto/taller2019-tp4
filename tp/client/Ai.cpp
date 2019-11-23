@@ -1,7 +1,6 @@
 #include "Ai.h"
 #include "TrackPieceProxy.h"
 #include <chrono>  
-#include <iostream>
 const int Ai::SLEEP_TIME_MS = 100;
 
 extern "C" Ai* createAi(CarProxy* car, RaceProxy* race){
@@ -12,27 +11,16 @@ extern "C" void destroyAi(Ai* ai){
   delete ai;
 }
 
-// extern "C" { static int printNumber(lua_State* L){
-//   double d = lua_tonumber(L, 1);
-//   std::cout << "Numero: " << d << '\n';
-//   return 0;
-// }
-// }
-
-
 Ai::Ai(CarProxy* car, RaceProxy* race) : car(car), race(race), quit(false) {
   this->L = luaL_newstate();
   luaL_openlibs(L);
   int r_v = luaL_dofile(L, "Ai.lua");
-  if (r_v != 0){
-    std::cout << "Error: " << r_v << '\n';
-  }
-  // lua_pushcfunction(L, printNumber);
-  // lua_setglobal(L, "printnum");
+  if (r_v != 0)
+    throw std::runtime_error(
+      "Ai::Ai: luaL_dofile returned " + std::to_string(r_v));
 }
 
 void Ai::run(){
-  std::cout << "Ai started\n";
   int decision = 0;
   while (!this->quit){
     decision = this->decide(decision);
@@ -77,10 +65,9 @@ int Ai::decide(int prev_decision){
 
   // Call the function with zero arguments and expect one result.
   int error = lua_pcall(L, 0, 1, 0);
-  if (error != 0){
-    std::cout << "Error: " << error << '\n';
-    std::cout << lua_tostring(L, -1) << '\n';
-  }
+  if (error != 0)
+    throw std::runtime_error(
+      "Ai::decide: lua_pcall: " + std::string(lua_tostring(L, -1)));
 
   // Get the result number on the top of the stack.
   int result = lua_tonumber(L, -1);
@@ -94,7 +81,6 @@ void Ai::passPrevDecision(int prev_decision){
 
 void Ai::passCurrentPosition(){
   std::vector<float> pos = this->car->GetPosition();
-  // std::cout << "Car_x: " << pos[0] << " " << pos[1] << '\n';
   this->loadXandYonTable(pos[0], pos[1]);
   // Pop table and save it on global variable "car"
   lua_setglobal(this->L, "car");

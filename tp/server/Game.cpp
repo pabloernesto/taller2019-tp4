@@ -6,7 +6,6 @@
 #include "RaceFactory.h"
 #include "CarController.h"
 #include "StartGameController.h"
-// #include <iostream>
 #include <memory>
 #include <string>
 #include <sys/types.h> //For directories
@@ -92,9 +91,7 @@ void Game::executeMods(){
       cars_interface.push_back((*it).get());
     }
     for (auto it = this->mods.begin(); it != this->mods.end(); it++){
-      // std::cout << "Before the disaster\n";
       (*it)->execute(this->race.get(), cars_interface);
-      // std::cout << "After the disaster\n";
     }
     this->frame_counter_mods = 0;
   } else {
@@ -243,21 +240,16 @@ Game::Game(int id, std::string track, std::mutex& mutex, Server& server)
   Mod* (*create)();
   void* shared_lib;
   while (ent != NULL){
-    // std::cout << "About to search for plugins\n";
     std::string file = configuration.PLUGINS_ROUTE + std::string(ent->d_name);
     if (file.substr(file.size()- 3) != ".so"){
       ent = readdir(plugins_dir);
       continue;
     }
-    // std::cout << "Found a library\n";
-    // std::cout << "Library name: " << file << "\n";
     shared_lib = dlopen(file.c_str(), RTLD_NOW);
     char* err = dlerror();
     if (!shared_lib){
       throw std::runtime_error(std::string(err));
     }
-    // Destroy hace falta o no...?
-    // Mod* (*destroy)(Mod*)
     
     create = (Mod* (*)())dlsym(shared_lib, "create");
     this->mods.emplace_back(create());

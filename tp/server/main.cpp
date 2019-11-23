@@ -26,9 +26,6 @@ int main(int argc, char **argv) {
 
   listener.Shutdown();
   acceptor_thread.join();
-  std::cerr << "Acceptor thread joined\n";
   server.Shutdown();
-  std::cerr << "Server shutdown\n";
   server.Join();
-  std::cerr << "Server joined\n";
 }

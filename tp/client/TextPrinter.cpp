@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "../common/Configuration.h"
-#include <iostream>
 
 #define FONT "MAKISUPA.TTF"
 
@@ -12,7 +11,6 @@ TextPrinter::TextPrinter(TTF_Font* font) : color({255, 255, 255}),
   font(font) {}
 
 void TextPrinter::showMessage(std::string message, int size, int x, int y, SDL_Renderer* r){
-  std::cout << SDL_GetError() << "\n";
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, message.c_str(), color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(r, surfaceMessage);
   int width = size * (int)message.size();

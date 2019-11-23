@@ -25,7 +25,6 @@ RaceScreen::RaceScreen(SDL_Window *w, SDL_Renderer *r, RaceProxy* race, int carI
   startEngineSound.SetVolume(10);
 }
 
-#include <iostream>
 GameScreen* RaceScreen::start() {
   SDL_Event sdl_event;
   SDL_RenderClear(renderer);

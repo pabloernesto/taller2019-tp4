@@ -1,6 +1,6 @@
 #include "RaceProxy.h"
 #include "../common/string.h"
-#include <iostream>
+
 #define BQSIZE 100
 #define DEFAULTPOSITIONX 0
 #define DEFAULTPOSITIONY 0
@@ -138,13 +138,10 @@ void RaceProxy::Shutdown() {
   ec.Shutdown();
   ec.Join();
   bq.close();
-  std::cerr << "RaceProxy shutdown issued\n";
 }
 
 void RaceProxy::Join() {
-  std::cerr << "RaceProxy joining...\n";
   ec.Join();
   bq.close();
   if (t.joinable()) t.join();
-  std::cerr << "...RaceProxy joined\n";
 }

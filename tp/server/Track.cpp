@@ -5,7 +5,6 @@
 #include <memory>   // unique_ptr
 #include "GrassTrackPiece.h"
 #include "AsphaltTrackPiece.h"
-#include <iostream>
 #include "../common/string.h"
 #include "../common/Configuration.h"
 
@@ -53,11 +52,9 @@ void Track::updateCarCounter(Car& car){
   for (auto it = this->tracks.begin(); it != this->tracks.end(); it++){
     if ((*it)->isCarOverMe(car)){
       (*it)->updateCarCounter(car);
-      // std::cout << "Track piece finished updating car counter! Now i end loop\n";
       break;
     }
   }
-  // std::cout << "Checked for tracks\n";
 }
 
 std::vector<std::unique_ptr<TrackPiece>>& Track::getTrackPieces(){

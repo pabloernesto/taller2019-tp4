@@ -1,5 +1,4 @@
 #include "Car.h"
-#include <iostream>
 #include <Box2D/Box2D.h>
 #include "Race.h"
 #include "../common/Configuration.h"
@@ -113,7 +112,6 @@ const b2Vec2& Car::GetSize() {
 }
 
 void Car::setCounter(size_t value){
-  // std::cout << "Setting counter\n";
   this->step_counter = value;
 }
 
@@ -198,7 +196,6 @@ float Car::getReducedSpeed(float speed_recv){
 
 void Car::Step(Track& track) {
   track.updateCarCounter(*this);
-  // std::cout << this->step_counter <<"\n";
   this->updateMaxSpeed();
   body->SetAngularVelocity(this->angular_velocity * this->GetSpeed());
 
