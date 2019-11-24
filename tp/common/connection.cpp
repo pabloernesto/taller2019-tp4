@@ -72,7 +72,7 @@ int Connection::Send(const char *buffer, int n) {
     if (r <= 0)
       return sent;
     sent += r;
-    buffer += sent;
+    buffer += r;
   }
   return sent;
 }
