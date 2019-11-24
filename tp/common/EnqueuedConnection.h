@@ -10,15 +10,14 @@
 
 // This file describes the public interface of the Enqueued Connection (EC)
 // class. This class provides continuous reading/writing over a network
-// connection, and sinchronization of the shared resource.
+// connection, and synchronization of the shared resource.
 
 // Note: Since both Sender and Receiver are implementation details
 // for EC, and not really meant as part of the module's public interface,
 // I've used public attributes liberally.
 
 // filter types -whose usage is described below- are pointer-like wrappers
-// around either functions or lambdas. Lambda support is strictly necessary
-// for stateful functionality.
+// around either functions or lambdas
 typedef std::function<bool(std::string *s)> filter;
 
 // A Sender continuosly reads from a queue of outgoing data, and writes it
