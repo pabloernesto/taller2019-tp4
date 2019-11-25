@@ -33,7 +33,6 @@ public:
   int NewGame();
   void notify();
 
-  std::vector<std::unique_ptr<Game>>& GetGames();
   std::vector<Game*> GetAvailableGames();
 
   // Thread control methods

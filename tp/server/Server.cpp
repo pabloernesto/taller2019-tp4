@@ -22,10 +22,6 @@ void Server::JoinGame(int id, ServerRoom& player) {
   throw std::runtime_error("Tratando de unirse a un juego que no existe o ya comenzo");
 }
 
-std::vector<std::unique_ptr<Game>>& Server::GetGames() {
-  return games;
-}
-
 std::vector<Game*> Server::GetAvailableGames(){
   // Race condition: what if a game is removed while iterating the vector?
   std::vector<Game*> v;
