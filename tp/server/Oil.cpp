@@ -27,7 +27,7 @@ void Oil::GetContactedBy(Modifier* modifier){
 }
 
 void Oil::modify(Car& car){
-  car.incrementAngularVelocity(configuration.OIL_INCREMENT, configuration.OIL_DURATION * configuration.FRAME_RATE);
+  car.incrementAngularVelocity(configuration.OIL_INCREMENT, configuration.OIL_DURATION * configuration.FRAMERATE);
 }
 
 std::string Oil::getType(){

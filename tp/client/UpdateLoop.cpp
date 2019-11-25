@@ -2,15 +2,16 @@
 #include <iostream>
 #include <chrono>   // std::chrono::system_clock, std::chrono::milliseconds
 #include <thread>   // std::this_thread::sleep_for
+#include "../common/Configuration.h"
 
-static const int FRAMERATE = 60;
+extern Configuration configuration;
 
 UpdateLoop::UpdateLoop(SDL_Renderer* ren, RaceProxy* r, RaceView& v)
   : renderer(ren), race(r), view(v), t(), quit(false)
 {}
 
 void UpdateLoop::Loop() {
-  const auto rate = std::chrono::milliseconds(1000 / FRAMERATE);
+  const auto rate = std::chrono::milliseconds(1000 / configuration.FRAMERATE);
   auto time1 = std::chrono::system_clock::now();
   int tick = 0;
 

@@ -161,14 +161,14 @@ void Car::updateMaxSpeed(){
   // So, at 30 steps the speed should be half its original value.
 
   size_t counter = this->step_counter;
-  if (counter > configuration.FRAME_RATE/2)
-    counter = configuration.FRAME_RATE/2;
+  if (counter > configuration.FRAMERATE/2)
+    counter = configuration.FRAMERATE/2;
   // Max posible value is 30.
 
   const float base = this->reverse
     ? configuration.MAX_SPEED_REV
     : configuration.MAX_SPEED;
-  this->max_speed = base * (1 - (float) (counter) / configuration.FRAME_RATE);
+  this->max_speed = base * (1 - (float) (counter) / configuration.FRAMERATE);
   this->updateMaxSpeedMultiplier();
   this->max_speed = this->max_speed * this->max_speed_multiplier;
   // It's a linear function that goes through (0, MAX_SPEED) and (30, MAX_SPEED/2)
@@ -236,7 +236,7 @@ void Car::Step(Track& track) {
   body->ApplyForceToCenter(force, true);
 
   const size_t explode_after_frames =
-    configuration.FRAME_RATE * configuration.EXPLODING_SEC_LIMIT;
+    configuration.FRAMERATE * configuration.EXPLODING_SEC_LIMIT;
   if (life <= 0|| (this->step_counter >= explode_after_frames))
     this->DieAndRevive(track);
 }
