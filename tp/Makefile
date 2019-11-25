@@ -30,6 +30,12 @@ install:
 		server/micromachines-server.exe
 	mkdir --parents /var/micromachines
 	mkdir --parents /var/micromachines/Plugins
+	cp --target-directory /var/micromachines/Plugins \
+		server/Plugins/Mod.cpp \
+		server/Plugins/Mod.h \
+		server/Plugins/RaceModInterface.h \
+		server/Plugins/CarModInterface.h
+
 	cp --recursive --target-directory /var/micromachines \
 		client/Fuentes \
 		client/Imagenes \
