@@ -28,7 +28,8 @@ void Race::Step() {
     modifiers_reset -= 1;
   }
   this->removeUsedModifiers();
-  this->world.Step(configuration.TIME_STEP, configuration.VELOCITY_ITERATIONS, 
+  const float stepsize_seconds = 1.0 / configuration.FRAMERATE;
+  this->world.Step(stepsize_seconds, configuration.VELOCITY_ITERATIONS,
     configuration.POSITION_ITERATIONS);
 }
 

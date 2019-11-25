@@ -18,13 +18,12 @@
 
 extern Configuration configuration;
 
-static const int FRAMERATE = 60;
 static const int QUEUE_SIZE = 50;
 static const int MODS_TIME_SEC = 5;
-static const int MODS_FRAMES = MODS_TIME_SEC * FRAMERATE;
+static const int MODS_FRAMES = MODS_TIME_SEC * configuration.FRAMERATE;
 
 void Game::Loop() {
-  const auto rate = std::chrono::milliseconds(1000 / FRAMERATE);
+  const auto rate = std::chrono::milliseconds(1000 / configuration.FRAMERATE);
   auto time1 = std::chrono::system_clock::now();
 
   while (!quit) {

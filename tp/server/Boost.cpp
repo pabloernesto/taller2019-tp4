@@ -29,7 +29,7 @@ void Boost::GetContactedBy(Modifier* modifier){
 void Boost::modify(Car& car){
   // Asuming 60 fps
   car.multiplyMaxSpeed(configuration.BOOST_MULT, 
-    configuration.BOOST_DURATION_SEC * configuration.FRAME_RATE);
+    configuration.BOOST_DURATION_SEC * configuration.FRAMERATE);
 }
 
 std::string Boost::getType(){
