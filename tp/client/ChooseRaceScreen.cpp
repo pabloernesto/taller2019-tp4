@@ -30,7 +30,8 @@ ChooseRaceScreen::~ChooseRaceScreen(){
   // TTF_CloseFont(font);
 }
 
-void ChooseRaceScreen::GetGames(Connection& connection, rapidjson::Document* race_list){
+void ChooseRaceScreen::GetGames(Connection& connection, 
+                                  rapidjson::Document* race_list){
   connection.SendStr("{\"type\":\"l\"}");
   {
     char* data = connection.GetStr();

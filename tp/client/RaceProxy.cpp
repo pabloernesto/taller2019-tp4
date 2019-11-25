@@ -14,8 +14,9 @@ RaceProxy::RaceProxy(rapidjson::Value& track, Connection&& connection) :
   auto arr = track.GetArray();
   for (auto it = arr.Begin(); it != arr.End(); ++it) {
     auto piece = it->GetObject();
-    this->tracks.emplace_back(new TrackPieceProxy(piece["type"].GetInt(), piece["pos.x"].GetFloat(),
-      piece["pos.y"].GetFloat(), piece["size.x"].GetFloat(), piece["size.y"].GetFloat()));
+    this->tracks.emplace_back(new TrackPieceProxy(piece["type"].GetInt(), 
+                                 piece["pos.x"].GetFloat(), piece["pos.y"].GetFloat(), 
+                                 piece["size.x"].GetFloat(), piece["size.y"].GetFloat()));
   }
 }
 
@@ -23,9 +24,10 @@ void RaceProxy::UpdateCar(rapidjson::Document& msg){
   std::lock_guard<std::mutex> lock(cars_mtx);
   CarProxy* car = this->GetCarWithId(msg["id"].GetInt());
   if (!car){
-    cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
-      msg["angle"].GetFloat(), msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
-      msg["id"].GetInt()));
+    cars.emplace_back(new CarProxy(ec.GetOutgoingQueue(), msg["position.x"].GetFloat(), 
+                        msg["position.y"].GetFloat(), msg["angle"].GetFloat(), 
+                        msg["size.x"].GetFloat(), msg["size.y"].GetFloat(),
+                        msg["id"].GetInt()));
   } else {
     car->update(
       msg["position.x"].GetFloat(), msg["position.y"].GetFloat(),
@@ -43,9 +45,11 @@ void RaceProxy::UpdateModifiers(rapidjson::Document& msg){
   rapidjson::Value::Array::ValueIterator it = list.begin();
   for (;it != list.end(); ++it){
     auto modifier = it->GetObject();
-    modifiers.emplace_back(new ModifierProxy(modifier["position.x"].GetFloat(),modifier["position.y"].GetFloat(),
-      modifier["size.x"].GetFloat(), modifier["size.x"].GetFloat(),
-      modifier["modifier.type"].GetString()));
+    modifiers.emplace_back(new ModifierProxy(modifier["position.x"].GetFloat(),
+                              modifier["position.y"].GetFloat(),
+                              modifier["size.x"].GetFloat(), 
+                              modifier["size.x"].GetFloat(),
+                              modifier["modifier.type"].GetString()));
   }
 }
 

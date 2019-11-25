@@ -10,13 +10,8 @@
 #endif
 #include <thread>
 #include <atomic>
-// Que uso? 
 #include "CarProxy.h"
 #include "RaceProxy.h" 
-// o 
-// class CarProxy;
-// Esto tambien va a formar parte de la libreria?
-
 
 class Ai{
   private:
@@ -40,7 +35,6 @@ class Ai{
     Ai(CarProxy* car, RaceProxy* race);
     void run();
     
-    // void setCar(CarProxy* car);
     virtual void Shutdown();
     virtual void Start();
     virtual void Join();

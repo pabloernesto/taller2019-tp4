@@ -19,8 +19,9 @@ SDL_Rect Camara::GetPosition(){
   return this->camara;
 }
 
-void Camara::renderMe(std::vector<float> position, std::vector<float> size, Image& image, 
-  std::vector<Sound*>& sounds, float angle, int tick)
+void Camara::renderMe(std::vector<float> position, std::vector<float> size, 
+                        Image& image, std::vector<Sound*>& sounds, 
+                        float angle, int tick)
 {
   // Object radius
   auto&& objsize_pixels = MKStoPixelTransform(size);

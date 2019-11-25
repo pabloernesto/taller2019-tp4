@@ -2,7 +2,6 @@ car = {}
 prev_decision = nil
 map = {}
 track_size = {}
--- current_track = nil
 
 function distance(x1, y1, x2, y2)
   return math.sqrt(math.pow((x1 * x2), 2) + math.pow((y1 * y2), 2))
@@ -40,9 +39,6 @@ function decide()
     return 0
   end
   
-  -- if prev_decision == 3 or prev_decision == 4 then
-    -- return 0
-  -- end
 
   if map[current_track][3] == 2 then
     disty = distance(car[1], car[2], map[current_track][1], map[current_track][2] + track_size[2])
@@ -85,20 +81,3 @@ function decide()
   end
   
 end
-
--- function find_closest_track(current_track):
-  -- min = nil
-  -- for k,v in pairs(map) do
-    -- if (k == current_track) then goto continue end
-    -- if (min == nil) then
-      -- min = k
-      -- goto continue
-    -- end
-    -- if (distance(current_track, min) > distance(current_track, k)) then
-      -- min = k
-    -- end 
-    -- ::continue::
-  -- end
-  -- return min
--- end
-

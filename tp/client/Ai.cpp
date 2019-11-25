@@ -92,8 +92,9 @@ void Ai::passCurrentPosition(){
 }
 
 void Ai::passMap(){
-  std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces = this->race->getTrackPieces();
-  
+  std::vector<std::unique_ptr<TrackPieceProxy>>& track_pieces = 
+                                                this->race->getTrackPieces();
+                                                
   // Send track_piece_size
   std::vector<float> size = track_pieces.front()->GetSize();
   this->loadXandYonTable(size[0], size[1]);

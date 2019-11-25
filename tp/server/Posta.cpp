@@ -4,7 +4,9 @@
 extern Configuration configuration;
 
 Posta::Posta(int id, b2Vec2 position, float32 angle) :
-  Contactable(), id(id), posta_size(configuration.POSTA_WIDTH, configuration.POSTA_HEIGHT), position(position), angle(angle) {}
+  Contactable(), id(id), 
+  posta_size(configuration.POSTA_WIDTH, configuration.POSTA_HEIGHT), 
+  position(position), angle(angle) {}
 
 void Posta::Contact(Contactable* contactable){
   contactable->GetContactedBy(this);

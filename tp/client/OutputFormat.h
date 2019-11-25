@@ -13,7 +13,8 @@ class SwsContext;
 
 class OutputFormat {
 public:
-    OutputFormat(FormatContext& context, const std::string& filename, int width, int height);
+    OutputFormat(FormatContext& context, const std::string& filename, 
+                                                    int width, int height);
     ~OutputFormat();
     void writeFrame(const char* data, SwsContext* swsContext);
     void close();

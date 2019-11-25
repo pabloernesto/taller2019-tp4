@@ -22,8 +22,8 @@ class CarProxy {
     void sendMethod(std::string method);
 
   public:
-    CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, float angle, 
-      float size_x, float size_y, int id);
+    CarProxy(BlockingQueue<std::string>& outqueue, float x, float y, 
+      float angle, float size_x, float size_y, int id);
     std::vector<float> GetPosition();
     std::vector<float> GetSize();
     float GetAngle();

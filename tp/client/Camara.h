@@ -16,8 +16,8 @@ public:
   Camara(int x, int y, int w, int h, CarProxy& car);
   void Update();
   SDL_Rect GetPosition();
-  void renderMe(std::vector<float> position, std::vector<float> size, Image& image, 
-  std::vector<Sound*>& sounds, float angle, int tick);
+  void renderMe(std::vector<float> position, std::vector<float> size, 
+  Image& image, std::vector<Sound*>& sounds, float angle, int tick);
 };
 
 #endif

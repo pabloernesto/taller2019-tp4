@@ -55,17 +55,6 @@ GameScreen* RaceScreen::start() {
 }
 
 void RaceScreen::luaLoop(SDL_Event& sdl_event, CarProxy* car, UpdateLoop& loop, RaceView& view){
-
-  // void *shared_lib = dlopen("./lua/Ai.so", RTLD_NOW);
-  // char* err = dlerror();
-  // if (!shared_lib){
-    // throw std::runtime_error(std::string(err));
-  // }
-  
-  // Ai* (*create)(CarProxy*, RaceProxy*);
-  // void (*destroy)(Ai*);
-  // create = (Ai* (*)(CarProxy*, RaceProxy*))dlsym(shared_lib, "createAi");
-  // destroy = (void (*)(Ai*))dlsym(shared_lib, "destroyAi");
   
   Ai ai(car, this->race.get());
   ai.Start();

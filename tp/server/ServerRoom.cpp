@@ -7,7 +7,7 @@ static const int QUEUE_SIZE = 20;
 
 void ServerRoom::HandleRequest(rapidjson::Document& req) {
   if (!req.HasMember("type"))
-    ; // tirar un error
+    ;//throw error; 
   std::string reqtype = req["type"].GetString();
 
   if (reqtype == "l") ListAvailableGames();

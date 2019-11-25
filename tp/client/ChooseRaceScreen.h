@@ -14,7 +14,6 @@ private:
   TTF_Font* font;
 
 public:
-  // TODO: make private and add buttons as friends
   GameScreen* next_screen;
   Connection connection;
 

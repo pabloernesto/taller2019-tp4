@@ -64,5 +64,6 @@ StartRaceScreen::StartRaceScreen(SDL_Window *w, SDL_Renderer *r,
   };
   
   button_chain.reset(
-    new StartRaceWithoutAIButton(startAIButton, w, r, areaNoAI, "START WITHOUT AI", font, colorNoAI, this));
+    new StartRaceWithoutAIButton(startAIButton, w, r, areaNoAI, "START WITHOUT AI", 
+                                                        font, colorNoAI, this));
 }

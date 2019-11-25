@@ -19,7 +19,6 @@ bool CarController::ShouldHandle(void* t){
   std::string type = (*d)["type"].GetString();
   if (type == "intent"){
     int id = (*d)["id"].GetInt();
-    //Esta bien el GetInt o tiene que ser un GetString?
     return id == car.GetId();
   }
   return false;

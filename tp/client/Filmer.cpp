@@ -53,7 +53,8 @@ void Filmer::FilmFrame() {
   SDL_GetWindowSize(window, NULL, &h);
   buffer.reserve(h * configuration.WINDOW_WIDTH * 3);
 
-  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, buffer.data(), configuration.WINDOW_WIDTH * 3);
+  SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGB24, buffer.data(), 
+                                              configuration.WINDOW_WIDTH * 3);
   synchro.Produce();
 }
 
