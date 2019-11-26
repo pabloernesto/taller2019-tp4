@@ -1,6 +1,4 @@
 {
-	"SCREEN_WIDTH" : 640,
-	"SCREEN_HEIGHT" : 480,
 	"CAR_WIDTH" : 1.2,
 	"CAR_HEIGHT" : 2.5,
 	"WEIGHT_KG" : 300,
@@ -40,6 +38,6 @@
 	"PLUGINS_ROUTE": "/var/micromachines/Plugins/",
 	"AI_SCRIPT_ROUTE": "/var/micromachines/Ai.lua",
 	"BACKGROUND_MUSIC" : "Race of the Wasp.wav",
-	"SERVER_HOST": "localhost",
+	"SERVER_HOST": "192.168.0.203",
 	"SERVER_PORT": "1234"
 }

@@ -6,8 +6,6 @@
 
 struct Configuration {
 public:
-  float SCREEN_WIDTH;
-  float SCREEN_HEIGHT;
   float CAR_WIDTH;
   float CAR_HEIGHT;
   float WEIGHT_KG;
