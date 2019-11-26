@@ -9,6 +9,9 @@ extern "C" {
 #include <libavutil/opt.h>
 #include <libswscale/swscale.h>
 }
+#include "../common/Configuration.h"
+
+extern Configuration configuration;
 
 static void encode(AVCodecContext *enc_ctx, AVFrame *frame, AVPacket *pkt,
                    FILE *outfile) {
@@ -76,7 +79,6 @@ void OutputFormat::writeFrame(const char* data, SwsContext* ctx ) {
     // El ancho del video x3 por la cantidad de bytes
     const int scale_width = frame->width * 3;
     sws_scale(ctx, &tmp, &scale_width, 0, frame->height, frame->data, frame->linesize);
-    //drawFrame(frame, data);
     frame->pts = currentPts;
     currentPts++;
     /* encode the image */
@@ -88,8 +90,8 @@ void OutputFormat::codecContextInit(AVCodec* codec, int width, int height){
     // La resolución debe ser múltiplo de 2
     this->codecContext->width = width;
     this->codecContext->height = height;
-    this->codecContext->time_base = {1,25};
-    this->codecContext->framerate = {25,1};
+    this->codecContext->time_base = {(int)configuration.FRAMERATE, 1000};
+    this->codecContext->framerate = {1000, (int)configuration.FRAMERATE};
     this->codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
     this->codecContext->gop_size = 10;
     this->codecContext->max_b_frames = 2;

@@ -1,7 +1,7 @@
 #include "Filmer.h"
 #include <stdexcept>
 #include <vector>
-#define FILENAME "demo.mp4"
+#define FILENAME "partida.mp4"
 extern "C" {
   #include <libavformat/avformat.h>
   #include <libswscale/swscale.h>

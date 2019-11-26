@@ -38,6 +38,6 @@
 	"PLUGINS_ROUTE": "/var/micromachines/Plugins/",
 	"AI_SCRIPT_ROUTE": "/var/micromachines/Ai.lua",
 	"BACKGROUND_MUSIC" : "Race of the Wasp.wav",
-	"SERVER_HOST": "192.168.0.203",
+	"SERVER_HOST": "localhost",
 	"SERVER_PORT": "1234"
 }
